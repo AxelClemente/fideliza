@@ -1,0 +1,228 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Mail, Lock } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+export default function SignInForm() {
+  const router = useRouter()
+  const { data: session, status } = useSession()
+  const searchParams = useSearchParams()
+  const message = searchParams.get('message')
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  })
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  console.log('Render - Session Status:', status)
+  console.log('Render - Session Data:', session)
+
+  useEffect(() => {
+    console.log('useEffect - Checking session:', session)
+    if (status === 'authenticated' && session?.user) {
+      console.log('useEffect - User authenticated:', session.user)
+
+      // Si es ADMIN o STAFF, redirigir directamente al dashboard
+      if (session.user.role === 'ADMIN' || session.user.role === 'STAFF') {
+        console.log('Redirecting ADMIN/STAFF to dashboard')
+        router.push('/business-dashboard')
+        return
+      }
+
+      // Si es CUSTOMER, redirigir directamente al customer dashboard
+      if (session.user.role === 'CUSTOMER') {
+        console.log('Redirecting CUSTOMER to customer dashboard')
+        router.push('/customer-dashboard')
+        return
+      }
+
+      // Para otros roles, procedemos con la verificación de location
+      if (session.user.role !== undefined && session.user.location !== undefined) {
+        if (session.user.location) {
+          if (session.user.role === 'BUSINESS') {
+            console.log('Redirecting to business dashboard')
+            router.push('/business-dashboard')
+          } else {
+            console.log('Redirecting to choose role')
+            router.push('/auth/choose-role')
+          }
+        } else {
+          console.log('Redirecting to location')
+          router.push('/auth/location')
+        }
+      }
+    }
+  }, [session, status])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
+      })
+
+      if (result?.error) {
+        setError('Invalid credentials')
+        setIsLoading(false)
+      }
+      // No hacemos redirección aquí, useEffect se encargará
+    } catch (error) {
+      setError('An error occurred during sign in')
+      setIsLoading(false)
+    }
+  }
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true)
+    try {
+      const result = await signIn('google', {
+        redirect: false, // Removemos callbackUrl
+      })
+
+      if (result?.error) {
+        setError('Error signing in with Google')
+        setIsLoading(false)
+      }
+      // No hacemos redirección aquí, useEffect se encargará
+    } catch (error) {
+      setError('An error occurred during Google sign in')
+      setIsLoading(false)
+    }
+  }
+
+  const handleFacebookSignIn = async () => {
+    setIsLoading(true)
+    try {
+      const result = await signIn('facebook', {
+        redirect: false, // Removemos callbackUrl
+      })
+
+      if (result?.error) {
+        setError('Error signing in with Facebook')
+        setIsLoading(false)
+      }
+      // No hacemos redirección aquí, useEffect se encargará
+    } catch (error) {
+      setError('An error occurred during Facebook sign in')
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div className="w-[400px] h-[700px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
+      <div className="flex gap-2 mb-6 mt-12">
+        <span 
+          className="cursor-pointer font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-third-gray"
+          onClick={() => router.push('/auth?mode=signup')}
+        >
+          Sign up
+        </span>
+        <span className="font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-third-gray">|</span>
+        <span 
+          className="cursor-pointer font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-main-dark"
+        >
+          Sign in
+        </span>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-3 flex flex-col items-center">
+        {message === 'password-reset-success' && (
+          <div className="p-3 text-green-500 bg-green-100 rounded-md text-sm w-[360px]">
+            Password reset successful. Please login with your new password.
+          </div>
+        )}
+        
+        {error && (
+          <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[360px]">
+            {error}
+          </div>
+        )}
+        
+        <div className="relative">
+          <Mail className="absolute left-4 top-[20px] h-5 w-5 text-third-gray" />
+          <Input
+            type="email"
+            placeholder="Email"
+            className="h-[60px] w-[360px] rounded-[100px] bg-main-gray pl-12 border-0 
+                     !text-[16px] !font-semibold text-third-gray
+                     placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
+                     focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+          />
+        </div>
+
+        <div className="space-y-1">
+          <div className="relative">
+            <Lock className="absolute left-4 top-[20px] h-5 w-5 text-third-gray" />
+            <Input
+              type="password"
+              placeholder="Password"
+              className="h-[60px] w-[360px] rounded-[100px] bg-main-gray pl-12 border-0 
+                       !text-[16px] !font-semibold text-third-gray
+                       placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
+                       focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              required
+            />
+          </div>
+          <div className="flex justify-end w-[360px]">
+            <button
+              type="button"
+              onClick={() => router.push('/auth/forgot-password')}
+              className="text-semi-bold-2 hover:text-gray-900 underline decoration-solid my-3"
+            >
+              Forgot password
+            </button>
+          </div>
+        </div>
+
+        <Button 
+          type="submit" 
+          className="h-[60px] w-[360px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
+        >
+          Login to Continue
+        </Button>
+
+        <div className="w-[360px] relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-third-gray/30"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <span className="bg-white px-4 text-semi-bold-2">or</span>
+          </div>
+        </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          className="h-[60px] w-[360px] rounded-[100px] border-[1px] border-third-gray/30 text-[16px] font-semibold"
+          onClick={handleGoogleSignIn}
+        >
+          <img src="/google.svg" alt="Google logo" className="w-4 h-4 mr-2" />
+          Google account
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          className="h-[60px] w-[360px] rounded-[100px] bg-[#1877F2] text-white hover:bg-[#166FE5] border-0 text-[16px] font-semibold"
+          onClick={handleFacebookSignIn}
+        >
+          <img src="/facebook.svg" alt="Facebook logo" className="w-4 h-4 mr-2" />
+          Facebook account
+        </Button>
+      </form>
+    </div>
+  )
+}

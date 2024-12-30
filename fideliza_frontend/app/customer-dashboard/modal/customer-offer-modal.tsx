@@ -1,0 +1,211 @@
+'use client'
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { MapPinIcon } from "lucide-react"
+import Image from "next/image"
+import { OfferViewTracker } from "@/app/customer-dashboard/components/offer-view-tracker"
+
+interface CustomerOfferModalProps {
+  isOpen: boolean
+  onClose: () => void
+  offer?: {
+    id: string
+    title: string
+    description: string
+    images: Array<{ url: string }>
+    website?: string
+    place?: {
+      id: string
+      name: string
+      location: string
+      phoneNumber: string
+    }
+  }
+}
+
+export function CustomerOfferModal({ 
+  isOpen, 
+  onClose,
+  offer 
+}: CustomerOfferModalProps) {
+  if (!offer) return null
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      {isOpen && <OfferViewTracker offerId={offer.id} />}
+      <DialogContent 
+        className="
+          max-w-[706px] 
+          p-0 
+          overflow-hidden 
+          !fixed 
+          !left-0
+          !right-0
+          !bottom-0 
+          !top-0 
+          !translate-x-0
+          !translate-y-0 
+          !rounded-none
+          !h-screen
+          md:!left-auto
+          md:!right-[calc((100vw-1440px)/2)]
+          flex
+          flex-col
+        "
+      >
+        <DialogHeader className="p-3 md:p-4 pb-0 flex-shrink-0">
+          <DialogTitle className="
+            !text-[24px]
+            md:!text-[30px]
+            !font-['Open_Sans']
+            font-[700]
+            !leading-[36px]
+            -mb-2
+            px-4 
+            md:px-8 
+            mt-6
+            md:mt-10
+          ">
+            Special offer details
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="flex-1 overflow-y-auto">
+          <div className="space-y-6 p-3 md:p-4">
+            {/* Image */}
+            <div className="px-0 md:px-8">
+              <div className="relative w-[325px] h-[200px] md:w-[570px] md:h-[314px] ml-4 md:mx-0">
+                <Image
+                  src={offer.images[0].url}
+                  alt={offer.title}
+                  fill
+                  className="object-cover rounded-[20px]"
+                />
+              </div>
+            </div>
+
+            {/* Title */}
+            <div className="px-4 md:px-8">
+              <h3 className="
+                !text-[20px]
+                !font-['Open_Sans']
+                font-[700]
+                !leading-[32px]
+                mb-4
+              ">
+                {offer.title}
+              </h3>
+              <p className="
+                text-[14px] 
+                !font-['Open_Sans']
+                font-[400]
+                !leading-[18px]
+                text-justify
+                md:text-[20px]               
+                md:!leading-[26px]
+                md:font-[400]
+              ">
+                {offer.description}
+              </p>
+            </div>
+
+            {/* Place */}
+            {offer.place && (
+              <div className="px-4 md:px-8">
+                <h3 className="
+                  !text-[16px]
+                  !font-['Open_Sans']
+                  !font-[400]
+                  !leading-[32px]
+                  mb-4
+                ">
+                  Where to use:
+                </h3>
+                <div className="flex items-start gap-2">
+                  <MapPinIcon className="h-5 w-5 shrink-0 mt-1" />
+                  <div>
+                    <h4 className="
+                      !text-[14px]
+                      !font-['Open_Sans']
+                      font-[600]
+                      !leading-[26px]
+                      underline
+                    ">
+                      {offer.place.name}
+                    </h4>
+                    <p className="
+                      !text-[14px]
+                      !font-['Open_Sans']
+                      font-[600]
+                      !leading-[26px]                        
+                      mt-1
+                      underline
+                    ">
+                      {offer.place.location}
+                    </p>
+                    <p className="
+                      !text-[14px]
+                      !font-['Open_Sans']
+                      font-[600]
+                      !leading-[26px]
+                      mt-1
+                      underline
+                    ">
+                      {offer.place.phoneNumber}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Website */}
+            {offer.website && (
+              <div className="px-4 md:px-8">
+                <a 
+                  href={offer.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    !text-[14px]
+                    !font-['Open_Sans']
+                    font-[600]
+                    !leading-[26px]
+                    underline                 
+                    hover:text-blue-800
+                  "
+                >
+                  {offer.website}
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Button */}
+        <div className="p-3 md:p-4 px-4 md:px-14 mt-auto">
+          <Button 
+            variant="ghost"
+            onClick={onClose}
+            className="
+              w-full
+              h-[78px]
+              rounded-[100px]
+              bg-black
+              text-white
+              border-2
+              border-black
+              text-[16px] 
+              font-semibold 
+              leading-[20px] 
+              font-['Open_Sans']
+              hover:bg-gray-900
+            "
+          >
+            Our subscriptions
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}

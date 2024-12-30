@@ -1,0 +1,315 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Define tus modelos aquí
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  location      String?
+  role          Role?
+  ownerId       String?
+  owner         User?        @relation("UserToOwner", fields: [ownerId], references: [id])
+  staff         User[]       @relation("UserToOwner")
+  permissions   Permission[]
+  canDeleteShop Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  restaurants   Restaurant[]
+  userSubscriptions UserSubscription[]
+}
+
+model Restaurant {
+  id          String            @id @default(uuid())
+  title       String    
+  description String    
+  website     String?   
+  category    String?
+  subcategory String?
+  userId      String    
+  user        User              @relation(fields: [userId], references: [id])
+  places      Place[]
+  images      RestaurantImage[]
+  views       RestaurantView[]
+
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@map("restaurants")
+}
+
+model RestaurantImage {
+  id           String     @id @default(uuid())
+  url          String     @db.Text    // URL pública de Cloudinary
+  publicId     String     // ID público de Cloudinary para gestión
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+
+  @@map("restaurant_images")
+}
+
+model Place {
+  id            String         @id @default(uuid())
+  name          String    
+  location      String    
+  phoneNumber   String?
+  restaurantId  String
+  restaurant    Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  offers        Offer[]        
+  subscriptions Subscription[] // Relación muchos a muchos con subscriptions
+  userSubscriptions UserSubscription[]
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@map("places")
+}
+
+model Offer {
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  startDate   DateTime
+  finishDate  DateTime
+  website     String?
+  placeId     String
+  place       Place        @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  images      OfferImage[] // 👈 Relación con las imágenes
+  views       OfferView[]  // 👈 Añadir esta relación
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("offers")
+}
+
+model OfferImage {
+  id        String   @id @default(uuid())
+  url       String   @db.Text
+  publicId  String
+  offerId   String
+  offer     Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("offer_images")
+}
+
+model OfferView {
+  id        String   @id @default(cuid())
+  offerId   String
+  viewedAt  DateTime @default(now())
+  offer     Offer    @relation(fields: [offerId], references: [id])
+
+  @@index([offerId])
+  @@index([viewedAt])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model PasswordResetCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String   @db.Char(4)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  used      Boolean  @default(false)
+}
+
+model Subscription {
+  id          String   @id @default(uuid())
+  name        String
+  benefits    String   @db.Text
+  price       Float
+  website     String?
+  places      Place[]
+  subscribers UserSubscription[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("subscriptions")
+}
+
+model UserSubscription {
+  id            String            @id @default(uuid())
+  userId        String
+  subscriptionId String
+  placeId       String
+  status        SubscriptionStatus
+  startDate     DateTime
+  endDate       DateTime
+  lastPayment   DateTime
+  nextPayment   DateTime
+  amount        Float
+  isActive      Boolean           @default(true)
+  paymentMethod PaymentMethod?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  user          User              @relation(fields: [userId], references: [id])
+  subscription  Subscription      @relation(fields: [subscriptionId], references: [id])
+  place         Place             @relation(fields: [placeId], references: [id])
+  payments      Payment[]
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([placeId])
+  @@map("user_subscriptions")
+}
+
+model Payment {
+  id                 String           @id @default(uuid())
+  userSubscriptionId String
+  amount            Float
+  status            PaymentStatus
+  paymentMethod     PaymentMethod
+  transactionId     String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  userSubscription  UserSubscription @relation(fields: [userSubscriptionId], references: [id])
+
+  @@index([userSubscriptionId])
+  @@map("payments")
+}
+
+model Mailing {
+  id                String        @id @default(uuid())
+  name              String
+  description       String        @db.Text
+  startDate         DateTime
+  endDate           DateTime
+  time              String
+  subscriptionStatus String
+  lastVisit         String
+  location          String
+  status            MailingStatus @default(IN_PROGRESS)
+  ownerId           String        // Nuevo campo
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@map("mailings")
+}
+
+model Permission {
+  id           String         @id @default(cuid())
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  modelType    ModelType
+  permission   PermissionType
+  restaurantId String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([userId, modelType, restaurantId])
+}
+
+enum Role {
+  BUSINESS
+  CUSTOMER
+  STAFF
+  ADMIN
+}
+
+enum MailingStatus {
+  IN_PROGRESS
+  ARCHIVED
+}
+
+enum ModelType {
+  ADMIN_USERS
+  SUBSCRIBERS
+  MAIN_INFO
+  PLACES
+  SPECIAL_OFFERS
+  SUBSCRIPTIONS
+  OFFERS_MAILINGS
+}
+
+enum PermissionType {
+  VIEW_ONLY
+  ADD_EDIT_DELETE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  PENDING
+  FAILED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  PAYPAL
+  BANK_TRANSFER
+}
+
+model RestaurantView {
+  id           String      @id @default(cuid())
+  restaurantId String
+  viewedAt     DateTime    @default(now())
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+
+  @@index([restaurantId])
+  @@index([viewedAt])
+}
+
