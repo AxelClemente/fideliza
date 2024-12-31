@@ -7,6 +7,7 @@ export interface ResendEmailOptions {
   }
   
   export class Resend {
+    private readonly apiKey: string;
     public emails: {
       send: (options: ResendEmailOptions) => Promise<{
         id: string
@@ -17,6 +18,7 @@ export interface ResendEmailOptions {
     }
     
     constructor(apiKey: string) {
+      this.apiKey = apiKey;
       this.emails = {
         send: async (options: ResendEmailOptions) => {
           // Esta es una implementación mock que será reemplazada por la instancia real de Resend

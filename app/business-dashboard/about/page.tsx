@@ -65,7 +65,7 @@ export default function ServiceInfo() {
               <FileText className="w-12 h-12 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Terms of Use</h3>
               <p className="text-sm">
-                Here you'll find the rules and conditions for using our service. Review them to understand your rights and responsibilities as a user.
+                Here you&apos;ll find the rules and conditions for using our service. Review them to understand your rights and responsibilities as a user.
               </p>
             </div>
 

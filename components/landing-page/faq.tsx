@@ -60,7 +60,7 @@ export default function FAQSection() {
           <div className="pt-6 sm:pt-8 space-y-4">
             <div className="flex items-center gap-2 sm:gap-4">
               <div className="!text-[48px] sm:!text-[128px] !font-[500] !leading-[76.8px] sm:!leading-[204.8px] !font-['Poppins'] text-center">
-              "
+                &ldquo;
               </div>
               <div>
                 <div className="!text-[16px] sm:!text-[24px] !font-[700] !leading-[24px] sm:!leading-[32px] !text-main-dark !font-['Open_Sans'] text-center">
@@ -73,11 +73,11 @@ export default function FAQSection() {
             </div>
             <div className="relative">
               <blockquote className="!text-[20px] sm:!text-[40px] !font-[700] !leading-[28px] sm:!leading-[54px] !text-main-dark !font-['Open_Sans'] ml-4 sm:ml-20">
-                "We're loving it. This is simply unbelievable!
+                &ldquo;We&apos;re loving it. This is simply unbelievable!
                 <br className="hidden sm:block" />
                 I like it more and more each day because it
                 <br className="hidden sm:block" />
-                makes my life a lot easier."
+                makes my life a lot easier.&rdquo;
               </blockquote>
               {/* Avatar placeholder */}
               <div className="absolute -top-24 sm:-top-4 right-2 sm:right-10 w-16 sm:w-40 h-16 sm:h-40 bg-main-gray rounded-full"></div>

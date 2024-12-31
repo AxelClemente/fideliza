@@ -32,8 +32,6 @@ export function MobileNewSubscription({
   mode = 'create',
   initialData
 }: MobileNewSubscriptionProps) {
-  if (!isOpen) return null
-
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState(initialData?.name || '')
   const [benefits, setBenefits] = useState(initialData?.benefits || '')
@@ -43,6 +41,8 @@ export function MobileNewSubscription({
   )
   const [website, setWebsite] = useState(initialData?.website || '')
   const [openCommand, setOpenCommand] = useState(false)
+
+  if (!isOpen) return null
 
   // Logs para debugging
   console.log('Selected Places:', selectedPlaces)

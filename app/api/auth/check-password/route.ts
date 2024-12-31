@@ -22,7 +22,7 @@ export async function GET() {
     return NextResponse.json({ 
       hasPassword: !!user?.password 
     })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to check password status' },
       { status: 500 }

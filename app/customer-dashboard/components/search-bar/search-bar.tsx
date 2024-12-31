@@ -3,7 +3,6 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
-import { useState } from "react"
 
 interface SearchBarProps {
   placeholder: string;

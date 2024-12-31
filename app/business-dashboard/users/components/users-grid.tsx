@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { UserCard } from "./user-card"
 import { BusinessUserCard } from "./business-user-card"
 import { SubscriberCard } from "./subscriber-card"
-import { ModelType, PermissionType, Role } from '@prisma/client'
+import { ModelType, PermissionType } from '@prisma/client'
 
 interface UsersGridProps {
   businessUser: {

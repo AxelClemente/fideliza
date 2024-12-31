@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../auth/[...nextauth]/route'
 import { cloudinary } from '@/lib/cloudinary'
+import type { UploadApiResponse } from 'cloudinary'
 
 export async function PUT(req: Request) {
   try {
@@ -23,7 +24,7 @@ export async function PUT(req: Request) {
     const buffer = Buffer.from(bytes)
 
     // Subir a Cloudinary
-    const result = await new Promise((resolve, reject) => {
+    const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
           resource_type: 'auto',
@@ -33,7 +34,7 @@ export async function PUT(req: Request) {
         },
         (error, result) => {
           if (error) reject(error)
-          else resolve(result)
+          else resolve(result as UploadApiResponse)
         }
       ).end(buffer)
     })
@@ -42,7 +43,7 @@ export async function PUT(req: Request) {
     const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        image: (result as any).secure_url
+        image: result.secure_url
       }
     })
 

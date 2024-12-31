@@ -11,8 +11,6 @@ export default function ResetPassword() {
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || ''
   
-  console.log('Email in ResetPasswordddddddddddddddddddddddd:', email)
-
   const [passwords, setPasswords] = useState({
     password: '',
     confirmPassword: ''
@@ -48,7 +46,7 @@ export default function ResetPassword() {
         const data = await response.json()
         setError(data.error || 'Something went wrong')
       }
-    } catch (error) {
+    } catch (_) {
       setError('An error occurred. Please try again.')
     } finally {
       setIsLoading(false)

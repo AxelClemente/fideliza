@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from "../auth/[...nextauth]/route"
-import { ModelType, PermissionType, Role } from '@prisma/client'
+import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 
 // Interfaces para tipar correctamente
 interface UserPermission {
@@ -15,13 +15,13 @@ interface UserWithPermissions {
   permissions: UserPermission[]
 }
 
-const checkUserPermissions = async (prisma: any, userId: string, placeId?: string) => {
+const checkUserPermissions = async (prismaClient: PrismaClient, userId: string, placeId?: string) => {
   console.log('🔒 [CHECK_PERMISSIONS] Starting permission check:', {
     userId,
     placeId
   })
   
-  const user = await prisma.user.findUnique({
+  const user = await prismaClient.user.findUnique({
     where: { id: userId },
     include: {
       permissions: true
@@ -50,7 +50,7 @@ const checkUserPermissions = async (prisma: any, userId: string, placeId?: strin
       return true
     }
 
-    const place = await prisma.place.findFirst({
+    const place = await prismaClient.place.findFirst({
       where: {
         id: placeId,
         restaurant: {
@@ -71,7 +71,7 @@ const checkUserPermissions = async (prisma: any, userId: string, placeId?: strin
     console.log('👥 [STAFF_ACCESS] Checking permissions')
     
     const hasPermission = user.permissions?.some((p: UserPermission) => 
-      p.modelType === 'PLACES' && p.permission === 'ADD_EDIT_DELETE'
+      p.modelType === ModelType.PLACES && p.permission === PermissionType.ADD_EDIT_DELETE
     ) || false
 
     console.log('🔑 [STAFF_PERMISSION] Check result:', {
@@ -186,7 +186,7 @@ export async function DELETE(req: Request) {
     }
 
     // Verificar que el place existe y pertenece al usuario
-    const existingPlace = await (prisma as any).place.findFirst({
+    const existingPlace = await prisma.place.findFirst({
       where: {
         id,
         restaurant: {
@@ -200,7 +200,7 @@ export async function DELETE(req: Request) {
     }
 
     // Eliminar el place
-    await (prisma as any).place.delete({
+    await prisma.place.delete({
       where: { id }
     })
 

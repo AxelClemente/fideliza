@@ -1,7 +1,6 @@
 'use client'
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 import { MapPinIcon } from "lucide-react"
 import useEmblaCarousel from 'embla-carousel-react'
 import { useCallback } from 'react'
@@ -30,8 +29,6 @@ export function CompanyOffers({
   onClose,
   offers 
 }: CompanyOffersProps) {
-  if (!offers) return null
-
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     containScroll: 'trimSnaps',
@@ -45,6 +42,8 @@ export function CompanyOffers({
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext()
   }, [emblaApi])
+
+  if (!offers) return null
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

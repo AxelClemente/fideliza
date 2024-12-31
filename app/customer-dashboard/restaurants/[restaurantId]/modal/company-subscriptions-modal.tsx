@@ -33,8 +33,6 @@ export function CompanySubscriptions({
   onClose,
   subscriptions 
 }: CompanySubscriptionsProps) {
-  if (!subscriptions) return null
-
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     containScroll: 'trimSnaps',
@@ -50,6 +48,8 @@ export function CompanySubscriptions({
   }, [emblaApi])
 
   const [isLoading, setIsLoading] = useState<string | null>(null)
+
+  if (!subscriptions) return null
 
   const handleBuyClick = async (subscription: {
     id: string

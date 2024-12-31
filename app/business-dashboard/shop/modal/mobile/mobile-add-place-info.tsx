@@ -26,12 +26,12 @@ export function MobileAddPlaceInfo({
   mode = 'create',
   initialData 
 }: MobileAddPlaceInfoProps) {
-  if (!isOpen) return null;
-  
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState(initialData?.name || '')
   const [location, setLocation] = useState(initialData?.location || '')
   const [phoneNumber, setPhoneNumber] = useState(initialData?.phoneNumber || '')
+
+  if (!isOpen) return null
 
   const handleSubmit = async () => {
     try {

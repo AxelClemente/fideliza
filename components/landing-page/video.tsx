@@ -4,7 +4,7 @@ export default function VideoSection() {
         <div className="space-y-8 sm:space-y-16 relative z-10">
           <div>
             <h2 className="!text-[28px] sm:!text-[64px] !font-[800] !leading-[34px] sm:!leading-[76.8px] !tracking-tight !text-main-dark !font-['Open_Sans']">
-              Let's Learn
+              Let&apos;s Learn
               <br />
               How we work
             </h2>

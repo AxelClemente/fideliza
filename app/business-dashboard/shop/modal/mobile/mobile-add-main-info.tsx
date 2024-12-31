@@ -15,14 +15,14 @@ interface MobileAddMainInfoProps {
 }
 
 export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
-  if (!isOpen) return null;
-  
   const [isLoading, setIsLoading] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [website, setWebsite] = useState('')
   const [photos, setPhotos] = useState<string[]>([])
   const [isUploadingImages, setIsUploadingImages] = useState(false)
+
+  if (!isOpen) return null
 
   const handleSubmit = async () => {
     try {

@@ -16,7 +16,6 @@ interface MailingActionsProps {
   showOnlyButton?: boolean
   showOnlyTabs?: boolean
   restaurants: Restaurant[]
-  hasMailings: boolean
   showSendButton?: boolean
 }
 
@@ -26,7 +25,6 @@ export function MailingActions({
   showOnlyButton = false,
   showOnlyTabs = false,
   restaurants,
-  hasMailings,
   showSendButton = false
 }: MailingActionsProps) {
   const { canAccess } = usePermissions()

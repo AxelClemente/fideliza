@@ -40,14 +40,12 @@ export function AddNewOffersMailingsModal({
   const [startDate, setStartDate] = useState(initialData?.startDate ? new Date(initialData.startDate).toISOString().split('T')[0] : '')
   const [endDate, setEndDate] = useState(initialData?.endDate ? new Date(initialData.endDate).toISOString().split('T')[0] : '')
   const [time, setTime] = useState(initialData?.time || '')
-  const [subscriptionStatus, setSubscriptionStatus] = useState(initialData?.subscriptionStatus || '')
-  const [lastVisit, setLastVisit] = useState(initialData?.lastVisit || '')
   const [location, setLocation] = useState(initialData?.location || '')
 
   const places = restaurants.flatMap(restaurant => 
     restaurant.places.map(place => ({
       id: place.id,
-      name: `${place.name} - ${restaurant.title}` // Usamos title en lugar de name
+      name: `${place.name} - ${restaurant.title}`
     }))
   )
 
@@ -77,8 +75,6 @@ export function AddNewOffersMailingsModal({
           startDate,
           endDate,
           time,
-          subscriptionStatus,
-          lastVisit,
           location
         })
       })
@@ -106,34 +102,7 @@ export function AddNewOffersMailingsModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent 
-        className="
-          max-w-[706px] 
-          p-0 
-          overflow-hidden 
-          md:!fixed 
-          md:!left-auto 
-          md:!right-[calc((100vw-1440px)/2)] 
-          md:!bottom-0 
-          md:!top-0 
-          md:!translate-x-0 
-          md:!translate-y-0 
-          md:!rounded-none 
-          md:!h-screen
-          max-md:!fixed
-          max-md:!inset-0
-          max-md:!w-[100vw]
-          max-md:!max-w-[100vw]
-          max-md:!h-screen
-          max-md:!m-0
-          max-md:!p-0
-          max-md:!rounded-none
-          max-md:!translate-x-0
-          max-md:!translate-y-0
-          flex
-          flex-col
-        "
-      >
+      <DialogContent className="max-w-[706px] p-0 overflow-hidden md:!fixed md:!left-auto md:!right-[calc((100vw-1440px)/2)] md:!bottom-0 md:!top-0 md:!translate-x-0 md:!translate-y-0 md:!rounded-none md:!h-screen max-md:!fixed max-md:!inset-0 max-md:!w-[100vw] max-md:!max-w-[100vw] max-md:!h-screen max-md:!m-0 max-md:!p-0 max-md:!rounded-none max-md:!translate-x-0 max-md:!translate-y-0 flex flex-col">
         <DialogHeader className="p-4 pb-0">
           <DialogTitle className="
             !text-[26px]

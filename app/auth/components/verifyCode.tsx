@@ -47,16 +47,15 @@ export default function VerifyCode({ email }: { email: string }) {
         body: JSON.stringify({ email, code: fullCode }),
       })
 
-      console.log('Response status:', response.status);
       if (response.ok) {
         window.location.href = `/auth/reset-password?email=${encodeURIComponent(email)}`
       } else {
-        const errorData = await response.json();
-        console.log('Error data:', errorData);
+        const errorData = await response.json()
+        console.log('Error data:', errorData)
         setError('Invalid code')
       }
-    } catch (error) {
-      console.error('Verify error:', error);
+    } catch (_) {
+      console.error('Verify error')
       setError('An error occurred')
     }
   }
@@ -70,7 +69,7 @@ export default function VerifyCode({ email }: { email: string }) {
         body: JSON.stringify({ email }),
       })
       setTimer(55)
-    } catch (error) {
+    } catch (_) {
       setError('Failed to resend code')
     }
     setIsResending(false)

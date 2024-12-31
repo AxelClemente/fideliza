@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { ModelType, PermissionType, Role } from '@prisma/client'
+import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 
 // Interfaces para tipar correctamente
 interface UserPermission {
@@ -17,8 +17,8 @@ interface UserWithPermissions {
   ownerId: string | null
 }
 
-const checkUserPermissions = async (prisma: any, userId: string) => {
-  const user = await prisma.user.findUnique({
+const checkUserPermissions = async (prismaClient: PrismaClient, userId: string) => {
+  const user = await prismaClient.user.findUnique({
     where: { id: userId },
     include: {
       permissions: true

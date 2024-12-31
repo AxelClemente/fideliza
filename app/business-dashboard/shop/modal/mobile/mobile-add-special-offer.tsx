@@ -30,8 +30,6 @@ export function MobileAddSpecialOffer({
   mode = 'create', 
   initialData 
 }: MobileAddSpecialOfferProps) {
-  if (!isOpen) return null;
-
   const [isLoading, setIsLoading] = useState(false)
   const [title, setTitle] = useState(initialData?.title || '')
   const [description, setDescription] = useState(initialData?.description || '')
@@ -48,20 +46,12 @@ export function MobileAddSpecialOffer({
   const [isStartDateOpen, setIsStartDateOpen] = useState(false)
   const [isFinishDateOpen, setIsFinishDateOpen] = useState(false)
 
+  if (!isOpen) return null
+
   console.log('Start Date:', startDate)
   console.log('Finish Date:', finishDate)
   console.log('Selected Place:', selectedPlace)
   console.log('Available Places:', places)
-
-  const handleStartDateSelect = (date: Date | undefined) => {
-    console.log('Start Date Selected:', date)
-    setStartDate(date)
-  }
-
-  const handleFinishDateSelect = (date: Date | undefined) => {
-    console.log('Finish Date Selected:', date)
-    setFinishDate(date)
-  }
 
   const handlePlaceSelect = (value: string) => {
     console.log('Place Selected:', value)

@@ -9,6 +9,16 @@ import { CustomerOfferModal } from '../modal/customer-offer-modal'
 import { FilterModal } from './../../customer-dashboard/modal/filter-modal'
 
 // Importamos la interfaz Restaurant del customer-search-wrapper
+interface Subscription {
+  id: string
+  name: string
+  price: number
+  description?: string
+  status?: string
+  startDate?: string
+  endDate?: string
+}
+
 interface Restaurant {
   id: string
   title: string
@@ -26,7 +36,7 @@ interface Restaurant {
         url: string
       }>
     }>
-    subscriptions?: Array<any>
+    subscriptions?: Array<Subscription>
   }>
 }
 

@@ -153,7 +153,7 @@ export default function Location() {
         }
 
         router.push('/auth/choose-role')
-      } catch (error) {
+      } catch (_) {
         toast({
           title: "Error",
           description: "Failed to update location. Please try again.",

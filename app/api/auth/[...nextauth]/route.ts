@@ -1,4 +1,4 @@
-import NextAuth, { AuthOptions, User, DefaultSession, JWT, Session } from "next-auth"
+import NextAuth, { AuthOptions, User, DefaultSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
@@ -20,12 +20,6 @@ declare module "next-auth" {
       location?: string | null
       ownerId?: string | null
     } & DefaultSession["user"]
-  }
-
-  interface JWT {
-    sub: string
-    role?: 'BUSINESS' | 'ADMIN' | 'STAFF' | 'CUSTOMER' | null
-    location?: string | null
   }
 }
 
@@ -87,7 +81,7 @@ export const authOptions: AuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account }) {
       if (user) {
         console.log('🔑 New login:', { provider: account?.provider, email: user.email })
       }

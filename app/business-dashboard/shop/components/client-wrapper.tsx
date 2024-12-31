@@ -21,7 +21,6 @@ interface ClientWrapperProps {
   type: string
   restaurant?: Restaurant
   mode?: 'add' | 'edit'
-  hasPlaces?: boolean
   hasOffers?: boolean
   hasSubscriptions?: boolean
   place?: Place
@@ -45,7 +44,6 @@ export function ClientWrapper({
   type, 
   restaurant, 
   mode = 'add',
-  hasPlaces = false,
   hasOffers = false,
   hasSubscriptions = false,
   place,
@@ -93,15 +91,13 @@ export function ClientWrapper({
       })
 
       if (!response.ok) {
-        const data = await response.json()
-        if (data.name === 'validation_error' && data.statusCode === 403) {
+        if (response.status === 403) {
           toast.error('Testing mode: Email will be sent to axelclementesosa@gmail.com')
           return
         }
-        throw new Error(data.error || 'Failed to send emails')
+        throw new Error('Failed to send emails')
       }
 
-      const data = await response.json()
       toast.success('Test email sent successfully')
     } catch (error) {
       console.error('Error:', error)

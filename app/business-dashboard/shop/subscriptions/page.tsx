@@ -20,10 +20,6 @@ interface PlaceWithSubscriptions {
   subscriptions?: ProviderSubscription[]
 }
 
-interface RestaurantWithSubscriptions extends Restaurant {
-  places: PlaceWithSubscriptions[]
-}
-
 export default async function SubscriptionsPage() {
   const { restaurants } = await RestaurantProvider()
   

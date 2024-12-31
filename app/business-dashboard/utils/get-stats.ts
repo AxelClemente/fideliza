@@ -1,5 +1,16 @@
 import { prisma } from '@/lib/prisma'
 
+// First, let's define proper interfaces for our data structures
+interface ViewData {
+  _count: number
+  date: string
+}
+
+interface AggregatedData {
+  _count: number
+  date: Date
+}
+
 export async function getRestaurantStats(restaurantId: string) {
   const now = new Date()
   const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30))

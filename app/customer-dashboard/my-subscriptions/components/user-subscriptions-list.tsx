@@ -33,7 +33,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
   if (subscriptions.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">You don't have any active subscriptions yet.</p>
+        <p className="text-gray-500">You don&apos;t have any active subscriptions yet.</p>
       </div>
     )
   }

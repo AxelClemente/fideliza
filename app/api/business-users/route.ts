@@ -3,11 +3,12 @@ import { getServerSession } from "next-auth/next"
 import { prisma } from '@/lib/prisma'
 import { authOptions } from "../auth/[...nextauth]/route"
 import { hash } from 'bcryptjs'
-import { ModelType, PermissionType, Prisma, Role } from '@prisma/client'
+import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 
 interface UserPermission {
   modelType: ModelType
   permission: PermissionType
+  restaurantId?: string
 }
 
 interface UserWithPermissions {
@@ -15,47 +16,24 @@ interface UserWithPermissions {
   permissions: UserPermission[]
 }
 
-const checkUserPermissions = async (prisma: any, userId: string, targetUserId?: string) => {
-  console.log('🔒 [CHECK_PERMISSIONS] Starting permission check:', {
-    userId,
-    targetUserId
-  })
-  
-  const user = await prisma.user.findUnique({
+const checkUserPermissions = async (prismaClient: PrismaClient, userId: string, targetUserId?: string) => {
+  const user = await prismaClient.user.findUnique({
     where: { id: userId },
     include: {
       permissions: true
     }
   }) as UserWithPermissions
-  
-  console.log('👤 [USER_DATA]:', {
-    role: user?.role,
-    permissions: user?.permissions?.map(p => ({
-      modelType: p.modelType,
-      permission: p.permission
-    }))
-  })
 
   if (user?.role === 'BUSINESS' || user?.role === 'ADMIN') {
-    console.log('👑 [FULL_ACCESS] Granting all permissions')
     return true
   }
 
   if (user?.role === 'STAFF') {
-    console.log('👥 [STAFF_ACCESS] Checking ADMIN_USERS permission')
-    
-    const permission = user.permissions?.some(p => 
+    return user.permissions?.some(p => 
       p.modelType === 'ADMIN_USERS' && p.permission === 'ADD_EDIT_DELETE'
     ) || false
-
-    console.log('🔑 [STAFF_PERMISSION] Check result:', {
-      permission,
-      permissions: user.permissions
-    })
-    return permission
   }
 
-  console.log('❌ [NO_PERMISSION] No matching role or permissions found')
   return false
 }
 
@@ -221,7 +199,6 @@ export async function DELETE(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const session = await getServerSession(authOptions)
-    console.log('PATCH request initiated for user:', session?.user?.id)
     
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -237,13 +214,11 @@ export async function PATCH(request: Request) {
     const body = await request.json()
     const { name, email, role, permissions } = body
 
-    // Verificar permisos
     const hasPermission = await checkUserPermissions(prisma, session.user.id, id)
     if (!hasPermission) {
       return NextResponse.json({ error: "Not authorized" }, { status: 403 })
     }
 
-    // Actualizar usuario
     const updatedUser = await prisma.user.update({
       where: { id },
       data: {
@@ -255,7 +230,7 @@ export async function PATCH(request: Request) {
             deleteMany: {
               userId: id
             },
-            create: permissions.map((p: any) => ({
+            create: permissions.map((p: UserPermission) => ({
               modelType: p.modelType,
               permission: p.permission,
               restaurantId: p.restaurantId
@@ -269,7 +244,7 @@ export async function PATCH(request: Request) {
     })
 
     return NextResponse.json({ user: updatedUser })
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('[BUSINESS_USERS_PATCH]', error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }

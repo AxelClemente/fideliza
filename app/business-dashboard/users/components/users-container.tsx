@@ -4,11 +4,25 @@ import { useState } from "react"
 import { UserActions } from "./user-actions"
 import { UsersGrid } from "./users-grid"
 import type { BusinessUser } from "../types/types"
+import { ModelType, PermissionType } from "@prisma/client"
+
+interface User {
+  id: string
+  name: string | null
+  email: string | null
+  image: string | null
+  role: 'ADMIN' | 'STAFF'
+  permissions?: Array<{
+    modelType: ModelType
+    permission: PermissionType
+    restaurantId: string
+  }>
+}
 
 interface UsersContainerProps {
   businessUser: BusinessUser
-  adminUsers: any[]
-  staffUsers: any[]
+  adminUsers: User[]
+  staffUsers: User[]
 }
 
 export function UsersContainer({ businessUser, adminUsers, staffUsers }: UsersContainerProps) {

@@ -47,7 +47,6 @@ export function AddNewUserModal({
 }: AddNewUserModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [isAccessModalOpen, setIsAccessModalOpen] = useState(false)
-  const [isUploadingImage, setIsUploadingImage] = useState(false)
   const [name, setName] = useState(initialData?.name || '')
   const [email, setEmail] = useState(initialData?.email || '')
   const [password, setPassword] = useState('')

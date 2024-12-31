@@ -5,7 +5,6 @@ import { Html5QrcodeScanner } from 'html5-qrcode'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
 
 interface QRData {
   subscriptionId: string
@@ -17,7 +16,6 @@ interface QRData {
 export function QRScanner() {
   const [scannedData, setScannedData] = useState<QRData | null>(null)
   const [isScanning, setIsScanning] = useState(false)
-  const router = useRouter()
 
   useEffect(() => {
     if (!isScanning) return
@@ -39,13 +37,13 @@ export function QRScanner() {
         scanner.clear()
         setIsScanning(false)
         verifySubscription(data)
-      } catch (error) {
+      } catch (_) {
         toast.error('Invalid QR Code')
       }
     }
 
-    function onScanError(error: any) {
-      console.warn(error)
+    function onScanError(errorMessage: string) {
+      console.warn('Scanning in progress...', errorMessage)
     }
 
     return () => {
@@ -73,7 +71,7 @@ export function QRScanner() {
       } else {
         toast.error('Invalid or expired subscription')
       }
-    } catch (error) {
+    } catch (_) {
       toast.error('Error verifying subscription')
     }
   }

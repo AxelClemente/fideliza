@@ -17,7 +17,6 @@ export default function SignInForm() {
     password: ''
   })
   const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
   console.log('Render - Session Status:', status)
   console.log('Render - Session Data:', session)
@@ -57,11 +56,10 @@ export default function SignInForm() {
         }
       }
     }
-  }, [session, status])
+  }, [session, status, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
     try {
       const result = await signIn('credentials', {
         redirect: false,
@@ -71,48 +69,40 @@ export default function SignInForm() {
 
       if (result?.error) {
         setError('Invalid credentials')
-        setIsLoading(false)
       }
       // No hacemos redirección aquí, useEffect se encargará
-    } catch (error) {
+    } catch (_) {
       setError('An error occurred during sign in')
-      setIsLoading(false)
     }
   }
 
   const handleGoogleSignIn = async () => {
-    setIsLoading(true)
     try {
       const result = await signIn('google', {
-        redirect: false, // Removemos callbackUrl
+        redirect: false,
       })
 
       if (result?.error) {
         setError('Error signing in with Google')
-        setIsLoading(false)
       }
       // No hacemos redirección aquí, useEffect se encargará
-    } catch (error) {
+    } catch (_) {
       setError('An error occurred during Google sign in')
-      setIsLoading(false)
     }
   }
 
   const handleFacebookSignIn = async () => {
-    setIsLoading(true)
     try {
       const result = await signIn('facebook', {
-        redirect: false, // Removemos callbackUrl
+        redirect: false,
       })
 
       if (result?.error) {
         setError('Error signing in with Facebook')
-        setIsLoading(false)
       }
       // No hacemos redirección aquí, useEffect se encargará
-    } catch (error) {
+    } catch (_) {
       setError('An error occurred during Facebook sign in')
-      setIsLoading(false)
     }
   }
 

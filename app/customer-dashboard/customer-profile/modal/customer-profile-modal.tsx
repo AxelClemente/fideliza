@@ -35,7 +35,6 @@ export function CustomerProfileModal({
   const [email, setEmail] = useState(initialData?.email || '')
   const [city, setCity] = useState(initialData?.location || '')
   const [avatar, setAvatar] = useState(initialData?.avatar || '')
-  const [isUploadingImage, setIsUploadingImage] = useState(false)
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
   const [hasPassword, setHasPassword] = useState<boolean>(false)
   const [locations, setLocations] = useState<string[]>([])
@@ -45,8 +44,8 @@ export function CustomerProfileModal({
       const response = await fetch('/api/auth/check-password')
       const data = await response.json()
       setHasPassword(data.hasPassword)
-    } catch (error) {
-      console.error('Error checking password status:', error)
+    } catch (error: any) {
+      console.error('Error checking password status:', error.message)
     }
   }
 
@@ -62,8 +61,8 @@ export function CustomerProfileModal({
         const response = await fetch('/api/location')
         const data = await response.json()
         setLocations(data)
-      } catch (error) {
-        console.error('Error fetching locations:', error)
+      } catch (error: any) {
+        console.error('Error fetching locations:', error.message)
       }
     }
 
@@ -77,7 +76,6 @@ export function CustomerProfileModal({
     if (!file) return
 
     try {
-      setIsUploadingImage(true)
       const formData = new FormData()
       formData.append('file', file)
 
@@ -92,8 +90,6 @@ export function CustomerProfileModal({
       setAvatar(data.secure_url)
     } catch (error) {
       toast.error("Failed to upload image. Please try again.")
-    } finally {
-      setIsUploadingImage(false)
     }
   }
 

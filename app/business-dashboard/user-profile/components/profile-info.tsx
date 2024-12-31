@@ -21,7 +21,6 @@ interface ProfileInfoProps {
   image: string | null
   location: string | null
   accesses: AccessPlace[]
-  userId: string
   places: string[]
 }
 
@@ -31,14 +30,13 @@ export function ProfileInfo({
   image,
   location,
   accesses,
-  userId,
   places
 }: ProfileInfoProps) {
   console.log('Places received:', places)
   const [isUploading, setIsUploading] = useState(false)
   const [previewImage, setPreviewImage] = useState<string | null>(image)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const { update: updateSession, data: session } = useSession()
+  const { update: updateSession } = useSession()
 
   const handleImageClick = () => {
     fileInputRef.current?.click()

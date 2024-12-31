@@ -44,8 +44,8 @@ export async function POST(request: Request) {
       }))
     })
 
-    // Crear el template HTML con el nombre del place
-    const createEmailHTML = (subscriberName: string) => `
+    // Crear el template HTML
+    const createEmailHTML = () => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #333;">✨ Exclusive for Loyalty Program Members</h2>
         <h3>${name}</h3>
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       </div>
     `
 
-    // 3. Enviar emails con Resend (con rate limiting básico)
+    // Enviar emails con Resend (con rate limiting básico)
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
     const failedEmails = []
 
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
           from: 'Loyalty Program <onboarding@resend.dev>',
           to: subscriber.user.email,
           subject: `New Offer: ${name}`,
-          html: createEmailHTML(subscriber.user.name || 'Valued Member')
+          html: createEmailHTML()
         })
         
         await delay(100) // Rate limiting básico

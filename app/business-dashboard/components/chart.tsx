@@ -261,7 +261,7 @@ export default function AnalyticsDashboard({
                   <div className="space-y-2 max-h-[200px] overflow-y-auto">
                     {stat.subscribers.map((subscriber, index) => (
                       <div 
-                        key={`${subscriber.id}-${index}`} 
+                        key={`${subscriber.id}-${index}`}
                         className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-lg"
                       >
                         <Avatar className="h-8 w-8">

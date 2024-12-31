@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { prisma } from '@/lib/prisma'
-import { ModelType, PermissionType, Role } from '@prisma/client'
+import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 
 interface UserPermission {
   modelType: ModelType
@@ -14,13 +14,13 @@ interface UserWithPermissions {
   permissions: UserPermission[]
 }
 
-const checkUserPermissions = async (prisma: any, userId: string, offerId?: string) => {
+const checkUserPermissions = async (prismaClient: PrismaClient, userId: string, offerId?: string) => {
   console.log('🔒 [CHECK_PERMISSIONS] Starting permission check:', {
     userId,
     offerId
   })
   
-  const user = await prisma.user.findUnique({
+  const user = await prismaClient.user.findUnique({
     where: { id: userId },
     include: {
       permissions: true
@@ -47,7 +47,7 @@ const checkUserPermissions = async (prisma: any, userId: string, offerId?: strin
       return true
     }
 
-    const offer = await prisma.offer.findFirst({
+    const offer = await prismaClient.offer.findFirst({
       where: {
         id: offerId,
         place: {

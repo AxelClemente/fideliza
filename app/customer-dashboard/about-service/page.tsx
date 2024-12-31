@@ -7,6 +7,7 @@ import FAQ from './components/faq'
 import Terms from './components/terms'
 import Help from './components/help'
 import { ShareAppModal } from './components/share-app'
+import Image from 'next/image'
 
 export default function CustomerServiceInfo() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
@@ -48,10 +49,12 @@ export default function CustomerServiceInfo() {
               onClick={() => setActiveSection('Help')}
               className={`${cardClasses} cursor-pointer w-[339px] h-[276px] md:w-auto md:h-auto p-4 md:p-6 mx-auto md:mx-0`}
             >
-              <img 
+              <Image 
                 src="/help-fideliza.svg" 
                 alt="Help Icon"
-                className="w-[72px] h-[72px] md:w-12 md:h-12 mb-3 md:mb-4"
+                width={72}
+                height={72}
+                className="md:w-12 md:h-12 mb-3 md:mb-4"
               />
               <h3 className="text-[24px] md:text-lg font-bold md:font-semibold leading-[32.68px] md:leading-normal mb-[21.5px] md:mb-2 text-justify md:text-center">
                 Help
@@ -70,8 +73,8 @@ export default function CustomerServiceInfo() {
               <h3 className="text-[24px] md:text-lg font-bold md:font-semibold leading-[32.68px] md:leading-normal mb-[21.5px] md:mb-2 text-justify md:text-center">
                 Terms of Use
               </h3>
-              <p className="text-[14px] md:text-sm font-[600] md:font-normal leading-[18px] md:leading-normal font-['Open_Sans'] md:font-sans tracking-[-0.1px] paragraph-[21.92px] md:paragraph-normal  md:text-current">
-                Here you'll find the rules and conditions for using our service. Review them to understand your rights and responsibilities as a user.
+              <p className="text-[14px] md:text-sm font-[600] md:font-normal leading-[18px] md:leading-normal font-['Open_Sans'] md:font-sans tracking-[-0.1px] paragraph-[21.92px] md:paragraph-normal md:text-current">
+                Here you&apos;ll find the rules and conditions for using our service. Review them to understand your rights and responsibilities as a user.
               </p>
             </div>
 

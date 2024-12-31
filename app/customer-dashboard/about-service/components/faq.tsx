@@ -59,10 +59,10 @@ import {
   
           <AccordionItem value="item-6" className="border border-gray-100 rounded-xl shadow-sm">
             <AccordionTrigger className="text-[24px] sm:text-[30px] font-bold font-['Open_Sans'] leading-[32px] sm:leading-[36px] py-[20px] sm:py-[20px] text-left px-6">
-              What should I do if I don't see a discount in the store?
+              What should I do if I don&apos;t see a discount in the store?
             </AccordionTrigger>
             <AccordionContent className="!px-6 !text-[20px] !font-semibold !font-['Open_Sans'] !leading-[26px] !paragraph-[20px]">
-              If you don't see your discount applied, please verify your subscription status and contact our support team for immediate assistance.
+              If you don&apos;t see your discount applied, please verify your subscription status and contact our support team for immediate assistance.
             </AccordionContent>
           </AccordionItem>
         </Accordion>

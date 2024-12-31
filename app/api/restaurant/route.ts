@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from "../auth/[...nextauth]/route"
 import { v2 as cloudinary } from 'cloudinary'
-import { ModelType, PermissionType, Role } from '@prisma/client'
+import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 
 // Configurar Cloudinary
 cloudinary.config({
@@ -22,13 +22,13 @@ interface UserWithPermissions {
   permissions: UserPermission[]
 }
 
-const checkUserPermissions = async (prisma: any, userId: string, restaurantId?: string) => {
+const checkUserPermissions = async (prismaClient: PrismaClient, userId: string, restaurantId?: string) => {
   console.log('🔒 [CHECK_PERMISSIONS] Starting permission check:', {
     userId,
     restaurantId
   })
   
-  const user = await prisma.user.findUnique({
+  const user = await prismaClient.user.findUnique({
     where: { id: userId },
     include: {
       permissions: true
@@ -55,7 +55,7 @@ const checkUserPermissions = async (prisma: any, userId: string, restaurantId?: 
       return true
     }
 
-    const restaurant = await prisma.restaurant.findFirst({
+    const restaurant = await prismaClient.restaurant.findFirst({
       where: {
         id: restaurantId,
         userId: userId

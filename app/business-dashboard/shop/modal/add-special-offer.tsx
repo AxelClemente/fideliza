@@ -191,32 +191,6 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
     }
   }
 
-  const handleDeleteConfirmation = () => {
-    toast({
-      title: "Delete Confirmation",
-      description: "Are you sure you want to delete this offer?",
-      action: (
-        <div className="flex gap-2">
-          <Button 
-            variant="destructive" 
-            size="sm" 
-            onClick={handleDelete}
-          >
-            Delete
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => onClose()}
-          >
-            Cancel
-          </Button>
-        </div>
-      ),
-      duration: 5000,
-    })
-  }
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="

@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { prisma } from '@/lib/prisma'
 import { Role } from '@prisma/client'
+import type { Restaurant, Place, Subscription } from '../../business-dashboard/shop/types/types'
 
 // Interfaces
 interface CurrentUser {
@@ -10,12 +11,12 @@ interface CurrentUser {
 }
 
 interface BusinessProviderResult {
-  restaurants: any[];
-  places: any[];
-  subscriptions: any[];
-  getRestaurantById: (id: string) => Promise<any>;
-  getPlacesByRestaurantId: (restaurantId: string) => Promise<any[]>;
-  getSubscriptionsByPlaceId: (placeId: string) => Promise<any[]>;
+  restaurants: Restaurant[];
+  places: Place[];
+  subscriptions: Subscription[];
+  getRestaurantById: (id: string) => Promise<Restaurant | null>;
+  getPlacesByRestaurantId: (restaurantId: string) => Promise<Place[]>;
+  getSubscriptionsByPlaceId: (placeId: string) => Promise<Subscription[]>;
 }
 
 export async function BusinessProvider(): Promise<BusinessProviderResult> {
