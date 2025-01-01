@@ -40,7 +40,7 @@ export default function TermsSection() {
             <h3 className="text-[16px] md:text-[18px] font-medium mb-2">4. Free Trial and Cancellation</h3>
             <ul className="list-disc pl-4 md:pl-5 text-sm text-gray-600 space-y-2">
               <li className="leading-relaxed">If offered, the free trial allows users to access the service for a limited time without charge.</li>
-              <li className="leading-relaxed">Subscriptions can be canceled at any time via the user's account settings. Access to discounts will remain until the end of the billing period.</li>
+              <li className="leading-relaxed">Subscriptions can be canceled at any time via the user&apos;s account settings. Access to discounts will remain until the end of the billing period.</li>
             </ul>
           </section>
   
