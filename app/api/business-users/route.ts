@@ -148,10 +148,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ user: newUser })
 
-  } catch (error: any) {
-    console.error('❌ [POST] Failed to create user:', error.message)
+  } catch (error: unknown) {
+    console.error('❌ [POST] Failed to create user:', error instanceof Error ? error.message : 'Unknown error')
     return NextResponse.json(
-      { error: error.message || 'Failed to create user' },
+      { error: error instanceof Error ? error.message : 'Failed to create user' },
       { status: 500 }
     )
   }
