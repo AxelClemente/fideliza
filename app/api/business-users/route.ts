@@ -181,7 +181,7 @@ export async function DELETE(request: Request) {
       )
     }
 
-    // Eliminar usuario
+    // Eliminar usuarioo
     await prisma.user.delete({
       where: { id: userId }
     })
