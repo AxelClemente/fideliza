@@ -20,7 +20,7 @@ export function MobileBusinessHeader() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
 
   // Verificar si estamos en la tab Main
   const isMainTab = pathname === '/business-dashboard/shop'

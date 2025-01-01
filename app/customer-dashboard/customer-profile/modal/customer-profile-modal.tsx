@@ -25,6 +25,11 @@ interface CustomerProfileModalProps {
   }
 }
 
+// Definimos una interfaz para los errores
+interface ApiError {
+  message: string
+}
+
 export function CustomerProfileModal({
   isOpen,
   onClose,
@@ -44,8 +49,8 @@ export function CustomerProfileModal({
       const response = await fetch('/api/auth/check-password')
       const data = await response.json()
       setHasPassword(data.hasPassword)
-    } catch (error: any) {
-      console.error('Error checking password status:', error.message)
+    } catch (err: unknown) { // Tipado más específico
+      console.error('Error checking password status:', err instanceof Error ? err.message : 'Unknown error')
     }
   }
 
@@ -61,8 +66,8 @@ export function CustomerProfileModal({
         const response = await fetch('/api/location')
         const data = await response.json()
         setLocations(data)
-      } catch (error: any) {
-        console.error('Error fetching locations:', error.message)
+      } catch (err: unknown) { // Tipado más específico
+        console.error('Error fetching locations:', err instanceof Error ? err.message : 'Unknown error')
       }
     }
 
@@ -88,7 +93,7 @@ export function CustomerProfileModal({
 
       const data = await response.json()
       setAvatar(data.secure_url)
-    } catch (error) {
+    } catch { // Eliminado el parámetro error no utilizado
       toast.error("Failed to upload image. Please try again.")
     }
   }
@@ -128,7 +133,7 @@ export function CustomerProfileModal({
         }, 1000)
       }, 300)
 
-    } catch (error) {
+    } catch { // Eliminado el parámetro error no utilizado
       toast.error("Failed to update profile. Please try again.")
     } finally {
       setIsLoading(false)

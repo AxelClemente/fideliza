@@ -54,7 +54,7 @@ export default function VerifyCode({ email }: { email: string }) {
         console.log('Error data:', errorData)
         setError('Invalid code')
       }
-    } catch (_) {
+    } catch (error) {
       console.error('Verify error')
       setError('An error occurred')
     }
@@ -69,7 +69,7 @@ export default function VerifyCode({ email }: { email: string }) {
         body: JSON.stringify({ email }),
       })
       setTimer(55)
-    } catch (_) {
+    } catch (error) {
       setError('Failed to resend code')
     }
     setIsResending(false)

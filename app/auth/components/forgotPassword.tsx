@@ -31,7 +31,7 @@ export default function ForgotPassword() {
         const data = await response.json()
         setError(data.error || 'Something went wrong')
       }
-    } catch (_) {
+    } catch (error) {
       setError('An error occurred. Please try again.')
     } finally {
       setIsLoading(false)

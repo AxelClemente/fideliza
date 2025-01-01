@@ -1,6 +1,6 @@
 import { RestaurantProvider } from '../components/restaurant-provider'
 import { ClientWrapper } from '../components/client-wrapper'
-import type { Restaurant, Subscription } from '../types/types'
+import type { Subscription } from '../types/types'
 
 interface ProviderSubscription {
   id: string
@@ -10,14 +10,6 @@ interface ProviderSubscription {
   website?: string | null
   createdAt?: Date
   updatedAt?: Date
-}
-
-interface PlaceWithSubscriptions {
-  id: string
-  name: string
-  location: string
-  phoneNumber?: string | null
-  subscriptions?: ProviderSubscription[]
 }
 
 export default async function SubscriptionsPage() {

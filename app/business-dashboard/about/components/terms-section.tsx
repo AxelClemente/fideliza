@@ -6,7 +6,7 @@ export default function TermsSection() {
           {/* Introduction */}
           <section>
             <h3 className="text-[16px] md:text-[18px] font-medium mb-2">1. Introduction</h3>
-            <p className="text-[18px] sm:text-sm font-semibold sm:font-normal font-['Open_Sans'] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
+            <p className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
               Welcome to [Your Service Name]! By using our platform, you agree to the following terms and conditions. Please read them carefully. If you do not agree, you should not use our service.
             </p>
           </section>
@@ -14,7 +14,7 @@ export default function TermsSection() {
           {/* Service Description */}
           <section>
             <h3 className="text-[16px] md:text-[18px] font-medium mb-2">2. Service Description</h3>
-            <p className="text-[18px] sm:text-sm font-semibold sm:font-normal font-['Open_Sans'] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
+            <p className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
               Our platform provides users with access to discounts and special offers at partner stores through a subscription plan. The discounts are subject to the terms set by each participating partner.
             </p>
           </section>
@@ -23,13 +23,13 @@ export default function TermsSection() {
           <section>
             <h3 className="text-[16px] md:text-[18px] font-medium mb-2">3. User Registration and Subscription</h3>
             <ul className="list-disc pl-4 md:pl-5 space-y-3 sm:space-y-2">
-              <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-['Open_Sans'] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
+              <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
                 Users must create an account to access our service.
               </li>
-              <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-['Open_Sans'] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
+              <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
                 Subscription fees are charged on a monthly basis, with payments processed automatically.
               </li>
-              <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-['Open_Sans'] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
+              <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
                 Users are responsible for maintaining up-to-date payment information.
               </li>
             </ul>

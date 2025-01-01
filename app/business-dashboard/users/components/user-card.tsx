@@ -3,7 +3,6 @@
 import { Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import Image from "next/image"
 import { AddNewUserModal } from "../modal/add-new-user"
@@ -35,7 +34,6 @@ interface UserCardProps {
 export function UserCard({ id, name, email, role, ownerRestaurants, imageUrl, userId, permissions }: UserCardProps) {
   const [isDeleting, setIsDeleting] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-  const router = useRouter()
   const { canAccess } = usePermissions()
   const access = canAccess('ADMIN_USERS')
 

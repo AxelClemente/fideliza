@@ -1,16 +1,5 @@
 import { prisma } from '@/lib/prisma'
 
-// First, let's define proper interfaces for our data structures
-interface ViewData {
-  _count: number
-  date: string
-}
-
-interface AggregatedData {
-  _count: number
-  date: Date
-}
-
 export async function getRestaurantStats(restaurantId: string) {
   const now = new Date()
   const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30))
@@ -130,14 +119,14 @@ export async function getRestaurantStats(restaurantId: string) {
   // Obtener vistas de ofertas
   const offerViews = await Promise.all(
     featuredOffers.map(async (offer) => {
-      const currentViews = await (prisma as any).offerView.count({
+      const currentViews = await prisma.offerView.count({
         where: {
           offerId: offer.id,
           viewedAt: { gte: thirtyDaysAgo }
         }
       })
 
-      const previousViews = await (prisma as any).offerView.count({
+      const previousViews = await prisma.offerView.count({
         where: {
           offerId: offer.id,
           viewedAt: {

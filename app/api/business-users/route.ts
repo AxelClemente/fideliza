@@ -16,7 +16,13 @@ interface UserWithPermissions {
   permissions: UserPermission[]
 }
 
-const checkUserPermissions = async (prismaClient: PrismaClient, userId: string, targetUserId?: string) => {
+interface PermissionCreate {
+  modelType: ModelType
+  permission: PermissionType
+  restaurantId?: string
+}
+
+const checkUserPermissions = async (prismaClient: PrismaClient, userId: string) => {
   const user = await prismaClient.user.findUnique({
     where: { id: userId },
     include: {
@@ -106,7 +112,7 @@ export async function POST(req: Request) {
         data: {
           ...userData,
           permissions: {
-            create: body.permissions.map((p: any) => ({
+            create: body.permissions.map((p: PermissionCreate) => ({
               modelType: p.modelType,
               permission: p.permission,
               restaurantId: p.restaurantId
@@ -173,7 +179,7 @@ export async function DELETE(request: Request) {
     }
 
     // Verificar permisos usando checkUserPermissions
-    const hasPermission = await checkUserPermissions(prisma, session.user.id, userId)
+    const hasPermission = await checkUserPermissions(prisma, session.user.id)
     if (!hasPermission) {
       return NextResponse.json(
         { error: 'Not authorized to delete this user' },
@@ -214,7 +220,7 @@ export async function PATCH(request: Request) {
     const body = await request.json()
     const { name, email, role, permissions } = body
 
-    const hasPermission = await checkUserPermissions(prisma, session.user.id, id)
+    const hasPermission = await checkUserPermissions(prisma, session.user.id)
     if (!hasPermission) {
       return NextResponse.json({ error: "Not authorized" }, { status: 403 })
     }
@@ -230,7 +236,7 @@ export async function PATCH(request: Request) {
             deleteMany: {
               userId: id
             },
-            create: permissions.map((p: UserPermission) => ({
+            create: permissions.map((p: PermissionCreate) => ({
               modelType: p.modelType,
               permission: p.permission,
               restaurantId: p.restaurantId

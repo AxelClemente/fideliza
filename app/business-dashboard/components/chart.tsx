@@ -285,7 +285,7 @@ export default function AnalyticsDashboard({
       <div>
         <h2 className="text-2xl font-bold tracking-tight mb-4">Current offers</h2>
         <div className="grid gap-4 md:grid-cols-2">
-          {featuredOffers.map((offer, index) => (
+          {featuredOffers.map((offer) => (
             <Card key={offer.id}>
               <CardContent className="p-0">
                 <div className="flex h-48">

@@ -88,15 +88,6 @@ const checkUserPermissions = async (prismaClient: PrismaClient, userId: string, 
   return false
 }
 
-interface SubscriptionPayload {
-  id?: string
-  name: string
-  benefits: string
-  price: number
-  placeIds: string[]
-  website?: string
-}
-
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions)
