@@ -71,7 +71,7 @@ export default function SignInForm() {
         setError('Invalid credentials')
       }
       // No hacemos redirección aquí, useEffect se encargará
-    } catch (error) {
+    } catch {
       setError('An error occurred during sign in')
     }
   }
@@ -86,7 +86,7 @@ export default function SignInForm() {
         setError('Error signing in with Google')
       }
       // No hacemos redirección aquí, useEffect se encargará
-    } catch (error) {
+    } catch {
       setError('An error occurred during Google sign in')
     }
   }
@@ -101,7 +101,7 @@ export default function SignInForm() {
         setError('Error signing in with Facebook')
       }
       // No hacemos redirección aquí, useEffect se encargará
-    } catch (error) {
+    } catch {
       setError('An error occurred during Facebook sign in')
     }
   }

@@ -25,11 +25,6 @@ interface CustomerProfileModalProps {
   }
 }
 
-// Definimos una interfaz para los errores
-interface ApiError {
-  message: string
-}
-
 export function CustomerProfileModal({
   isOpen,
   onClose,

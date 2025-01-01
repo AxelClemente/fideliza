@@ -55,7 +55,7 @@ export default function Terms() {
                 If offered, the free trial allows users to access the service for a limited time without charge.
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Subscriptions can be canceled at any time via the user's account settings. Access to discounts will remain until the end of the billing period.
+                Subscriptions can be canceled at any time via the user&apos;s account settings. Access to discounts will remain until the end of the billing period.
               </li>
             </ul>
           </section>

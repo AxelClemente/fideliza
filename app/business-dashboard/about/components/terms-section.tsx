@@ -7,7 +7,7 @@ export default function TermsSection() {
           <section>
             <h3 className="text-[16px] md:text-[18px] font-medium mb-2">1. Introduction</h3>
             <p className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-              Welcome to [Your Service Name]! By using our platform, you agree to the following terms and conditions. Please read them carefully. If you do not agree, you should not use our service.
+              Welcome to [Your Service Name]! By using our platform, you agree to the following terms and conditions. Please read them carefully. If you don&apos;t agree, you should not use our service.
             </p>
           </section>
   

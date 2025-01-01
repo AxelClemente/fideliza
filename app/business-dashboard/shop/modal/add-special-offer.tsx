@@ -159,38 +159,6 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
     }
   }
 
-  const handleDelete = async () => {
-    try {
-      setIsLoading(true)
-
-      const response = await fetch(`/api/special-offers?id=${initialData?.id}`, {
-        method: 'DELETE',
-      })
-
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || 'Failed to delete offer')
-      }
-
-      toast({
-        title: "Success",
-        description: "Special offer deleted successfully",
-      })
-
-      onClose()
-      window.location.reload()
-    } catch (error) {
-      console.error('Error:', error)
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to delete offer",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="

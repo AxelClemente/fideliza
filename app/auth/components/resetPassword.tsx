@@ -46,7 +46,7 @@ export default function ResetPassword() {
         const data = await response.json()
         setError(data.error || 'Something went wrong')
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.')
     } finally {
       setIsLoading(false)

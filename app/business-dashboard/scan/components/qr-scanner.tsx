@@ -37,7 +37,7 @@ export function QRScanner() {
         scanner.clear()
         setIsScanning(false)
         verifySubscription(data)
-      } catch (error) {
+      } catch {
         toast.error('Invalid QR Code')
       }
     }
@@ -71,7 +71,7 @@ export function QRScanner() {
       } else {
         toast.error('Invalid or expired subscription')
       }
-    } catch (error) {
+    } catch {
       toast.error('Error verifying subscription')
     }
   }
