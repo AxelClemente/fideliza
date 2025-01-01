@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next"
 import { redirect } from 'next/navigation'
 import { BusinessHeader } from "./components/business-header"
 import { MobileBusinessHeader } from "./components/mobile-business-header"
-import { authOptions } from "../api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/auth.config"
 import { SubscribersDataProvider } from "./context/subscribers-provider"
 import { prisma } from "@/lib/prisma"
 import { MainContentWrapper } from "./components/main-content-wrapper"

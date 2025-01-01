@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from "@/app/api/auth/auth.config"
 
 export async function MailingProvider(status: 'in_progress' | 'archive') {
   const session = await getServerSession(authOptions)

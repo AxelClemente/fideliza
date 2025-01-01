@@ -1,7 +1,7 @@
 import { DashboardClient } from './components/dashboard-client'
 import { BusinessProvider } from './components/business-provider'
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "../api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/auth.config"
 
 export default async function CustomerDashboardPage() {
   const { restaurants } = await BusinessProvider()

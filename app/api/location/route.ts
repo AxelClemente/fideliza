@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next"
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
-import { authOptions } from "../auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/auth.config"
 import { Prisma } from "@prisma/client"
 
 // Add GET method to fetch available locations

@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
 import { Role } from '@prisma/client'
 import type { Restaurant, Place, Subscription } from '../../business-dashboard/shop/types/types'

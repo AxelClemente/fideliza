@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
-import { authOptions } from "../auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/auth.config"
 import { v2 as cloudinary } from 'cloudinary'
 import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 

@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
 import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 
