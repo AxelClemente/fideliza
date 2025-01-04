@@ -111,7 +111,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
   console.log('Subscriptions from DB:', JSON.stringify(subscriptions, null, 2))
 
   // Funciones auxiliares para obtener datos específicos
-  const getRestaurantById = async (id: string) => {
+  const getRestaurantById = async (id: string): Promise<Restaurant | null> => {
     const restaurant = await prisma.restaurant.findUnique({
       where: { id },
       include: {
@@ -122,6 +122,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
             name: true,
             location: true,
             phoneNumber: true,
+            restaurantId: true,
             offers: {
               include: {
                 images: true,
@@ -130,7 +131,8 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
                     id: true,
                     name: true,
                     location: true,
-                    phoneNumber: true
+                    phoneNumber: true,
+                    restaurantId: true
                   }
                 }
               }
@@ -147,7 +149,8 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
                     id: true,
                     name: true,
                     location: true,
-                    phoneNumber: true
+                    phoneNumber: true,
+                    restaurantId: true
                   }
                 }
               }
@@ -156,7 +159,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
         }
       }
     })
-    console.log('Restaurant subscriptions:', JSON.stringify(restaurant?.places[0]?.subscriptions, null, 2))
+
     return restaurant
   }
 
