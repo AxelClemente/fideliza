@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import VerifyCode from '../components/verifyCode'
 import AuthLayout from '../components/authLayout'
 
-// Componente que usa useSearchParams
+// Componente que usa useSearchParamsss
 function VerifyCodeContent() {
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || ''
