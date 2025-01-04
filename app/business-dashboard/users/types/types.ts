@@ -1,7 +1,6 @@
 import { ModelType, PermissionType, Role } from '@prisma/client'
 
-// Re-exportamos el tipo UserWithRestaurants como BusinessUser
-export type BusinessUser = {
+export interface BusinessUser {
   id: string
   name: string | null
   email: string | null
@@ -25,6 +24,14 @@ export type BusinessUser = {
       phoneNumber?: string | null
     }[]
   }[]
+}
+
+export interface User {
+  id: string
+  name: string | null
+  email: string | null
+  image: string | null
+  role: 'ADMIN' | 'STAFF'
   permissions?: Array<{
     modelType: ModelType
     permission: PermissionType
