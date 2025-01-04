@@ -15,12 +15,7 @@ export interface RestaurantImage {
     createdAt: Date
     updatedAt: Date
     images: RestaurantImage[]
-    places: {
-      id: string
-      name: string
-      location: string
-      phoneNumber?: string | null
-    }[]
+    places: Place[]
   }
   
   export interface Place {

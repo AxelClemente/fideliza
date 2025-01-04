@@ -1,5 +1,5 @@
 import { RestaurantProvider } from './components/restaurant-provider'
-import { ClientWrapper } from '@/app/business-dashboard/shop/components/client-wrapper'
+import { ClientWrapper } from './components/client-wrapper'
 import type { Restaurant } from './types/types'
 import { ImageSlider } from './components/image-slider'
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
@@ -7,6 +7,11 @@ import { DescriptionText } from './components/description-text'
 
 export default async function ShopPage() {
   const { restaurants } = await RestaurantProvider()
+
+  // Calculate if any restaurant has places
+  const hasPlaces = restaurants.some(restaurant => 
+    restaurant.places && restaurant.places.length > 0
+  )
 
   return (
     <div className="
@@ -168,7 +173,7 @@ export default async function ShopPage() {
               <ClientWrapper 
                 type="place" 
                 restaurants={restaurants} 
-                hasPlaces={restaurants.some((r: Restaurant) => r.places.length > 0)}
+                hasPlaces={hasPlaces}
               />
             </div>
           </div>
@@ -341,7 +346,7 @@ export default async function ShopPage() {
             <ClientWrapper 
               type="place" 
               restaurants={restaurants} 
-              hasPlaces={restaurants.some((r: Restaurant) => r.places.length > 0)}
+              hasPlaces={hasPlaces}
             />
           </div>
         </div>
