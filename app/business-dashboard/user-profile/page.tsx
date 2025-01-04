@@ -1,6 +1,6 @@
 import { ProfileInfo } from './components/profile-info'
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
 
 async function getUserProfile() {

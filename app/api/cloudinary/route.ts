@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cloudinary } from '@/lib/cloudinary'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/[...nextauth]/route'
+import { authOptions } from "@/app/api/auth/auth.config"
 
 export async function POST(req: Request) {
   try {
