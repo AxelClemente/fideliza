@@ -89,7 +89,6 @@ async function getUserProfile() {
     image: userWithRole.image,
     location: userWithRole.location,
     accesses,
-    userId: userWithRole.id,
     places: placesWithRestaurant.map(p => `${p.name} (${p.restaurantTitle})`)
   }
 }

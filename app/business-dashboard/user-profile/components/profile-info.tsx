@@ -16,8 +16,6 @@ interface AccessPlace {
 }
 
 interface ProfileInfoProps {
-  userId: string
-  id: string
   name: string | null
   email: string | null
   image: string | null
@@ -27,8 +25,6 @@ interface ProfileInfoProps {
 }
 
 export function ProfileInfo({
-  userId,
-  id,
   name,
   email,
   image,
