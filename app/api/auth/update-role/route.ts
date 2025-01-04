@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from "next-auth/next"
 import { prisma } from '@/lib/prisma'
-import { authOptions } from '../../auth/[...nextauth]/route'
+import { authOptions } from "@/app/api/auth/auth.config"
 import { Prisma, Role as PrismaRole } from '@prisma/client'
 
 // Actualizamos los tipos para incluir todos los roles posibles
