@@ -25,6 +25,7 @@ interface ClientWrapperProps {
   offer?: Offer
   subscription?: Subscription
   mailing?: Mailing
+  hasSubscriptions?: boolean
 }
 
 const getModelType = (type: string): ModelType => {
