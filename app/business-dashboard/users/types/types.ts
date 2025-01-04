@@ -38,3 +38,17 @@ export interface User {
     restaurantId: string
   }>
 }
+
+export interface UserWithRestaurants {
+  id: string
+  name: string | null
+  email: string | null
+  image: string | null
+  role: Role | null
+  permissions?: Array<{
+    modelType: ModelType
+    permission: PermissionType
+    restaurantId: string
+  }>
+  // ... otros campos si son necesarios
+}

@@ -1,7 +1,7 @@
 import { Toaster } from "sonner"
 import { UsersContainer } from "./components/users-container"
 import { BusinessUserProvider } from "./components/user-provider"
-import type { BusinessUser, User } from "./types/types"
+import type { BusinessUser, User, UserWithRestaurants } from "./types/types"
 
 export default async function BusinessUsersPage() {
   const { businessUser, staff } = await BusinessUserProvider()
@@ -10,12 +10,12 @@ export default async function BusinessUsersPage() {
     throw new Error('No business owner found')
   }
 
-  const mapStaffToUser = (staffMember: any): User => ({
+  const mapStaffToUser = (staffMember: UserWithRestaurants): User => ({
     id: staffMember.id,
     name: staffMember.name,
     email: staffMember.email,
     image: staffMember.image,
-    role: staffMember.role,
+    role: staffMember.role as 'ADMIN' | 'STAFF',
     permissions: staffMember.permissions
   })
 
