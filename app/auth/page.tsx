@@ -1,11 +1,13 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import SignInForm from '@/app/auth/components/signInForm'
 import SignUpForm from '@/app/auth/components/signUpForm'
 import AuthLayout from '@/app/auth/components/authLayout'
 
-export default function AuthPage() {
+// Componente que usa useSearchParams
+function AuthContent() {
   const searchParams = useSearchParams()
   const mode = searchParams.get('mode')
   
@@ -25,5 +27,18 @@ export default function AuthPage() {
     <AuthLayout headerText={headerText}>
       {mode === 'signup' ? <SignUpForm /> : <SignInForm />}
     </AuthLayout>
+  )
+}
+
+// Página principal envuelta en Suspense
+export default function AuthPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">Loading...</div>
+      </div>
+    }>
+      <AuthContent />
+    </Suspense>
   )
 }
