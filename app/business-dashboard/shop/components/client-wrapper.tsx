@@ -17,14 +17,16 @@ import { MobileAddSpecialOffer } from '../modal/mobile/mobile-add-special-offer'
 import { MobileNewSubscription } from '../modal/mobile/mobile-new-subscription'
 
 interface ClientWrapperProps {
-  restaurants: Restaurant[]
   type: string
+  restaurants: Restaurant[]
   restaurant?: Restaurant
   mode?: 'add' | 'edit'
   place?: Place
   offer?: Offer
   subscription?: Subscription
   mailing?: Mailing
+  hasOffers?: boolean
+  hasSubscriptions?: boolean
 }
 
 const getModelType = (type: string): ModelType => {
@@ -45,7 +47,9 @@ export function ClientWrapper({
   place,
   offer,
   subscription,
-  mailing
+  mailing,
+  hasOffers,
+  hasSubscriptions
 }: ClientWrapperProps) {
   const { canAccess } = usePermissions()
   const access = canAccess(getModelType(type))
