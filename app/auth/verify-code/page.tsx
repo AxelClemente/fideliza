@@ -1,10 +1,12 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import VerifyCode from '../components/verifyCode'
 import AuthLayout from '../components/authLayout'
 
-export default function VerifyCodePage() {
+// Componente que usa useSearchParams
+function VerifyCodeContent() {
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || ''
 
@@ -17,5 +19,18 @@ export default function VerifyCodePage() {
     <AuthLayout headerText={headerText}>
       <VerifyCode email={email} />
     </AuthLayout>
+  )
+}
+
+// Página principal envuelta en Suspense
+export default function VerifyCodePage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">Loading...</div>
+      </div>
+    }>
+      <VerifyCodeContent />
+    </Suspense>
   )
 }
