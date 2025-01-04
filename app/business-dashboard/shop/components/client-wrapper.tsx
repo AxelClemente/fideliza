@@ -23,6 +23,7 @@ interface ClientWrapperProps {
   mode?: 'add' | 'edit'
   hasOffers?: boolean
   hasSubscriptions?: boolean
+  hasPlaces?: boolean
   place?: Place
   offer?: Offer
   subscription?: Subscription
@@ -46,6 +47,7 @@ export function ClientWrapper({
   mode = 'add',
   hasOffers = false,
   hasSubscriptions = false,
+  hasPlaces = false,
   place,
   offer,
   subscription,
