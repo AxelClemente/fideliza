@@ -102,8 +102,12 @@ export default async function UserProfilePage() {
 
   return (
     <ProfileInfo 
-      {...userData} 
-      userId={userData.id}
+      name={userData.name}
+      email={userData.email}
+      image={userData.image}
+      location={userData.location}
+      accesses={userData.accesses}
+      places={userData.places}
     />
   )
 }
