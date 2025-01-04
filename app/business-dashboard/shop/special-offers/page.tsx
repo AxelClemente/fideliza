@@ -54,7 +54,6 @@ export default async function SpecialOffersPage() {
               type="special-offer"
               mode="add"
               restaurants={restaurants}
-              hasOffers={offers.length > 0}
             />
           </div>
         </div>
@@ -391,7 +390,6 @@ export default async function SpecialOffersPage() {
             type="special-offer"
             mode="add"
             restaurants={restaurants}
-            hasOffers={offers.length > 0}
           />
         </div>
       </div>

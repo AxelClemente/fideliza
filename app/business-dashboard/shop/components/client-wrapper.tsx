@@ -25,8 +25,6 @@ interface ClientWrapperProps {
   offer?: Offer
   subscription?: Subscription
   mailing?: Mailing
-  hasOffers?: boolean
-  hasSubscriptions?: boolean
 }
 
 const getModelType = (type: string): ModelType => {
@@ -47,9 +45,7 @@ export function ClientWrapper({
   place,
   offer,
   subscription,
-  mailing,
-  hasOffers,
-  hasSubscriptions
+  mailing
 }: ClientWrapperProps) {
   const { canAccess } = usePermissions()
   const access = canAccess(getModelType(type))
