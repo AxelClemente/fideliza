@@ -8,11 +8,6 @@ import { DescriptionText } from './components/description-text'
 export default async function ShopPage() {
   const { restaurants } = await RestaurantProvider()
 
-  // Calculate if any restaurant has places
-  const hasPlaces = restaurants.some(restaurant => 
-    restaurant.places && restaurant.places.length > 0
-  )
-
   return (
     <div className="
       md:mx-8 
@@ -172,8 +167,7 @@ export default async function ShopPage() {
             <div className="hidden md:block">
               <ClientWrapper 
                 type="place" 
-                restaurants={restaurants} 
-                hasPlaces={hasPlaces}
+                restaurants={restaurants}
               />
             </div>
           </div>
@@ -345,8 +339,7 @@ export default async function ShopPage() {
           <div className="mt-6 md:hidden">
             <ClientWrapper 
               type="place" 
-              restaurants={restaurants} 
-              hasPlaces={hasPlaces}
+              restaurants={restaurants}
             />
           </div>
         </div>

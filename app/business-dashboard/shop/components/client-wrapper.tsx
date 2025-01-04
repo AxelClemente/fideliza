@@ -21,9 +21,6 @@ interface ClientWrapperProps {
   type: string
   restaurant?: Restaurant
   mode?: 'add' | 'edit'
-  hasOffers?: boolean
-  hasSubscriptions?: boolean
-  hasPlaces?: boolean
   place?: Place
   offer?: Offer
   subscription?: Subscription
@@ -41,17 +38,14 @@ const getModelType = (type: string): ModelType => {
 }
 
 export function ClientWrapper({ 
-  restaurants, 
-  type, 
-  restaurant, 
+  type,
+  restaurants,
+  restaurant,
   mode = 'add',
-  hasOffers = false,
-  hasSubscriptions = false,
-  hasPlaces = false,
   place,
   offer,
   subscription,
-  mailing,
+  mailing
 }: ClientWrapperProps) {
   const { canAccess } = usePermissions()
   const access = canAccess(getModelType(type))
@@ -65,6 +59,9 @@ export function ClientWrapper({
   const [editingOffer, setEditingOffer] = useState<Offer | null>(null)
 
   const isMobile = useMediaQuery('(max-width: 768px)')
+
+  // En lugar de recibir hasPlaces como prop, calcularlo internamente
+  const hasPlaces = restaurants.some(r => r.places && r.places.length > 0)
 
   // Mover handleSendEmails aquí junto con las otras funciones de manejo
   const handleSendEmails = async () => {
@@ -430,12 +427,12 @@ export function ClientWrapper({
               "
             >
               <span className={`
-                ${!hasOffers 
+                ${!hasPlaces 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1110px] pt-2"
                 }
               `}>
-                {!hasOffers ? "Add special offer" : "Add new special offer"}
+                {!hasPlaces ? "Add special offer" : "Add new special offer"}
               </span>
             </button>
 
@@ -617,12 +614,12 @@ export function ClientWrapper({
               `}
             >
               <span className={`
-                ${!hasSubscriptions 
+                ${!hasPlaces 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1070px] pt-2"
                 }
               `}>
-                {!hasSubscriptions ? "Add subscription" : "Add new subscription"}
+                {!hasPlaces ? "Add subscription" : "Add new subscription"}
               </span>
             </button>
 
