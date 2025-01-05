@@ -1,22 +1,24 @@
-import { Suspense } from 'react'
-import { MailingProvider } from './components/mailing-provider'
-import { MailingActions } from './components/mailing-actions'
-import { Breadcrumb } from '../components/breadcrumb'
-import { RestaurantProvider } from '../shop/components/restaurant-provider'
+import { Suspense } from 'react';
+import { MailingProvider } from './components/mailing-provider';
+import { MailingActions } from './components/mailing-actions';
+import { Breadcrumb } from '../components/breadcrumb';
+import { RestaurantProvider } from '../shop/components/restaurant-provider';
 
 interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export default async function MailingsPage({ searchParams }: PageProps) {
-  const { restaurants } = await RestaurantProvider()
-  const currentTab = typeof searchParams?.tab === 'string' 
-    ? searchParams.tab 
-    : 'in_progress'
+  const resolvedSearchParams = await searchParams;
+  const { restaurants } = await RestaurantProvider();
+  const currentTab =
+    typeof resolvedSearchParams?.tab === 'string'
+      ? resolvedSearchParams.tab
+      : 'in_progress';
 
-  const status = currentTab === 'archive' ? 'archive' : 'in_progress'
-  const { mailings } = await MailingProvider(status)
-  
+  const status = currentTab === 'archive' ? 'archive' : 'in_progress';
+  const { mailings } = await MailingProvider(status);
+
   return (
     <div className="p-8">
       <div className="mb-4">
@@ -24,10 +26,7 @@ export default async function MailingsPage({ searchParams }: PageProps) {
       </div>
 
       <div className="space-y-6">
-        <MailingActions 
-          showOnlyTabs={true}
-          restaurants={restaurants}
-        />
+        <MailingActions showOnlyTabs={true} restaurants={restaurants} />
 
         <Suspense fallback={<div>Loading...</div>}>
           <div className="hidden md:flex justify-between items-center">
@@ -36,7 +35,7 @@ export default async function MailingsPage({ searchParams }: PageProps) {
                 No Mailings yet!
               </h2>
             )}
-            <MailingActions 
+            <MailingActions
               showOnlyButton={true}
               restaurants={restaurants}
               hasMailing={mailings.length > 0}
@@ -46,16 +45,18 @@ export default async function MailingsPage({ searchParams }: PageProps) {
           <div className="space-y-4">
             {mailings.length > 0 ? (
               mailings.map((mailing) => (
-                <div 
+                <div
                   key={mailing.id}
                   className="bg-main-gray rounded-xl border border-gray-200 p-6 lg:w-[1392px] min-h-[150px] w-full"
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">{mailing.name}</h3>
+                      <h3 className="text-lg font-semibold mb-2">
+                        {mailing.name}
+                      </h3>
                       <p className="text-gray-600">{mailing.description}</p>
                     </div>
-                    <MailingActions 
+                    <MailingActions
                       mode="edit"
                       mailing={mailing}
                       restaurants={restaurants}
@@ -73,12 +74,9 @@ export default async function MailingsPage({ searchParams }: PageProps) {
         </Suspense>
 
         <div className="md:hidden">
-          <MailingActions 
-            showOnlyButton={true}
-            restaurants={restaurants}
-          />
+          <MailingActions showOnlyButton={true} restaurants={restaurants} />
         </div>
       </div>
     </div>
-  )
+  );
 }
