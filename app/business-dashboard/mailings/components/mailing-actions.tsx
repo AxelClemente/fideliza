@@ -17,6 +17,7 @@ interface MailingActionsProps {
   showOnlyTabs?: boolean
   restaurants: Restaurant[]
   showSendButton?: boolean
+  hasMailing?: boolean
 }
 
 export function MailingActions({ 
@@ -25,7 +26,8 @@ export function MailingActions({
   showOnlyButton = false,
   showOnlyTabs = false,
   restaurants,
-  showSendButton = false
+  showSendButton = false,
+  hasMailing = false
 }: MailingActionsProps) {
   const { canAccess } = usePermissions()
   const access = canAccess(ModelType.OFFERS_MAILINGS)
@@ -349,31 +351,49 @@ export function MailingActions({
       {!showOnlyTabs && (
         <div className="
           flex 
-          justify-end
-          fixed          /* Fijamos la posición en móvil */
-          bottom-6       /* Espaciado desde abajo */
-          left-4        /* Espaciado desde la izquierda */
-          right-4       /* Espaciado desde la derecha */
-          md:relative   /* Vuelve a posición normal en desktop */
-          md:bottom-0   /* Elimina el bottom en desktop */
-          md:left-0     /* Elimina el left en desktop */
-          md:right-0    /* Elimina el right en desktop */
+          justify-end     
+          fixed          
+          bottom-6       
+          left-0         
+          right-0        
+          md:relative    
+          md:bottom-0   
+          md:left-0     
+          md:right-0
+          md:mr-20        /* Agregamos margen derecho solo en desktop */
         ">
           {access.canEdit && (
             <>
+              {/* Versión Desktop - Condicional */}
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className={`
+                  hidden          
+                  md:block       
+                  ${hasMailing 
+                    ? "text-black underline text-[24px] font-semibold leading-[32px]" 
+                    : "bg-black text-white w-[329px] h-[78px] rounded-[100px] text-[18px] font-semibold leading-[22px] font-['Open_Sans']"
+                  }
+                `}
+              >
+                Add new offers mailings
+              </button>
+
+              {/* Versión Móvil - Botón rectangular negro */}
               <button
                 onClick={() => setIsAddModalOpen(true)}
                 className="
+                  md:hidden      
                   bg-black 
                   text-white 
-                  w-[329px]          /* Ancho específico */
-                  h-[78px]           /* Altura específica */
-                  rounded-[100px]    /* Radio específico */
+                  w-[390px]          
+                  h-[78px]           
+                  rounded-[100px]    
                   text-[18px] 
                   font-semibold 
                   leading-[22px] 
                   font-['Open_Sans']
-                  md:mx-auto         /* Centrado en desktop */
+                  mx-auto
                   block
                 "
               >

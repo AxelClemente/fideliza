@@ -72,6 +72,8 @@ export async function POST(request: Request) {
         ownerId: ownerId!,
         startDate: new Date(body.startDate),
         endDate: new Date(body.endDate),
+        subscriptionStatus: 'PENDING',
+        lastVisit: new Date().toISOString(),
       }
     })
 
