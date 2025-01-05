@@ -82,7 +82,7 @@ export function UserCard({ id, name, email, role, ownerRestaurants, imageUrl, us
         <div className="flex items-center h-full">
           <div className="h-full w-[90px] sm:w-[106px] relative">
             <img 
-              src={imageUrl} 
+              src={imageUrl || '/images/placeholder.png'}
               alt={name}
               className="h-full w-full object-cover"
             />

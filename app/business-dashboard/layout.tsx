@@ -53,13 +53,9 @@ export default async function BusinessDashboardLayout({
     }
   })
 
-  if (!restaurant?.id) {
-    redirect('/business-dashboard/restaurants/new')
-  }
-
   return (
     <div className="flex flex-col w-full min-h-screen">
-      <SubscribersDataProvider restaurantId={restaurant.id}>
+      <SubscribersDataProvider restaurantId={restaurant?.id ?? "default"}>
         <div className="block sm:hidden">
           <MobileBusinessHeader />
         </div>

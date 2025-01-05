@@ -44,8 +44,8 @@ export default async function SubscriptionsPage() {
   const uniqueSubscriptions = Array.from(subscriptionMap.values())
 
   return (
-    <div className="mx-4 md:mx-8 lg:mx-8">
-      <div className="space-y-0 md:space-y-4">
+    <div className="mx-4 md:mx-8 lg:mx-8 -mt-4 md:mt-0">
+      <div className="space-y-2 md:space-y-4">
         <div className="flex items-center justify-between">
           {uniqueSubscriptions.length === 0 && (
             <h2 className="!text-[22px] md:!text-[30px] text-[#7B7B7B] font-bold">
@@ -53,7 +53,7 @@ export default async function SubscriptionsPage() {
             </h2>
           )}
           
-          <div className="hidden md:block w-full">
+          <div className="hidden md:block">
             <ClientWrapper 
               type="subscription"
               mode="add"
@@ -271,12 +271,10 @@ export default async function SubscriptionsPage() {
             </div>
           </>
         ) : (
-          <div className="text-gray-500">
-            
-          </div>
+          <div className="text-gray-500" />
         )}
 
-        <div className="mt-6 md:hidden">
+        <div className="!mt-4 md:hidden">
           <ClientWrapper 
             type="subscription"
             mode="add"

@@ -21,7 +21,7 @@ export function SubscriberCard() {
           <div className="flex items-center h-full">
             <div className="h-full w-[90px] sm:w-[106px] relative">
               <img 
-                src={subscriber.imageUrl} 
+                src={subscriber.imageUrl || '/images/placeholder.png'}
                 alt={subscriber.name}
                 className="h-full w-full object-cover"
               />

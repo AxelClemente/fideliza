@@ -14,7 +14,7 @@ export default async function BusinessUsersPage() {
     id: staffMember.id,
     name: staffMember.name,
     email: staffMember.email,
-    image: staffMember.image,
+    image: staffMember.image || '/images/placeholder.png',
     role: staffMember.role as 'ADMIN' | 'STAFF',
     permissions: staffMember.permissions
   })
