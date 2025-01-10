@@ -24,7 +24,7 @@ export function MobileMainHeader() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black border-b p-4">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black border-b px-4 h-16">
         <Link href="/" className="flex items-center">
           <Image
             src="/logofideliza.svg"
@@ -35,7 +35,7 @@ export function MobileMainHeader() {
         </Link>
         <button 
           onClick={toggleMenu}
-          className="relative z-50 text-white hover:text-gray-300 mr-8"
+          className="relative z-50 text-white hover:text-gray-300"
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           <span className="sr-only">Toggle menu</span>
@@ -44,7 +44,7 @@ export function MobileMainHeader() {
 
       {isOpen && (
         <div className="fixed inset-0 z-40 bg-black pt-20">
-          <nav className="flex flex-col px-6">
+          <nav className="flex flex-col px-4">
             {navigationItems.map((item) => (
               <Link
                 key={item.href}
