@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function HeroSection() {
     return (
-      <div className="relative min-h-screen bg-white flex flex-col items-start justify-start sm:justify-center mt-[100px] ">
+      <div className="relative sm:min-h-screen bg-white flex flex-col items-start justify-start sm:justify-center mt-[100px] ">
         <div className="relative w-full h-full">
           <Image 
             src="/logofideliza.svg"
