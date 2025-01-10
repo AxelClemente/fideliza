@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function HeroSection() {
     return (
-      <div className="relative min-h-screen bg-white flex flex-col items-start justify-start sm:justify-center mt-[100px] sm:mt-[199px]">
+      <div className="relative min-h-screen bg-white flex flex-col items-start justify-start sm:justify-center mt-[100px] ">
         <div className="relative w-full h-full">
           <Image 
             src="/logofideliza.svg"
@@ -62,7 +62,7 @@ export default function HeroSection() {
           </div>
           
           {/* Role selection card */}
-          <div className="mt-16 mb-20 sm:mb-0 bg-black rounded-3xl mx-[-36px] sm:mx-0 p-4 sm:p-8 pt-8 sm:pt-12 text-center min-h-[250px] sm:min-h-[412px] flex items-center justify-center">
+          <div className="mt-16   bg-black rounded-3xl mx-[-36px] sm:mx-0 p-4 sm:p-8 pt-8 sm:pt-12 text-center min-h-[250px] sm:min-h-[412px] flex items-center justify-center">
             <div className="px-4">
               <h2 className="!text-[#F4F4F4] !text-[28px] sm:!text-[72px] !font-[800] !leading-[40px] sm:!leading-[86.4px] text-center mb-8 !font-['Open_Sans']">
                 Choose Your Role and Join{' '}
