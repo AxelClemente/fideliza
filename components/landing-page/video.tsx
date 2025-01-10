@@ -1,6 +1,6 @@
 export default function VideoSection() {
     return (
-      <section className="w-full py-10 sm:py-20 mt-[-300px] sm:mt-0 relative before:content-[''] before:block before:h-[0px] max-sm:before:block sm:before:hidden">
+      <section className="w-full py-10 sm:py-20 mt-20 sm:mt-0 relative before:content-[''] before:block before:h-[0px] max-sm:before:block sm:before:hidden">
         <div className="space-y-8 sm:space-y-16 relative z-10">
           <div>
             <h2 className="!text-[28px] sm:!text-[64px] !font-[800] !leading-[34px] sm:!leading-[76.8px] !tracking-tight !text-main-dark !font-['Open_Sans']">
