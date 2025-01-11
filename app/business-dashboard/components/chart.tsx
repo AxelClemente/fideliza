@@ -214,8 +214,24 @@ export default function AnalyticsDashboard({
           <CarouselContent className="gap-4 py-2">
             {stats.map((stat) => (
               <CarouselItem key={stat.title} className="basis-[262px]">
-                <Card className="shadow-[0_4px_10px_rgba(0,0,0,0.08)] bg-[#FFFFFE] border-none h-[230px] rounded-[10px]">
-                  <CardContent className="p-6">
+                <Card 
+                  className={`
+                    shadow-[0_4px_10px_rgba(0,0,0,0.08)] 
+                    bg-[#FFFFFE] 
+                    border-none 
+                    h-[230px] 
+                    rounded-[10px]
+                    cursor-pointer
+                    transition-all
+                    duration-300
+                    ${selectedMetric === stat.id 
+                      ? 'ring-2 ring-primary' 
+                      : ''
+                    }
+                  `}
+                  onClick={() => setSelectedMetric(stat.id)}
+                >
+                  <CardContent className="p-6 h-full flex flex-col justify-center">
                     <div className="space-y-2">
                       <p className="text-[20px] leading-[26px] font-semibold">{stat.title}</p>
                       <p className="text-[20px] font-bold">{stat.value}</p>
