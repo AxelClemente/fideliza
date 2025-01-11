@@ -204,17 +204,17 @@ export default function AnalyticsDashboard({
       </div>
 
       {/* Versión móvil - Carousel */}
-      <div className="block md:hidden">
+      <div className="block md:hidden py-4">
         <Carousel
           opts={{
             align: "start",
             loop: true,
           }}
         >
-          <CarouselContent>
+          <CarouselContent className="gap-4 py-2">
             {stats.map((stat) => (
-              <CarouselItem key={stat.title} className="basis-[262px] pl-4">
-                <Card className="shadow-xl bg-[#FFFFFE] border-none h-[230px] rounded-[10px]">
+              <CarouselItem key={stat.title} className="basis-[262px]">
+                <Card className="shadow-[0_4px_10px_rgba(0,0,0,0.08)] bg-[#FFFFFE] border-none h-[230px] rounded-[10px]">
                   <CardContent className="p-6">
                     <div className="space-y-2">
                       <p className="text-[20px] leading-[26px] font-semibold">{stat.title}</p>
@@ -321,8 +321,8 @@ export default function AnalyticsDashboard({
                   </div>
 
                   {/* Lado derecho - Contenido */}
-                  <div className="w-1/2 p-6 flex flex-col">
-                    <p className="text-sm font-medium text-muted-foreground">New views</p>
+                  <div className="w-1/2 p-6 flex flex-col justify-center">
+                    <p className="text-[20px] leading-[26px] font-semibold">New views</p>
                     <div className="flex items-baseline gap-2 mt-2">
                       {(() => {
                         const stats = viewStats.offerViews.find(
@@ -330,7 +330,7 @@ export default function AnalyticsDashboard({
                         )
                         return (
                           <>
-                            <p className="text-2xl font-bold">
+                            <p className="text-[24px] leading-[32px] font-bold">
                               {stats?.value || "0"}
                             </p>
                             <p className={`text-sm ${
