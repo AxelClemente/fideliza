@@ -131,7 +131,7 @@ export default function SignInForm() {
         )}
         
         {error && (
-          <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[360px]">
+          <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[390px] sm:w-[462px]">
             {error}
           </div>
         )}
@@ -141,7 +141,7 @@ export default function SignInForm() {
           <Input
             type="email"
             placeholder="Email"
-            className="h-[78px] w-[390px] rounded-[100px] bg-main-gray pl-16 border-0 
+            className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-16 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
                      focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -157,7 +157,7 @@ export default function SignInForm() {
             <Input
               type="password"
               placeholder="Password"
-              className="h-[78px] w-[390px] rounded-[100px] bg-main-gray pl-16 border-0 
+              className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-16 border-0 
                        !text-[16px] !font-semibold text-third-gray
                        placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
                        focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -166,7 +166,7 @@ export default function SignInForm() {
               required
             />
           </div>
-          <div className="flex justify-end w-[360px]">
+          <div className="flex justify-end w-[390px] sm:w-[462px] pr-4">
             <button
               type="button"
               onClick={() => router.push('/auth/forgot-password')}
@@ -179,12 +179,12 @@ export default function SignInForm() {
 
         <Button 
           type="submit" 
-          className="h-[78px] w-[390px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
+          className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
         >
           Login to Continue
         </Button>
 
-        <div className="w-[390px] relative my-6">
+        <div className="w-[390px] sm:w-[462px] relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-third-gray/30"></div>
           </div>
@@ -196,7 +196,7 @@ export default function SignInForm() {
         <Button
           type="button"
           variant="outline"
-          className="h-[78px] w-[390px] rounded-[100px] border-[1px] border-third-gray/30 text-[16px] font-semibold"
+          className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] border-[1px] border-third-gray/30 text-[16px] font-semibold"
           onClick={handleGoogleSignIn}
         >
           <img src="/google.svg" alt="Google logo" className="w-4 h-4 mr-2" />
@@ -206,7 +206,7 @@ export default function SignInForm() {
         <Button
           type="button"
           variant="outline"
-          className="h-[78px] w-[390px] rounded-[100px] bg-[#1877F2] text-white hover:bg-[#166FE5] border-0 text-[16px] font-semibold"
+          className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-[#1877F2] text-white hover:bg-[#166FE5] border-0 text-[16px] font-semibold"
           onClick={handleFacebookSignIn}
         >
           <img src="/facebook.svg" alt="Facebook logo" className="w-4 h-4 mr-2" />

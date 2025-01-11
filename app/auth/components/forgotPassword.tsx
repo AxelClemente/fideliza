@@ -39,7 +39,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="w-[400px] h-[700px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
+    <div className="w-[400px] sm:w-[514px] h-[700px] sm:h-[822px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
       <div className="text-center mb-6 mt-12">
         <h1 className="!text-[20px] font-bold leading-[28px] text-main-dark mb-2 font-open-sans">
           Forgot the password?
@@ -51,17 +51,17 @@ export default function ForgotPassword() {
 
       <form onSubmit={handleSubmit} className="space-y-3 flex flex-col items-center">
         {error && (
-          <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[360px]">
+          <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[390px] sm:w-[462px]">
             {error}
           </div>
         )}
 
         <div className="relative mb-2">
-          <Mail className="absolute left-4 top-[20px] h-5 w-5 text-third-gray" />
+          <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
             type="email"
             placeholder="Email"
-            className="h-[60px] w-[360px] rounded-[100px] bg-main-gray pl-12 border-0 
+            className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-16 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
                      focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -73,7 +73,7 @@ export default function ForgotPassword() {
 
         <Button 
           type="submit" 
-          className="h-[60px] w-[360px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
+          className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
           disabled={isLoading}
         >
           Send
@@ -82,7 +82,7 @@ export default function ForgotPassword() {
         <Button
           type="button"
           variant="ghost"
-          className="h-[60px] w-[360px] rounded-[100px] hover:text-gray-900 text-[16px] font-semibold leading-[20px] font-open-sans underline decoration-solid"
+          className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] hover:text-gray-900 text-[16px] font-semibold leading-[20px] font-open-sans underline decoration-solid"
           onClick={() => router.push('/auth?mode=signin')}
         >
           Cancel

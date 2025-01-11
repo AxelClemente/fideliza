@@ -76,7 +76,7 @@ export default function VerifyCode({ email }: { email: string }) {
   }
 
   return (
-    <div className="w-[400px] h-[700px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
+    <div className="w-[400px] sm:w-[514px] h-[700px] sm:h-[822px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
       <div className="text-center mb-6 mt-12">
         <h1 className="!text-[20px] font-bold leading-[28px] text-main-dark mb-2 font-open-sans">
           Forgot the password?
@@ -102,7 +102,7 @@ export default function VerifyCode({ email }: { email: string }) {
         </div>
 
         {error && (
-          <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[360px]">
+          <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[390px] sm:w-[462px]">
             {error}
           </div>
         )}
@@ -119,7 +119,7 @@ export default function VerifyCode({ email }: { email: string }) {
 
         <Button
           onClick={handleVerify}
-          className="h-[60px] w-[360px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
+          className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
         >
           Verify
         </Button>
@@ -127,7 +127,7 @@ export default function VerifyCode({ email }: { email: string }) {
         <Button
           type="button"
           variant="ghost"
-          className="h-[60px] w-[360px] rounded-[100px] hover:text-gray-900 text-[16px] font-semibold leading-[20px] font-open-sans underline decoration-solid"
+          className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] hover:text-gray-900 text-[16px] font-semibold leading-[20px] font-open-sans underline decoration-solid"
           onClick={() => router.push('/auth')}
         >
           Cancel

@@ -15,9 +15,9 @@ export default function AuthLayout({ children, headerText }: AuthLayoutProps) {
   const router = useRouter();
 
   return (
-    <div className="fixed inset-0 flex items-center">
+    <div className="min-h-screen flex items-center overflow-y-auto">
       {/* Contenedor de la imagen de fondo */}
-      <div className="absolute inset-0">
+      <div className="fixed inset-0 -z-10">
         <div className="absolute right-[-500px] -top-[-280px]">
           <img 
             src="/logofideliza.svg" 
@@ -31,14 +31,14 @@ export default function AuthLayout({ children, headerText }: AuthLayoutProps) {
       {/* Flecha de retorno (solo móvil) */}
       <button 
         onClick={() => router.push('/')}
-        className="absolute top-12 left-5 sm:hidden"
+        className="fixed top-12 left-5 sm:hidden z-10"
       >
         <ArrowLeft className="h-6 w-6 text-main-dark" />
       </button>
 
       {/* Texto en la parte superior derecha */}
       {headerText && (
-        <div className="absolute top-20 left-5 sm:left-auto sm:right-[15%] mt-6">
+        <div className="fixed top-20 left-5 sm:left-auto sm:right-[5%] mt-6 z-10">
           <h2 className="text-[32px] sm:text-[40px] font-open-sans font-extrabold leading-[1.2] sm:leading-[54.47px] tracking-[0.02em] text-main-dark mb-4">
             {headerText.title}
           </h2>
@@ -49,7 +49,7 @@ export default function AuthLayout({ children, headerText }: AuthLayoutProps) {
       )}
 
       {/* Contenedor del contenido */}
-      <div className="relative mx-auto sm:mx-0 sm:ml-[15%] mt-32 w-[90%] sm:w-auto">
+      <div className="relative mx-auto sm:mx-0 sm:ml-[15%] mt-32 sm:mt-0 w-[90%] sm:w-auto pb-8">
         {children}
       </div>
     </div>
