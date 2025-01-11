@@ -182,8 +182,8 @@ export default function AnalyticsDashboard({
         </div>
       </div>
 
-      <div className="h-[300px] -mx-6 sm:mx-0">
-        <ResponsiveContainer width="90%" height="100%">
+      <div className="h-[300px] -ml-12 ">
+        <ResponsiveContainer width="100%" height="100%">
           <LineChart 
             data={chartData[selectedMetric]}
             margin={{ left: 10, right: 10, bottom: 10 }}
@@ -213,18 +213,18 @@ export default function AnalyticsDashboard({
         >
           <CarouselContent>
             {stats.map((stat) => (
-              <CarouselItem key={stat.title} className="basis-[calc(100%-2rem)] pl-4">
-                <Card>
+              <CarouselItem key={stat.title} className="basis-[262px] pl-4">
+                <Card className="shadow-xl bg-[#FFFFFE] border-none h-[230px] rounded-[10px]">
                   <CardContent className="p-6">
                     <div className="space-y-2">
-                      <p className="text-sm font-medium">{stat.title}</p>
-                      <p className="text-2xl font-bold">{stat.value}</p>
+                      <p className="text-[20px] leading-[26px] font-semibold">{stat.title}</p>
+                      <p className="text-[20px] font-bold">{stat.value}</p>
                       <p className={`text-sm ${
                         stat.changeType === "positive" ? "text-green-500" : "text-red-500"
                       }`}>
                         {stat.change}
                       </p>
-                      <p className="text-sm text-muted-foreground">This month</p>
+                      <p className="text-[16px] font-semibold text-muted-foreground">This month</p>
                     </div>
                   </CardContent>
                 </Card>
