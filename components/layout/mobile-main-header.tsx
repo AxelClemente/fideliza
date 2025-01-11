@@ -15,7 +15,7 @@ export function MobileMainHeader() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black border-b px-4 h-16">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black px-4 h-16">
         <Link href="/" className="flex items-center">
           <Image
             src="/logofideliza.svg"
@@ -36,7 +36,7 @@ export function MobileMainHeader() {
       {isOpen && (
         <div className="fixed inset-0 z-40 bg-white pt-10">
           <nav className="flex flex-col h-[calc(100vh-80px)] justify-end px-4">
-            <div className="mb-16 space-y-4">
+            <div className="mb-20 space-y-4">
               <Link 
                 href="/auth?mode=signin" 
                 onClick={toggleMenu}
