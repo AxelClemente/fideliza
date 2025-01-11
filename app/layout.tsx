@@ -28,9 +28,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta name="theme-color" content="#000000" />
-      </head>
       <body
         suppressHydrationWarning={true}
         className={`${openSans.variable} ${poppins.variable} font-sans antialiased
