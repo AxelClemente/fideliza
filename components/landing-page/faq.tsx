@@ -15,7 +15,7 @@ export default function FAQSection() {
           <div className="w-[calc(100%+72px)] -mx-[36px] sm:mx-0 sm:w-[523px] h-[400px] sm:h-[829px] bg-main-gray rounded-[20px] sm:rounded-[32px]"></div>
 
           {/* Right side - FAQ content */}
-          <div className="w-full sm:w-[523px] space-y-6 sm:space-y-8">
+          <div className="w-full px-4 sm:px-0 sm:w-[523px] space-y-6 sm:space-y-8">
             <h2 className="!text-[28px] sm:!text-[64px] !font-[800] !leading-[43.2px] sm:!leading-[76.8px] !tracking-tight !text-main-dark !font-['Open_Sans']">
               Your Questions
               <br />
