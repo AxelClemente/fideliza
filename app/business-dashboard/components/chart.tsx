@@ -235,21 +235,31 @@ export default function AnalyticsDashboard({
       </div>
 
       {/* Versión desktop - Grid */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="hidden md:grid md:grid-cols-3 gap-0 px-8 lg:px-16">
         {stats.map((stat) => (
           <Card 
             key={stat.title}
-            className="cursor-pointer relative group w-[262px] h-[230px] rounded-[10px]"
+            className={`
+              cursor-pointer 
+              relative 
+              group 
+              w-[262px] 
+              h-[230px] 
+              rounded-[10px]
+              mx-auto
+              transition-all 
+              duration-300
+              ${selectedMetric === stat.id 
+                ? 'shadow-[0_4px_10px_rgba(0,0,0,0.08)] bg-[#FFFFFE]' 
+                : 'hover:shadow-[0_4px_10px_rgba(0,0,0,0.08)] hover:bg-[#FFFFFE]'
+              }
+            `}
             onClick={() => setSelectedMetric(stat.id)}
           >
-            <CardContent className={`p-6 transition-all duration-300 rounded-xl ${
-              selectedMetric === stat.id 
-                ? 'bg-gray-50 ring-2 ring-primary' 
-                : 'hover:bg-gray-50 hover:shadow-md'
-            }`}>
+            <CardContent className="p-6 h-full flex flex-col justify-center">
               <div className="space-y-2">
                 <p className="text-[20px] leading-[26px] font-semibold">{stat.title}</p>
-                <p className="text-2xl font-bold">{stat.value}</p>
+                <p className="text-[20px] font-bold">{stat.value}</p>
                 <p className={`text-sm ${
                   stat.changeType === "positive" ? "text-green-500" : "text-red-500"
                 }`}>
