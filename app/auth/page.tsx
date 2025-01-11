@@ -15,12 +15,12 @@ function AuthContent() {
     ? {
         title: "Welcome!",
         subtitle: "First time, you should login or sign up",
-        subtitleClassName: "hidden sm:block"
+        subtitleClassName: "hidden sm:block mb-6 sm:mb-0"
       }
     : {
         title: "Welcome!",
         subtitle: "First time, you should login or sign up",
-        subtitleClassName: "hidden sm:block"
+        subtitleClassName: "hidden sm:block mb-6 sm:mb-0"
       }
 
   return (
