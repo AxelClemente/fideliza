@@ -239,7 +239,7 @@ export default function AnalyticsDashboard({
         {stats.map((stat) => (
           <Card 
             key={stat.title}
-            className="cursor-pointer relative group"
+            className="cursor-pointer relative group w-[262px] h-[230px] rounded-[10px]"
             onClick={() => setSelectedMetric(stat.id)}
           >
             <CardContent className={`p-6 transition-all duration-300 rounded-xl ${
@@ -248,14 +248,14 @@ export default function AnalyticsDashboard({
                 : 'hover:bg-gray-50 hover:shadow-md'
             }`}>
               <div className="space-y-2">
-                <p className="text-sm font-medium">{stat.title}</p>
+                <p className="text-[20px] leading-[26px] font-semibold">{stat.title}</p>
                 <p className="text-2xl font-bold">{stat.value}</p>
                 <p className={`text-sm ${
                   stat.changeType === "positive" ? "text-green-500" : "text-red-500"
                 }`}>
                   {stat.change}
                 </p>
-                <p className="text-sm text-muted-foreground">This month</p>
+                <p className="text-[16px] leading-[20px] font-semibold text-muted-foreground">This month</p>
               </div>
 
               {/* Popup con información de suscriptores */}
