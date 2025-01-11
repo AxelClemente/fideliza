@@ -182,7 +182,7 @@ export default function AnalyticsDashboard({
         </div>
       </div>
 
-      <div className="h-[300px] -mx-16 sm:mx-0">
+      <div className="h-[300px] -mx-6 sm:mx-0">
         <ResponsiveContainer width="90%" height="100%">
           <LineChart 
             data={chartData[selectedMetric]}
