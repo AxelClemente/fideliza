@@ -7,7 +7,7 @@ import { ClipLoader } from 'react-spinners'
 const tabs = [
   { 
     name: 'Main info', 
-    mobileName: 'Main',
+    mobileName: 'Main info',
     href: '/business-dashboard/shop' 
   },
   { 
@@ -36,8 +36,8 @@ export function ShopTabs() {
   }
 
   return (
-    <div className="relative border-b border-gray-200">
-      <nav className="flex space-x-8 px-4" aria-label="Tabs">
+    <div className="relative border-none mb-2 md:mb-0 md:border-b md:border-gray-200">
+      <nav className="flex space-x-2 md:space-x-8 px-4" aria-label="Tabs">
         {tabs.map((tab) => {
           const isActive = pathname === tab.href
           
@@ -47,12 +47,19 @@ export function ShopTabs() {
               onClick={() => handleTabClick(tab.href)}
               className={`
                 relative
-                py-4 
-                text-sm
-                font-medium
+                py-2
+                md:py-4
+                px-3
+                md:px-0
+                text-[20px]
+                md:text-sm
+                font-[700]
+                md:font-medium
+                leading-[26px]
+                md:leading-normal
                 ${isActive 
-                  ? 'border-black text-black border-b-2' 
-                  : 'text-gray-500 hover:text-gray-700 border-b-2 border-transparent'
+                  ? 'border-none md:border-b-2 md:border-black text-black' 
+                  : 'text-gray-500 hover:text-gray-700 border-none md:border-b-2 md:border-transparent'
                 }
                 ${isPending && activeTab === tab.href ? 'opacity-50' : ''}
               `}

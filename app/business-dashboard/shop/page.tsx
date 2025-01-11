@@ -9,18 +9,15 @@ export default async function ShopPage() {
   const { restaurants } = await RestaurantProvider()
 
   return (
-    <div className="
-      md:mx-8 
-      lg:mx-8
-      mx-2         /* Nuevo: pequeño margen en móvil */
-    ">
-      <div className="space-y-4 md:space-y-6">
+    <div className="w-full px-4 md:px-8 max-w-full overflow-x-hidden">
+      <div className="space-y-2 md:space-y-6">
         <div >
           <div className="
-            -mx-4           /* Margen negativo en móvil */
-            px-4            /* Padding para compensar en móvil */
-            md:mx-0         /* Reset en desktop */
-            md:px-0         /* Reset en desktop */
+            -mx-4           
+            px-4            
+            md:mx-0         
+            md:px-0
+            -mt-2 md:mt-0
           ">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               {(!restaurants || restaurants.length === 0) && (
@@ -157,8 +154,10 @@ export default async function ShopPage() {
               !font-['Open_Sans']   
               !font-bold 
               !text-black
-              pl-4              /* Nuevo: pequeño padding izquierdo en móvil */
-              md:pl-0           /* Removemos el padding en desktop */
+              pl-4              
+              md:pl-0
+              mt-6              /* Agregar margen superior en móvil */
+              md:mt-0           /* Remover margen en desktop */
             ">
               Places ({restaurants.reduce((total, restaurant) => total + restaurant.places.length, 0)})
             </h2>

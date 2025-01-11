@@ -27,11 +27,13 @@ export default async function ShopLayout({
       role={session?.user?.role ?? null}
     >
       <div className="p-0 md:p-8">
-        <div className="mb-4">
+        <div className="hidden md:block mb-4">
           <Breadcrumb />
         </div>
-        <ShopTabs />
-        <div className="mt-6">
+        <div className="mt-[20px] md:mt-0">
+          <ShopTabs />
+        </div>
+        <div className="mt-0 md:mt-6">
           <TabContentWrapper>
             {children}
           </TabContentWrapper>

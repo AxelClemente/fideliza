@@ -39,7 +39,7 @@ export function MobileBusinessHeader() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black p-4 h-16">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black px-4 h-16">
         <button 
           onClick={handleBack}
           className="text-white"
@@ -47,11 +47,10 @@ export function MobileBusinessHeader() {
           <ArrowLeft className="h-6 w-6 stroke-[3]" />
         </button>
 
-        <Link href="/" className={`
-          absolute left-1/2 
-          -translate-x-1/2
-          ${isMainTab ? '-ml-2' : ''}  /* Solo mover el logo */
-        `}>
+        <Link 
+          href="/" 
+          className="absolute left-1/2 -translate-x-1/2"
+        >
           <Image
             src="/logofideliza.svg"
             alt="Logo"
@@ -62,10 +61,7 @@ export function MobileBusinessHeader() {
 
         <button 
           onClick={toggleMenu}
-          className={`
-            text-white
-            ${isMainTab ? 'mr-4' : ''}  /* Solo mover el menú hamburguesa */
-          `}
+          className="text-white"
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
