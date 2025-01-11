@@ -43,30 +43,20 @@ export function MobileMainHeader() {
       </header>
 
       {isOpen && (
-        <div className="fixed inset-0 z-40 bg-black pt-20">
-          <nav className="flex flex-col px-4">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="py-4 text-lg font-medium text-white border-b border-gray-800"
-                onClick={toggleMenu}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="mt-8 space-y-4">
+        <div className="fixed inset-0 z-40 bg-white pt-10">
+          <nav className="flex flex-col h-[calc(100vh-80px)] justify-end px-4">
+            <div className="mb-8 space-y-4">
               <Link 
                 href="/auth?mode=signin" 
                 onClick={toggleMenu}
-                className="block py-3 text-lg font-[800] text-white text-center border border-white rounded-full hover:bg-white hover:text-black transition-colors"
+                className="block w-[390px] h-[78px] leading-[78px] text-lg font-[800] text-white bg-black text-center border border-black rounded-full hover:bg-white hover:text-black transition-colors"
               >
                 Sign In
               </Link>
               <Link 
                 href="/auth?mode=signup" 
                 onClick={toggleMenu}
-                className="block py-3 text-lg font-[800] text-black text-center bg-white rounded-full hover:bg-gray-100 transition-colors"
+                className="block text-lg font-[800] text-black text-center transition-colors hover:text-gray-600"
               >
                 Join now
               </Link>
