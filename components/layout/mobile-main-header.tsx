@@ -10,10 +10,6 @@ interface NavigationItem {
   label: string
 }
 
-const navigationItems: NavigationItem[] = [
-  { href: "/about", label: "About service" },
-  { href: "/help", label: "Help" },
-]
 
 export function MobileMainHeader() {
   const [isOpen, setIsOpen] = React.useState(false)
