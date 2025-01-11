@@ -38,7 +38,7 @@ export default function AuthLayout({ children, headerText }: AuthLayoutProps) {
 
       {/* Texto en la parte superior derecha */}
       {headerText && (
-        <div className="fixed top-20 left-5 sm:left-auto sm:right-[5%] mt-6 z-10">
+        <div className="absolute sm:fixed top-20 left-5 sm:left-auto sm:right-[5%] mt-6 z-10">
           <h2 className="text-[32px] sm:text-[40px] font-open-sans font-extrabold leading-[1.2] sm:leading-[54.47px] tracking-[0.02em] text-main-dark mb-4">
             {headerText.title}
           </h2>
