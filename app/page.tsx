@@ -14,7 +14,7 @@ export default function Page() {
       <div className="hidden md:block">
         <MainHeader />
       </div>
-      <div className="md:container md:mx-auto md:px-8">
+      <div className="px-4 md:container md:mx-auto md:px-8">
         <HeroSection />
         <VideoSection />
         <FAQSection />

@@ -12,7 +12,7 @@ export default function FAQSection() {
       <section className="w-full py-10 sm:py-20 mt-[-100px] sm:mt-0">
         <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
           {/* Left side - placeholder image */}
-          <div className="w-[calc(100%+72px)] -mx-[36px] sm:mx-0 sm:w-[523px] h-[400px] sm:h-[829px] bg-main-gray rounded-[20px] sm:rounded-[32px]"></div>
+          <div className="w-[calc(100%+32px)] -mx-[16px] sm:mx-0 sm:w-[523px] h-[400px] sm:h-[829px] bg-main-gray rounded-[20px] sm:rounded-[32px]"></div>
 
           {/* Right side - FAQ content */}
           <div className="w-full px-4 sm:px-0 sm:w-[523px] space-y-6 sm:space-y-8">
@@ -97,7 +97,7 @@ export default function FAQSection() {
       {/* CTA Section */}
       <section className="w-full py-8 sm:py-12">
         <div className="container mx-auto px-4 sm:px-0">
-          <div className="mt-8 sm:mt-16 bg-black rounded-2xl sm:rounded-3xl mx-[-36px] sm:mx-0 p-4 sm:p-8 pt-8 sm:pt-12 text-center min-h-[250px] sm:min-h-[412px] flex items-center justify-center">
+          <div className="mt-8 sm:mt-16 bg-black rounded-2xl sm:rounded-3xl mx-[-16px] sm:mx-0 p-4 sm:p-8 pt-8 sm:pt-12 text-center min-h-[250px] sm:min-h-[412px] flex items-center justify-center">
             <div className="px-4">
               <h2 className="!text-[#F4F4F4] !text-[28px] sm:!text-[72px] !font-[800] !leading-[40px] sm:!leading-[86.4px] text-center mb-8 !font-['Open_Sans']">
                 Choose Your Role and Join{' '}
