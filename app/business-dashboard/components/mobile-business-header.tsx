@@ -22,8 +22,6 @@ export function MobileBusinessHeader() {
   const router = useRouter()
   const { data: session } = useSession()
 
-  // Verificar si estamos en la tab Main
-  const isMainTab = pathname === '/business-dashboard/shop'
 
   function handleBack() {
     if (pathname === '/business-dashboard') {
