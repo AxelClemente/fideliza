@@ -61,7 +61,7 @@ export default function HeroSection() {
             </div>
           </div>
           
-          {/* Role selection card */}
+          {/* Role selection cards */}
           <div className="mt-16 bg-black rounded-3xl mx-[-16px] sm:mx-0 p-4 sm:p-8 pt-8 sm:pt-12 text-center min-h-[250px] sm:min-h-[412px]">
             <div className="px-4">
               <h2 className="!text-[#F4F4F4] !text-[28px] sm:!text-[72px] !font-[800] !leading-[40px] sm:!leading-[86.4px] text-center mb-8 !font-['Open_Sans'] pt-12 sm:pt-0">
