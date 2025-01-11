@@ -107,7 +107,7 @@ export default function SignInForm() {
   }
 
   return (
-    <div className="w-[400px] sm:w-[514px] h-[700px] sm:h-[822px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
+    <div className="w-[400px] sm:w-[514px] h-[700px] sm:h-[822px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center mt-8 sm:mt-0">
       <div className="flex gap-2 mb-6 mt-12">
         <span 
           className="cursor-pointer font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-third-gray"
