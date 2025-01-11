@@ -5,11 +5,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
-interface NavigationItem {
-  href: string
-  label: string
-}
-
 
 export function MobileMainHeader() {
   const [isOpen, setIsOpen] = React.useState(false)
