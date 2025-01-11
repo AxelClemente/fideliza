@@ -31,6 +31,7 @@ export default function RootLayout({
       <body
         suppressHydrationWarning={true}
         className={`${openSans.variable} ${poppins.variable} font-sans antialiased
+          overflow-x-hidden
           [&_h1]:text-h1
           [&_h2]:text-h2
           [&_h3]:text-h3
