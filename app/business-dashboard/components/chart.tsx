@@ -11,6 +11,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { ChevronDown } from "lucide-react"
 
 interface StatsData {
   value: string
@@ -142,20 +143,34 @@ export default function AnalyticsDashboard({
   return (
     <div className="p-6 space-y-8 bg-white">
       <div className="space-y-4">
-        <h2 className="text-3xl font-bold tracking-tight">{getMetricTitle()}</h2>
-        <div className="flex items-center gap-4">
-          <div>
-            <p className="text-sm text-muted-foreground">Current Week</p>
-            <p className="text-2xl font-bold">{getCurrentValue()}</p>
+        <h2 className="text-3xl font-bold tracking-tight text-center md:text-left">{getMetricTitle()}</h2>
+        <div className="flex flex-col items-center md:items-start md:flex-row gap-4">
+          <div className="flex items-center justify-center w-full md:justify-start gap-20 md:gap-4">
+            <div>
+              <p className="text-lg md:text-sm text-muted-foreground">Current Week </p>
+              <p className="text-2xl font-bold">{getCurrentValue()}</p>
+            </div>
+            <div>
+              <p className="text-lg md:text-sm text-muted-foreground">Previous Week </p>
+              <p className="text-2xl font-bold">{getPreviousValue()}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Previous Week</p>
-            <p className="text-2xl font-bold">{getPreviousValue()}</p>
-          </div>
-          <div className="ml-auto">
+          <div className="md:ml-auto flex justify-center w-full md:w-auto mt-6 md:mt-0">
             <Select defaultValue="this-week">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select period" />
+              <SelectTrigger className="w-full md:w-[180px] h-[78px] md:h-10 rounded-[100px] md:rounded-md bg-[#F6F6F6] md:bg-white text-[#7B7B7B] flex items-center px-6">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/calendar.svg"
+                    alt="Calendar"
+                    width={24}
+                    height={24}
+                  />
+                  <SelectValue 
+                    placeholder="Select period" 
+                    className="text-[#7B7B7B]"
+                  />
+                </div>
+                <ChevronDown className="ml-auto h-6 w-6 text-[#7B7B7B] opacity-50" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="this-week">This week</SelectItem>
@@ -167,9 +182,12 @@ export default function AnalyticsDashboard({
         </div>
       </div>
 
-      <div className="h-[300px]">
+      <div className="h-[300px] -mx-6 sm:mx-0 sm:-mr-16">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData[selectedMetric]}>
+          <LineChart 
+            data={chartData[selectedMetric]}
+            margin={{ left: 10, right: 10, bottom: 10 }}
+          >
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis dataKey="day" tickLine={false} axisLine={false} />
             <YAxis tickLine={false} axisLine={false} width={80} />

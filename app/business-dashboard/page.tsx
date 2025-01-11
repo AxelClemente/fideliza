@@ -43,7 +43,7 @@ export default async function BusinessDashboardPage() {
     .slice(-2)
 
   return (
-    <div className="p-8">
+    <div >
       <div className="mb-4">
         <Breadcrumb />
       </div>
