@@ -146,11 +146,11 @@ export default function AnalyticsDashboard({
         <h2 className="text-3xl font-bold tracking-tight text-center md:text-left">{getMetricTitle()}</h2>
         <div className="flex flex-col items-center md:items-start md:flex-row gap-4">
           <div className="flex items-center justify-center w-full md:justify-start gap-20 md:gap-4">
-            <div>
+            <div className="text-center md:text-left">
               <p className="text-lg md:text-sm text-muted-foreground">Current Week </p>
               <p className="text-2xl font-bold">{getCurrentValue()}</p>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <p className="text-lg md:text-sm text-muted-foreground">Previous Week </p>
               <p className="text-2xl font-bold">{getPreviousValue()}</p>
             </div>
@@ -182,8 +182,8 @@ export default function AnalyticsDashboard({
         </div>
       </div>
 
-      <div className="h-[300px] -mx-6 sm:mx-0 sm:-mr-16">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-[300px] -mx-16 sm:mx-0">
+        <ResponsiveContainer width="90%" height="100%">
           <LineChart 
             data={chartData[selectedMetric]}
             margin={{ left: 10, right: 10, bottom: 10 }}
