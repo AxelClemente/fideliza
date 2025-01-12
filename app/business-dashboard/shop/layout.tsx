@@ -26,7 +26,7 @@ export default async function ShopLayout({
       permissions={permissions}
       role={session?.user?.role ?? null}
     >
-      <div className="p-0 md:p-8">
+      <div className="px-0 md:p-8">
         <div className="hidden md:block mb-4">
           <Breadcrumb />
         </div>

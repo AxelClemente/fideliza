@@ -52,11 +52,10 @@ export function ShopTabs() {
                 px-3
                 md:px-0
                 text-[20px]
-                md:text-sm
+                md:text-[20px]
                 font-[700]
-                md:font-medium
+                md:font-[600]
                 leading-[26px]
-                md:leading-normal
                 ${isActive 
                   ? 'border-none md:border-b-2 md:border-black text-black' 
                   : 'text-gray-500 hover:text-gray-700 border-none md:border-b-2 md:border-transparent'

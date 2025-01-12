@@ -151,121 +151,103 @@ export default async function SubscriptionsPage() {
             </div>
 
             {/* Versión Mobile - Carrusel */}
-            <div className="block md:hidden -mx-4">
+            <div className="block md:hidden w-full mt-6">
               <div className="
                 flex 
-                gap-4 
                 overflow-x-auto 
-                pb-4 
                 snap-x 
                 snap-mandatory
-                px-4 
                 scrollbar-hide
                 no-scrollbar
+                px-4
+                gap-4
               ">
                 {uniqueSubscriptions.map((subscription) => (
                   <div 
                     key={subscription.id}
                     className="
-                      flex-none 
-                      snap-center 
+                      flex-none
+                      snap-center
                       bg-white 
                       border-2 
                       border-gray-200 
                       rounded-xl 
                       overflow-hidden 
-                      transition-all 
-                      duration-300 
-                      ease-in-out 
-                      hover:shadow-lg 
-                      w-[359px]  
-                      h-[541px]
+                      w-[389px]
+                      h-[641px]
                       relative
-                      first:ml-0
+                      first:ml-[5%]
+                      last:mr-[5%]
                     "
                   >
-                    <div className="p-4 space-y-3">
-                      <div className="text-center pb-4">
-                        <h3 className="text-[20px] font-bold leading-[26px] font-['Open_Sans']">
-                          {subscription.name}
-                        </h3>
-                        <p className="text-[20px] font-bold mt-1">
-                          {subscription.price}€/month
-                        </p>
-                      </div>
-
-                      <div className="mt-4">
-                        <h4 className="text-[16px] mb-2">Purchase benefit:</h4>
-                        <div className="whitespace-pre-line text-[14px] leading-[20px] pl-4">
-                          {subscription.benefits}
+                    <div className="flex flex-col h-full">
+                      <div className="flex-1 p-6 space-y-4 mt-6 md:mt-0">
+                        <div className="text-center pb-4">
+                          <h3 className="text-[20px] font-bold leading-[26px] font-['Open_Sans']">
+                            {subscription.name}
+                          </h3>
+                          <p className="text-[20px] font-bold mt-1">
+                            {subscription.price}€/month
+                          </p>
                         </div>
-                      </div>
 
-                      <div className="mt-4 pt-3">
-                        <h4 className="text-[16px] mb-2">Where to use:</h4>
-                        <div className="flex flex-col space-y-2">
-                          {subscription.places.map(place => (
-                            <div key={`${subscription.id}-${place.id}`} className="flex items-center gap-2">
-                              <svg
-                                className="h-5 w-5 text-black"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"
-                                />
-                              </svg>
-                              <span className="text-[14px] font-semibold">
-                                {place.name}
-                              </span>
-                            </div>
-                          ))}
+                        <div className="mt-8 md:mt-4">
+                          <h4 className="text-[16px] mb-2">Purchase benefit:</h4>
+                          <div className="whitespace-pre-line text-[14px] leading-[20px]">
+                            {subscription.benefits}
+                          </div>
                         </div>
+
+                        <div className="mt-8 md:mt-4">
+                          <h4 className="text-[16px] mb-2">Where to use:</h4>
+                          <div className="flex flex-col space-y-2">
+                            {subscription.places.map(place => (
+                              <div key={`${subscription.id}-${place.id}`} className="flex items-center gap-2">
+                                <svg
+                                  className="h-5 w-5 text-black"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"
+                                  />
+                                </svg>
+                                <span className="text-[14px] font-semibold">
+                                  {place.name}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {subscription.website && (
+                          <a 
+                            href={subscription.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-8 md:mt-4 block text-black underline decoration-solid hover:text-black/80"
+                          >
+                            <span className="text-[14px] font-semibold">
+                              {subscription.website}
+                            </span>
+                          </a>
+                        )}
                       </div>
 
-                      {subscription.website && (
-                        <a 
-                          href={subscription.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-4 block text-black underline decoration-solid hover:text-black/80 pl-2"
-                        >
-                          <span className="text-[14px] font-semibold">
-                            {subscription.website}
-                          </span>
-                        </a>
-                      )}
-                    </div>
-
-                    <div className="mt-4">
-                      <ClientWrapper 
-                        type="subscription"
-                        mode="edit"
-                        restaurants={restaurants}
-                        subscription={subscription}
-                      />
+                      <div className="p-6 mt-auto">
+                        <ClientWrapper 
+                          type="subscription"
+                          mode="edit"
+                          restaurants={restaurants}
+                          subscription={subscription}
+                        />
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-              
-              {/* Indicadores de puntos */}
-              <div className="flex justify-center items-center gap-2 mt-4 mb-6">
-                {uniqueSubscriptions.map((_, index) => (
-                  <div
-                    key={index}
-                    className={`
-                      h-2 
-                      w-2 
-                      rounded-full 
-                      bg-black
-                      ${index === 0 ? 'opacity-100' : 'opacity-30'}
-                    `}
-                  />
                 ))}
               </div>
             </div>
