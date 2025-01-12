@@ -36,7 +36,7 @@ export function UserActions({ userId, restaurants, onSearch, isMobile }: UserAct
       <>
         <Button
           onClick={() => setIsAddModalOpen(true)}
-          className="w-full bg-black text-white rounded-[100px] h-[78px] px-8"
+          className="w-full bg-black text-white rounded-[100px] h-[78px] px-8 text-[18px] font-[600] leading-[22px]"
         >
           Add new user
         </Button>
@@ -76,7 +76,7 @@ export function UserActions({ userId, restaurants, onSearch, isMobile }: UserAct
     )
   }
 
-  // Vista desktop normal (sin cambios)
+  // Vista desktop normal
   return (
     <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4">
       <div className="relative w-full">
@@ -90,7 +90,7 @@ export function UserActions({ userId, restaurants, onSearch, isMobile }: UserAct
         <Input
           type="search"
           placeholder="Search"
-          className="w-full bg-main-gray text-third-gray rounded-[100px] h-[60px] pl-16 pr-8 placeholder:text-third-gray border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="w-full bg-main-gray text-third-gray rounded-[100px] h-[78px] pl-16 pr-8 placeholder:text-third-gray border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           onChange={(e) => onSearch?.(e.target.value)}
         />
       </div>
@@ -98,7 +98,7 @@ export function UserActions({ userId, restaurants, onSearch, isMobile }: UserAct
         <>
           <Button
             onClick={() => setIsAddModalOpen(true)}
-            className="w-full sm:w-auto bg-black text-white rounded-[100px] h-[60px] px-8"
+            className="w-full sm:w-[192px] bg-black text-white rounded-[100px] h-[78px] px-8 text-[18px] font-[600] leading-[22px]"
           >
             Add new user
           </Button>
