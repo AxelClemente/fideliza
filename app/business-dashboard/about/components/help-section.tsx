@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 export default function HelpSection() {
   const [activeTab, setActiveTab] = useState<'call' | 'write'>('call')
@@ -38,14 +39,32 @@ export default function HelpSection() {
               {/* Botones superiores */}
               <div className="flex justify-center gap-4 mb-12 md:mb-6">
                 <button 
-                  className={`font-semibold transition-colors  ${activeTab === 'call' ? 'text-black' : 'text-gray-400'}`}
+                  className={`
+                    md:font-semibold 
+                    transition-colors 
+                    text-[24px]
+                    font-[700]
+                    leading-[33px]
+                    md:text-base
+                    md:font-semibold
+                    ${activeTab === 'call' ? 'text-black' : 'text-gray-400'}
+                  `}
                   onClick={() => setActiveTab('call')}
                 >
                   Call us
                 </button>
-                <span className="text-gray-400">|</span>
+                <span className="text-gray-400 text-[24px] md:text-base">|</span>
                 <button 
-                  className={`font-semibold transition-colors ${activeTab === 'write' ? 'text-black' : 'text-gray-400'}`}
+                  className={`
+                    md:font-semibold 
+                    transition-colors 
+                    text-[24px]
+                    font-[700]
+                    leading-[33px]
+                    md:text-base
+                    md:font-semibold
+                    ${activeTab === 'write' ? 'text-black' : 'text-gray-400'}
+                  `}
                   onClick={() => setActiveTab('write')}
                 >
                   Write us
@@ -59,23 +78,43 @@ export default function HelpSection() {
                     alt="Phone" 
                     className="w-16 h-16"
                   />
-                  <button className="w-full h-[60px] md:h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
+                  <button className="w-full h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
                     Call us
                   </button>
                 </div>
               ) : (
                 <div className="flex-1 flex flex-col justify-between pt-6">
                   <div className="w-full space-y-4">
-                    <input
-                      type="text"
-                      placeholder="Name"
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
-                    />
+                    <div className="relative">
+                      <Image
+                        src="/customer.svg"
+                        alt="User"
+                        width={18}
+                        height={18}
+                        className="absolute left-4 top-1/2 -translate-y-1/2"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        className="w-full px-4 py-3 pl-12 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
+                      />
+                    </div>
+
+                    <div className="relative">
+                      <Image
+                        src="/email.-icon.svg"
+                        alt="Email"
+                        width={18}
+                        height={18}
+                        className="absolute left-4 top-1/2 -translate-y-1/2"
+                      />
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        className="w-full px-4 py-3 pl-12 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
+                      />
+                    </div>
+
                     <textarea
                       placeholder="Hi! I wanna say - your are cool team!"
                       rows={4}
@@ -83,7 +122,7 @@ export default function HelpSection() {
                     />
                   </div>
                   <div className="w-full mt-8">
-                    <button className="w-full h-[60px] md:h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
+                    <button className="w-full h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
                       Send
                     </button>
                   </div>

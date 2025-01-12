@@ -25,6 +25,10 @@ export default async function MailingsPage({ searchParams }: PageProps) {
         <Breadcrumb />
       </div>
 
+      <h3 className="text-center text-[24px] font-[700] leading-[32px] mb-6 md:hidden">
+        Offers mailings
+      </h3>
+
       <div className="space-y-6">
         <MailingActions showOnlyTabs={true} restaurants={restaurants} />
 

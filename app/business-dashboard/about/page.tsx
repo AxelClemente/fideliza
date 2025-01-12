@@ -36,7 +36,7 @@ export default function ServiceInfo() {
             {/* FAQ Section */}
             <div 
               onClick={() => setActiveSection('FAQ')}
-              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors"
+              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <HelpCircle className="w-12 h-12 mb-4" />
               <h3 className="text-lg font-semibold mb-2">FAQ</h3>
@@ -48,7 +48,7 @@ export default function ServiceInfo() {
             {/* Help Section */}
             <div 
               onClick={() => setActiveSection('Help')}
-              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors"
+              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <LifeBuoy className="w-12 h-12 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Help</h3>
@@ -60,7 +60,7 @@ export default function ServiceInfo() {
             {/* Terms of Use Section */}
             <div 
               onClick={() => setActiveSection('Terms of Use')}
-              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors"
+              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <FileText className="w-12 h-12 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Terms of Use</h3>
@@ -72,7 +72,7 @@ export default function ServiceInfo() {
             {/* Billing Section */}
             <div 
               onClick={() => setActiveSection('Billing')}
-              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors"
+              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <CreditCard className="w-12 h-12 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Billing</h3>
@@ -84,7 +84,7 @@ export default function ServiceInfo() {
             {/* QR and Links Section */}
             <div 
               onClick={() => setActiveSection('QR and links')}
-              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors"
+              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <QrCode className="w-12 h-12 mb-4" />
               <h3 className="text-lg font-semibold mb-2">QR and links</h3>
@@ -96,7 +96,7 @@ export default function ServiceInfo() {
             {/* Share App Section */}
             <div 
               onClick={() => setIsShareModalOpen(true)}
-              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors"
+              className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <Share2 className="w-12 h-12 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Share app</h3>
@@ -111,8 +111,14 @@ export default function ServiceInfo() {
 
   return (
     <div className="p-0 md:p-8">
+      {/* Título móvil con padding superior añadido */}
+      <h3 className="text-center text-[24px] font-[700] leading-[32px] mb-6 pt-6 md:hidden">
+        About Service
+      </h3>
+
+      {/* Breadcrumb solo visible en desktop */}
       <div className="mx-0 md:mx-8">
-        <div className="mb-4 px-4 md:px-0">
+        <div className="mb-4 px-4 md:px-0 hidden md:block">
           <Breadcrumb 
             section={activeSection ?? "About service"} 
             onReset={handleReset}
