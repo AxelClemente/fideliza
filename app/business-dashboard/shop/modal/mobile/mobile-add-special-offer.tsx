@@ -197,285 +197,322 @@ export function MobileAddSpecialOffer({
   return (
     <ModalPortal isOpen={isOpen}>
       <div className="flex flex-col min-h-screen bg-white">
-        <div className="flex-1 p-4 relative">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="!text-[22px] !font-bold !leading-[26px] !font-['Open_Sans']">
-                {mode === 'create' ? 'Add special offer' : 'Edit special offer'}
-              </h2>
-              <button onClick={onClose} className="text-2xl">&times;</button>
-            </div>
+        {/* Header fijo */}
+        <div className="p-4 pb-0 mt-6">
+          <h2 className="
+            text-[26px] 
+            font-bold 
+            leading-[30px] 
+            font-['Open_Sans'] 
+            px-8 
+            -mt-1
+            w-[390px]
+          ml-8
+          ">
+            Add Special Offer
+          </h2>
+        </div>
 
-            {/* Title Input */}
-            <div className="space-y-2">
-              <Input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="
-                  bg-gray-50 
-                  border-none 
-                  w-[359px] 
-                  h-[78px] 
-                  rounded-[100px]
-                  mx-auto
-                  pl-6
-                "
-                placeholder="Offer title"
-              />
-            </div>
-
-            {/* Description */}
-            <div className="space-y-2">
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="
-                  bg-gray-50 
-                  border-none 
-                  w-[359px] 
-                  min-h-[78px] 
-                  rounded-[100px]
-                  mx-auto
-                  pl-6
-                "
-                placeholder="Offer description"
-              />
-            </div>
-
-            {/* Date Selectors */}
-            <div className="space-y-4">
-              {/* Start Date */}
+        {/* Contenedor scrolleable */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-4 space-y-4">
+            <div className="space-y-3 px-8">
+              {/* Contenido scrolleable */}
+              {/* Title Input */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Start Date
-                </label>
-                <Popover open={isStartDateOpen} onOpenChange={setIsStartDateOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className="
-                        w-[359px]
-                        h-[78px]
-                        rounded-[100px]
-                        bg-gray-50
-                        border-none
-                        justify-start
-                        text-left
-                        font-normal
-                        pl-6
-                      "
-                      onClick={() => console.log('Start Date Trigger Clicked')}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 z-[9999]" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={startDate}
-                      onSelect={(date) => {
-                        setStartDate(date)
-                        setIsStartDateOpen(false)
-                      }}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              {/* Finish Date */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Finish Date
-                </label>
-                <Popover open={isFinishDateOpen} onOpenChange={setIsFinishDateOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className="
-                        w-[359px]
-                        h-[78px]
-                        rounded-[100px]
-                        bg-gray-50
-                        border-none
-                        justify-start
-                        text-left
-                        font-normal
-                        pl-6
-                      "
-                      onClick={() => console.log('Finish Date Trigger Clicked')}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {finishDate ? format(finishDate, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 z-[9999]" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={finishDate}
-                      onSelect={(date) => {
-                        setFinishDate(date)
-                        setIsFinishDateOpen(false)
-                      }}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-            </div>
-
-            {/* Place Selector */}
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Select Place
-              </label>
-              <Select 
-                value={selectedPlace} 
-                onValueChange={handlePlaceSelect}
-              >
-                <SelectTrigger className="w-[359px] h-[78px] rounded-[100px] bg-gray-50 border-none pl-6">
-                  <SelectValue placeholder="Select a place" />
-                </SelectTrigger>
-                <SelectContent className="z-[9999]">
-                  {places.map((place) => (
-                    <SelectItem key={place.id} value={place.id}>
-                      {place.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Website */}
-            <div className="space-y-2">
-              <Input
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                className="
-                  bg-gray-50 
-                  border-none 
-                  w-[359px] 
-                  h-[78px] 
-                  rounded-[100px]
-                  mx-auto
-                  pl-12
-                "
-                placeholder="http://example.com"
-              />
-            </div>
-
-            {/* Photos Section */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label 
-                  htmlFor="fileInput" 
-                  className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[26px] text-black cursor-pointer hover:opacity-80"
-                >
-                  Photos +
-                </label>
-                <input
-                  id="fileInput"
-                  type="file"
-                  onChange={handleImageUpload}
-                  multiple
-                  accept="image/*"
-                  className="hidden"
+                <Input 
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="
+                    w-[390px]
+                    h-[78px]
+                    -ml-6
+                    bg-main-gray
+                    pl-8
+                    rounded-[100px]
+                    border-0
+                    text-third-gray
+                  "
+                  placeholder="Title"
                 />
               </div>
-              
-              <div>
-                {photos.length === 0 ? (
-                  <div className="
-                    w-[359px] 
-                    h-[78px] 
-                    bg-gray-50 
+
+              {/* Description */}
+              <div className="space-y-2">
+                <Textarea 
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="
+                    w-[390px]
+                    h-[78px]
+                    -ml-6
+                    bg-main-gray
+                    pl-8
                     rounded-[100px]
-                    mx-auto
-                    flex 
-                    items-center 
-                    justify-center
+                    border-0
+                    text-third-gray
+                    resize-none
+                  "
+                  placeholder="Describe your special offer..."
+                />
+              </div>
+
+              {/* Date Selectors */}
+              <div className="space-y-4">
+                {/* Start Date */}
+                <div className="space-y-2">
+                  <label className="block text-[16px] font-bold leading-[20px] text-black mb-1 font-['Open_Sans']">
+                    Start Date
+                  </label>
+                  <Popover open={isStartDateOpen} onOpenChange={setIsStartDateOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="
+                          w-[390px]
+                          h-[78px]
+                          -ml-6
+                          bg-main-gray
+                          border-0
+                          rounded-[100px]
+                          justify-start
+                          text-left
+                          font-normal
+                          pl-8
+                          text-third-gray
+                        "
+                        onClick={() => console.log('Start Date Trigger Clicked')}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 z-[9999]" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={startDate}
+                        onSelect={(date) => {
+                          setStartDate(date)
+                          setIsStartDateOpen(false)
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                {/* Finish Date */}
+                <div className="space-y-2">
+                  <label className="block text-[16px] font-bold leading-[20px] text-black mb-1 font-['Open_Sans']">
+                    Finish Date
+                  </label>
+                  <Popover open={isFinishDateOpen} onOpenChange={setIsFinishDateOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="
+                          w-[390px]
+                          h-[78px]
+                          -ml-6
+                          bg-main-gray
+                          border-0
+                          rounded-[100px]
+                          justify-start
+                          text-left
+                          font-normal
+                          pl-8
+                          text-third-gray
+                        "
+                        onClick={() => console.log('Finish Date Trigger Clicked')}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {finishDate ? format(finishDate, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 z-[9999]" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={finishDate}
+                        onSelect={(date) => {
+                          setFinishDate(date)
+                          setIsFinishDateOpen(false)
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+
+              {/* Place Selector */}
+              <div className="space-y-2">
+                <label className="block text-[16px] font-bold leading-[20px] text-black mb-1 font-['Open_Sans']">
+                  Select Place
+                </label>
+                <Select 
+                  value={selectedPlace} 
+                  onValueChange={handlePlaceSelect}
+                >
+                  <SelectTrigger className="
+                    w-[390px]
+                    h-[78px]
+                    -ml-6
+                    bg-main-gray
+                    border-0
+                    rounded-[100px]
+                    pl-8
+                    text-third-gray
                   ">
-                    {isUploadingImages ? (
-                      <ClipLoader size={20} color="#7B7B7B" />
-                    ) : (
-                      <p className="text-[#7B7B7B] text-sm">
-                        Upload your offer photos here
-                      </p>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex gap-4 overflow-x-auto pb-2">
-                    {photos.map((photo, index) => (
-                      <div key={index} className="relative flex-shrink-0 w-[80px] h-[80px]">
-                        <Image
-                          src={photo}
-                          alt={`Photo ${index + 1}`}
-                          width={80}
-                          height={80}
-                          className="rounded-lg object-cover"
-                        />
-                        <button 
-                          onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
-                          className="absolute top-1 right-1 p-1 bg-black/50 rounded-full"
-                        >
-                          <Trash2 className="h-3 w-3 text-white" />
-                        </button>
-                      </div>
+                    <SelectValue placeholder="Select a place" />
+                  </SelectTrigger>
+                  <SelectContent className="z-[9999]">
+                    {places.map((place) => (
+                      <SelectItem key={place.id} value={place.id}>
+                        {place.name}
+                      </SelectItem>
                     ))}
-                  </div>
-                )}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Website */}
+              <div className="space-y-2">
+                <Input 
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  className="
+                    w-[390px]
+                    h-[78px]
+                    -ml-6
+                    bg-main-gray
+                    pl-16
+                    rounded-[100px]
+                    border-0
+                    text-third-gray
+                  "
+                  placeholder="http//:example.com"
+                />
+              </div>
+
+              {/* Photos Section */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label 
+                    htmlFor="fileInput" 
+                    className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[26px] text-black cursor-pointer hover:opacity-80"
+                  >
+                    Photos +
+                  </label>
+                  <input
+                    id="fileInput"
+                    type="file"
+                    onChange={handleImageUpload}
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                  />
+                </div>
+                
+                <div>
+                  {photos.length === 0 ? (
+                    <div className="
+                      w-[390px] 
+                      h-[78px] 
+                      bg-gray-50 
+                      rounded-[100px]
+                      mx-auto
+                      flex 
+                      items-center 
+                      justify-center
+                      -ml-6
+                    ">
+                      {isUploadingImages ? (
+                        <ClipLoader size={20} color="#7B7B7B" />
+                      ) : (
+                        <p className="text-[#7B7B7B] text-sm">
+                          Upload your offer photos here
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="flex gap-4 overflow-x-auto pb-2">
+                      {photos.map((photo, index) => (
+                        <div key={index} className="relative flex-shrink-0 w-[80px] h-[80px]">
+                          <Image
+                            src={photo}
+                            alt={`Photo ${index + 1}`}
+                            width={80}
+                            height={80}
+                            className="rounded-lg object-cover"
+                          />
+                          <button 
+                            onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
+                            className="absolute top-1 right-1 p-1 bg-black/50 rounded-full"
+                          >
+                            <Trash2 className="h-3 w-3 text-white" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Buttons */}
-          <div className="space-y-2 mt-8">
-            <Button 
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className="
-                w-[359px]
-                h-[78px] 
-                rounded-[100px] 
-                bg-black 
-                text-white
-                text-[18px] 
-                font-semibold 
-                leading-[22px] 
-                font-['Open_Sans']
-                mx-auto
-                block
-              "
-            >
-              {isLoading ? (
-                <ClipLoader size={20} color="#FFFFFF" />
-              ) : (
-                mode === 'create' ? 'Save' : 'Update'
-              )}
-            </Button>
-            <Button 
-              variant="ghost"
-              onClick={onClose}
-              className="
-                w-[359px]
-                h-[78px]
-                mx-auto
-                block
-                !text-black 
-                !text-[18px] 
-                !font-semibold 
-                !leading-[22px] 
-                !font-['Open_Sans'] 
-                !underline
-                !decoration-solid
-                hover:bg-transparent
-                hover:!text-black/80
-              "
-            >
-              Cancel
-            </Button>
-          </div>
+        {/* Footer fijo */}
+        <div className="
+          p-3 
+          px-8 
+          space-y-2 
+          flex-shrink-0      
+          bg-white           
+          sticky            
+          bottom-0          
+          left-0            
+          right-0           
+          z-10             
+        ">
+          <Button 
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="
+              w-[390px]         
+              h-[78px]
+              rounded-[100px]
+              -ml-4
+              bg-black 
+              text-white 
+              text-[18px]
+              font-['Open_Sans']
+              font-semibold
+              leading-[22px]
+            "
+          >
+            {isLoading ? <ClipLoader size={20} color="#FFFFFF" /> : mode === 'create' ? 'Save' : 'Update'}
+          </Button>
+          <Button 
+            variant="ghost"
+            onClick={onClose}
+            className="
+              w-[390px]         
+              -ml-4           
+              h-[50px]
+              !p-0
+              !text-black 
+              !text-[18px]
+              !font-semibold 
+              !leading-[22px]
+              !font-['Open_Sans'] 
+              !underline
+              !decoration-solid
+              hover:bg-transparent
+              hover:!text-black/80
+            "
+          >
+            Cancel
+          </Button>
         </div>
       </div>
     </ModalPortal>
