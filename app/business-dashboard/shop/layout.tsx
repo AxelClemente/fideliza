@@ -33,7 +33,7 @@ export default async function ShopLayout({
         <div className="mt-[20px] md:mt-0">
           <ShopTabs />
         </div>
-        <div className="mt-0 md:mt-6">
+        <div className="mt-4 md:mt-8">
           <TabContentWrapper>
             {children}
           </TabContentWrapper>

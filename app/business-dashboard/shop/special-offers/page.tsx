@@ -64,42 +64,30 @@ export default async function SpecialOffersPage() {
             <div className="
               block 
               md:hidden 
-              -mt-2          /* Reducir aún más el espacio superior en móvil */
               -mx-4
             ">
               <Carousel
                 opts={{
                   align: "start",
                 }}
-                className="
-                  w-screen
-                  overflow-visible
-                "
+                className="w-full overflow-hidden"
               >
-                <CarouselContent className="
-                  !gap-0             
-                  overflow-visible   
-                  px-4              /* Añadido padding horizontal */
-                ">
+                <CarouselContent className="!gap-0 overflow-hidden px-4">
                   {offers.map((offer) => (
                     <CarouselItem 
                       key={offer.id}
-                      className="
-                        basis-[calc(100vw-8px)]   /* Reducido aún más el margen */
-                        !pl-0                     /* Eliminado padding izquierdo */
-                        first:!pl-0               /* Consistencia */
-                        overflow-visible
-                      "
+                      className="basis-[calc(100vw-8px)] !pl-0 first:!pl-0 overflow-hidden"
                     >
                       <div className="
                         bg-white 
-                        border-2 
-                        border-gray-200 
-                        rounded-xl 
+                        border
+                        border-gray-100          /* Suavizado: border más fino y color más claro */
+                        rounded-2xl              /* Suavizado: bordes más redondeados */
+                        shadow-sm                /* Agregado: sombra suave */
                         flex 
                         flex-col 
                         overflow-hidden
-                        mx-1               /* Margen mínimo */
+                        mx-1
                       ">
                         {/* Imagen */}
                         <div className="w-full h-[244px] md:h-[200px] relative flex-shrink-0">
