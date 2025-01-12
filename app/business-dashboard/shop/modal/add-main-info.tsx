@@ -183,7 +183,7 @@ export function AddMainInfoModal({
         className="
           max-w-[706px] 
           p-0 
-          overflow-y-auto     // Permitir scroll vertical
+          overflow-y-auto     
           !fixed 
           !left-0
           !right-0
@@ -192,9 +192,9 @@ export function AddMainInfoModal({
           !translate-x-0
           !translate-y-0 
           !rounded-none
-          !h-screen
-          flex               // Añadir flex para estructura
-          flex-col          // Columna para header, content y footer
+          !h-[100dvh]        // Cambiar h-screen por h-[100dvh] para mejor soporte móvil
+          flex               
+          flex-col          
           md:!left-auto
           md:!right-[calc((100vw-1440px)/2)]
         "
@@ -506,8 +506,13 @@ export function AddMainInfoModal({
           md:px-14 
           space-y-2 
           md:space-y-3 
-          flex-shrink-0      // Añadir flex-shrink-0 para mantener fijo
-          bg-white           // Asegurar que el fondo sea blanco
+          flex-shrink-0      
+          bg-white           
+          sticky            // Añadir sticky
+          bottom-0          // Fijar al fondo
+          left-0            // Asegurar posición
+          right-0           // Asegurar posición
+          z-10             // Asegurar que esté por encima del contenido
         ">
           <Button 
             onClick={handleSubmit}
