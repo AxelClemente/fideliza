@@ -40,29 +40,23 @@ export default function HelpSection() {
               <div className="flex justify-center gap-4 mb-12 md:mb-6">
                 <button 
                   className={`
-                    md:font-semibold 
                     transition-colors 
                     text-[24px]
                     font-[700]
                     leading-[33px]
-                    md:text-base
-                    md:font-semibold
                     ${activeTab === 'call' ? 'text-black' : 'text-gray-400'}
                   `}
                   onClick={() => setActiveTab('call')}
                 >
                   Call us
                 </button>
-                <span className="text-gray-400 text-[24px] md:text-base">|</span>
+                <span className="text-gray-400 text-[24px] font-[700] leading-[33px]">|</span>
                 <button 
                   className={`
-                    md:font-semibold 
                     transition-colors 
                     text-[24px]
                     font-[700]
                     leading-[33px]
-                    md:text-base
-                    md:font-semibold
                     ${activeTab === 'write' ? 'text-black' : 'text-gray-400'}
                   `}
                   onClick={() => setActiveTab('write')}
@@ -133,10 +127,10 @@ export default function HelpSection() {
 
           {/* Right card - desktop only */}
           <div className="flex-1 hidden md:block md:mt-0 md:text-left">
-            <h2 className="text-[40px] font-bold leading-[54px] mb-4">
+            <h2 className="!text-[40px] !font-[800] !leading-[55px] mb-4">
               Need help?
             </h2>
-            <p className="text-[24px] leading-[32px] font-semibold">
+            <p className="!text-[24px] !font-[800] !leading-[33px]">
               Write or call us - we help you!
             </p>
           </div>
