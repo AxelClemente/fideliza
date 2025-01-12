@@ -161,24 +161,26 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="
-        max-w-[706px] 
-        p-0 
-        overflow-hidden 
-        !fixed 
-        !left-0
-        !right-0
-        !bottom-0 
-        !top-0 
-        !translate-x-0
-        !translate-y-0 
-        !rounded-none
-        !h-screen
-        md:!left-auto
-        md:!right-[calc((100vw-1440px)/2)]
-        flex              
-        flex-col         
-      ">
+      <DialogContent 
+        className="
+          max-w-[706px] 
+          p-0 
+          overflow-y-auto     
+          !fixed 
+          !left-0
+          !right-0
+          !bottom-0 
+          !top-0 
+          !translate-x-0
+          !translate-y-0 
+          !rounded-none
+          !h-[100dvh]        // Cambiar h-screen por h-[100dvh] para mejor soporte móvil
+          flex               
+          flex-col          
+          md:!left-auto
+          md:!right-[calc((100vw-1440px)/2)]
+        "
+      >
         <DialogHeader className="p-4 pb-0 mt-6 md:mt-8">
           <DialogTitle className="
             !text-[26px] 
@@ -192,6 +194,7 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
             mr-[250px]         
             md:w-full          
             md:mx-0
+            max-md:ml-8 
           ">
             Add new Special Offer
           </DialogTitle>
@@ -223,6 +226,8 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                     max-md:font-['Open_Sans']   // <- Fuente en móvil
                     max-md:font-semibold       // <- Peso 600 en móvil
                     max-md:leading-[22px]      // <- Line height en móvil
+                    max-md:w-[390px]          // <- Solo añadir esto para móvil
+                    max-md:-ml-6            
                   "
                   placeholder="Title"
                 />
@@ -254,6 +259,8 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                     max-md:font-['Open_Sans']   // <- Fuente en móvil
                     max-md:font-semibold       // <- Peso 600 en móvil
                     max-md:leading-[22px]      // <- Line height en móvil
+                    max-md:w-[390px]          // <- Solo añadir esto para móvil
+                    max-md:-ml-6            
                   "
                   placeholder="Describe your special offer..."
                 />
@@ -290,6 +297,8 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                           max-md:font-['Open_Sans']   // <- Fuente en móvil
                           max-md:font-semibold       // <- Peso 600 en móvil
                           max-md:leading-[22px]      // <- Line height en móvil
+                          max-md:w-[390px]          // <- Solo añadir esto para móvil
+                          max-md:-ml-6            
                         "
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -339,6 +348,8 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                           max-md:font-['Open_Sans']   // <- Fuente en móvil
                           max-md:font-semibold       // <- Peso 600 en móvil
                           max-md:leading-[22px]      // <- Line height en móvil
+                          max-md:w-[390px]          // <- Solo añadir esto para móvil
+                          max-md:-ml-6            
                         "
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -384,6 +395,8 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                     max-md:font-['Open_Sans']   // <- Fuente en móvil
                     max-md:font-semibold       // <- Peso 600 en móvil
                     max-md:leading-[22px]      // <- Line height en móvil
+                    max-md:w-[390px]          // <- Solo añadir esto para móvil
+                    max-md:-ml-6            
                   ">
                     <SelectValue placeholder="Select places" />
                     <ChevronDown className="absolute right-8 top-1/2 -translate-y-1/2 h-4 w-4 text-third-gray" />
@@ -420,6 +433,8 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                     max-md:font-['Open_Sans']   // <- Fuente en móvil
                     max-md:font-semibold       // <- Peso 600 en móvil
                     max-md:leading-[22px]      // <- Line height en móvil
+                    max-md:w-[390px]          // <- Solo añadir esto para móvil
+                    max-md:-ml-6            
                   "
                   placeholder="http//:example.com"
                 />
@@ -503,19 +518,26 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
 
         {/* Contenedor de botones */}
         <div className="
-          p-2 
-          px-6 
+          p-3 
+          md:p-4 
+          px-8 
+          md:px-14 
           space-y-2 
-          flex 
-          flex-col 
-          items-center
-          w-full          // Asegurar ancho completo
-          bg-white        // Fondo blanco para cubrir el scroll
+          md:space-y-3 
+          flex-shrink-0      
+          bg-white           
+          sticky            // Añadir sticky
+          bottom-0          // Fijar al fondo
+          left-0            // Asegurar posición
+          right-0           // Asegurar posición
+          z-10             // Asegurar que esté por encima del contenido
         ">
           <Button 
             onClick={handleSubmit}
             disabled={isLoading}
             className="
+              max-md:w-[390px]         
+              max-md:-ml-4            
               w-[340px]
               h-[78px]
               rounded-[100px]
