@@ -212,9 +212,10 @@ export function AddMainInfoModal({
             mt-10
             w-[340px]          
             mx-auto            
-            mr-[250px]         
+            mr-[40px]
             md:w-full          
             md:mx-0            
+            md:mr-0
           ">
             {mode === 'create' ? 'Add main info' : 'Edit main info'}
           </DialogTitle>
@@ -231,23 +232,18 @@ export function AddMainInfoModal({
                   onChange={(e) => setTitle(e.target.value)}
                   className="
                     bg-main-gray 
-                    pl-14 
                     h-[78px] 
-                    w-[340px] 
+                    w-[390px]          // Cambiado de 340px a 390px
                     rounded-[100px]
                     border-0
                     mx-auto
-                    mr-[250px]
+                    mr-[40px]
                     md:w-[558px]
-                    md:h-[78px]
-                    md:rounded-[100px]
                     md:mx-0
+                    md:mr-0
                     text-third-gray
-                    max-md:text-[18px]
-                    max-md:font-['Open_Sans']
-                    max-md:font-semibold
-                    max-md:leading-[22px]
-                  " 
+                    pl-8
+                  "
                   placeholder="Restaurant name"
                 />
                 <svg 
@@ -282,13 +278,14 @@ export function AddMainInfoModal({
                   className="
                     bg-main-gray 
                     min-h-[78px] 
-                    w-[340px] 
+                    w-[390px]          // Cambiado de 340px a 390px
                     rounded-[100px]
                     border-0
                     mx-auto
-                    mr-[250px]
+                    mr-[40px]
                     md:w-[558px]
                     md:mx-0
+                    md:mr-0
                     md:min-h-[80px]
                     md:rounded-2xl
                     px-8
@@ -320,11 +317,11 @@ export function AddMainInfoModal({
                     bg-main-gray 
                     pl-14 
                     h-[78px] 
-                    w-[340px]  
+                    w-[390px]          // Cambiado de 340px a 390px
                     rounded-[100px]
                     border-0
                     mx-auto
-                    mr-[250px]
+                    mr-[40px]
                     md:w-[558px]
                     md:h-[78px]
                     md:rounded-[100px]
@@ -362,11 +359,11 @@ export function AddMainInfoModal({
                 <SelectTrigger className="
                   bg-main-gray 
                   h-[78px] 
-                  w-[340px] 
+                  w-[390px]           // Cambiado de 340px a 390px
                   rounded-[100px]
                   border-0
                   mx-auto
-                  mr-[250px]
+                  mr-[40px]
                   md:w-[558px]
                   md:h-[78px]
                   md:mx-0
@@ -399,11 +396,11 @@ export function AddMainInfoModal({
                 <SelectTrigger className="
                   bg-main-gray 
                   h-[78px] 
-                  w-[340px] 
+                  w-[390px]           // Cambiado de 340px a 390px
                   rounded-[100px]
                   border-0
                   mx-auto
-                  mr-[250px]
+                  mr-[40px]
                   md:w-[558px]
                   md:h-[78px]
                   md:mx-0
@@ -460,12 +457,12 @@ export function AddMainInfoModal({
               <div className="px-4 md:px-8">
                 {photos.length === 0 ? (
                   <div className="
-                    w-[340px]  
+                    w-[390px]           // Cambiado de 340px a 390px
                     h-[78px] 
                     bg-main-gray 
                     rounded-[100px]
                     mx-auto
-                    mr-[250px]
+                    mr-[40px]
                     md:mx-0
                     md:w-full
                     md:h-[80px]
@@ -481,9 +478,9 @@ export function AddMainInfoModal({
                   </div>
                 ) : (
                   <div className="
-                    w-[340px]          
+                    w-[390px]           // Cambiado de 340px a 390px
                     mx-auto            
-                    mr-[250px]         
+                    mr-[40px]
                     md:w-full          
                     md:mx-0            
                   ">
@@ -537,13 +534,14 @@ export function AddMainInfoModal({
             onClick={handleSubmit}
             disabled={isLoading}
             className="
-              w-[340px]
+              w-[390px]         // Cambiado de 340px a 390px
               h-[78px]
               rounded-[100px]
               mx-auto
-              mr-[250px]
+              -mr-[100px]
               md:w-[558px]
               md:mx-0
+              md:mr-0
               bg-black 
               text-[16px] 
               font-semibold 
@@ -561,11 +559,12 @@ export function AddMainInfoModal({
             variant="ghost"
             onClick={onClose}
             className="
-              w-[340px]
+              w-[390px]         // Cambiado de 340px a 390px
               mx-auto
-              mr-[250px]
+              -mr-[100px]
               md:w-[558px]
               md:mx-0
+              md:mr-0
               h-[50px]
               md:h-[60px] 
               !p-0
