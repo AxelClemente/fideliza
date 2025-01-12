@@ -206,7 +206,7 @@ export function MobileAddSpecialOffer({
             font-['Open_Sans'] 
             px-8 
             -mt-1
-            w-[390px]
+            w-full
           ml-8
           ">
             Add Special Offer
@@ -214,9 +214,9 @@ export function MobileAddSpecialOffer({
         </div>
 
         {/* Contenedor scrolleable */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-4 space-y-4">
-            <div className="space-y-3 px-8">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="p-4">
+            <div className="space-y-3 px-4">
               {/* Contenido scrolleable */}
               {/* Title Input */}
               <div className="space-y-2">
@@ -224,9 +224,8 @@ export function MobileAddSpecialOffer({
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="
-                    w-[390px]
+                    w-full
                     h-[78px]
-                    -ml-6
                     bg-main-gray
                     pl-8
                     rounded-[100px]
@@ -243,9 +242,8 @@ export function MobileAddSpecialOffer({
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="
-                    w-[390px]
+                    w-full
                     h-[78px]
-                    -ml-6
                     bg-main-gray
                     pl-8
                     rounded-[100px]
@@ -269,9 +267,8 @@ export function MobileAddSpecialOffer({
                       <Button
                         variant="outline"
                         className="
-                          w-[390px]
+                          w-full
                           h-[78px]
-                          -ml-6
                           bg-main-gray
                           border-0
                           rounded-[100px]
@@ -311,9 +308,8 @@ export function MobileAddSpecialOffer({
                       <Button
                         variant="outline"
                         className="
-                          w-[390px]
+                          w-full
                           h-[78px]
-                          -ml-6
                           bg-main-gray
                           border-0
                           rounded-[100px]
@@ -354,9 +350,8 @@ export function MobileAddSpecialOffer({
                   onValueChange={handlePlaceSelect}
                 >
                   <SelectTrigger className="
-                    w-[390px]
+                    w-full
                     h-[78px]
-                    -ml-6
                     bg-main-gray
                     border-0
                     rounded-[100px]
@@ -381,9 +376,8 @@ export function MobileAddSpecialOffer({
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
                   className="
-                    w-[390px]
+                    w-full
                     h-[78px]
-                    -ml-6
                     bg-main-gray
                     pl-16
                     rounded-[100px]
@@ -464,7 +458,7 @@ export function MobileAddSpecialOffer({
         {/* Footer fijo */}
         <div className="
           p-3 
-          px-8 
+          px-4 
           space-y-2 
           flex-shrink-0      
           bg-white           
@@ -478,10 +472,9 @@ export function MobileAddSpecialOffer({
             onClick={handleSubmit}
             disabled={isLoading}
             className="
-              w-[390px]         
+              w-full
               h-[78px]
               rounded-[100px]
-              -ml-4
               bg-black 
               text-white 
               text-[18px]
@@ -496,8 +489,7 @@ export function MobileAddSpecialOffer({
             variant="ghost"
             onClick={onClose}
             className="
-              w-[390px]         
-              -ml-4           
+              w-full
               h-[50px]
               !p-0
               !text-black 
