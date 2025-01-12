@@ -337,8 +337,15 @@ export function ClientWrapper({
           </button>
         </div>
 
-        {/* Versión Mobile */}
-        <div className="md:hidden flex flex-col w-full gap-3">
+        {/* Versión Mobile - Ajustado el centrado */}
+        <div className="
+          md:hidden 
+          flex 
+          flex-col 
+          items-center     /* Añadido: centrar elementos horizontalmente */
+          w-full 
+          gap-3
+        ">
           <button 
             onClick={() => handleEditOffer(offer)}
             className="
@@ -349,7 +356,6 @@ export function ClientWrapper({
               text-white 
               font-semibold
               text-[16px]
-              mx-auto
             "
           >
             Edit
@@ -358,14 +364,13 @@ export function ClientWrapper({
           <button 
             onClick={() => handleDeleteOfferConfirmation()}
             className="
-              w-full 
+              w-[345px]          /* Ajustado: mismo ancho que el botón Edit */
               text-black 
               font-semibold 
               underline 
               decoration-solid
               text-[16px]
-              pl-4              /* Añadido: padding left para mover a la derecha */
-              text-center 
+              text-center       /* Centrado del texto */
             "
           >
             Delete

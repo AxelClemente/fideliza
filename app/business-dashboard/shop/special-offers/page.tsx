@@ -102,7 +102,7 @@ export default async function SpecialOffersPage() {
                         mx-1               /* Margen mínimo */
                       ">
                         {/* Imagen */}
-                        <div className="w-full h-[200px] relative flex-shrink-0">
+                        <div className="w-full h-[244px] md:h-[200px] relative flex-shrink-0">
                           {offer.images[0] && (
                             <Image
                               src={offer.images[0].url}
@@ -226,14 +226,10 @@ export default async function SpecialOffersPage() {
                           <div className="
                             md:hidden 
                             pt-4
-                            w-full              /* Cambiado: ancho completo primero */
-                            max-w-[329px]       /* Limitamos el ancho máximo */
-                            min-h-[78px]        /* Altura mínima en lugar de fija */
-                            rounded-[100px]     /* Radio de borde */
-                            flex               /* Añadido: para asegurar que los botones se muestren en línea */
-                            items-center       /* Centrado vertical */
-                            justify-center     /* Centrado horizontal */
-                            gap-2              /* Espacio entre botones */
+                            flex               
+                            items-center       
+                            justify-center     
+                            w-full            
                           ">
                             <ClientWrapper 
                               type="special-offer"
