@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Trash2 } from 'lucide-react'
+import { Trash2, ChevronDown } from 'lucide-react'
 import Image from "next/image"
 import { useState } from "react"
 import { ClipLoader } from 'react-spinners'
@@ -336,13 +336,15 @@ export function AddMainInfoModal({
                   rounded-[100px]
                   border-0
                   mx-auto
-                  -ml-4            // Margen negativo para mover a la izquierda
+                  -ml-4            
                   md:w-[558px]
                   md:mx-0
                   text-third-gray
                   pl-8
+                  pr-8             // Añadir padding derecho para separar el ícono del borde
                 ">
                   <SelectValue placeholder="Select category" />
+                  <ChevronDown className="h-4 w-4 opacity-50" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="restaurant">Restaurant</SelectItem>
@@ -372,13 +374,15 @@ export function AddMainInfoModal({
                   rounded-[100px]
                   border-0
                   mx-auto
-                  -ml-4            // Margen negativo para mover a la izquierda
+                  -ml-4            
                   md:w-[558px]
                   md:mx-0
                   text-third-gray
                   pl-8
+                  pr-8             // Añadir padding derecho para separar el ícono del borde
                 ">
                   <SelectValue placeholder="Select subcategory" />
+                  <ChevronDown className="h-4 w-4 opacity-50" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="american">American</SelectItem>
