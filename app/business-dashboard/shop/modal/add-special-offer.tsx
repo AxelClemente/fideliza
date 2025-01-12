@@ -439,7 +439,16 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                   placeholder="http//:example.com"
                 />
                 <svg
-                  className="absolute left-8 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7B7B7B]"
+                  className="
+                    absolute 
+                    max-md:left-2        // En móvil mantener left-2
+                    md:left-8           // En desktop mover más a la derecha
+                    top-1/2 
+                    -translate-y-1/2 
+                    h-4 
+                    w-4 
+                    text-[#7B7B7B]
+                  "
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -564,12 +573,10 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
             variant="ghost"
             onClick={onClose}
             className="
-              w-[340px]
-              mx-auto
-              mr-[250px]
-              md:mr-0
+              max-md:w-[390px]         
+              max-md:-ml-4           
               md:w-[558px]
-              md:mx-auto
+              md:mx-0
               h-[50px]
               !p-0
               !text-black 
