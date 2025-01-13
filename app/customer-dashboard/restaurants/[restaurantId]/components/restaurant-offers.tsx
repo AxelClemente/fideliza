@@ -27,6 +27,11 @@ export function RestaurantOffers({ offers }: RestaurantOffersProps) {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null)
   const [isCompanyOffersOpen, setIsCompanyOffersOpen] = useState(false)
 
+  console.log('Offers data:', JSON.stringify(offers, null, 2))
+  offers.forEach(offer => {
+    console.log(`Offer ${offer.id} images:`, offer.images)
+  })
+
   return (
     <div className="mb-12">
       <h2 
@@ -42,16 +47,22 @@ export function RestaurantOffers({ offers }: RestaurantOffersProps) {
             onClick={() => setSelectedOffer(offer)}
             className="group relative overflow-hidden rounded-[20px] cursor-pointer"
           >
-            <div className="relative w-full h-[200px] md:w-[642px] md:h-[358px]">
-              <Image
-                src={offer.images[0].url}
-                alt={offer.title}
-                fill
-                className="object-cover rounded-[20px]"
-              />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <h3 className="text-white !text-[30px] font-bold">{offer.title}</h3>
+            {offer.images && offer.images.length > 0 ? (
+              <div className="relative w-full h-[200px] md:w-[642px] md:h-[358px]">
+                <Image
+                  src={offer.images[0].url}
+                  alt={offer.title}
+                  fill
+                  className="object-cover rounded-[20px]"
+                />
               </div>
+            ) : (
+              <div className="relative w-full h-[200px] md:w-[642px] md:h-[358px] bg-gray-200 rounded-[20px] flex items-center justify-center">
+                <span className="text-gray-500">No image available</span>
+              </div>
+            )}
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <h3 className="text-white !text-[30px] font-bold">{offer.title}</h3>
             </div>
           </div>
         ))}

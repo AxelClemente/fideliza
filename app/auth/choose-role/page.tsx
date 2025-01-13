@@ -97,7 +97,7 @@ export default function ChooseRolePage() {
         >
           <div className="w-[195px] h-[195px] mb-2 relative">
             <Image
-              src="/customer.svg"
+              src="/customer-choose-role.svg"
               alt="Customer icon"
               fill
               className={`object-contain ${isLoading && selectedRole === 'customer' ? 'opacity-50' : ''}`}

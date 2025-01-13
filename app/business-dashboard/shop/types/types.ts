@@ -43,7 +43,7 @@ export interface RestaurantImage {
       url: string
       publicId: string
       offerId: string
-    }[]
+    }[] | []
   }
   
   export interface Subscription {

@@ -43,6 +43,13 @@ export function CompanyOffers({
     if (emblaApi) emblaApi.scrollNext()
   }, [emblaApi])
 
+  const getImageUrl = (offer: CompanyOffersProps['offers'][0]) => {
+    if (!offer.images || offer.images.length === 0) {
+      return '/images/placeholder-image.jpg'
+    }
+    return offer.images[0].url
+  }
+
   if (!offers) return null
 
   return (
@@ -105,7 +112,7 @@ export function CompanyOffers({
                   {/* Image */}
                   <div className="relative w-full h-[200px] md:h-[358px]">
                     <Image
-                      src={offer.images[0].url}
+                      src={getImageUrl(offer)}
                       alt={offer.title}
                       fill
                       className="object-cover rounded-[20px]"
@@ -263,7 +270,7 @@ export function CompanyOffers({
                         {/* Image */}
                         <div className="relative w-[calc(100%+48px)] -ml-6 h-[200px] -mt-6">
                           <Image
-                            src={offer.images[0].url}
+                            src={getImageUrl(offer)}
                             alt={offer.title}
                             fill
                             className="object-cover rounded-t-[20px]"
