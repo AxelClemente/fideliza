@@ -45,7 +45,7 @@ export function CompanyOffers({
 
   const getImageUrl = (offer: CompanyOffersProps['offers'][0]) => {
     if (!offer.images || offer.images.length === 0) {
-      return '/images/placeholder-image.jpg'
+      return '/images/defaultoffers.jpg'
     }
     return offer.images[0].url
   }
@@ -116,6 +116,10 @@ export function CompanyOffers({
                       alt={offer.title}
                       fill
                       className="object-cover rounded-[20px]"
+                      onError={(e) => {
+                        const img = e.target as HTMLImageElement;
+                        img.src = '/images/defaultoffers.jpg';
+                      }}
                     />
                   </div>
 
@@ -274,6 +278,10 @@ export function CompanyOffers({
                             alt={offer.title}
                             fill
                             className="object-cover rounded-t-[20px]"
+                            onError={(e) => {
+                              const img = e.target as HTMLImageElement;
+                              img.src = '/images/defaultoffers.jpg';
+                            }}
                           />
                         </div>
 

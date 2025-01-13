@@ -31,6 +31,13 @@ export function CustomerOfferModal({
 }: CustomerOfferModalProps) {
   if (!offer) return null
 
+  const getImageUrl = (offer: CustomerOfferModalProps['offer']) => {
+    if (!offer?.images || offer.images.length === 0) {
+      return '/images/defaultoffers.jpg'
+    }
+    return offer.images[0].url
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       {isOpen && <OfferViewTracker offerId={offer.id} />}
@@ -77,10 +84,14 @@ export function CustomerOfferModal({
             <div className="px-0 md:px-8">
               <div className="relative w-[325px] h-[200px] md:w-[570px] md:h-[314px] ml-4 md:mx-0">
                 <Image
-                  src={offer.images[0].url}
+                  src={getImageUrl(offer)}
                   alt={offer.title}
                   fill
                   className="object-cover rounded-[20px]"
+                  onError={(e) => {
+                    const img = e.target as HTMLImageElement;
+                    img.src = '/images/defaultoffers.jpg';
+                  }}
                 />
               </div>
             </div>
