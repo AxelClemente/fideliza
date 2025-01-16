@@ -102,7 +102,32 @@ export function AddNewOffersMailingsModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[706px] p-0 overflow-hidden md:!fixed md:!left-auto md:!right-[calc((100vw-1440px)/2)] md:!bottom-0 md:!top-0 md:!translate-x-0 md:!translate-y-0 md:!rounded-none md:!h-screen max-md:!fixed max-md:!inset-0 max-md:!w-[100vw] max-md:!max-w-[100vw] max-md:!h-screen max-md:!m-0 max-md:!p-0 max-md:!rounded-none max-md:!translate-x-0 max-md:!translate-y-0 flex flex-col">
+      <DialogContent className="
+        max-w-[706px] 
+        p-0 
+        overflow-hidden 
+        md:!fixed 
+        md:!left-auto 
+        md:!right-[calc((100vw-1440px)/2)] 
+        md:!bottom-0 
+        md:!top-0 
+        md:!translate-x-0 
+        md:!translate-y-0 
+        md:!rounded-none 
+        md:!h-screen 
+        max-md:!fixed 
+        max-md:!inset-0 
+        max-md:!w-[100vw] 
+        max-md:!max-w-[100vw] 
+        max-md:!h-screen 
+        max-md:!m-0 
+        max-md:!p-0 
+        max-md:!rounded-none 
+        max-md:!translate-x-0 
+        max-md:!translate-y-0 
+        flex 
+        flex-col
+      ">
         <DialogHeader className="p-4 pb-0">
           <DialogTitle className="
             !text-[26px]
@@ -111,7 +136,8 @@ export function AddNewOffersMailingsModal({
             font-['Open_Sans'] 
             px-4
             md:px-8 
-            -mt-1
+            mt-2
+            md:mt-0
           ">
             Add new offers mailings
           </DialogTitle>
@@ -120,22 +146,27 @@ export function AddNewOffersMailingsModal({
         {/* Contenedor con scroll */}
         <div className="flex-1 overflow-y-auto">
           <div className="p-4 space-y-4">
-            <div className="space-y-3 px-4 md:px-8">
+            <div className="
+              space-y-3 
+              flex
+              flex-col
+              items-center     {/* Centrar en móvil */}
+              md:items-center  {/* Mantener centrado en desktop */}
+              md:px-8
+            ">
               {/* Name Input */}
               <div>
-
                 <Input 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className={`
                     bg-[#F6F6F6] 
                     pl-8 
-                    w-[558px]
+                    w-[390px]
                     h-[78px] 
                     rounded-[100px] 
                     border-0
-                    max-md:w-[95%]
-                    max-md:mx-auto
+                    md:w-[558px]
                     ${placeholderStyles}
                   `}
                   placeholder="Name"
@@ -152,12 +183,12 @@ export function AddNewOffersMailingsModal({
                   onChange={(e) => setDescription(e.target.value)}
                   className={`
                     bg-[#F6F6F6] 
-                    w-[558px]
+                    w-[390px]
                     h-[132px] 
                     rounded-[20px] 
                     border-0
-                    max-md:w-[95%]
-                    max-md:mx-auto
+                    
+                    md:w-[558px]
                     pt-7
                     pl-8 
                     ${placeholderStyles}
@@ -179,13 +210,13 @@ export function AddNewOffersMailingsModal({
                     onChange={(e) => setStartDate(e.target.value)}
                     className={`
                       bg-[#F6F6F6] 
-                      w-[558px]
+                      w-[390px]
                       h-[78px] 
                       rounded-[100px] 
                       border-0 
                       text-gray-500
-                      max-md:w-[95%]
-                      max-md:mx-auto
+                     
+                      md:w-[558px]
                       pl-8 
                       ${placeholderStyles}
                       [&::-webkit-datetime-edit-fields-wrapper]:text-[18px]
@@ -208,13 +239,13 @@ export function AddNewOffersMailingsModal({
                     onChange={(e) => setEndDate(e.target.value)}
                     className={`
                       bg-[#F6F6F6] 
-                      w-[558px]
+                      w-[390px]
                       h-[78px] 
                       rounded-[100px] 
                       border-0 
                       text-gray-500
-                      max-md:w-[95%]
-                      max-md:mx-auto
+                     
+                      md:w-[558px]
                       pl-8 
                       ${placeholderStyles}
                       [&::-webkit-datetime-edit-fields-wrapper]:text-[18px]
@@ -237,7 +268,7 @@ export function AddNewOffersMailingsModal({
                     onChange={(e) => setTime(e.target.value)}
                     className="
                       bg-[#F6F6F6] 
-                      w-[558px]
+                      w-[390px]
                       h-[78px] 
                       rounded-[100px] 
                       border-0 
@@ -246,8 +277,8 @@ export function AddNewOffersMailingsModal({
                       font-semibold
                       text-[#7B7B7B]
                       pl-8
-                      max-md:w-[95%]
-                      max-md:mx-auto
+                     
+                      md:w-[558px]
                       [&::-webkit-calendar-picker-indicator]:hidden
                     "
                   />
@@ -264,13 +295,13 @@ export function AddNewOffersMailingsModal({
                 <Select onValueChange={setLocation}>
                   <SelectTrigger className={`
                     bg-[#F6F6F6] 
-                    w-[558px]
+                    w-[390px]
                     h-[78px] 
                     rounded-[100px]  
                     border-0 
                     !text-third-gray
-                    max-md:w-[95%]
-                    max-md:mx-auto
+                    
+                    md:w-[558px]
                     pl-8
                     ${placeholderStyles}
                   `}>
@@ -289,13 +320,19 @@ export function AddNewOffersMailingsModal({
           </div>
         </div>
 
-        {/* Botones fijos en la parte inferior */}
-        <div className="p-4 px-14 space-y-3 bg-white">
+        {/* Botones */}
+        <div className="
+          p-4 
+          space-y-3 
+          bg-white
+          px-4          {/* Reducir padding horizontal en móvil */}
+          md:px-14      {/* Mantener padding original en desktop */}
+        ">
           <Button 
             onClick={handleSubmit}
             disabled={isLoading}
             className="
-              w-[558px] 
+              w-[390px]
               h-[78px] 
               rounded-[100px] 
               bg-black 
@@ -306,6 +343,7 @@ export function AddNewOffersMailingsModal({
               font-['Open_Sans']
               mx-auto
               block
+              md:w-[558px]
             "
           >
             {isLoading ? <ClipLoader size={20} color="#FFFFFF" /> : mode === 'edit' ? 'Update' : 'Save'}
@@ -314,7 +352,19 @@ export function AddNewOffersMailingsModal({
           <Button 
             variant="ghost"
             onClick={onClose}
-            className="w-full h-[60px] !text-black !text-[18px] !font-semibold !underline hover:bg-transparent !pb-8"
+            className="
+              w-[390px]        {/* Ajustar ancho en móvil */}
+              h-[60px] 
+              !text-black 
+              !text-[18px] 
+              !font-semibold 
+              !underline 
+              hover:bg-transparent 
+              !pb-8
+              mx-auto          {/* Centrar en móvil */}
+              block            {/* Asegurar que sea block */}
+              md:w-full        {/* Ancho completo en desktop */}
+            "
           >
             Cancel
           </Button>
