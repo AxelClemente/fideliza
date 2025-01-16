@@ -105,9 +105,9 @@ export function AddPlaceInfoModal({
             px-4 
             md:px-8 
             mt-10
-            w-[340px]
+            w-[390px]
             mx-auto
-            mr-[280px]
+            ml-2
             md:w-full
             md:mx-0
           ">
@@ -125,7 +125,7 @@ export function AddPlaceInfoModal({
                   bg-main-gray 
                   pl-14 
                   h-[78px] 
-                  w-[340px]
+                  w-[390px]
                   rounded-[100px]
                   border-0
                   mx-auto
@@ -160,7 +160,7 @@ export function AddPlaceInfoModal({
                   bg-main-gray 
                   pl-14 
                   h-[78px] 
-                  w-[340px]
+                  w-[390px]
                   rounded-[100px]
                   border-0
                   mx-auto
@@ -195,7 +195,7 @@ export function AddPlaceInfoModal({
                   bg-main-gray 
                   pl-14 
                   h-[78px] 
-                  w-[340px]
+                  w-[390px]
                   rounded-[100px]
                   border-0
                   mx-auto
@@ -230,11 +230,13 @@ export function AddPlaceInfoModal({
             onClick={handleSubmit}
             disabled={isLoading}
             className="
-              w-[340px]
+              w-[390px]
               h-[78px]
               rounded-[100px]
               mx-auto
               mr-[250px]
+              -ml-3
+              md:ml-0
               md:w-full
               md:mx-0
               bg-black 
@@ -273,6 +275,8 @@ export function AddPlaceInfoModal({
               !decoration-solid
               hover:bg-transparent
               hover:!text-black/80
+              ml-3
+              md:ml-0
             "
           >
             Cancel
