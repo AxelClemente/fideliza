@@ -130,7 +130,7 @@ export function AddSubscriptionModal({
         max-md:!inset-0
         max-md:!w-[100vw]
         max-md:!max-w-[100vw]
-        max-md:!h-screen
+        max-md:!h-[100dvh]
         max-md:!m-0
         max-md:!p-0
         max-md:!rounded-none
@@ -156,7 +156,7 @@ export function AddSubscriptionModal({
         </DialogHeader>
 
         {/* Contenedor con scroll */}
-        <div className="flex-1 overflow-y-auto max-md:pb-[200px]">
+        <div className="flex-1 overflow-y-auto max-md:pb-[120px]">
           <div className="p-4 space-y-4">
             {/* Nombre de la Suscripción */}
             <div className="space-y-3 px-8 max-md:px-0">
@@ -446,59 +446,57 @@ export function AddSubscriptionModal({
           </div>
         </div>
 
-        {/* Botones */}
+        {/* Footer con botones */}
         <div className="
-          p-4 
-          md:px-14 
-          max-md:px-4
-          space-y-3
-          flex
-          flex-col
-          items-center
-          flex-shrink-0
-          bg-white
-          border-t
+          p-3 
+          flex 
+          flex-col 
+          items-center 
+          bg-white           
+          sticky            
+          bottom-0          
+          left-0            
+          right-0           
+          z-10
+          flex-shrink-0    
         ">
           <Button 
             onClick={handleSubmit}
             disabled={isLoading}
             className="
-              w-[340px]
+              w-full
               h-[78px]
               rounded-[100px]
-              mx-auto
-              mr-[250px]
-              md:w-[558px]
-              md:h-[78px]
-              md:rounded-[100px]
-              md:mx-0
               bg-black 
-              text-white
-              text-[16px] 
-              font-semibold 
-              leading-[20px] 
+              text-white 
+              text-[18px]
               font-['Open_Sans']
-              max-md:w-[390px]
+              font-semibold
+              leading-[22px]
+              md:w-[558px]
+              md:mx-auto
             "
           >
-            {isLoading ? (
-              <ClipLoader size={20} color="#FFFFFF" />
-            ) : (
-              mode === 'create' ? 'Save' : 'Update'
-            )}
+            {isLoading ? <ClipLoader size={20} color="#FFFFFF" /> : mode === 'create' ? 'Save' : 'Update'}
           </Button>
-          
           <Button 
             variant="ghost"
             onClick={onClose}
             className="
-              w-full 
-              h-[60px] 
+              w-full
+              h-[50px]
+              !p-0
               !text-black 
-              !text-[18px] 
+              !text-[18px]
               !font-semibold 
-              !underline 
+              !leading-[22px]
+              !font-['Open_Sans'] 
+              !underline
+              !decoration-solid
               hover:bg-transparent
+              hover:!text-black/80
+              md:w-[558px]
+              md:mx-auto
             "
           >
             Cancel

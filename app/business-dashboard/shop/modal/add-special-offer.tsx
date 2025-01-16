@@ -174,11 +174,12 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
           !translate-x-0
           !translate-y-0 
           !rounded-none
-          !h-[100dvh]        // Cambiar h-screen por h-[100dvh] para mejor soporte móvil
+          !h-[100dvh]        
           flex               
           flex-col          
           md:!left-auto
           md:!right-[calc((100vw-1440px)/2)]
+          overflow-x-hidden
         "
       >
         <DialogHeader className="p-4 pb-0 mt-6 md:mt-8">
@@ -200,10 +201,14 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
           </DialogTitle>
         </DialogHeader>
 
-        {/* Contenedor scrolleable manteniendo alineación */}
-        <div className="flex-1 overflow-y-auto">
+        {/* Contenedor scrolleable */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
           <div className="p-4 space-y-4">
-            <div className="space-y-3 px-8">
+            <div className="
+              space-y-3 
+              px-8
+              max-w-full
+            ">
               {/* Title */}
               <div className="relative">
                 <Input 
