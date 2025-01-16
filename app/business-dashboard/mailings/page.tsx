@@ -39,11 +39,13 @@ export default async function MailingsPage({ searchParams }: PageProps) {
                 No Mailings yet!
               </h2>
             )}
-            <MailingActions
-              showOnlyButton={true}
-              restaurants={restaurants}
-              hasMailing={mailings.length > 0}
-            />
+            <div className="ml-auto">
+              <MailingActions
+                showOnlyButton={true}
+                restaurants={restaurants}
+                hasMailing={mailings.length > 0}
+              />
+            </div>
           </div>
 
           <div className="space-y-4">

@@ -325,8 +325,8 @@ export function AddNewOffersMailingsModal({
           p-4 
           space-y-3 
           bg-white
-          px-4          {/* Reducir padding horizontal en móvil */}
-          md:px-14      {/* Mantener padding original en desktop */}
+          px-4          
+          md:px-14      
         ">
           <Button 
             onClick={handleSubmit}
@@ -353,17 +353,18 @@ export function AddNewOffersMailingsModal({
             variant="ghost"
             onClick={onClose}
             className="
-              w-[390px]        {/* Ajustar ancho en móvil */}
+              w-[390px]        
               h-[60px] 
               !text-black 
               !text-[18px] 
               !font-semibold 
               !underline 
               hover:bg-transparent 
-              !pb-8
-              mx-auto          {/* Centrar en móvil */}
-              block            {/* Asegurar que sea block */}
-              md:w-full        {/* Ancho completo en desktop */}
+              mx-auto          
+              block            
+              md:w-[558px]     
+              mb-4             {/* Agregar margen inferior para separarlo del borde */}
+              md:mb-0          {/* Reset en desktop */}
             "
           >
             Cancel
