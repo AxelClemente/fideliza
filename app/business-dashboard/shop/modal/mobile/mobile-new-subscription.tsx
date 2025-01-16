@@ -9,6 +9,7 @@ import { toast } from '@/components/ui/use-toast'
 import { Check } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ModalPortal } from "../../components/modal-portal"
+import Image from "next/image"
 
 interface MobileNewSubscriptionProps {
   isOpen: boolean
@@ -110,32 +111,47 @@ export function MobileNewSubscription({
   return (
     <ModalPortal isOpen={isOpen}>
       <div className="flex flex-col min-h-screen bg-white">
-        <div className="flex-1 p-4 max-w-[359px] mx-auto w-full ">
-          <h2 className="text-xl font-semibold text-center py-4 mb-4">
-            {mode === 'create' ? 'Add new Subscription' : 'Edit Subscription'}
-          </h2>
+        {/* Contenedor principal con scroll */}
+        <div className="flex-1 overflow-y-auto pb-[200px]"> {/* Padding bottom para espacio de botones */}
+          <div className="p-0 max-w-[390px] mx-auto w-full">
+            <h2 className="text-xl font-semibold text-center py-4 mb-4">
+              {mode === 'create' ? 'Add new Subscription' : 'Edit Subscription'}
+            </h2>
 
-          <div className="space-y-6">
-            {/* Subscription Name */}
-            <div className="space-y-2">
-              <Input 
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Subscription name"
-                className="
-                  bg-gray-50 
-                  border-none 
-                  w-full
-                  h-[78px] 
-                  rounded-[100px]
-                  pl-12
-                "
-              />
-            </div>
+            <div className="space-y-6">
+              {/* Subscription Name con icono shop1.svg */}
+              <div className="space-y-2 relative">
+                <Input 
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Subscription name"
+                  className="
+                    bg-gray-50 
+                    border-none 
+                    w-[390px]
+                    h-[78px] 
+                    rounded-[100px]
+                    pl-[60px]
+                    mx-auto
+                    flex
+                    items-center
+                  "
+                />
+                <div className="absolute left-6 top-[50%] -translate-y-[90%] pointer-events-none">
+                  <Image
+                    src="/shop1.svg"
+                    alt="Shop"
+                    width={20}
+                    height={20}
+                  />
+                </div>
+              </div>
 
-            {/* Benefits */}
-            <div className="space-y-2">
-              <div className="relative flex justify-center">
+              {/* Benefits */}
+              <div className="space-y-2">
+                <label className="block text-[16px] font-bold mb-1 pl-6">
+                  Purchase benefit
+                </label>
                 <Textarea 
                   value={benefits}
                   onChange={(e) => setBenefits(e.target.value)}
@@ -143,140 +159,146 @@ export function MobileNewSubscription({
                   className="
                     bg-gray-50 
                     border-none 
-                    w-full
+                    w-[390px]
                     min-h-[78px] 
                     rounded-[100px]
                     pl-12
                     pt-6
+                    mx-auto
                   "
                 />
               </div>
-            </div>
 
-            {/* Price Section */}
-            <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1 pl-6">
-                Price
-              </label>
-              <div className="flex flex-col space-y-3 px-6">
-                <Input 
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  className="
-                    bg-gray-50 
-                    border-none 
-                    w-[140px]
-                    h-[78px] 
-                    rounded-[100px]
-                    pl-12
-                  "
-                  placeholder="2"
-                />
-                
-                <Input 
-                  type="text"
-                  value="€"
-                  readOnly
-                  className="
-                    bg-gray-50 
-                    border-none 
-                    w-[140px]
-                    h-[78px] 
-                    rounded-[100px]
-                    text-center
-                  "
-                />
-                
-                <Input 
-                  type="text"
-                  value="Month"
-                  readOnly
-                  className="
-                    bg-gray-50 
-                    border-none 
-                    w-[140px]
-                    h-[78px] 
-                    rounded-[100px]
-                    text-center
-                  "
-                />
-              </div>
-            </div>
-
-            {/* Where to use */}
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Where to use
-              </label>
-              <Popover open={openCommand} onOpenChange={setOpenCommand}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={openCommand}
+              {/* Price Section */}
+              <div className="space-y-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1 pl-6">
+                  Price
+                </label>
+                <div className="flex flex-col space-y-3">
+                  <Input 
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                     className="
-                      w-full
-                      h-[78px]
-                      bg-gray-50
-                      border-none
+                      bg-gray-50 
+                      border-none 
+                      w-[390px]
+                      h-[78px] 
                       rounded-[100px]
+                      pl-[52px]
                       mx-auto
-                      justify-between
-                      pl-6
                     "
-                  >
-                    {selectedPlaces.length === 0 
-                      ? "Select places..." 
-                      : `${selectedPlaces.length} place${selectedPlaces.length > 1 ? 's' : ''} selected`
-                    }
-                    <svg
-                      className="ml-2 h-4 w-4 shrink-0 opacity-50"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                      />
-                    </svg>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[359px] p-0 z-[9999]">
-                  <div className="max-h-[300px] overflow-auto p-2">
-                    {places.map((place) => (
-                      <div
-                        key={place.id}
-                        className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
-                        onClick={() => {
-                          setSelectedPlaces(current => {
-                            const isSelected = current.includes(place.id)
-                            return isSelected 
-                              ? current.filter(id => id !== place.id)
-                              : [...current, place.id]
-                          })
-                          console.log('Place clicked:', place.id)
-                        }}
-                      >
-                        <div className="border border-gray-300 rounded w-4 h-4 flex items-center justify-center">
-                          {selectedPlaces.includes(place.id) && (
-                            <Check className="h-3 w-3" />
-                          )}
-                        </div>
-                        <span className="text-sm">{place.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
+                    placeholder="2"
+                  />
+                  
+                  <Input 
+                    type="text"
+                    value="€"
+                    readOnly
+                    className="
+                      bg-gray-50 
+                      border-none 
+                      w-[390px]
+                      h-[78px] 
+                      rounded-[100px]
+                      text-left
+                      pl-12
+                      text-gray-500
+                      mx-auto
+                    "
+                  />
+                  
+                  <Input 
+                    type="text"
+                    value="Month"
+                    readOnly
+                    className="
+                      bg-gray-50 
+                      border-none 
+                      w-[390px]
+                      h-[78px] 
+                      rounded-[100px]
+                      text-left
+                      pl-12
+                      text-gray-500
+                      mx-auto
+                    "
+                  />
+                </div>
+              </div>
 
-            {/* Website */}
-            <div className="space-y-2">
-              <div className="relative">
+              {/* Where to use */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 pl-6">
+                  Where to use
+                </label>
+                <Popover open={openCommand} onOpenChange={setOpenCommand}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={openCommand}
+                      className="
+                        w-[390px]
+                        h-[78px]
+                        bg-gray-50
+                        border-none
+                        rounded-[100px]
+                        justify-between
+                        pl-6
+                        mx-auto
+                      "
+                    >
+                      {selectedPlaces.length === 0 
+                        ? "Select places..." 
+                        : `${selectedPlaces.length} place${selectedPlaces.length > 1 ? 's' : ''} selected`
+                      }
+                      <svg
+                        className="ml-2 h-4 w-4 shrink-0 opacity-50"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                        />
+                      </svg>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[390px] p-0 z-[9999]">
+                    <div className="max-h-[300px] overflow-auto p-2">
+                      {places.map((place) => (
+                        <div
+                          key={place.id}
+                          className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
+                          onClick={() => {
+                            setSelectedPlaces(current => {
+                              const isSelected = current.includes(place.id)
+                              return isSelected 
+                                ? current.filter(id => id !== place.id)
+                                : [...current, place.id]
+                            })
+                            console.log('Place clicked:', place.id)
+                          }}
+                        >
+                          <div className="border border-gray-300 rounded w-4 h-4 flex items-center justify-center">
+                            {selectedPlaces.includes(place.id) && (
+                              <Check className="h-3 w-3" />
+                            )}
+                          </div>
+                          <span className="text-sm">{place.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Website con icono */}
+              <div className="space-y-2 relative">
                 <Input 
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
@@ -284,64 +306,74 @@ export function MobileNewSubscription({
                   className="
                     bg-gray-50 
                     border-none 
-                    w-full
+                    w-[390px]
                     h-[78px] 
                     rounded-[100px]
+                    pl-[60px]
                     mx-auto
-                    pl-12
+                    flex
+                    items-center
                   "
                 />
+                <div className="absolute left-6 top-[50%] -translate-y-[90%] pointer-events-none">
+                  <Image
+                    src="/website.svg"
+                    alt="Website"
+                    width={19}
+                    height={19}
+                  />
+                </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Action Buttons */}
-          <div className="space-y-2 mt-8">
-            <Button 
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className="
-                w-full
-                h-[78px] 
-                rounded-[100px] 
-                bg-black 
-                text-white
-                text-[18px] 
-                font-semibold 
-                leading-[22px] 
-                font-['Open_Sans']
-                mx-auto
-                block
-              "
-            >
-              {isLoading ? (
-                <ClipLoader size={20} color="#FFFFFF" />
-              ) : (
-                mode === 'create' ? 'Save' : 'Update'
-              )}
-            </Button>
-            <Button 
-              variant="ghost"
-              onClick={onClose}
-              className="
-                w-full
-                h-[78px]
-                mx-auto
-                block
-                !text-black 
-                !text-[18px] 
-                !font-semibold 
-                !leading-[22px] 
-                !font-['Open_Sans'] 
-                !underline
-                !decoration-solid
-                hover:bg-transparent
-                hover:!text-black/80
-              "
-            >
-              Cancel
-            </Button>
-          </div>
+        {/* Botones fijos en la parte inferior */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 space-y-2">
+          <Button 
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="
+              w-[390px]
+              h-[78px] 
+              rounded-[100px] 
+              bg-black 
+              text-white
+              text-[18px] 
+              font-semibold 
+              leading-[22px] 
+              font-['Open_Sans']
+              mx-auto
+              block
+            "
+          >
+            {isLoading ? (
+              <ClipLoader size={20} color="#FFFFFF" />
+            ) : (
+              mode === 'create' ? 'Save' : 'Update'
+            )}
+          </Button>
+          <Button 
+            variant="ghost"
+            onClick={onClose}
+            className="
+              w-[390px]
+              h-[78px]
+              mx-auto
+              block
+              !text-black 
+              !text-[18px] 
+              !font-semibold 
+              !leading-[22px] 
+              !font-['Open_Sans'] 
+              !underline
+              !decoration-solid
+              hover:bg-transparent
+              hover:!text-black/80
+            "
+          >
+            Cancel
+          </Button>
         </div>
       </div>
     </ModalPortal>
