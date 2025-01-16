@@ -246,7 +246,16 @@ export function AddPlaceInfoModal({
         </div>
 
         {/* Botones */}
-        <div className="p-3 md:p-4 px-8 md:px-14 space-y-2 md:space-y-3">
+        <div className="
+          p-3 
+          md:p-4 
+          px-8 
+          md:px-14 
+          space-y-2 
+          md:space-y-3
+          mb-6
+          md:mb-0
+        ">
           <Button 
             onClick={handleSubmit}
             disabled={isLoading}
@@ -299,7 +308,6 @@ export function AddPlaceInfoModal({
               hover:!text-black/80
               ml-3
               md:-ml-3
-              
             "
           >
             Cancel
