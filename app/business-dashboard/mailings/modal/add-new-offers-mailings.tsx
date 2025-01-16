@@ -204,57 +204,79 @@ export function AddNewOffersMailingsModal({
                   <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
                     Start date
                   </label>
-                  <Input 
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className={`
-                      bg-[#F6F6F6] 
-                      w-[390px]
-                      h-[78px] 
-                      rounded-[100px] 
-                      border-0 
-                      text-gray-500
-                     
-                      md:w-[558px]
-                      pl-8 
-                      ${placeholderStyles}
-                      [&::-webkit-datetime-edit-fields-wrapper]:text-[18px]
-                      [&::-webkit-datetime-edit-fields-wrapper]:font-['Open_Sans']
-                      [&::-webkit-datetime-edit-fields-wrapper]:font-semibold
-                      [&::-webkit-datetime-edit-fields-wrapper]:text-[#7B7B7B]
-                      [&::-webkit-calendar-picker-indicator]:opacity-0
-                    `}
-                  />
+                  <div className="relative">
+                    <Input 
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className={`
+                        bg-[#F6F6F6] 
+                        w-[390px]
+                        h-[78px] 
+                        rounded-[100px] 
+                        border-0 
+                        text-gray-500
+                        md:w-[558px]
+                        pl-8 
+                        ${placeholderStyles}
+                        [&::-webkit-calendar-picker-indicator]:opacity-0
+                      `}
+                    />
+                    <svg 
+                      className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none md:hidden" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth="2" 
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </div>
                 </div>
 
                 {/* End Date */}
                 <div>
-                  <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] mb-1 pl-6">
+                  <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
                     End date
                   </label>
-                  <Input 
-                    type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className={`
-                      bg-[#F6F6F6] 
-                      w-[390px]
-                      h-[78px] 
-                      rounded-[100px] 
-                      border-0 
-                      text-gray-500
-                     
-                      md:w-[558px]
-                      pl-8 
-                      ${placeholderStyles}
-                      [&::-webkit-datetime-edit-fields-wrapper]:text-[18px]
-                      [&::-webkit-datetime-edit-fields-wrapper]:font-['Open_Sans']
-                      [&::-webkit-datetime-edit-fields-wrapper]:font-semibold
-                      [&::-webkit-datetime-edit-fields-wrapper]:text-[#7B7B7B]
-                      [&::-webkit-calendar-picker-indicator]:opacity-0
-                    `}
-                  />
+                  <div className="relative">
+                    <Input 
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className={`
+                        bg-[#F6F6F6] 
+                        w-[390px]
+                        h-[78px] 
+                        rounded-[100px] 
+                        border-0 
+                        text-gray-500
+                        md:w-[558px]
+                        pl-8 
+                        ${placeholderStyles}
+                        [&::-webkit-calendar-picker-indicator]:opacity-0
+                      `}
+                    />
+                    <svg 
+                      className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none md:hidden" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth="2" 
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </div>
                 </div>
 
                 {/* Time */}
@@ -320,13 +342,19 @@ export function AddNewOffersMailingsModal({
           </div>
         </div>
 
-        {/* Botones */}
+        {/* Contenedor de botones */}
         <div className="
           p-4 
           space-y-3 
           bg-white
           px-4          
-          md:px-14      
+          md:px-14
+          sticky        {/* Hacer que el contenedor sea sticky */}
+          bottom-0      {/* Pegarlo al fondo */}
+          left-0
+          right-0
+          z-10         {/* Asegurar que esté por encima del contenido */}
+          pb-6         {/* Añadir padding bottom para separar del borde */}
         ">
           <Button 
             onClick={handleSubmit}
@@ -363,8 +391,8 @@ export function AddNewOffersMailingsModal({
               mx-auto          
               block            
               md:w-[558px]     
-              mb-4             {/* Agregar margen inferior para separarlo del borde */}
-              md:mb-0          {/* Reset en desktop */}
+              mb-4             
+              md:mb-0          
             "
           >
             Cancel
