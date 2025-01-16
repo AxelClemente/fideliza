@@ -391,8 +391,8 @@ export function AddNewOffersMailingsModal({
               mx-auto          
               block            
               md:w-[558px]     
-              mb-4             
-              md:mb-0          
+              mb-8             {/* Agregar margen inferior en móvil */}
+              md:mb-0          {/* Remover margen en desktop */}
             "
           >
             Cancel
