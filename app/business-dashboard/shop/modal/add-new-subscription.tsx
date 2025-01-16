@@ -159,7 +159,7 @@ export function AddSubscriptionModal({
         <div className="flex-1 overflow-y-auto">
           <div className="p-4 space-y-4">
             {/* Nombre de la Suscripción */}
-            <div className="space-y-3 px-8 ">
+            <div className="space-y-3 px-8 max-md:px-0">
               <div className="relative">
                 <Input 
                   value={name}
@@ -167,24 +167,14 @@ export function AddSubscriptionModal({
                   className="
                     bg-main-gray 
                     pl-14 
-                    h-[78px] 
                     rounded-[100px]
                     border-0
-                    mx-auto
-                    mr-[250px]
                     text-third-gray
                     md:w-[558px]
                     md:h-[78px]
-                    md:rounded-[100px]
-                    md:bg-[#F6F6F6]
-                    md:mx-0
-                    max-md:w-[300px]
+                    max-md:w-[390px]
                     max-md:h-[78px]
-                    max-md:rounded-[100px]
-                    max-md:text-[18px]
-                    max-md:font-['Open_Sans']
-                    max-md:font-semibold
-                    max-md:leading-[22px]
+                    max-md:mx-auto
                   " 
                   placeholder="Subscription name"
                 />
@@ -205,7 +195,7 @@ export function AddSubscriptionModal({
 
               {/* Purchase benefit */}
               <div>
-                <label className=" pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
+                <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 max-md:pl-4">
                   Purchase benefit
                 </label>
                 <Textarea 
@@ -218,18 +208,11 @@ export function AddSubscriptionModal({
                     resize-none 
                     text-third-gray
                     pl-6
-                    md:pl-8
                     md:w-[558px]
                     md:h-[126px]
-                    md:rounded-[20px]
-                    md:bg-[#F6F6F6]
-                    max-md:text-[18px]
-                    max-md:font-['Open_Sans']
-                    max-md:font-semibold
-                    max-md:leading-[22px]
-                    max-md:w-[300px]
+                    max-md:w-[390px]
                     max-md:h-[78px]
-                    max-md:rounded-[100px]
+                    max-md:mx-auto
                   "
                   placeholder="Benefits"
                 />
@@ -237,7 +220,7 @@ export function AddSubscriptionModal({
 
               {/* Price Section */}
               <div>
-                <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
+                <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 max-md:pl-4">
                   Price
                 </label>
                 <div className="
@@ -250,93 +233,78 @@ export function AddSubscriptionModal({
                   md:px-6
                 ">
                   {/* Price Input */}
-                  <div className="relative md:flex-1 md:basis-1/3 max-md:px-6">
-                    <Input 
-                      type="number"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                      className="
-                        bg-main-gray 
-                        h-10 
-                        rounded-2xl 
-                        border-0 
-                        text-center 
-                        text-third-gray
-                        w-full
-                        md:flex-1
-                        md:basis-1/3
-                        md:w-[180px]
-                        md:h-[78px]
-                        md:rounded-[100px]
-                        md:bg-[#F6F6F6]
-                        max-md:h-[78px]
-                        max-md:rounded-[100px]
-                        max-md:text-[18px]
-                        max-md:font-['Open_Sans']
-                        max-md:font-semibold
-                        max-md:leading-[22px]
-                      " 
-                      placeholder="2"
-                    />
-                  </div>
+                  <Input 
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    className="
+                      bg-main-gray 
+                      border-0 
+                      text-center 
+                      text-third-gray
+                      md:w-[180px]
+                      md:h-[78px]
+                      md:rounded-[100px]
+                      md:bg-[#F6F6F6]
+                      max-md:w-[390px]
+                      max-md:h-[78px]
+                      max-md:rounded-[100px]
+                      max-md:mx-auto
+                    " 
+                    placeholder="2"
+                  />
                   
                   {/* Currency */}
-                  <div className="relative md:flex-1 md:basis-1/3 max-md:px-6">
-                    <Input 
-                      type="text"
-                      value="€"
-                      readOnly
-                      className="
-                        bg-main-gray 
-                        h-10 
-                        rounded-2xl 
-                        border-0 
-                        text-center 
-                        text-[#7B7B7B]
-                        w-full
-                        md:flex-1
-                        md:basis-1/3
-                        md:w-[180px]
-                        md:h-[78px]
-                        md:rounded-[100px]
-                        md:bg-[#F6F6F6]
-                        max-md:h-[78px]
-                        max-md:rounded-[100px]
-                      "
-                    />
-                  </div>
+                  <Input 
+                    type="text"
+                    value="€"
+                    readOnly
+                    className="
+                      bg-main-gray 
+                      border-0 
+                      text-center 
+                      text-[#7B7B7B]
+                      md:flex-1
+                      md:basis-1/3
+                      md:w-[180px]
+                      md:h-[78px]
+                      md:rounded-[100px]
+                      md:bg-[#F6F6F6]
+                      max-md:w-[390px]
+                      max-md:h-[78px]
+                      max-md:rounded-[100px]
+                      max-md:mx-auto
+                    "
+                  />
                   
                   {/* Period */}
-                  <div className="relative md:flex-1 md:basis-1/3 max-md:px-6">
-                    <Input 
-                      type="text"
-                      value="Month"
-                      readOnly
-                      className="
-                        bg-main-gray 
-                        h-10 
-                        rounded-2xl 
-                        border-0 
-                        text-center 
-                        text-[#7B7B7B]
-                        w-full
-                        md:flex-1
-                        md:basis-1/3
-                        md:w-[180px]
-                        md:h-[78px]
-                        md:rounded-[100px]
-                        md:bg-[#F6F6F6]
-                        max-md:h-[78px]
-                        max-md:rounded-[100px]
-                      "
-                    />
-                  </div>
+                  <Input 
+                    type="text"
+                    value="Month"
+                    readOnly
+                    className="
+                      bg-main-gray 
+                      border-0 
+                      text-center 
+                      text-[#7B7B7B]
+                      md:flex-1
+                      md:basis-1/3
+                      md:w-[180px]
+                      md:h-[78px]
+                      md:rounded-[100px]
+                      md:bg-[#F6F6F6]
+                      max-md:w-[390px]
+                      max-md:h-[78px]
+                      max-md:rounded-[100px]
+                      max-md:mx-auto
+                    "
+                  />
                 </div>
               </div>
 
               {/* Where to use - Nueva implementación */}
               <div>
-                <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
+                <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 max-md:pl-4">
                   Where to use
                 </label>
                 <Popover open={openCommand} onOpenChange={setOpenCommand}>
@@ -358,13 +326,13 @@ export function AddSubscriptionModal({
                         md:rounded-[100px]
                         md:bg-[#F6F6F6]
                         md:mx-0
+                        max-md:w-[390px]
+                        max-md:h-[78px]
+                        max-md:rounded-[100px]
                         max-md:text-[18px]
                         max-md:font-['Open_Sans']
                         max-md:font-semibold
                         max-md:leading-[22px]
-                        max-md:w-[300px]
-                        max-md:h-[78px]
-                        max-md:rounded-[100px]
                       "
                     >
                       {selectedPlaces.length === 0 
@@ -447,25 +415,18 @@ export function AddSubscriptionModal({
                   onChange={(e) => setWebsite(e.target.value)}
                   className="
                     bg-main-gray 
-                    pl-14 
-                    h-10 
-                    rounded-2xl 
                     border-0 
                     text-third-gray
+                    pl-14
                     md:w-[558px]
                     md:h-[78px]
                     md:rounded-[100px]
                     md:bg-[#F6F6F6]
-                    md:mx-0
-                    max-md:text-[18px]
-                    max-md:font-['Open_Sans']
-                    max-md:font-semibold
-                    max-md:leading-[22px]
-                    max-md:w-[300px]
+                    max-md:w-[390px]
                     max-md:h-[78px]
                     max-md:rounded-[100px]
                   " 
-                  placeholder="http//:example.com"
+                  placeholder="http://example.com"
                 />
                 <svg
                   className="left-8 absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7B7B7B]"
@@ -485,7 +446,7 @@ export function AddSubscriptionModal({
           </div>
         </div>
 
-        {/* Botones fijos en la parte inferior */}
+        {/* Botones */}
         <div className="
           p-4 
           md:px-14 
@@ -517,6 +478,7 @@ export function AddSubscriptionModal({
               font-semibold 
               leading-[20px] 
               font-['Open_Sans']
+              max-md:w-[390px]
             "
           >
             {isLoading ? (
@@ -525,6 +487,7 @@ export function AddSubscriptionModal({
               mode === 'create' ? 'Save' : 'Update'
             )}
           </Button>
+          
           <Button 
             variant="ghost"
             onClick={onClose}
