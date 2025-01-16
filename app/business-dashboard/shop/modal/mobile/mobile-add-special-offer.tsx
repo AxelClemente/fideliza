@@ -197,26 +197,35 @@ export function MobileAddSpecialOffer({
   return (
     <ModalPortal isOpen={isOpen}>
       <div className="flex flex-col min-h-screen bg-white">
-        {/* Header fijo */}
+        {/* Header */}
         <div className="p-4 pb-0 mt-6">
           <h2 className="
             text-[26px] 
             font-bold 
             leading-[30px] 
             font-['Open_Sans'] 
-            px-8 
-            -mt-1
+            px-4
+            mb-6
             w-full
-          ml-8
+            text-center
           ">
             Add Special Offer
           </h2>
         </div>
 
         {/* Contenedor scrolleable */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
-          <div className="p-4">
-            <div className="space-y-3 px-4">
+        <div className="
+          flex-1 
+          overflow-y-auto 
+          overflow-x-hidden
+        ">
+          <div className="
+            flex 
+            flex-col 
+            items-center 
+            w-full
+          ">
+            <div className="space-y-3 w-[390px]">
               {/* Contenido scrolleable */}
               {/* Title Input */}
               <div className="space-y-2">
@@ -455,12 +464,12 @@ export function MobileAddSpecialOffer({
           </div>
         </div>
 
-        {/* Footer fijo */}
+        {/* Footer */}
         <div className="
           p-3 
-          px-4 
-          space-y-2 
-          flex-shrink-0      
+          flex 
+          flex-col 
+          items-center 
           bg-white           
           sticky            
           bottom-0          

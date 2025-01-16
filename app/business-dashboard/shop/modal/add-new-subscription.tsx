@@ -156,7 +156,7 @@ export function AddSubscriptionModal({
         </DialogHeader>
 
         {/* Contenedor con scroll */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto max-md:pb-[200px]">
           <div className="p-4 space-y-4">
             {/* Nombre de la Suscripción */}
             <div className="space-y-3 px-8 max-md:px-0">
