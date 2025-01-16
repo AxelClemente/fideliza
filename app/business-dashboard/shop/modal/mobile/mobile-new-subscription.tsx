@@ -329,7 +329,7 @@ export function MobileNewSubscription({
         </div>
 
         {/* Botones fijos en la parte inferior */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 space-y-2">
+        <div className="fixed bottom-0 left-0 right-0 bg-white  ">
           <Button 
             onClick={handleSubmit}
             disabled={isLoading}
