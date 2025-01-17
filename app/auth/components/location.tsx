@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useRouter } from 'next/navigation'
-import { MapPin } from 'lucide-react'
+import { MapPin, ChevronDown } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
 import {
@@ -165,17 +165,18 @@ export default function Location() {
   }
 
   return (
-    <div className="w-[400px] h-[580px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
-      <h2 className="text-[20px] font-semibold text-main-dark mb-4 mt-8">
+    <div className="w-[500px] h-[580px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
+      <h2 className="text-[20px] font-semibold text-main-dark mb-12 mt-8">
         Your city
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-3 flex flex-col items-center">
-        <div className="relative w-[360px]">
-          <MapPin className="absolute left-4 top-[15px] h-4 w-4 text-third-gray z-10" />
+      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
+        <div className="relative w-[462px]">
+          <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-third-gray z-10" />
+          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-third-gray z-10" />
           <Select onValueChange={setSelectedCity}>
             <SelectTrigger 
-              className="h-[45px] w-[360px] rounded-[100px] bg-main-gray pl-12 border-0 
+              className="h-[78px] w-[462px] rounded-[100px] bg-main-gray pl-12 pr-12 border-0 
                        !text-[14px] !font-semibold text-third-gray
                        placeholder:text-third-gray placeholder:text-[14px] placeholder:font-semibold
                        focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -198,7 +199,7 @@ export default function Location() {
 
         <Button 
           type="submit" 
-          className="h-[45px] w-[360px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[14px] font-semibold relative"
+          className="h-[78px] w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[14px] font-semibold relative"
           disabled={!selectedCity || isLoading}
         >
           {isLoading ? (
@@ -214,7 +215,7 @@ export default function Location() {
         <Button
           type="button"
           variant="ghost"
-          className="h-[45px] w-[360px] rounded-[100px] hover:bg-transparent hover:text-main-dark/80 text-[14px] font-semibold underline decoration-solid"
+          className="h-[78px] w-[462px] rounded-[100px] hover:bg-transparent hover:text-main-dark/80 text-[18px] font-semibold underline decoration-solid"
           onClick={() => router.push('/auth/choose-role')}
           disabled={isLoading}
         >

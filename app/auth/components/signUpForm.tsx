@@ -6,6 +6,7 @@ import { signIn } from 'next-auth/react'
 import { User, Mail, Lock } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { toast } from "@/components/ui/use-toast"
 
 export default function SignUpForm() {
   const router = useRouter()
@@ -16,6 +17,7 @@ export default function SignUpForm() {
     confirmPassword: ''
   })
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,7 +28,10 @@ export default function SignUpForm() {
     }
 
     try {
-      const res = await fetch('/api/auth/register', {
+      setIsLoading(true)
+      
+      // Registro del usuario
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -38,14 +43,25 @@ export default function SignUpForm() {
         })
       })
 
-      if (res.ok) {
-        router.push('/auth?mode=signin')
-      } else {
-        const data = await res.json()
-        setError(data.error || 'Something went wrong')
-      }
-    } catch {
-      setError('An error occurred during registration')
+      if (!response.ok) throw new Error('Registration failed')
+      
+      // Iniciar sesión automáticamente después del registro
+      await signIn('credentials', {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      })
+
+      // Redirigir según el flujo normal post-login
+      router.push('/auth/location')
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -167,8 +183,9 @@ export default function SignUpForm() {
         <Button 
           type="submit" 
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
+          disabled={isLoading}
         >
-          Continue
+          {isLoading ? 'Signing up...' : 'Continue'}
         </Button>
 
         <div className="w-[390px] sm:w-[462px] relative my-6">
