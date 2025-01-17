@@ -44,8 +44,15 @@ export default async function SpecialOffersPage() {
       ">
         <div className="flex items-center justify-between">
           {offers.length === 0 && (
-            <h2 className="!text-[22px] md:!text-[30px] text-[#7B7B7B] font-bold">
-              No Special Offers yet!
+            <h2 className="
+              text-[30px]          
+              md:text-[30px] 
+              text-[#7B7B7B] 
+              font-bold
+              mt-8               /* Nuevo: margen superior solo en móvil */
+              md:mt-0           /* Reset del margen en desktop */
+            ">
+              No Special offers yet!
             </h2>
           )}
           

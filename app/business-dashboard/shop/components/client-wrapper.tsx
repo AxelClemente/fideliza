@@ -401,11 +401,19 @@ export function ClientWrapper({
         {access.canEdit && (
           <>
             {/* Versión Móvil */}
-            <div className="md:hidden w-full flex justify-center">
+            <div className="
+              md:hidden 
+              w-full 
+              fixed        /* Nuevo */
+              bottom-6     /* Nuevo */
+              left-0       /* Nuevo */
+              px-3         /* Nuevo */
+              z-50         /* Nuevo */
+            ">
               <button 
                 onClick={() => setIsSpecialOfferModalOpen(true)}
                 className="
-                  w-[390px] 
+                  w-full 
                   h-[78px] 
                   rounded-[100px] 
                   bg-[#000000] 
@@ -414,7 +422,6 @@ export function ClientWrapper({
                   text-[18px] 
                   font-semibold 
                   leading-[22px] 
-                  font-['Open_Sans']
                 "
               >
                 Add special offer
@@ -589,19 +596,27 @@ export function ClientWrapper({
         {access.canEdit && (
           <>
             {/* Versión Móvil */}
-            <div className="md:hidden w-full flex justify-center">
+            <div className="
+              md:hidden 
+              w-full 
+              fixed        /* Nuevo */
+              bottom-6     /* Nuevo */
+              left-0       /* Nuevo */
+              px-3         /* Nuevo */
+              z-50         /* Nuevo */
+            ">
               <button 
                 onClick={() => setIsSubscriptionModalOpen(true)}
                 className="
-                  w-[390px]
-                  h-[78px]
-                  rounded-[100px]
-                  bg-black
-                  text-white
-                  text-[18px]
-                  font-semibold
-                  leading-[22px]
+                  w-full 
+                  h-[78px] 
+                  rounded-[100px] 
+                  bg-[#000000] 
+                  text-white 
                   shadow-lg
+                  text-[18px] 
+                  font-semibold 
+                  leading-[22px] 
                 "
               >
                 Add subscription
@@ -649,8 +664,77 @@ export function ClientWrapper({
     )
   }
 
-  // Solo mostrar el botón de Add main info si no hay restaurantes y estamos en modo add
-  if (mode === 'add' && type === 'main-info' && restaurants.length > 0) return null
+  // Si es main-info en modo add
+  if (type === 'main-info' && mode === 'add') {
+    return (
+      <>
+        {access.canEdit && (
+          <>
+            {/* Versión Móvil */}
+            <div className="
+              md:hidden 
+              w-full 
+              fixed
+              bottom-6
+              left-0
+              px-3
+              z-50
+            ">
+              <button 
+                onClick={() => setIsMainInfoModalOpen(true)}
+                className="
+                  w-full
+                  h-[78px] 
+                  rounded-[100px] 
+                  bg-[#000000] 
+                  text-white 
+                  shadow-lg
+                  text-[18px] 
+                  font-semibold 
+                  leading-[22px]
+                "
+              >
+                Add main info
+              </button>
+            </div>
+
+            {/* Versión Desktop */}
+            <button 
+              onClick={() => setIsMainInfoModalOpen(true)}
+              className="
+                hidden
+                md:block
+                w-[329px] 
+                h-[78px] 
+                rounded-[100px] 
+                bg-[#000000] 
+                text-white 
+                text-[18px] 
+                font-semibold 
+                leading-[22px]
+              "
+            >
+              Add main info
+            </button>
+
+            {/* Modal */}
+            {isMobile ? (
+              <MobileAddMainInfo
+                isOpen={isMainInfoModalOpen}
+                onClose={() => setIsMainInfoModalOpen(false)}
+              />
+            ) : (
+              <AddMainInfoModal
+                isOpen={isMainInfoModalOpen}
+                onClose={() => setIsMainInfoModalOpen(false)}
+                mode="create"
+              />
+            )}
+          </>
+        )}
+      </>
+    )
+  }
 
   // No mostrar el botón de Add place si no hay restaurantes
   if (type === 'place' && restaurants.length === 0) return null
@@ -759,7 +843,7 @@ export function ClientWrapper({
                     </span>
                   </button>
 
-                  {/* Botón móvil (mantener el existente) */}
+                  {/* Versión Móvil */}
                   <div className="
                     md:hidden
                     flex

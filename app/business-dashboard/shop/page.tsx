@@ -22,16 +22,14 @@ export default async function ShopPage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               {(!restaurants || restaurants.length === 0) && (
                 <h2 className="
-                  !text-[22px]          
-                  md:!text-[30px]       
-                  text-[#7B7B7B] 
-                  font-bold 
-                  !leading-[28px]       
-                  md:!leading-[36px]    
-                  font-['Open_Sans'] 
-                  text-left
+                  text-[30px]          
+                  md:text-[40px] 
+                  font-semibold 
+                  text-[#7B7B7B]
+                  mt-8               /* Nuevo: margen superior solo en móvil */
+                  md:mt-0           /* Reset del margen en desktop */
                 ">
-                  No Main Info yet!
+                  No Main info yet!
                 </h2>
               )}
               <ClientWrapper type="main-info" restaurants={restaurants} mode="add" />

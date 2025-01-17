@@ -48,7 +48,14 @@ export default async function SubscriptionsPage() {
       <div className="space-y-2 md:space-y-4">
         <div className="flex items-center justify-between">
           {uniqueSubscriptions.length === 0 && (
-            <h2 className="!text-[22px] md:!text-[30px] text-[#7B7B7B] font-bold">
+            <h2 className="
+              text-[30px]          
+              md:text-[30px] 
+              text-[#7B7B7B] 
+              font-bold
+              mt-8               /* Nuevo: margen superior solo en móvil */
+              md:mt-0           /* Reset del margen en desktop */
+            ">
               No Subscriptions yet!
             </h2>
           )}
