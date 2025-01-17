@@ -345,8 +345,8 @@ export function AddNewOffersMailingsModal({
             max-md:left-0 
             max-md:right-0 
             bg-white 
-            p-4 
-            space-y-3 
+            
+             
             border-t 
             border-gray-100
             z-10
