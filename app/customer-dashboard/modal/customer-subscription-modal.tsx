@@ -96,201 +96,226 @@ export function CustomerSubscriptionModal({
           flex-col
         "
       >
-        <DialogHeader className="p-3 md:p-4 pb-0 flex-shrink-0">
-          <div className="px-4 md:px-8 mt-10">
-            <h2 className="
-              !text-[30px]
-              !font-['Open_Sans']
-              font-[700]
-              !leading-[36px]
-              mb-8
-            ">
-              Subscription detail
-            </h2>
-            <DialogTitle className="
-              !text-[40px]
-              !font-['Open_Sans']
-              font-[700]
-              !leading-[54px]
-              text-center
-              
-            ">
-              {subscription.name}
-            </DialogTitle>
-            <p className="
-              !text-[24px]
-              !font-['Open_Sans']
-              font-[700]
-              !leading-[32px]
-              text-center
-              -mb-4
-              
-            ">
-              ${subscription.price}/month
-            </p>
-          </div>
-        </DialogHeader>
-
-        <div className="flex-1 overflow-y-auto">
-          <div className="space-y-6 p-3 md:p-4">
-            {/* Benefits */}
-            <div className="px-4 md:px-8">
-              <h3 className="
+        <div className="h-[100dvh] bg-white flex flex-col">
+          <DialogHeader className="p-3 md:p-4 pb-0 flex-shrink-0">
+            <div className="px-4 md:px-8 mt-10">
+              <h2 className="
+                !text-[30px]
+                !font-['Open_Sans']
+                font-[700]
+                !leading-[36px]
+                mb-8
+              ">
+                Subscription detail
+              </h2>
+              <DialogTitle className="
+                !text-[40px]
+                !font-['Open_Sans']
+                font-[700]
+                !leading-[54px]
+                text-center
+              ">
+                {subscription.name}
+              </DialogTitle>
+              <p className="
                 !text-[24px]
                 !font-['Open_Sans']
-                !font-[400]
+                font-[700]
                 !leading-[32px]
-                !mb-2
+                text-center
+                max-md:mb-8
+                md:-mb-4
               ">
-                Purchase benefit:
-              </h3>
-              <p className="
-                text-[16px] 
-                md:text-[20px]               
-                leading-[20px]
-                md:leading-normal
-                ml-10
-                
-                
-              ">
-                {subscription.benefits}
+                ${subscription.price}/month
               </p>
             </div>
+          </DialogHeader>
 
-            {/* Places */}
-            {subscription.places && subscription.places.length > 0 && (
+          <div className="flex-1 overflow-y-auto">
+            <div className="space-y-6 p-3 md:p-4">
+              {/* Benefits */}
               <div className="px-4 md:px-8">
                 <h3 className="
-                  !text-[24px]
+                  !text-[20px]
                   !font-['Open_Sans']
-                  !font-[400]
-                  !leading-[32px]
-                  mb-4
+                  !font-semibold
+                  !leading-[26px]
+                  !mb-2
+                  md:!text-[24px]
+                  md:!font-semibold
+                  md:!leading-[32px]
                 ">
-                  Where to use:
+                  Purchase benefit:
                 </h3>
-                <div className="space-y-4">
-                  {subscription.places.map((place) => (
-                    <div 
-                      key={place.id}
-                      className="flex items-start gap-2"
-                    >
-                      <MapPinIcon className="h-5 w-5 shrink-0 mt-1" />
-                      <div>
-                        <h4 className="
-                          !text-[20px]
-                          !font-['Open_Sans']
-                          font-[600]
-                          !leading-[26px]
-                          underline
-                        ">
-                          {place.name}
-                        </h4>
-                        <p className="
-                          !text-[20px]
-                          !font-['Open_Sans']
-                          font-[600]
-                          !leading-[26px]                        
-                          mt-1
-                          underline
-                        ">
-                          {place.location}
-                        </p>
-                        <p className="
-                          !text-[20px]
-                          !font-['Open_Sans']
-                          font-[600]
-                          !leading-[26px]
-                          mt-1
-                          underline
-                        ">
-                          {place.phoneNumber}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <p className="
+                  text-[18px]
+                  font-normal
+                  leading-[24px]
+                  ml-10
+                  md:text-[20px]
+                  md:leading-normal
+                ">
+                  {subscription.benefits}
+                </p>
               </div>
-            )}
 
-            {/* Website */}
-            {subscription.website && (
-              <div className="px-4 md:px-8">
-                <h3 className="
-                  !text-[24px]
-                  !font-['Open_Sans']
-                  !font-[400]
-                  !leading-[32px]
-                  mb-4
-                ">
-                 
-                </h3>
-                <a 
-                  href={subscription.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
+              {/* Places */}
+              {subscription.places && subscription.places.length > 0 && (
+                <div className="px-4 md:px-8">
+                  <h3 className="
                     !text-[20px]
                     !font-['Open_Sans']
-                    font-[600]
+                    !font-semibold
                     !leading-[26px]
-                    underline                 
-                    hover:text-blue-800
-                    
-                  "
-                >
-                  {subscription.website}
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
+                    mb-4
+                    md:!text-[24px]
+                    md:!font-semibold
+                    md:!leading-[32px]
+                  ">
+                    Where to use:
+                  </h3>
+                  <div className="space-y-4">
+                    {subscription.places.map((place) => (
+                      <div 
+                        key={place.id}
+                        className="flex items-start gap-2"
+                      >
+                        <MapPinIcon className="h-5 w-5 shrink-0 mt-1" />
+                        <div className="flex items-center flex-wrap">
+                          <span className="
+                            !text-[18px]
+                            !font-['Open_Sans']
+                            font-[600]
+                            !leading-[24px]
+                            underline
+                            md:!text-[20px]
+                            md:!leading-[26px]
+                          ">
+                            {place.name}
+                          </span>
+                          <span className="mx-2">,</span>
+                          <span className="
+                            !text-[18px]
+                            !font-['Open_Sans']
+                            font-[600]
+                            !leading-[24px]
+                            underline
+                            md:!text-[20px]
+                            md:!leading-[26px]
+                          ">
+                            {place.location}
+                          </span>
+                          <span className="mx-2">,</span>
+                          <span className="
+                            !text-[18px]
+                            !font-['Open_Sans']
+                            font-[600]
+                            !leading-[24px]
+                            underline
+                            md:!text-[20px]
+                            md:!leading-[26px]
+                          ">
+                            {place.phoneNumber}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-        {/* Buttons */}
-        <div className="p-3 md:p-4 px-8 md:px-14 space-y-2 md:space-y-3">
-          <Button 
-            onClick={handlePurchase}
-            disabled={isLoading}
-            className="
-              w-[340px]
-              h-[78px]
-              rounded-[100px]
-              mx-auto
-              mr-[250px]
-              md:w-full
-              md:mx-0
-              bg-black 
-              text-[16px] 
-              font-semibold 
-              leading-[20px] 
-              font-['Open_Sans']
-            "
-          >
-            {isLoading ? 'Processing...' : 'Buy'}
-          </Button>
-          <Button 
-            variant="ghost"
-            onClick={onClose}
-            className="
-              w-[340px]
-              h-[78px]
-              rounded-[100px]
-              mx-auto
-              mr-[250px]
-              md:w-full
-              md:mx-0
-              bg-white
-              border-2
-              border-black
-              text-[16px] 
-              font-semibold 
-              leading-[20px] 
-              font-['Open_Sans']
-              hover:bg-gray-100
-            "
-          >
-            Other subscriptions
-          </Button>
+              {/* Website */}
+              {subscription.website && (
+                <div className="px-4 md:px-8">
+                  <h3 className="
+                    !text-[24px]
+                    !font-['Open_Sans']
+                    !font-[400]
+                    !leading-[32px]
+                    mb-4
+                  ">
+                   
+                  </h3>
+                  <a 
+                    href={subscription.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+                      !text-[20px]
+                      !font-['Open_Sans']
+                      font-[600]
+                      !leading-[26px]
+                      underline                 
+                      hover:text-blue-800
+                      
+                    "
+                  >
+                    {subscription.website}
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="
+            max-md:fixed 
+            max-md:bottom-0 
+            max-md:left-0 
+            max-md:right-0 
+            bg-white 
+            p-3 
+            md:p-4 
+            md:px-14
+            space-y-2 
+            md:space-y-3
+            border-t 
+            border-gray-100
+            z-10
+          ">
+            <Button 
+              onClick={handlePurchase}
+              disabled={isLoading}
+              className="
+                w-[390px]
+                h-[78px]
+                rounded-[100px]
+                mx-auto
+                md:w-full
+                md:mx-0
+                bg-black 
+                text-[16px] 
+                font-semibold 
+                leading-[20px] 
+                font-['Open_Sans']
+              "
+            >
+              {isLoading ? 'Processing...' : 'Buy'}
+            </Button>
+            
+            <Button 
+              variant="ghost"
+              onClick={onClose}
+              className="
+                w-[390px]
+                h-[78px]
+                rounded-[100px]
+                mx-auto
+                md:w-full
+                md:mx-0
+                bg-white
+                border-2
+                border-black
+                text-[16px] 
+                font-semibold 
+                leading-[20px] 
+                font-['Open_Sans']
+                hover:bg-gray-100
+              "
+            >
+              Other subscriptions
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
