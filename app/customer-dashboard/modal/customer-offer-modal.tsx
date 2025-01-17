@@ -82,114 +82,142 @@ export function CustomerOfferModal({
           <div className="space-y-6 p-3 md:p-4">
             {/* Image */}
             <div className="px-0 md:px-8">
-              <div className="relative w-[325px] h-[200px] md:w-[570px] md:h-[314px] ml-4 md:mx-0">
+              <div className="
+                relative 
+                w-[389px]
+                h-[244px]
+                md:w-[570px] 
+                md:h-[314px] 
+                mx-auto
+                md:mx-0
+                max-md:border-2
+                max-md:border-gray-200
+                max-md:rounded-t-[20px]
+                overflow-hidden
+              ">
                 <Image
                   src={getImageUrl(offer)}
                   alt={offer.title}
                   fill
-                  className="object-cover rounded-[20px]"
+                  className="object-cover md:rounded-[20px]"
                   onError={(e) => {
                     const img = e.target as HTMLImageElement;
                     img.src = '/images/defaultoffers.jpg';
                   }}
                 />
               </div>
-            </div>
-
-            {/* Title */}
-            <div className="px-4 md:px-8">
-              <h3 className="
-                !text-[20px]
-                !font-['Open_Sans']
-                font-[700]
-                !leading-[32px]
-                mb-4
+              
+              {/* Contenedor con borde para el resto del contenido */}
+              <div className="
+                max-md:border-x-2
+                max-md:border-b-2
+                max-md:border-gray-200
+                max-md:rounded-b-[20px]
+                max-md:h-[371px]
+                mx-auto
+                md:mx-0
+                w-[389px]
+                md:w-[570px]
+                p-4
+                md:p-6
+                max-md:overflow-y-auto
               ">
-                {offer.title}
-              </h3>
-              <p className="
-                text-[14px] 
-                !font-['Open_Sans']
-                font-[400]
-                !leading-[18px]
-                text-justify
-                md:text-[20px]               
-                md:!leading-[26px]
-                md:font-[400]
-              ">
-                {offer.description}
-              </p>
-            </div>
-
-            {/* Place */}
-            {offer.place && (
-              <div className="px-4 md:px-8">
-                <h3 className="
-                  !text-[16px]
-                  !font-['Open_Sans']
-                  !font-[400]
-                  !leading-[32px]
-                  mb-4
-                ">
-                  Where to use:
-                </h3>
-                <div className="flex items-start gap-2">
-                  <MapPinIcon className="h-5 w-5 shrink-0 mt-1" />
-                  <div>
-                    <h4 className="
-                      !text-[14px]
-                      !font-['Open_Sans']
-                      font-[600]
-                      !leading-[26px]
-                      underline
-                    ">
-                      {offer.place.name}
-                    </h4>
-                    <p className="
-                      !text-[14px]
-                      !font-['Open_Sans']
-                      font-[600]
-                      !leading-[26px]                        
-                      mt-1
-                      underline
-                    ">
-                      {offer.place.location}
-                    </p>
-                    <p className="
-                      !text-[14px]
-                      !font-['Open_Sans']
-                      font-[600]
-                      !leading-[26px]
-                      mt-1
-                      underline
-                    ">
-                      {offer.place.phoneNumber}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Website */}
-            {offer.website && (
-              <div className="px-4 md:px-8">
-                <a 
-                  href={offer.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    !text-[14px]
+                {/* Title y Description */}
+                <div className="px-0">
+                  <h3 className="
+                    !text-[20px]
                     !font-['Open_Sans']
-                    font-[600]
-                    !leading-[26px]
-                    underline                 
-                    hover:text-blue-800
-                  "
-                >
-                  {offer.website}
-                </a>
+                    font-[700]
+                    !leading-[32px]
+                    mb-4
+                  ">
+                    {offer.title}
+                  </h3>
+                  <p className="
+                    text-[14px] 
+                    !font-['Open_Sans']
+                    font-[400]
+                    !leading-[18px]
+                    text-justify
+                    md:text-[20px]               
+                    md:!leading-[26px]
+                    md:font-[400]
+                  ">
+                    {offer.description}
+                  </p>
+                </div>
+
+                {/* Place */}
+                {offer.place && (
+                  <div className="px-0 mt-4">
+                    <h3 className="
+                      !text-[16px]
+                      !font-['Open_Sans']
+                      !font-[400]
+                      !leading-[32px]
+                      mb-4
+                    ">
+                      Where to use:
+                    </h3>
+                    <div className="flex items-start gap-2">
+                      <MapPinIcon className="h-5 w-5 shrink-0 mt-1" />
+                      <div className="flex items-center flex-wrap ">
+                        <span className="
+                          !text-[14px]
+                          !font-['Open_Sans']
+                          font-[600]
+                          !leading-[26px]
+                          underline
+                        ">
+                          {offer.place.name}
+                        </span>
+                        <span className="mx-1">,</span>
+                        <span className="
+                          !text-[14px]
+                          !font-['Open_Sans']
+                          font-[600]
+                          !leading-[26px]
+                          underline
+                        ">
+                          {offer.place.location}
+                        </span>
+                        <span className="mx-1">,</span>
+                        <span className="
+                          !text-[14px]
+                          !font-['Open_Sans']
+                          font-[600]
+                          !leading-[26px]
+                          underline
+                        ">
+                          {offer.place.phoneNumber}.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Website */}
+                {offer.website && (
+                  <div className="px-0 mt-4">
+                    <a 
+                      href={offer.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                        !text-[14px]
+                        !font-['Open_Sans']
+                        font-[600]
+                        !leading-[26px]
+                        underline                 
+                        hover:text-blue-800
+                      "
+                    >
+                      {offer.website}
+                    </a>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
 

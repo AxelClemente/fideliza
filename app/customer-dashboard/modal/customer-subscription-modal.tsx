@@ -279,10 +279,12 @@ export function CustomerSubscriptionModal({
                 md:w-full
                 md:mx-0
                 bg-black 
-                text-[16px] 
-                font-semibold 
-                leading-[20px] 
-                font-['Open_Sans']
+                !text-[18px]
+                !font-semibold 
+                !leading-[22px]
+                !font-['Open_Sans']
+                md:!text-[16px]
+                md:!leading-[20px]
               "
             >
               {isLoading ? 'Processing...' : 'Buy'}
@@ -301,10 +303,12 @@ export function CustomerSubscriptionModal({
                 bg-white
                 border-2
                 border-black
-                text-[16px] 
-                font-semibold 
-                leading-[20px] 
-                font-['Open_Sans']
+                !text-[18px]
+                !font-semibold 
+                !leading-[22px]
+                !font-['Open_Sans']
+                md:!text-[16px]
+                md:!leading-[20px]
                 hover:bg-gray-100
               "
             >
