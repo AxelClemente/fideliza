@@ -124,10 +124,10 @@ export function AddNewOffersMailingsModal({
         max-md:!rounded-none 
         max-md:!translate-x-0 
         max-md:!translate-y-0
-        !overflow-hidden
+        overflow-y-auto
       ">
-        <div className="relative h-full flex flex-col bg-white">
-          <DialogHeader className="flex-shrink-0 p-4 pb-0">
+        <div className="relative h-full bg-white">
+          <DialogHeader className="p-4 pb-0">
             <DialogTitle className="
               !text-[26px]
               font-bold 
@@ -142,223 +142,220 @@ export function AddNewOffersMailingsModal({
             </DialogTitle>
           </DialogHeader>
 
-          <div className="
-            flex-1 
-            overflow-y-auto 
-            pb-[200px]
-          ">
-            <div className="p-4 space-y-4">
-              <div className="
-                space-y-3 
-                flex
-                flex-col
-                items-center     {/* Centrar en móvil */}
-                md:items-center  {/* Mantener centrado en desktop */}
-                md:px-8
-              ">
-                {/* Name Input */}
-                <div>
-                  <Input 
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className={`
-                      bg-[#F6F6F6] 
-                      pl-8 
-                      w-[390px]
-                      h-[78px] 
-                      rounded-[100px] 
-                      border-0
-                      md:w-[558px]
-                      ${placeholderStyles}
-                    `}
-                    placeholder="Name"
-                  />
-                </div>
+          <div className="p-4 space-y-4">
+            <div className="
+              space-y-3 
+              flex
+              flex-col
+              items-center     {/* Centrar en móvil */}
+              md:items-center  {/* Mantener centrado en desktop */}
+              md:px-8
+            ">
+              {/* Name Input */}
+              <div>
+                <Input 
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={`
+                    bg-[#F6F6F6] 
+                    pl-8 
+                    w-[390px]
+                    h-[78px] 
+                    rounded-[100px] 
+                    border-0
+                    md:w-[558px]
+                    ${placeholderStyles}
+                  `}
+                  placeholder="Name"
+                />
+              </div>
 
-                {/* Description */}
+              {/* Description */}
+              <div>
+                <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 pl-6">
+                  Description
+                </label>
+                <Textarea 
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className={`
+                    bg-[#F6F6F6] 
+                    w-[390px]
+                    h-[132px] 
+                    rounded-[20px] 
+                    border-0
+                    
+                    md:w-[558px]
+                    pt-7
+                    pl-8 
+                    ${placeholderStyles}
+                  `}
+                  placeholder="Describe your mailing..."
+                />
+              </div>
+
+              {/* Container for date and time inputs */}
+              <div className="flex flex-col gap-4">
+                {/* Start Date */}
                 <div>
-                  <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 pl-6">
-                    Description
+                  <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
+                    Start date
                   </label>
-                  <Textarea 
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className={`
-                      bg-[#F6F6F6] 
-                      w-[390px]
-                      h-[132px] 
-                      rounded-[20px] 
-                      border-0
-                      
-                      md:w-[558px]
-                      pt-7
-                      pl-8 
-                      ${placeholderStyles}
-                    `}
-                    placeholder="Describe your mailing..."
-                  />
-                </div>
-
-                {/* Container for date and time inputs */}
-                <div className="flex flex-col gap-4">
-                  {/* Start Date */}
-                  <div>
-                    <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
-                      Start date
-                    </label>
-                    <div className="relative">
-                      <Input 
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        className={`
-                          bg-[#F6F6F6] 
-                          w-[390px]
-                          h-[78px] 
-                          rounded-[100px] 
-                          border-0 
-                          text-gray-500
-                          md:w-[558px]
-                          pl-8 
-                          ${placeholderStyles}
-                          [&::-webkit-calendar-picker-indicator]:opacity-0
-                        `}
-                      />
-                      <svg 
-                        className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none md:hidden" 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          strokeWidth="2" 
-                          d="m6 9 6 6 6-6"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* End Date */}
-                  <div>
-                    <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
-                      End date
-                    </label>
-                    <div className="relative">
-                      <Input 
-                        type="date"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        className={`
-                          bg-[#F6F6F6] 
-                          w-[390px]
-                          h-[78px] 
-                          rounded-[100px] 
-                          border-0 
-                          text-gray-500
-                          md:w-[558px]
-                          pl-8 
-                          ${placeholderStyles}
-                          [&::-webkit-calendar-picker-indicator]:opacity-0
-                        `}
-                      />
-                      <svg 
-                        className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none md:hidden" 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          strokeWidth="2" 
-                          d="m6 9 6 6 6-6"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Time */}
-                  <div className="flex-1">
-                    <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
-                      Time
-                    </label>
+                  <div className="relative">
                     <Input 
-                      type="time"
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                      className="
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className={`
                         bg-[#F6F6F6] 
                         w-[390px]
                         h-[78px] 
                         rounded-[100px] 
                         border-0 
-                        text-[18px]
-                        font-['Open_Sans']
-                        font-semibold
-                        text-[#7B7B7B]
-                        pl-8
-                       
+                        text-gray-500
                         md:w-[558px]
-                        [&::-webkit-calendar-picker-indicator]:hidden
-                      "
+                        pl-8 
+                        ${placeholderStyles}
+                        [&::-webkit-calendar-picker-indicator]:opacity-0
+                      `}
                     />
+                    <svg 
+                      className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none md:hidden" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth="2" 
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
                   </div>
                 </div>
 
-                {/* The audience section */}
-                <div className="space-y-3">
-                  <h3 className="!text-[16px] font-bold leading-[20px] font-['Open_Sans'] pt-2 pl-6">
-                    The audience
-                  </h3>
+                {/* End Date */}
+                <div>
+                  <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
+                    End date
+                  </label>
+                  <div className="relative">
+                    <Input 
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className={`
+                        bg-[#F6F6F6] 
+                        w-[390px]
+                        h-[78px] 
+                        rounded-[100px] 
+                        border-0 
+                        text-gray-500
+                        md:w-[558px]
+                        pl-8 
+                        ${placeholderStyles}
+                        [&::-webkit-calendar-picker-indicator]:opacity-0
+                      `}
+                    />
+                    <svg 
+                      className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none md:hidden" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth="2" 
+                        d="m6 9 6 6 6-6"
+                      />
+                    </svg>
+                  </div>
+                </div>
 
-                  {/* Location */}
-                  <Select onValueChange={setLocation}>
-                    <SelectTrigger className={`
+                {/* Time */}
+                <div className="flex-1">
+                  <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] pl-6 mb-1">
+                    Time
+                  </label>
+                  <Input 
+                    type="time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    className="
                       bg-[#F6F6F6] 
                       w-[390px]
                       h-[78px] 
-                      rounded-[100px]  
+                      rounded-[100px] 
                       border-0 
-                      !text-third-gray
-                      
-                      md:w-[558px]
+                      text-[18px]
+                      font-['Open_Sans']
+                      font-semibold
+                      text-[#7B7B7B]
                       pl-8
-                      ${placeholderStyles}
-                    `}>
-                      <SelectValue placeholder="Location" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {places.map(place => (
-                        <SelectItem key={place.id} value={place.id}>
-                          {place.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                     
+                      md:w-[558px]
+                      [&::-webkit-calendar-picker-indicator]:hidden
+                    "
+                  />
                 </div>
+              </div>
+
+              {/* The audience section */}
+              <div className="space-y-3">
+                <h3 className="!text-[16px] font-bold leading-[20px] font-['Open_Sans'] pt-2 pl-6">
+                  The audience
+                </h3>
+
+                {/* Location */}
+                <Select onValueChange={setLocation}>
+                  <SelectTrigger className={`
+                    bg-[#F6F6F6] 
+                    w-[390px]
+                    h-[78px] 
+                    rounded-[100px]  
+                    border-0 
+                    !text-third-gray
+                    
+                    md:w-[558px]
+                    pl-8
+                    ${placeholderStyles}
+                  `}>
+                    <SelectValue placeholder="Location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {places.map(place => (
+                      <SelectItem key={place.id} value={place.id}>
+                        {place.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
 
-          <div className="
-            absolute 
-            bottom-0 
-            left-0 
-            right-0 
-            bg-white 
-            p-4 
-            space-y-3
-            border-t
-            border-gray-100
-          ">
+          <div className="p-4 space-y-3">
             <Button 
               onClick={handleSubmit}
               disabled={isLoading}
-              className="w-[390px] md:w-[558px] mx-auto block ..."
+              className="
+                w-[390px] 
+                h-[78px] 
+                rounded-[100px] 
+                bg-black 
+                text-white 
+                text-[18px]
+                font-semibold
+                leading-[22px]
+                font-['Open_Sans']
+                md:w-[558px] 
+                mx-auto 
+                block
+              "
             >
               {isLoading ? <ClipLoader /> : mode === 'edit' ? 'Update' : 'Save'}
             </Button>
@@ -366,7 +363,21 @@ export function AddNewOffersMailingsModal({
             <Button 
               variant="ghost"
               onClick={onClose}
-              className="w-[390px] md:w-[558px] mx-auto block ..."
+              className="
+                w-[390px] 
+                h-[78px] 
+                mx-auto 
+                block 
+                !text-black 
+                !text-[18px] 
+                !font-semibold 
+                !leading-[22px] 
+                !font-['Open_Sans'] 
+                !underline 
+                !decoration-solid 
+                hover:bg-transparent 
+                hover:!text-black/80
+              "
             >
               Cancel
             </Button>
