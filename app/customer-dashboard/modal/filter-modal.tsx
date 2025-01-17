@@ -90,8 +90,15 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
       ">
         <div className="h-[100dvh] bg-white flex flex-col">
           <div className="flex-1 overflow-y-auto">
-            <DialogHeader className="p-4 pb-0">
-              <DialogTitle>Search filters</DialogTitle>
+            <DialogHeader className="p-4 pb-6">
+              <DialogTitle className="
+                !text-[26px] 
+                font-bold 
+                leading-[30px]
+                md:pl-8
+              ">
+                Search filters
+              </DialogTitle>
             </DialogHeader>
 
             <div className="p-4 space-y-4 pb-[200px]">
@@ -101,7 +108,19 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
                   Category of business
                 </label>
                 <Select value={filters.category} onValueChange={value => setFilters({ ...filters, category: value })}>
-                  <SelectTrigger className="bg-[#F6F6F6] h-[78px] w-[390px] md:w-[598px] rounded-[100px] border-0 mx-auto md:mx-0 text-third-gray pl-8 pr-8">
+                  <SelectTrigger className="
+                    bg-[#F6F6F6] 
+                    h-[78px] 
+                    w-[390px] 
+                    rounded-[100px] 
+                    border-0 
+                    mx-auto 
+                    md:mx-8 
+                    text-third-gray 
+                    pl-8 
+                    pr-8
+                    md:w-[598px]
+                  ">
                     <SelectValue placeholder="Select category" />
                     <ChevronDown className="h-6 w-6 opacity-50" />
                   </SelectTrigger>
@@ -127,7 +146,19 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
                   Subcategory of business
                 </label>
                 <Select value={filters.subcategory} onValueChange={value => setFilters({ ...filters, subcategory: value })}>
-                  <SelectTrigger className="bg-[#F6F6F6] h-[78px] w-[390px] md:w-[598px] rounded-[100px] border-0 mx-auto md:mx-0 text-third-gray pl-8 pr-8">
+                  <SelectTrigger className="
+                    bg-[#F6F6F6] 
+                    h-[78px] 
+                    w-[390px] 
+                    rounded-[100px] 
+                    border-0 
+                    mx-auto 
+                    md:mx-8 
+                    text-third-gray 
+                    pl-8 
+                    pr-8
+                    md:w-[598px]
+                  ">
                     <SelectValue placeholder="Select subcategory" />
                     <ChevronDown className="h-6 w-6 opacity-50" />
                   </SelectTrigger>
@@ -153,7 +184,19 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
                   Has subscriptions
                 </label>
                 <Select value={filters.hasSubscriptions} onValueChange={value => setFilters({ ...filters, hasSubscriptions: value })}>
-                  <SelectTrigger className="bg-[#F6F6F6] h-[78px] w-[390px] md:w-[598px] rounded-[100px] border-0 mx-auto md:mx-0 text-third-gray pl-8 pr-8">
+                  <SelectTrigger className="
+                    bg-[#F6F6F6] 
+                    h-[78px] 
+                    w-[390px] 
+                    rounded-[100px] 
+                    border-0 
+                    mx-auto 
+                    md:mx-8 
+                    text-third-gray 
+                    pl-8 
+                    pr-8
+                    md:w-[598px]
+                  ">
                     <SelectValue placeholder="Select option" />
                     <ChevronDown className="h-6 w-6 opacity-50" />
                   </SelectTrigger>
@@ -170,7 +213,19 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
                   Has special offers
                 </label>
                 <Select value={filters.hasOffers} onValueChange={value => setFilters({ ...filters, hasOffers: value })}>
-                  <SelectTrigger className="bg-[#F6F6F6] h-[78px] w-[390px] md:w-[598px] rounded-[100px] border-0 mx-auto md:mx-0 text-third-gray pl-8 pr-8">
+                  <SelectTrigger className="
+                    bg-[#F6F6F6] 
+                    h-[78px] 
+                    w-[390px] 
+                    rounded-[100px] 
+                    border-0 
+                    mx-auto 
+                    md:mx-8 
+                    text-third-gray 
+                    pl-8 
+                    pr-8
+                    md:w-[598px]
+                  ">
                     <SelectValue placeholder="Select option" />
                     <ChevronDown className="h-6 w-6 opacity-50" />
                   </SelectTrigger>
@@ -191,14 +246,27 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
             max-md:right-0 
             bg-white 
             p-4 
-            space-y-2
+            space-y-0
             border-t 
             border-gray-100
             z-10
           ">
             <Button 
               onClick={handleSaveFilters}
-              className="w-[390px] h-[78px] rounded-[100px] mx-auto block bg-black text-white"
+              className="
+                w-[390px] 
+                h-[78px] 
+                rounded-[100px] 
+                mx-auto 
+                block 
+                bg-black 
+                text-white
+                text-[18px]
+                font-semibold
+                leading-[22px]
+                font-['Open_Sans']
+                md:w-[558px]
+              "
             >
               Save filters
             </Button>
@@ -206,7 +274,21 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
             <Button 
               variant="ghost"
               onClick={handleResetFilters}
-              className="w-[390px] h-[78px] mx-auto block underline"
+              className="
+                w-[390px] 
+                h-[78px] 
+                mx-auto 
+                block 
+                !text-black 
+                !text-[18px] 
+                !font-semibold 
+                !leading-[22px] 
+                !font-['Open_Sans'] 
+                !underline 
+                !decoration-solid 
+                hover:bg-transparent 
+                hover:!text-black/80
+              "
             >
               Reset filters
             </Button>
