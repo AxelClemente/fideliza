@@ -105,7 +105,6 @@ export function AddNewOffersMailingsModal({
       <DialogContent className="
         max-w-[706px] 
         p-0 
-        overflow-hidden 
         md:!fixed 
         md:!left-auto 
         md:!right-[calc((100vw-1440px)/2)] 
@@ -125,9 +124,10 @@ export function AddNewOffersMailingsModal({
         max-md:!rounded-none 
         max-md:!translate-x-0 
         max-md:!translate-y-0
+        !overflow-hidden
       ">
-        <div className="flex flex-col h-full bg-white">
-          <DialogHeader className="p-4 pb-0">
+        <div className="relative h-full flex flex-col bg-white">
+          <DialogHeader className="flex-shrink-0 p-4 pb-0">
             <DialogTitle className="
               !text-[26px]
               font-bold 
@@ -142,7 +142,11 @@ export function AddNewOffersMailingsModal({
             </DialogTitle>
           </DialogHeader>
 
-          <div className="flex-1 overflow-y-auto pb-[200px]">
+          <div className="
+            flex-1 
+            overflow-y-auto 
+            pb-[200px]
+          ">
             <div className="p-4 space-y-4">
               <div className="
                 space-y-3 
@@ -341,56 +345,28 @@ export function AddNewOffersMailingsModal({
           </div>
 
           <div className="
-            fixed
-            bottom-0
-            left-0
-            right-0
+            absolute 
+            bottom-0 
+            left-0 
+            right-0 
+            bg-white 
             p-4 
-            space-y-3 
-            bg-white
-            px-4          
-            md:px-14
-            z-10
-            pb-6
+            space-y-3
+            border-t
+            border-gray-100
           ">
             <Button 
               onClick={handleSubmit}
               disabled={isLoading}
-              className="
-                w-[390px]
-                h-[78px] 
-                rounded-[100px] 
-                bg-black 
-                text-white 
-                text-[16px] 
-                font-semibold 
-                leading-[20px] 
-                font-['Open_Sans']
-                mx-auto
-                block
-                md:w-[558px]
-              "
+              className="w-[390px] md:w-[558px] mx-auto block ..."
             >
-              {isLoading ? <ClipLoader size={20} color="#FFFFFF" /> : mode === 'edit' ? 'Update' : 'Save'}
+              {isLoading ? <ClipLoader /> : mode === 'edit' ? 'Update' : 'Save'}
             </Button>
 
             <Button 
               variant="ghost"
               onClick={onClose}
-              className="
-                w-[390px]        
-                h-[60px] 
-                !text-black 
-                !text-[18px] 
-                !font-semibold 
-                !underline 
-                hover:bg-transparent 
-                mx-auto          
-                block            
-                md:w-[558px]     
-                mb-4             
-                md:mb-0          
-              "
+              className="w-[390px] md:w-[558px] mx-auto block ..."
             >
               Cancel
             </Button>
