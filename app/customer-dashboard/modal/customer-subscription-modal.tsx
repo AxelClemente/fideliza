@@ -97,42 +97,42 @@ export function CustomerSubscriptionModal({
         "
       >
         <div className="h-[100dvh] bg-white flex flex-col">
-          <DialogHeader className="p-3 md:p-4 pb-0 flex-shrink-0">
-            <div className="px-4 md:px-8 mt-10">
-              <h2 className="
-                !text-[30px]
-                !font-['Open_Sans']
-                font-[700]
-                !leading-[36px]
-                mb-8
-              ">
-                Subscription detail
-              </h2>
-              <DialogTitle className="
-                !text-[40px]
-                !font-['Open_Sans']
-                font-[700]
-                !leading-[54px]
-                text-center
-              ">
-                {subscription.name}
-              </DialogTitle>
-              <p className="
-                !text-[24px]
-                !font-['Open_Sans']
-                font-[700]
-                !leading-[32px]
-                text-center
-                max-md:mb-8
-                md:-mb-4
-              ">
-                ${subscription.price}/month
-              </p>
-            </div>
-          </DialogHeader>
-
           <div className="flex-1 overflow-y-auto">
-            <div className="space-y-6 p-3 md:p-4">
+            <DialogHeader className="p-3 md:p-4 pb-0 flex-shrink-0">
+              <div className="px-4 md:px-8 mt-10">
+                <h2 className="
+                  !text-[30px]
+                  !font-['Open_Sans']
+                  font-[700]
+                  !leading-[36px]
+                  mb-8
+                ">
+                  Subscription detail
+                </h2>
+                <DialogTitle className="
+                  !text-[40px]
+                  !font-['Open_Sans']
+                  font-[700]
+                  !leading-[54px]
+                  text-center
+                ">
+                  {subscription.name}
+                </DialogTitle>
+                <p className="
+                  !text-[24px]
+                  !font-['Open_Sans']
+                  font-[700]
+                  !leading-[32px]
+                  text-center
+                  max-md:mb-8
+                  md:-mb-4
+                ">
+                  ${subscription.price}/month
+                </p>
+              </div>
+            </DialogHeader>
+
+            <div className="space-y-6 p-3 md:p-4 pb-[200px]">
               {/* Benefits */}
               <div className="px-4 md:px-8">
                 <h3 className="
