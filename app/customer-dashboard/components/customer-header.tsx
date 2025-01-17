@@ -80,7 +80,7 @@ export function CustomerHeader() {
             {/* User Profile */}
             <Link href="/customer-dashboard/customer-profile" className="block mb-8">
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full flex items-center justify-center">
                   <Image
                     src={session?.user?.image || "/images/placeholder1.png"}
                     alt="User avatar"
@@ -145,7 +145,7 @@ export function CustomerHeader() {
 
             <Link href="/customer-dashboard/customer-profile">
               <div className="flex items-center gap-3 group">
-                <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center">
+                <div className="h-12 w-12 rounded-full flex items-center justify-center">
                   {isLoading ? (
                     <div className="h-11 w-11 rounded-full bg-gray-200 animate-pulse" />
                   ) : (
