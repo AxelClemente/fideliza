@@ -118,7 +118,7 @@ export function AddNewOffersMailingsModal({
         max-md:!inset-0 
         max-md:!w-[100vw] 
         max-md:!max-w-[100vw] 
-        max-md:!h-screen 
+        max-md:!h-[100dvh]
         max-md:!m-0 
         max-md:!p-0 
         max-md:!rounded-none 
@@ -126,8 +126,8 @@ export function AddNewOffersMailingsModal({
         max-md:!translate-y-0
         overflow-y-auto
       ">
-        <div className="relative h-full bg-white">
-          <DialogHeader className="p-4 pb-0">
+        <div className="relative min-h-[100dvh] bg-white flex flex-col">
+          <DialogHeader className="p-4 pb-0 flex-shrink-0">
             <DialogTitle className="
               !text-[26px]
               font-bold 
@@ -142,7 +142,7 @@ export function AddNewOffersMailingsModal({
             </DialogTitle>
           </DialogHeader>
 
-          <div className="p-4 space-y-4">
+          <div className="flex-1 p-4 space-y-4">
             <div className="
               space-y-3 
               flex
@@ -338,7 +338,7 @@ export function AddNewOffersMailingsModal({
             </div>
           </div>
 
-          <div className="p-4 space-y-3">
+          <div className="p-4 space-y-3 flex-shrink-0">
             <Button 
               onClick={handleSubmit}
               disabled={isLoading}
