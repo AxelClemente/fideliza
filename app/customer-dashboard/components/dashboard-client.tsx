@@ -153,8 +153,8 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
         <div className="hidden md:block flex-1" />
         <div className="flex items-center gap-2 mx-auto md:mx-0 md:-translate-x-16">
           <Image src="/location.svg" alt="Location icon" width={24} height={24} />
-          <span className="font-semibold">My city:</span>
-          <span className="font-semibold text-third-gray underline">{userLocation}</span>
+          <span className="text-[16px] font-[700] md:font-semibold">My city:</span>
+          <span className="text-[16px] font-[700] md:font-semibold text-third-gray underline">{userLocation}</span>
         </div>
       </div>
 
