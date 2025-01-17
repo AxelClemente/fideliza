@@ -163,7 +163,7 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
         </div>
 
         {/* Buttons */}
-        <div className="p-3 md:p-4 px-8 md:px-14 space-y-2 md:space-y-3 flex-shrink-0 bg-white fixed bottom-0 left-0 right-0 md:relative">
+        <div className="p-3 md:p-4 px-8 md:px-14 space-y-2 md:space-y-3 flex-shrink-0 bg-white md:fixed md:bottom-0 md:left-0 md:right-0">
           <Button 
             onClick={handleSaveFilters} 
             className="w-[390px] md:w-[580px] h-[78px] rounded-[100px] mx-auto md:mx-0 bg-black text-[16px] font-semibold leading-[20px] font-['Open_Sans']"
