@@ -259,10 +259,6 @@ export function CustomerSubscriptionModal({
 
           {/* Buttons */}
           <div className="
-            max-md:fixed 
-            max-md:bottom-0 
-            max-md:left-0 
-            max-md:right-0 
             bg-white 
             p-3 
             md:p-4 
@@ -271,7 +267,6 @@ export function CustomerSubscriptionModal({
             md:space-y-3
             border-t 
             border-gray-100
-            z-10
           ">
             <Button 
               onClick={handlePurchase}
