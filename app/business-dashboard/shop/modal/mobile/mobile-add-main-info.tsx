@@ -164,7 +164,7 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
               <Input 
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="El Calero Restaurante"
+                placeholder="Restaurante name"
                 className="
                   bg-gray-50 
                   border-none 
@@ -172,11 +172,11 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
                   h-[78px] 
                   rounded-[100px]
                   mx-auto
-                  pl-12
+                  pl-14
                 "
               />
               <svg
-                className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7B7B7B]"
+                className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7B7B7B] ml-4"
                 width="20" 
                 height="20" 
                 viewBox="0 0 20 20" 
@@ -191,12 +191,12 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
           </div>
 
           {/* Description */}
-          <div className="space-y-6">
+          <div className="space-y-6 px-4">
             <h3 className="font-medium !text-[20px]">Description</h3>
             <Textarea 
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="At El Calero Restaurante, you'll find a unique blend of..."
+              placeholder="Describe your restaurant"
               className="
                 bg-gray-50 
                 border-none 
@@ -204,7 +204,10 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
                 min-h-[78px] 
                 rounded-[100px]
                 mx-auto
-                pl-6
+                pl-14
+                flex
+                items-center
+                py-6
               "
             />
           </div>
@@ -223,11 +226,11 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
                   h-[78px] 
                   rounded-[100px]
                   mx-auto
-                  pl-12
+                  pl-14
                 "
               />
               <svg
-                className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7B7B7B]"
+                className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7B7B7B] ml-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -243,7 +246,7 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
           </div>
 
           {/* Photos Section */}
-          <div>
+          <div className="px-4">
             <div className="flex items-center justify-between mb-2">
               <label 
                 htmlFor="fileInput" 
@@ -264,16 +267,22 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
             {/* Área de previsualización con placeholder */}
             <div>
               {photos.length === 0 ? (
-                <div className="
-                  w-[359px] 
-                  h-[78px] 
-                  bg-gray-50 
-                  rounded-[100px]
-                  mx-auto
-                  flex 
-                  items-center 
-                  justify-center
-                ">
+                <div 
+                  onClick={() => document.getElementById('fileInput')?.click()}
+                  className="
+                    w-[359px] 
+                    h-[78px] 
+                    bg-gray-50 
+                    rounded-[100px]
+                    mx-auto
+                    flex 
+                    items-center 
+                    justify-center
+                    cursor-pointer   
+                    hover:bg-gray-100 
+                    transition-colors
+                  "
+                >
                   {isUploadingImages ? (
                     <ClipLoader size={20} color="#7B7B7B" />
                   ) : (
@@ -328,6 +337,7 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
             hover:bg-black/90
             rounded-[100px]
             mx-auto
+            block
             font-['Open_Sans']
             text-[18px]
             font-semibold

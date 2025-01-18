@@ -81,7 +81,11 @@ export function MobileBusinessHeader() {
       `}>
         <div className="pt-20 px-6">
           {/* User Profile */}
-          <Link href="/business-dashboard/user-profile" className="block mb-8">
+          <Link 
+            href="/business-dashboard/user-profile" 
+            className="block mb-8"
+            onClick={toggleMenu}
+          >
             <div className="flex items-center gap-2">
               <div className="h-10 w-10 rounded-full overflow-hidden flex-shrink-0">
                 <Image

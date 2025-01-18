@@ -431,18 +431,27 @@ export function AddMainInfoModal({
               {/* Área de previsualización con placeholder */}
               <div className="px-4 md:px-8">
                 {photos.length === 0 ? (
-                  <div className="
-                    w-[390px]           
-                    h-[78px] 
-                    bg-main-gray 
-                    rounded-[100px]
-                    mx-auto
-                    -ml-4            // Margen negativo para mover a la izquierda
-                    md:w-full
-                    md:mx-0
-                    md:h-[80px]
-                    md:rounded-2xl
-                  ">
+                  <div 
+                    onClick={() => document.getElementById('fileInput')?.click()}
+                    className="
+                      bg-main-gray 
+                      h-[78px] 
+                      w-[390px]          
+                      rounded-[100px]
+                      border-0
+                      mx-auto
+                      -ml-4 
+                      md:w-[558px]
+                      md:mx-0
+                      flex              
+                      items-center      
+                      justify-center    
+                      cursor-pointer    
+                      hover:bg-gray-100 
+                      transition-colors
+                      text-third-gray   // <- Añadido para consistencia con otros inputs
+                    "
+                  >
                     {isUploadingImages ? (
                       <ClipLoader size={20} color="#7B7B7B" />
                     ) : (
@@ -455,8 +464,8 @@ export function AddMainInfoModal({
                   <div className="
                     w-[390px]           
                     mx-auto            
-                    mr-[40px]
-                    md:w-full          
+                    -ml-4
+                    md:w-[558px]          
                     md:mx-0            
                   ">
                     <div className="

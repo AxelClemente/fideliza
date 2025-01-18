@@ -418,17 +418,24 @@ export function MobileAddSpecialOffer({
                 
                 <div>
                   {photos.length === 0 ? (
-                    <div className="
-                      w-[390px] 
-                      h-[78px] 
-                      bg-gray-50 
-                      rounded-[100px]
-                      mx-auto
-                      flex 
-                      items-center 
-                      justify-center
-                      -ml-6
-                    ">
+                    <div 
+                      onClick={() => document.getElementById('fileInput')?.click()}
+                      className="
+                        w-[390px] 
+                        h-[78px] 
+                        bg-main-gray 
+                        rounded-[100px]
+                        mx-auto
+                        
+                        flex 
+                        items-center 
+                        justify-center
+                        cursor-pointer    
+                        hover:bg-gray-100 
+                        transition-colors
+                        text-third-gray
+                      "
+                    >
                       {isUploadingImages ? (
                         <ClipLoader size={20} color="#7B7B7B" />
                       ) : (
@@ -438,24 +445,29 @@ export function MobileAddSpecialOffer({
                       )}
                     </div>
                   ) : (
-                    <div className="flex gap-4 overflow-x-auto pb-2">
-                      {photos.map((photo, index) => (
-                        <div key={index} className="relative flex-shrink-0 w-[80px] h-[80px]">
-                          <Image
-                            src={photo}
-                            alt={`Photo ${index + 1}`}
-                            width={80}
-                            height={80}
-                            className="rounded-lg object-cover"
-                          />
-                          <button 
-                            onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
-                            className="absolute top-1 right-1 p-1 bg-black/50 rounded-full"
+                    <div className="w-[390px] mx-auto -ml-6">
+                      <div className="flex gap-2 overflow-x-auto pb-2 pl-6">
+                        {photos.map((photo, index) => (
+                          <div 
+                            key={index} 
+                            className="relative flex-shrink-0 w-[70px] h-[70px]"
                           >
-                            <Trash2 className="h-3 w-3 text-white" />
-                          </button>
-                        </div>
-                      ))}
+                            <Image
+                              src={photo}
+                              alt={`Photo ${index + 1}`}
+                              width={70}
+                              height={70}
+                              className="rounded-lg object-cover w-full h-full"
+                            />
+                            <button 
+                              onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
+                              className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
+                            >
+                              <Trash2 className="h-3 w-3 text-white" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>

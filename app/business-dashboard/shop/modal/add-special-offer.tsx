@@ -490,7 +490,27 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
               {/* Preview area */}
               <div className="px-8">
                 {photos.length === 0 ? (
-                  <div className="w-full h-[60px] bg-main-gray rounded-2xl flex items-center justify-center">
+                  <div 
+                    onClick={() => document.getElementById('fileInput')?.click()}
+                    className="
+                      bg-main-gray 
+                      h-[78px] 
+                      w-[390px]          
+                      rounded-[100px]
+                      border-0
+                      mx-auto
+                      -ml-6 
+                      md:w-[558px]
+                      md:mx-0
+                      flex              
+                      items-center      
+                      justify-center    
+                      cursor-pointer    
+                      hover:bg-gray-100 
+                      transition-colors
+                      text-third-gray
+                    "
+                  >
                     {isUploadingImages ? (
                       <ClipLoader size={20} color="#7B7B7B" />
                     ) : (
@@ -500,29 +520,37 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                     )}
                   </div>
                 ) : (
-                  <div className="flex gap-4 relative">
-                    {isUploadingImages && (
-                      <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-2xl">
-                        <ClipLoader size={20} color="#000000" />
-                      </div>
-                    )}
-                    {photos.map((photo, index) => (
-                      <div key={index} className="relative group w-[80px] h-[80px]">
-                        <Image
-                          src={photo}
-                          alt={`Photo ${index + 1}`}
-                          width={80}
-                          height={80}
-                          className="rounded-lg object-cover w-full h-full"
-                        />
-                        <button 
-                          onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
-                          className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
-                        >
-                          <Trash2 className="h-3 w-3 text-white" />
-                        </button>
-                      </div>
-                    ))}
+                  <div className="
+                    w-[390px]           
+                    mx-auto            
+                    -ml-6
+                    md:w-[558px]          
+                    md:mx-0            
+                  ">
+                    <div className="flex gap-2 overflow-x-auto pb-2">
+                      {isUploadingImages && (
+                        <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-2xl">
+                          <ClipLoader size={20} color="#000000" />
+                        </div>
+                      )}
+                      {photos.map((photo, index) => (
+                        <div key={index} className="relative group w-[70px] h-[70px] flex-shrink-0">
+                          <Image
+                            src={photo}
+                            alt={`Photo ${index + 1}`}
+                            width={70}
+                            height={70}
+                            className="rounded-lg object-cover w-full h-full"
+                          />
+                          <button 
+                            onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
+                            className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
+                          >
+                            <Trash2 className="h-3 w-3 text-white" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
