@@ -431,18 +431,19 @@ export function ClientWrapper({
             {/* Versión Desktop */}
             <button 
               onClick={() => setIsSpecialOfferModalOpen(true)}
-              className="
+              className={`
                 hidden            
                 md:flex         
                 justify-end   
                 items-center      
-                px-4              
-              "
+                w-full
+                whitespace-nowrap
+              `}
             >
               <span className={`
                 ${!hasPlaces 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1110px] pt-2"
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center " 
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[990px] pb-2"
                 }
               `}>
                 {!hasPlaces ? "Add special offer" : "Add new special offer"}
@@ -637,7 +638,7 @@ export function ClientWrapper({
               <span className={`
                 ${!hasPlaces 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1070px] pt-2"
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[970px] pb-2"
                 }
               `}>
                 {!hasPlaces ? "Add subscription" : "Add new subscription"}
@@ -701,20 +702,23 @@ export function ClientWrapper({
             {/* Versión Desktop */}
             <button 
               onClick={() => setIsMainInfoModalOpen(true)}
-              className="
-                hidden
-                md:block
-                w-[329px] 
-                h-[78px] 
-                rounded-[100px] 
-                bg-[#000000] 
-                text-white 
-                text-[18px] 
-                font-semibold 
-                leading-[22px]
-              "
+              className={`
+                hidden            
+                md:flex         
+                justify-end   
+                items-center      
+                w-full
+                whitespace-nowrap
+              `}
             >
-              Add main info
+              <span className={`
+                ${!restaurants.length 
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pb-4"
+                }
+              `}>
+                {!restaurants.length ? "Add main info" : "Add new main info"}
+              </span>
             </button>
 
             {/* Modal */}
@@ -736,8 +740,78 @@ export function ClientWrapper({
     )
   }
 
-  // No mostrar el botón de Add place si no hay restaurantes
-  if (type === 'place' && restaurants.length === 0) return null
+  // Para el botón de Add new place
+  if (type === 'place' && mode === 'add') {
+    return (
+      <>
+        {access.canEdit && (
+          <>
+            <button 
+              onClick={() => setIsPlaceInfoModalOpen(true)}
+              className={`
+                hidden            
+                md:flex         
+                justify-end   
+                items-center      
+                w-full
+                whitespace-nowrap
+              `}
+            >
+              <span className={`
+                ${!hasPlaces 
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid"
+                }
+              `}>
+                {!hasPlaces ? "Add place" : "Add new place"}
+              </span>
+            </button>
+
+            {/* Versión Móvil */}
+            <div className="
+              md:hidden
+              flex
+              justify-center
+              w-full
+              mt-6
+            ">
+              <button 
+                onClick={() => setIsPlaceInfoModalOpen(true)}
+                className="
+                  w-[390px]
+                  h-[78px]
+                  bg-black
+                  text-white
+                  text-[18px]
+                  font-semibold
+                  leading-[22px]
+                  rounded-[100px]
+                  shadow-lg
+                "
+              >
+                Add new place
+              </button>
+            </div>
+
+            {/* Modal */}
+            {isMobile ? (
+              <MobileAddPlaceInfo
+                isOpen={isPlaceInfoModalOpen}
+                onClose={() => setIsPlaceInfoModalOpen(false)}
+                restaurantId={restaurants[0].id}
+              />
+            ) : (
+              <AddPlaceInfoModal
+                isOpen={isPlaceInfoModalOpen}
+                onClose={() => setIsPlaceInfoModalOpen(false)}
+                restaurantId={restaurants[0].id}
+              />
+            )}
+          </>
+        )}
+      </>
+    )
+  }
 
   // Agregar el caso condicional para mailing después de los otros casos (special-offer, subscription)
   if (type === 'mailing' && mode === 'edit' && mailing) {
@@ -819,27 +893,21 @@ export function ClientWrapper({
                 <>
                   <button 
                     onClick={() => setIsPlaceInfoModalOpen(true)}
-                    className="
+                    className={`
                       hidden            
                       md:flex         
                       justify-end   
                       items-center      
                       px-4              
-                    "
+                    `}
                   >
-                    <span className="
-                      text-black 
-                      hover:text-black/80
-                      text-[24px] 
-                      font-semibold 
-                      leading-[22px] 
-                      font-['Open_Sans']
-                      underline 
-                      decoration-solid
-                      pl-[1000px]
-                      pt-2
-                    ">
-                      Add new place
+                    <span className={`
+                      ${!hasPlaces 
+                        ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
+                        : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid"
+                      }
+                    `}>
+                      {!hasPlaces ? "Add place" : "Add new place"}
                     </span>
                   </button>
 
