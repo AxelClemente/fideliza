@@ -794,14 +794,8 @@ export function ClientWrapper({
             </div>
 
             {/* Modal */}
-            {isMobile ? (
+            {isPlaceInfoModalOpen && restaurants.length > 0 && (
               <MobileAddPlaceInfo
-                isOpen={isPlaceInfoModalOpen}
-                onClose={() => setIsPlaceInfoModalOpen(false)}
-                restaurantId={restaurants[0].id}
-              />
-            ) : (
-              <AddPlaceInfoModal
                 isOpen={isPlaceInfoModalOpen}
                 onClose={() => setIsPlaceInfoModalOpen(false)}
                 restaurantId={restaurants[0].id}
@@ -938,14 +932,8 @@ export function ClientWrapper({
                   </div>
 
                   {/* Modal */}
-                  {isMobile ? (
+                  {isPlaceInfoModalOpen && restaurants.length > 0 && (
                     <MobileAddPlaceInfo
-                      isOpen={isPlaceInfoModalOpen}
-                      onClose={() => setIsPlaceInfoModalOpen(false)}
-                      restaurantId={restaurants[0].id}
-                    />
-                  ) : (
-                    <AddPlaceInfoModal
                       isOpen={isPlaceInfoModalOpen}
                       onClose={() => setIsPlaceInfoModalOpen(false)}
                       restaurantId={restaurants[0].id}

@@ -26,8 +26,9 @@ export default async function ShopPage() {
                   md:text-[40px] 
                   font-semibold 
                   text-[#7B7B7B]
-                  mt-8               /* Nuevo: margen superior solo en móvil */
-                  md:mt-0           /* Reset del margen en desktop */
+                  mt-8               
+                  md:mt-0           
+                  whitespace-nowrap    /* Añadido: previene el salto de línea */
                 ">
                   No Main info yet!
                 </h2>
@@ -150,12 +151,12 @@ export default async function ShopPage() {
               !leading-[32px]       
               md:!leading-[36px]    
               !font-['Open_Sans']   
-              !font-bold 
-              !text-black
+              !font-bold          
               pl-4              
               md:pl-0
               mt-6              /* Agregar margen superior en móvil */
               md:mt-0           /* Remover margen en desktop */
+              text-[#7B7B7B]
             ">
               Places ({restaurants.reduce((total, restaurant) => total + restaurant.places.length, 0)})
             </h2>
