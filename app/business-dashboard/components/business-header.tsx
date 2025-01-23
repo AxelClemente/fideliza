@@ -38,11 +38,11 @@ export function BusinessHeader() {
 
   return (
     <div className="w-full bg-black">
-      <header className="container mx-auto px-4 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <header className="container mx-auto h-[84px] flex flex-col md:flex-row items-center justify-between">
         {/* Left side: Logo and User Info */}
-        <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-start pl-4 md:pl-8">
+        <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-start pl-8">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 mr-8">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               src="/logofideliza.svg"
               alt="Logo"
@@ -73,7 +73,7 @@ export function BusinessHeader() {
                   {isLoading ? (
                     <div className="h-4 w-24 bg-gray-200 animate-pulse rounded" />
                   ) : (
-                    session?.user?.name || "Guest"
+                    session?.user?.name?.split(' ')[0] || "Guest"
                   )}
                 </span>
                 <ChevronDown className="h-4 w-4 text-main-light hidden sm:block group-hover:text-gray-300 transition-colors" />
@@ -83,9 +83,9 @@ export function BusinessHeader() {
         </div>
 
         {/* Right side: Navigation and Logout */}
-        <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto pr-4 md:pr-8">
+        <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto pr-8">
           {/* Navigation */}
-          <nav className="flex flex-wrap justify-center gap-6 md:gap-8 mr-12">
+          <nav className="flex flex-wrap justify-center gap-8">
             {navigationItems.map((item) => (
               <button
                 key={item.href}
@@ -117,7 +117,7 @@ export function BusinessHeader() {
           {/* Logout */}
           <button 
             onClick={() => signOut({ callbackUrl: '/' })}
-            className=" mr-8 text-semi-bold-2 text-third-gray hover:text-main-light md:ml-8 whitespace-nowrap"
+            className="text-semi-bold-2 text-third-gray hover:text-main-light md:ml-8 whitespace-nowrap"
           >
             Logout
           </button>

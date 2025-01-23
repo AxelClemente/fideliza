@@ -249,27 +249,34 @@ export default async function ShopPage() {
                                 d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9a2 2 0 110-4 2 2 0 010 4z"
                               />
                             </svg>
-                            <span className="
-                              text-[18px]           /* Size: 18px */
-                              md:!text-[20px]
-                              leading-[22px]        /* Line height: 22px */
-                              md:!leading-[26px]
-                              font-['Open_Sans']    /* Font: Open Sans */
-                              font-semibold         /* Weight: 600 (Semi Bold) */
-                              md:!font-semibold
-                              whitespace-nowrap
-                              md:!underline
-                              md:!decoration-solid
-                              line-clamp-1
-                              md:line-clamp-none
-                              max-w-[270px]
-                              md:max-w-none
-                              overflow-hidden
-                              text-ellipsis
-                              text-justify          /* Align: Justified */
-                            ">
+                            <a 
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.location)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="
+                                text-[18px]           
+                                md:!text-[20px]
+                                leading-[22px]        
+                                md:!leading-[26px]
+                                font-['Open_Sans']    
+                                font-semibold         
+                                md:!font-semibold
+                                whitespace-nowrap
+                                md:!underline
+                                md:!decoration-solid
+                                line-clamp-1
+                                md:line-clamp-none
+                                max-w-[270px]
+                                md:max-w-none
+                                overflow-hidden
+                                text-ellipsis
+                                text-justify
+                                hover:text-blue-600
+                                transition-colors
+                              "
+                            >
                               {place.location}
-                            </span>
+                            </a>
                           </div>
                           {place.phoneNumber && (
                             <div className="flex items-center gap-2">
@@ -286,27 +293,32 @@ export default async function ShopPage() {
                                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                                 />
                               </svg>
-                              <span className="
-                                text-[18px]           /* Size: 18px */
-                                md:!text-[20px]
-                                leading-[22px]        /* Line height: 22px */
-                                md:!leading-[26px]
-                                font-['Open_Sans']    /* Font: Open Sans */
-                                font-semibold         /* Weight: 600 (Semi Bold) */
-                                md:!font-semibold
-                                whitespace-nowrap
-                                md:!underline
-                                md:!decoration-solid
-                                line-clamp-1
-                                md:line-clamp-none
-                                max-w-[270px]
-                                md:max-w-none
-                                overflow-hidden
-                                text-ellipsis
-                                text-justify          /* Align: Justified */
-                              ">
+                              <a 
+                                href={`tel:${place.phoneNumber}`}
+                                className="
+                                  text-[18px]           
+                                  md:!text-[20px]
+                                  leading-[22px]        
+                                  md:!leading-[26px]
+                                  font-['Open_Sans']    
+                                  font-semibold         
+                                  md:!font-semibold
+                                  whitespace-nowrap
+                                  md:!underline
+                                  md:!decoration-solid
+                                  line-clamp-1
+                                  md:line-clamp-none
+                                  max-w-[270px]
+                                  md:max-w-none
+                                  overflow-hidden
+                                  text-ellipsis
+                                  text-justify
+                                  hover:text-blue-600
+                                  transition-colors
+                                "
+                              >
                                 {place.phoneNumber}
-                              </span>
+                              </a>
                             </div>
                           )}
                         </div>
