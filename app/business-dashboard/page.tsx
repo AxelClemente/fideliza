@@ -6,7 +6,7 @@ import { getRestaurantStats } from './utils/get-stats'
 export default async function BusinessDashboardPage() {
   const { restaurants } = await RestaurantProvider()
   
-  // Obtener estadísticas antes de renderizar
+  // Obtenerr estadísticas antes de renderizar
   const viewStats = restaurants.length > 0 
     ? await getRestaurantStats(restaurants[0].id)
     : {
