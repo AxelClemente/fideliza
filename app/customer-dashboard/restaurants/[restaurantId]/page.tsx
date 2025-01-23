@@ -16,6 +16,7 @@ interface Place {
     benefits: string
     price: number
     website?: string
+    visitsPerMonth?: number
   }>
   offers: Array<{
     id: string
@@ -58,9 +59,21 @@ export default async function RestaurantPage({ params }: RestaurantPageProps) {
       notFound()
     }
 
+    console.log('Restaurant data:', JSON.stringify({
+      places: restaurant?.places?.map(place => ({
+        id: place.id,
+        subscriptions: place.subscriptions?.map(sub => ({
+          id: sub.id,
+          name: sub.name,
+          visitsPerMonth: sub.visitsPerMonth
+        }))
+      }))
+    }, null, 2))
+
     const subscriptions = restaurant.places?.flatMap(place => 
       (place.subscriptions || []).map(subscription => ({
         ...subscription,
+        visitsPerMonth: subscription.visitsPerMonth,
         places: [{
           id: place.id,
           name: place.name,

@@ -20,15 +20,23 @@ export function CustomerSubscriptionModal({
 }: CustomerSubscriptionModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   
+  console.log('🔍 Modal Subscription Data:', {
+    subscription,
+    visitsPerMonth: subscription?.visitsPerMonth,
+    places: subscription?.places
+  })
+
   if (!subscription) {
-    console.log('No subscription provided')
+    console.log('❌ No subscription provided')
     return null
   }
 
   if (!Array.isArray(subscription.places) || subscription.places.length === 0) {
-    console.log('Subscription has no valid places')
+    console.log('❌ Subscription has no valid places')
     return null
   }
+
+  console.log('✅ Rendering modal with visits:', subscription.visitsPerMonth)
 
   const handlePurchase = async () => {
     try {
@@ -38,7 +46,8 @@ export function CustomerSubscriptionModal({
       console.log('Initiating purchase:', {
         subscriptionId: subscription.id,
         placeId: selectedPlace.id,
-        amount: subscription.price
+        amount: subscription.price,
+        visitsPerMonth: subscription.visitsPerMonth
       })
 
       const response = await fetch('/api/user-subscriptions', {
@@ -47,7 +56,8 @@ export function CustomerSubscriptionModal({
         body: JSON.stringify({
           subscriptionId: subscription.id,
           placeId: selectedPlace.id,
-          amount: subscription.price
+          amount: subscription.price,
+          initialVisits: subscription.visitsPerMonth
         })
       })
 
@@ -129,6 +139,19 @@ export function CustomerSubscriptionModal({
                 ">
                   ${subscription.price}/month
                 </p>
+                {subscription.visitsPerMonth && (
+                  <p className="
+                    !text-[20px]
+                    !font-['Open_Sans']
+                    font-[600]
+                    !leading-[26px]
+                    text-center
+                    text-[#7B7B7B]
+                    mt-4
+                  ">
+                    {subscription.visitsPerMonth} visits per month
+                  </p>
+                )}
               </div>
             </DialogHeader>
 

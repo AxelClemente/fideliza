@@ -15,10 +15,8 @@ export async function POST(req: Request) {
     }
 
     // Obtener datos del body
-    const body = await req.json()
-    console.log('Request body:', body)
-
-    const { subscriptionId, placeId, amount } = body
+    const { subscriptionId, placeId, amount, initialVisits } = await req.json()
+    console.log('Request body:', { subscriptionId, placeId, amount, initialVisits })
 
     if (!subscriptionId || !placeId || !amount) {
       console.log('Missing required fields')
@@ -42,12 +40,13 @@ export async function POST(req: Request) {
         userId: session.user.id,
         subscriptionId,
         placeId,
-        status: 'ACTIVE', // Por ahora lo ponemos como activo directamente
+        amount,
+        remainingVisits: initialVisits,
+        status: 'ACTIVE',
         startDate: new Date(),
         endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // +30 días
         lastPayment: new Date(),
         nextPayment: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        amount,
         isActive: true,
         paymentMethod: 'CREDIT_CARD' // Valor por defecto para desarrollo
       }

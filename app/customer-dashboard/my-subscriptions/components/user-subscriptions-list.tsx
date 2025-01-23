@@ -11,6 +11,7 @@ interface UserSubscriptionsListProps {
     subscription: {
       name: string
       benefits: string
+      visitsPerMonth: number | null
     }
     place: {
       name: string
@@ -24,6 +25,7 @@ interface UserSubscriptionsListProps {
     status: string
     nextPayment: Date
     amount: number
+    remainingVisits: number | null
   }>
 }
 
@@ -134,6 +136,19 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
               ">
                 Valid until: {formatDate(sub.nextPayment)}
               </p>
+              {sub.subscription.visitsPerMonth && sub.remainingVisits !== null && (
+                <p className="
+                  text-[20px]
+                  leading-[26px]
+                  font-['Open_Sans']
+                  font-semibold
+                  text-center
+                  text-[#7B7B7B]
+                  mb-4
+                ">
+                  {sub.remainingVisits} of {sub.subscription.visitsPerMonth} visits remaining
+                </p>
+              )}
               
               <h4 className="
                 text-[14px]

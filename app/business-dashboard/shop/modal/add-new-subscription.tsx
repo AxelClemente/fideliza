@@ -22,6 +22,7 @@ interface AddSubscriptionModalProps {
     price: number
     placeId: string
     website?: string | null
+    visitsPerMonth?: number
   }
 }
 
@@ -41,6 +42,9 @@ export function AddSubscriptionModal({
   )
   const [website, setWebsite] = useState(initialData?.website || '')
   const [openCommand, setOpenCommand] = useState(false)
+  const [visitsPerMonth, setVisitsPerMonth] = useState(
+    initialData?.visitsPerMonth?.toString() || ''
+  )
 
   const handleSubmit = async () => {
     try {
@@ -68,7 +72,8 @@ export function AddSubscriptionModal({
         benefits: benefits.trim(),
         price: Number(price),
         placeIds: selectedPlaces,
-        ...(website && { website: website.trim() })
+        ...(website && { website: website.trim() }),
+        visitsPerMonth: Number(visitsPerMonth)
       }
 
       console.log('Sending request:', { endpoint, method, payload })
@@ -300,6 +305,32 @@ export function AddSubscriptionModal({
                     "
                   />
                 </div>
+              </div>
+
+              {/* Visits per month section */}
+              <div>
+                <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
+                  Visits per month
+                </label>
+                <Input 
+                  type="number"
+                  value={visitsPerMonth}
+                  onChange={(e) => setVisitsPerMonth(e.target.value)}
+                  className="
+                    bg-main-gray 
+                    border-0 
+                    text-center 
+                    text-third-gray
+                    md:w-[558px]
+                    md:h-[78px]
+                    md:rounded-[100px]
+                    max-md:w-[390px]
+                    max-md:h-[78px]
+                    max-md:rounded-[100px]
+                    max-md:mx-auto
+                  " 
+                  placeholder="5"
+                />
               </div>
 
               {/* Where to use - Nueva implementación */}

@@ -8,6 +8,7 @@ interface ProviderSubscription {
   benefits: string
   price: number
   website?: string | null
+  visitsPerMonth?: number | null
   createdAt?: Date
   updatedAt?: Date
 }
@@ -87,6 +88,11 @@ export default async function SubscriptionsPage() {
                       <p className="text-[20px] font-semibold mt-2">
                         {subscription.price}€/month
                       </p>
+                      {subscription.visitsPerMonth && (
+                        <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
+                          {subscription.visitsPerMonth} visits per month
+                        </p>
+                      )}
                     </div>
 
                     <div className="mt-4">
@@ -196,6 +202,11 @@ export default async function SubscriptionsPage() {
                           <p className="text-[20px] font-bold mt-1">
                             {subscription.price}€/month
                           </p>
+                          {subscription.visitsPerMonth && (
+                            <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
+                              {subscription.visitsPerMonth} visits per month
+                            </p>
+                          )}
                         </div>
 
                         <div className="mt-8 md:mt-4">

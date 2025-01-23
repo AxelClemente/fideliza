@@ -98,6 +98,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
       benefits: true,
       price: true,
       website: true,
+      visitsPerMonth: true,
       places: {
         select: {
           id: true,
@@ -144,6 +145,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
                 benefits: true,
                 price: true,
                 website: true,
+                visitsPerMonth: true,
                 places: {
                   select: {
                     id: true,

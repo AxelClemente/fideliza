@@ -172,6 +172,7 @@ model Subscription {
   benefits    String   @db.Text
   price       Float
   website     String?
+  visitsPerMonth Int?   // Hacemos el campo opcional añadiendo ?
   places      Place[]
   subscribers UserSubscription[]
   createdAt   DateTime @default(now())
@@ -192,6 +193,8 @@ model UserSubscription {
   nextPayment   DateTime
   amount        Float
   isActive      Boolean           @default(true)
+  remainingVisits Int?            // Hacemos el campo opcional añadiendo ?
+  visitsResetDate DateTime?       // Hacemos el campo opcional añadiendo ?
   paymentMethod PaymentMethod?
   createdAt     DateTime          @default(now())
   updatedAt     DateTime          @updatedAt

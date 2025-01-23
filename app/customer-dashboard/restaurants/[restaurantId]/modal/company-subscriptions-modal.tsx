@@ -16,7 +16,8 @@ interface CompanySubscriptionsProps {
     name: string
     benefits: string
     price: number
-    website?: string
+    website?: string | null
+    visitsPerMonth?: number | null
     places?: Array<{
       id: string
       name: string

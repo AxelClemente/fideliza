@@ -52,9 +52,10 @@ export interface RestaurantImage {
     benefits: string
     price: number
     website?: string | null
-    places: { id: string; name: string }[]
+    visitsPerMonth?: number | null
     createdAt?: Date
     updatedAt?: Date
+    places: { id: string; name: string }[]
   }
   
   export interface ExtendedSubscription extends Subscription {

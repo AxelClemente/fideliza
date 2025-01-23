@@ -17,9 +17,17 @@ export default async function MySubscriptionsPage() {
       userId: session.user.id,
       isActive: true
     },
-    include: {
+    select: {
+      id: true,
+      remainingVisits: true,
+      status: true,
+      nextPayment: true,
+      amount: true,
       subscription: {
-        include: {
+        select: {
+          name: true,
+          benefits: true,
+          visitsPerMonth: true,
           places: {
             include: {
               restaurant: {

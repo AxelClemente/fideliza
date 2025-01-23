@@ -36,12 +36,19 @@ export function SubscriptionCarousel({ subscriptions }: { subscriptions: Subscri
   const handleSubscriptionClick = (subscription: Subscription) => {
     const subscriptionData: Subscription = {
       ...subscription,
+      id: subscription.id,
+      name: subscription.name,
+      benefits: subscription.benefits,
+      price: subscription.price,
+      website: subscription.website,
+      visitsPerMonth: subscription.visitsPerMonth,
       places: subscription.places || []
     };
     
     console.log('Subscription before modal:', {
       id: subscriptionData.id,
       name: subscriptionData.name,
+      visitsPerMonth: subscriptionData.visitsPerMonth,
       placesCount: subscriptionData.places.length,
       places: subscriptionData.places
     });
