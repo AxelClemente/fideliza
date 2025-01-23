@@ -70,24 +70,47 @@ export function PlacesCarousel({ places }: { places: Place[] }) {
                   <h3 className="font-medium mb-2 pl-2 !text-[20px] md:!text-[30px] pb-2">{place.name}</h3>
                   <div className="flex items-start gap-2 pl-2">
                     <MapPinIcon className="h-5 w-5 shrink-0" />
-                    <p className="
-                      !text-[18px] 
-                      md:!text-[20px] 
-                      leading-[22px] 
-                      md:leading-normal 
-                      underline 
-                      font-semibold
-                      md:line-clamp-none
-                      line-clamp-1
-                      max-w-[200px]
-                      md:max-w-none
-                    ">
+                    <a 
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.location)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="
+                        !text-[18px] 
+                        md:!text-[20px] 
+                        leading-[22px] 
+                        md:leading-normal 
+                        underline 
+                        font-semibold
+                        md:line-clamp-none
+                        line-clamp-1
+                        max-w-[200px]
+                        md:max-w-none
+                        hover:text-blue-600
+                        transition-colors
+                        cursor-pointer
+                      "
+                    >
                       {place.location}
-                    </p>
+                    </a>
                   </div>
                   <div className="flex items-center gap-2 mt-2 pl-2">
                     <PhoneIcon className="h-5 w-5 shrink-0" />
-                    <p className="!text-[18px] md:!text-[20px] leading-[22px] md:leading-normal underline font-semibold">{place.phoneNumber}</p>
+                    <a 
+                      href={`tel:${place.phoneNumber}`}
+                      className="
+                        !text-[18px] 
+                        md:!text-[20px] 
+                        leading-[22px] 
+                        md:leading-normal 
+                        underline 
+                        font-semibold
+                        hover:text-blue-600
+                        transition-colors
+                        cursor-pointer
+                      "
+                    >
+                      {place.phoneNumber}
+                    </a>
                   </div>
                 </div>
               </div>
