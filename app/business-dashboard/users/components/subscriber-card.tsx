@@ -32,6 +32,20 @@ export function SubscriberCard() {
                 <p className="text-sm text-muted-foreground truncate max-w-[180px] sm:max-w-[250px]">
                   {subscriber.email}
                 </p>
+                {subscriber.subscription && (
+                  <p className="text-xs text-muted-foreground">
+                    <span className="font-bold text-black">{subscriber.subscription.type}</span>
+                    <span className="mx-1">•</span>
+                    {new Date(subscriber.subscription.startDate).toLocaleDateString()}
+                    <span className="mx-1">→</span>
+                    {new Date(subscriber.subscription.endDate).toLocaleDateString()}
+                  </p>
+                )}
+                {subscriber.subscription && subscriber.subscription.remainingVisits !== null && subscriber.subscription.remainingVisits !== undefined && (
+                  <p className="text-xs text-muted-foreground">
+                    <span className="font-medium text-gray-500">{subscriber.subscription.remainingVisits} Remaining visits</span>
+                  </p>
+                )}
               </div>
             </div>
             

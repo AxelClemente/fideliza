@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { SubscriptionStatus } from '@prisma/client'
 
 export async function getRestaurantStats(restaurantId: string) {
   const now = new Date()
@@ -150,23 +151,31 @@ export async function getRestaurantStats(restaurantId: string) {
   )
 
   const subscriptionWithUser = await prisma.userSubscription.findMany({
-    take: 5, // Limitamos a los 5 más recientes
     where: {
       place: {
         restaurantId
       },
       isActive: true
     },
-    orderBy: {
-      startDate: 'desc'
-    },
-    include: {
+    select: {
+      status: true,
+      startDate: true,
+      endDate: true,
+      remainingVisits: true,
       user: {
         select: {
           id: true,
           name: true,
           email: true,
           image: true
+        }
+      },
+      subscription: {
+        select: {
+          id: true,
+          name: true,
+          benefits: true,
+          visitsPerMonth: true
         }
       }
     }
@@ -191,7 +200,15 @@ export async function getRestaurantStats(restaurantId: string) {
         id: sub.user.id,
         name: sub.user.name || 'Unknown',
         email: sub.user.email || 'No email',
-        imageUrl: sub.user.image || undefined
+        imageUrl: sub.user.image || undefined,
+        subscription: {
+          type: sub.subscription.name,
+          name: sub.subscription.name,
+          status: sub.status,
+          startDate: sub.startDate,
+          endDate: sub.endDate,
+          remainingVisits: sub.remainingVisits
+        }
       }))
     },
     offerViews: offerViews.map(view => ({
