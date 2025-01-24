@@ -165,18 +165,18 @@ export default function Location() {
   }
 
   return (
-    <div className="w-[500px] h-[580px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
+    <div className="w-[500px] h-[580px] sm:w-[500px] w-full bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center mx-auto sm:mx-0">
       <h2 className="text-[20px] font-semibold text-main-dark mb-12 mt-8">
         Your city
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
-        <div className="relative w-[462px]">
+      <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center w-full sm:w-auto px-4 sm:px-0">
+        <div className="relative w-full sm:w-[462px]">
           <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-third-gray z-10" />
           <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-third-gray z-10" />
           <Select onValueChange={setSelectedCity}>
             <SelectTrigger 
-              className="h-[78px] w-[462px] rounded-[100px] bg-main-gray pl-12 pr-12 border-0 
+              className="h-[78px] w-full sm:w-[462px] rounded-[100px] bg-main-gray pl-12 pr-12 border-0 
                        !text-[14px] !font-semibold text-third-gray
                        placeholder:text-third-gray placeholder:text-[14px] placeholder:font-semibold
                        focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -199,7 +199,7 @@ export default function Location() {
 
         <Button 
           type="submit" 
-          className="h-[78px] w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[14px] font-semibold relative"
+          className="h-[78px] w-full sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[14px] font-semibold relative"
           disabled={!selectedCity || isLoading}
         >
           {isLoading ? (
@@ -215,7 +215,7 @@ export default function Location() {
         <Button
           type="button"
           variant="ghost"
-          className="h-[78px] w-[462px] rounded-[100px] hover:bg-transparent hover:text-main-dark/80 text-[18px] font-semibold underline decoration-solid"
+          className="h-[78px] w-full sm:w-[462px] rounded-[100px] hover:bg-transparent hover:text-main-dark/80 text-[18px] font-semibold underline decoration-solid"
           onClick={() => router.push('/auth/choose-role')}
           disabled={isLoading}
         >
