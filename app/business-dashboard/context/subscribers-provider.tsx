@@ -1,16 +1,6 @@
 import { getRestaurantStats } from "../utils/get-stats"
 import { SubscribersProvider } from "./subscribers-context"
 
-type SubscriptionData = {
-  id: string
-  type: string
-  status: string
-  startDate: Date
-  restaurantId: string
-  remainingVisits?: number
-  name: string
-}
-
 
 export async function SubscribersDataProvider({ 
   children,
