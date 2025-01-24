@@ -216,7 +216,7 @@ export function CustomerSubscriptionModal({
                           ">
                             {place.name}
                           </span>
-                          <span className="mx-2">,</span>
+                          <span>,</span>
                           <span className="
                             !text-[18px]
                             !font-['Open_Sans']
@@ -228,7 +228,7 @@ export function CustomerSubscriptionModal({
                           ">
                             {place.location}
                           </span>
-                          <span className="mx-2">,</span>
+                          <span>,</span>
                           <span className="
                             !text-[18px]
                             !font-['Open_Sans']
@@ -238,7 +238,7 @@ export function CustomerSubscriptionModal({
                             md:!text-[20px]
                             md:!leading-[26px]
                           ">
-                            {place.phoneNumber}
+                            {place.phoneNumber}.
                           </span>
                         </div>
                       </div>
