@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma'
-import { SubscriptionStatus } from '@prisma/client'
 
 export async function getRestaurantStats(restaurantId: string) {
   const now = new Date()

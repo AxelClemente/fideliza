@@ -443,7 +443,7 @@ export function ClientWrapper({
               <span className={`
                 ${!hasPlaces 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center " 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[990px] pb-2"
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1120px] pb-2"
                 }
               `}>
                 {!hasPlaces ? "Add special offer" : "Add new special offer"}
@@ -638,7 +638,7 @@ export function ClientWrapper({
               <span className={`
                 ${!hasPlaces 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[970px] pb-2"
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1050px] pb-2"
                 }
               `}>
                 {!hasPlaces ? "Add subscription" : "Add new subscription"}

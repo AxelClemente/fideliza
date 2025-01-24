@@ -11,13 +11,6 @@ type SubscriptionData = {
   name: string
 }
 
-type SubscriberData = {
-  id: string
-  name: string
-  email: string
-  imageUrl?: string
-  subscriptions?: SubscriptionData[]
-}
 
 export async function SubscribersDataProvider({ 
   children,
