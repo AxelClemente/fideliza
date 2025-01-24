@@ -27,22 +27,7 @@ export default async function MySubscriptionsPage() {
         select: {
           name: true,
           benefits: true,
-          visitsPerMonth: true,
-          places: {
-            include: {
-              restaurant: {
-                select: {
-                  title: true,
-                  images: {
-                    select: {
-                      url: true
-                    },
-                    take: 1
-                  }
-                }
-              }
-            }
-          }
+          visitsPerMonth: true
         }
       },
       place: {
@@ -55,6 +40,22 @@ export default async function MySubscriptionsPage() {
                   url: true
                 },
                 take: 1
+              },
+              places: {
+                select: {
+                  id: true,
+                  name: true,
+                  location: true,
+                  subscriptions: {
+                    select: {
+                      id: true,
+                      name: true,
+                      benefits: true,
+                      price: true,
+                      visitsPerMonth: true
+                    }
+                  }
+                }
               }
             }
           }

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import { SubscriptionQRModal } from './subscription-qr-modal'
+import { UpgradeSubscriptionModal } from '@/app/customer-dashboard/my-subscriptions/components/upgrade-subscription-modal'
 
 interface UserSubscriptionsListProps {
   subscriptions: Array<{
@@ -20,6 +21,18 @@ interface UserSubscriptionsListProps {
         images: Array<{
           url: string
         }>
+        subscriptions?: Array<{
+          id: string
+          name: string
+          benefits: string
+          price: number
+          visitsPerMonth: number | null
+          places: Array<{
+            id: string
+            name: string
+            location: string
+          }>
+        }>
       }
     }
     status: string
@@ -31,6 +44,13 @@ interface UserSubscriptionsListProps {
 
 export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListProps) {
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscriptionsListProps['subscriptions'][0] | null>(null)
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false)
+  const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<UserSubscriptionsListProps['subscriptions'][0] | null>(null)
+
+  const handleUpgradeClick = (subscription: UserSubscriptionsListProps['subscriptions'][0]) => {
+    setSubscriptionToUpgrade(subscription)
+    setIsUpgradeModalOpen(true)
+  }
 
   if (subscriptions.length === 0) {
     return (
@@ -126,7 +146,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                 {sub.amount}€/month
               </p>
               <p className="
-                text-[20px]
+                text-[16px]
                 leading-[26px]
                 font-['Open_Sans']
                 font-semibold
@@ -146,7 +166,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                   text-[#7B7B7B]
                   mb-4
                 ">
-                  {sub.remainingVisits} of {sub.subscription.visitsPerMonth} visits remaining
+                  {sub.remainingVisits} /  {sub.subscription.visitsPerMonth} visits remaining
                 </p>
               )}
               
@@ -158,16 +178,47 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
               ">
                 Purchase benefits:
               </h4>
-              <p className="
-                text-[14px]
-                leading-[18px]
-                font-['Open_Sans']
-                font-[400]
-                
-              ">
-                {sub.subscription.benefits}
-              </p>
-
+              <div className="relative group">
+                <p className="
+                  text-[14px]
+                  leading-[18px]
+                  font-['Open_Sans']
+                  font-[400]
+                ">
+                  {sub.subscription.benefits.split(' ').slice(0, 5).join(' ')}
+                  {sub.subscription.benefits.split(' ').length > 5 && (
+                    <span className="text-blue-600"> show more...</span>
+                  )}
+                </p>
+                <div className="
+                  absolute 
+                  left-0 
+                  top-full 
+                  mt-2 
+                  p-4 
+                  bg-white 
+                  shadow-lg 
+                  rounded-lg 
+                  border 
+                  w-full 
+                  z-10 
+                  opacity-0 
+                  invisible 
+                  group-hover:opacity-100 
+                  group-hover:visible 
+                  transition-all 
+                  duration-200
+                ">
+                  <p className="
+                    text-[14px]
+                    leading-[18px]
+                    font-['Open_Sans']
+                    font-[400]
+                  ">
+                    {sub.subscription.benefits}
+                  </p>
+                </div>
+              </div>
 
               <div className="mt-6 space-y-3">
                 <button 
@@ -214,6 +265,52 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                 >
                   Share info
                 </button>
+                <button 
+                  onClick={() => handleUpgradeClick(sub)}
+                  className="
+                    w-[329px]
+                    h-[78px]
+                    rounded-[100px]
+                    bg-black 
+                    text-white 
+                    text-[18px] 
+                    font-semibold 
+                    leading-[22px] 
+                    font-['Open_Sans']
+                    flex 
+                    items-center 
+                    justify-center 
+                    mx-auto
+                    hover:bg-black/90 
+                    transition-colors
+                  "
+                >
+                  Upgrade
+                </button>
+                <button 
+                  onClick={() => {}} // Implementar cancelación
+                  className="
+                    w-[329px]
+                    h-[78px]
+                    rounded-[100px]
+                    bg-white 
+                    text-black 
+                    border-2
+                    border-black
+                    text-[18px] 
+                    font-semibold 
+                    leading-[22px] 
+                    font-['Open_Sans']
+                    flex 
+                    items-center 
+                    justify-center 
+                    mx-auto
+                    hover:bg-gray-50
+                    transition-colors
+                  "
+                >
+                  Unsubscribe 
+                </button>
               </div>
             </div>
           </div>
@@ -227,6 +324,15 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
           subscriptionData={selectedSubscription}
         />
       )}
+
+      <UpgradeSubscriptionModal
+        isOpen={isUpgradeModalOpen}
+        onClose={() => {
+          setIsUpgradeModalOpen(false)
+          setSubscriptionToUpgrade(null)
+        }}
+        currentSubscription={subscriptionToUpgrade}
+      />
     </>
   )
 }
