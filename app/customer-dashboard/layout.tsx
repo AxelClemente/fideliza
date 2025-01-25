@@ -4,6 +4,13 @@ import { redirect } from 'next/navigation'
 import { CustomerHeader } from "./components/customer-header"
 import { authOptions } from "@/app/api/auth/auth.config"
 import { Toaster } from 'sonner'
+import { Metadata } from 'next'
+import { metadata as siteMetadata } from '../metadata-config'
+
+export const metadata: Metadata = {
+  title: siteMetadata.client.title,
+  description: siteMetadata.client.description,
+}
 
 export default async function CustomerDashboardLayout({
   children,

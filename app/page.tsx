@@ -4,6 +4,13 @@ import FAQSection from '@/components/landing-page/faq'
 import { MainHeader } from '@/components/layout/main-header'
 import { MobileMainHeader } from '@/components/layout/mobile-main-header'
 import { Footer } from '@/components/layout/footer'
+import { Metadata } from 'next'
+import { metadata as siteMetadata } from './metadata-config'
+
+export const metadata: Metadata = {
+  title: siteMetadata.landing.title,
+  description: siteMetadata.landing.description,
+}
 
 export default function Page() {
   return (
