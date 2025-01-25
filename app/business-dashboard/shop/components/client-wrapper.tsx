@@ -675,7 +675,7 @@ export function ClientWrapper({
             <div className={`
               md:hidden 
               w-full 
-              ${!restaurants.length ? 'fixed bottom-6 left-0 z-50' : 'mt-6 mb-6'} 
+              ${!restaurants.length ? 'fixed bottom-6 left-0 z-50' : ''} 
               px-3
             `}>
               <button 
@@ -692,7 +692,7 @@ export function ClientWrapper({
                   leading-[22px]
                 "
               >
-                Add main info
+                {!restaurants.length ? "Add main info" : "Add new main info"}
               </button>
             </div>
 
@@ -718,7 +718,7 @@ export function ClientWrapper({
               </span>
             </button>
 
-            {/* Modal */}
+            {/* Modales */}
             {isMobile ? (
               <MobileAddMainInfo
                 isOpen={isMainInfoModalOpen}

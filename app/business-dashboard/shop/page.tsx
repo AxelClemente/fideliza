@@ -33,7 +33,9 @@ export default async function ShopPage() {
                   No Main info yet!
                 </h2>
               )}
-              <ClientWrapper type="main-info" restaurants={restaurants} mode="add" />
+              <div className={`${restaurants.length > 0 ? 'hidden md:block' : ''}`}>
+                <ClientWrapper type="main-info" restaurants={restaurants} mode="add" />
+              </div>
             </div>
             
             {restaurants.length > 0 ? (
@@ -122,10 +124,14 @@ export default async function ShopPage() {
                     </div>
                   </div>
                 ))}
+                
+                {/* Nuevo: Contenedor para el botón en móvil cuando hay restaurantes */}
+                <div className="md:hidden">
+                  <ClientWrapper type="main-info" restaurants={restaurants} mode="add" />
+                </div>
               </div>
             ) : (
               <div className="text-gray-500">
-                
               </div>
             )}
           </div>
