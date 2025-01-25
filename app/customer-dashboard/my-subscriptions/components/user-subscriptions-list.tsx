@@ -18,6 +18,7 @@ interface UserSubscriptionsListProps {
     place: {
       name: string
       restaurant: {
+        id: string
         title: string
         images: Array<{
           url: string
@@ -97,6 +98,26 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
       }
     )
   }
+
+  const handleShare = async (sub: UserSubscriptionsListProps['subscriptions'][0]) => {
+    const restaurantUrl = `${window.location.origin}/customer-dashboard/restaurants/${sub.place.restaurant.id}`;
+    
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${sub.place.restaurant.title}`,
+          text: `Check out ${sub.place.restaurant.title} and their subscriptions!`,
+          url: restaurantUrl
+        });
+      } else {
+        await navigator.clipboard.writeText(restaurantUrl);
+        toast.success('Restaurant link copied to clipboard!');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      toast.error('Failed to share restaurant info');
+    }
+  };
 
   if (subscriptions.length === 0) {
     return (
@@ -290,7 +311,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                   Generate QR
                 </button>
                 <button 
-                  onClick={() => {}} // Implementar compartir info
+                  onClick={() => handleShare(sub)}
                   className="
                     w-[329px]
                     h-[78px]

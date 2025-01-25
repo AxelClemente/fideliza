@@ -11,7 +11,7 @@ const navigationItems = [
   { name: "Home", href: "/customer-dashboard" },
   { name: "My subscriptions", href: "/customer-dashboard/my-subscriptions" },
   { name: "About service", href: "/customer-dashboard/about-service" },
-  { name: "Help", href: "/customer-dashboard/help" },
+  { name: "Help", href: "/customer-dashboard/about-service?section=Help" },
 ]
 
 export function CustomerHeader() {

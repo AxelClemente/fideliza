@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { HelpCircle, FileText, Share2 } from 'lucide-react'
 import { Breadcrumb } from './components/breadcrumbs'
 import FAQ from './components/faq'
@@ -12,6 +13,14 @@ import Image from 'next/image'
 export default function CustomerServiceInfo() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const section = searchParams.get('section')
+    if (section) {
+      setActiveSection(section)
+    }
+  }, [searchParams])
 
   const handleReset = () => {
     setActiveSection(null)

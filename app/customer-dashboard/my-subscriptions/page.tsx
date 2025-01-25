@@ -34,6 +34,7 @@ export default async function MySubscriptionsPage() {
         include: {
           restaurant: {
             select: {
+              id: true,
               title: true,
               images: {
                 select: {
@@ -63,6 +64,12 @@ export default async function MySubscriptionsPage() {
       }
     }
   })
+
+  console.log('UserSubscriptions data:', JSON.stringify(userSubscriptions.map(sub => ({
+    subscriptionId: sub.id,
+    restaurantId: sub.place.restaurant.id,
+    restaurantTitle: sub.place.restaurant.title
+  })), null, 2))
 
   return (
     <div className="container mx-auto px-4 py-8">
