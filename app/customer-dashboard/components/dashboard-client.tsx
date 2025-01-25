@@ -194,7 +194,7 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
       {/* Special Offers Section */}
       <div>
         <div className="flex items-center mb-6 relative md:px-8">
-          <h2 className="!text-[24px] md:!text-[30px] font-bold">Special offers</h2>
+          <h2 className="!text-[24px] md:!text-[30px] font-bold">Special offerss</h2>
           <div className="flex-1" />
           <Link 
             href="/customer-dashboard/offers" 
@@ -205,34 +205,31 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:px-8">
-          {filteredRestaurants.slice(0, 2).map((restaurant) => {
-            const firstOffer = restaurant.places?.find(place => place.offers?.[0])?.offers?.[0]
-            
-            if (firstOffer) {
-              return (
+          {filteredRestaurants.map((restaurant) => 
+            restaurant.places?.map(place => 
+              place.offers?.map(offer => (
                 <div
-                  key={firstOffer.id}
+                  key={offer.id}
                   onClick={() => {
-                    setSelectedOffer(firstOffer as Offer)
+                    setSelectedOffer(offer as Offer)
                     setIsModalOpen(true)
                   }}
                   className="group relative overflow-hidden rounded-lg cursor-pointer"
                 >
-                  {firstOffer.images?.[0] && (
+                  {offer.images?.[0] && (
                     <div className="relative w-full h-[200px] lg:w-[642px] lg:h-[358px]">
                       <Image
-                        src={firstOffer.images[0].url}
-                        alt={firstOffer.title}
+                        src={offer.images[0].url}
+                        alt={offer.title}
                         fill
                         className="object-cover rounded-[20px]"
                       />
                     </div>
                   )}
                 </div>
-              )
-            }
-            return null
-          })}
+              ))
+            )
+          )}
         </div>
       </div>
 
