@@ -80,7 +80,11 @@ export default async function MailingsPage({ searchParams }: PageProps) {
         </Suspense>
 
         <div className="md:hidden">
-          <MailingActions showOnlyButton={true} restaurants={restaurants} />
+          <MailingActions 
+            showOnlyButton={true} 
+            restaurants={restaurants}
+            hasMailing={mailings.length > 0}
+          />
         </div>
       </div>
     </div>
