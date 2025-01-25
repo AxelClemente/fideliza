@@ -672,15 +672,12 @@ export function ClientWrapper({
         {access.canEdit && (
           <>
             {/* Versión Móvil */}
-            <div className="
+            <div className={`
               md:hidden 
               w-full 
-              fixed
-              bottom-6
-              left-0
+              ${!restaurants.length ? 'fixed bottom-6 left-0 z-50' : 'mt-6 mb-6'} 
               px-3
-              z-50
-            ">
+            `}>
               <button 
                 onClick={() => setIsMainInfoModalOpen(true)}
                 className="
