@@ -349,22 +349,19 @@ export function MailingActions({
       )}
 
       {!showOnlyTabs && (
-        <div className="
+        <div className={`
           flex 
           justify-end     
-          fixed          
-          bottom-6       
-          left-0         
-          right-0        
+          ${!hasMailing ? 'fixed bottom-6 left-0 right-0 px-3' : ''}          
           md:relative    
           md:bottom-0   
           md:left-0     
           md:right-0
-          md:mr-20        /* Agregamos margen derecho solo en desktop */
-        ">
+          md:mr-20      
+        `}>
           {access.canEdit && (
             <>
-              {/* Versión Desktop - Condicional */}
+              {/* Versión Desktop - Sin cambios */}
               <button
                 onClick={() => setIsAddModalOpen(true)}
                 className={`
@@ -379,7 +376,7 @@ export function MailingActions({
                 Add new offers mailings
               </button>
 
-              {/* Versión Móvil - Botón rectangular negro */}
+              {/* Versión Móvil */}
               <button
                 onClick={() => setIsAddModalOpen(true)}
                 className="
