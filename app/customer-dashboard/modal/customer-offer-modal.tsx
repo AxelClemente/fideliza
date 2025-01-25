@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { MapPinIcon } from "lucide-react"
 import Image from "next/image"
 import { OfferViewTracker } from "@/app/customer-dashboard/components/offer-view-tracker"
+import { useRouter } from 'next/navigation'
 
 interface CustomerOfferModalProps {
   isOpen: boolean
@@ -20,6 +21,9 @@ interface CustomerOfferModalProps {
       name: string
       location: string
       phoneNumber: string
+      restaurant: {
+        id: string
+      }
     }
   }
 }
@@ -29,6 +33,8 @@ export function CustomerOfferModal({
   onClose,
   offer 
 }: CustomerOfferModalProps) {
+  const router = useRouter()
+  
   if (!offer) return null
 
   const getImageUrl = (offer: CustomerOfferModalProps['offer']) => {
@@ -36,6 +42,13 @@ export function CustomerOfferModal({
       return '/images/defaultoffers.jpg'
     }
     return offer.images[0].url
+  }
+
+  const handleButtonClick = () => {
+    if (offer.place?.restaurant?.id) {
+      onClose()
+      router.push(`/customer-dashboard/restaurants/${offer.place.restaurant.id}`)
+    }
   }
 
   return (
@@ -225,7 +238,7 @@ export function CustomerOfferModal({
         <div className="p-3 md:p-4 px-4 md:px-14 mt-auto">
           <Button 
             variant="ghost"
-            onClick={onClose}
+            onClick={handleButtonClick}
             className="
               w-full
               h-[78px]
@@ -241,7 +254,7 @@ export function CustomerOfferModal({
               hover:bg-gray-900
             "
           >
-            Our subscriptions
+            View Restaurant
           </Button>
         </div>
       </DialogContent>

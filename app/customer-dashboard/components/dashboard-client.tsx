@@ -29,12 +29,17 @@ interface Restaurant {
   }>
   places?: Array<{
     id: string
+    name: string
+    location: string
+    phoneNumber: string
     offers?: Array<{
       id: string
       title: string
+      description: string
       images?: Array<{
         url: string
       }>
+      website?: string
     }>
     subscriptions?: Array<Subscription>
   }>
@@ -51,6 +56,9 @@ interface Offer {
     name: string
     location: string
     phoneNumber: string
+    restaurant: {
+      id: string
+    }
   }
 }
 
@@ -207,11 +215,26 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:px-8">
           {filteredRestaurants.map((restaurant) => 
             restaurant.places?.map(place => 
-              place.offers?.map(offer => (
+              place.offers?.map(offer => ({
+                id: offer.id,
+                title: offer.title,
+                description: offer.description,
+                images: offer.images || [],
+                website: offer.website,
+                place: {
+                  id: place.id,
+                  name: place.name,
+                  location: place.location,
+                  phoneNumber: place.phoneNumber,
+                  restaurant: {
+                    id: restaurant.id
+                  }
+                }
+              })).map(offer => (
                 <div
                   key={offer.id}
                   onClick={() => {
-                    setSelectedOffer(offer as Offer)
+                    setSelectedOffer(offer)
                     setIsModalOpen(true)
                   }}
                   className="group relative overflow-hidden rounded-lg cursor-pointer"

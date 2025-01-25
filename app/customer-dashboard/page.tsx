@@ -8,6 +8,15 @@ export default async function CustomerDashboardPage() {
   const session = await getServerSession(authOptions)
   const userLocation = session?.user?.location || 'No location set'
 
+  // Transformamos los datos para que coincidan con la interfaz esperada
+  const formattedRestaurants = restaurants?.map(restaurant => ({
+    ...restaurant,
+    places: restaurant.places?.map(place => ({
+      ...place,
+      phoneNumber: place.phoneNumber || '',  // Convertimos null/undefined a string vacío
+    }))
+  })) || []
+
   console.log('Page render:', { 
     hasRestaurants: Boolean(restaurants?.length),
     userLocation 
@@ -15,7 +24,7 @@ export default async function CustomerDashboardPage() {
 
   return (
     <DashboardClient 
-      restaurants={restaurants || []}
+      restaurants={formattedRestaurants}
       userLocation={userLocation} 
     />
   )
