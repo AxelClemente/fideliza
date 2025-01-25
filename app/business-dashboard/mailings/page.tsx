@@ -55,19 +55,30 @@ export default async function MailingsPage({ searchParams }: PageProps) {
                   key={mailing.id}
                   className="bg-main-gray rounded-xl border border-gray-200 p-6 lg:w-[1392px] min-h-[150px] w-full"
                 >
-                  <div className="flex justify-between items-start">
-                    <div>
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start">
+                    <div className="
+                      mb-4 
+                      md:mb-0 
+                      md:ml-auto 
+                      order-first 
+                      md:order-last
+                      flex
+                      justify-end        /* Alinea los iconos a la derecha en móvil */
+                      md:justify-start   /* Mantiene alineación original en desktop */
+                    ">
+                      <MailingActions
+                        mode="edit"
+                        mailing={mailing}
+                        restaurants={restaurants}
+                        showSendButton={true}
+                      />
+                    </div>
+                    <div className="flex-1">
                       <h3 className="text-lg font-semibold mb-2">
                         {mailing.name}
                       </h3>
                       <p className="text-gray-600">{mailing.description}</p>
                     </div>
-                    <MailingActions
-                      mode="edit"
-                      mailing={mailing}
-                      restaurants={restaurants}
-                      showSendButton={true}
-                    />
                   </div>
                 </div>
               ))

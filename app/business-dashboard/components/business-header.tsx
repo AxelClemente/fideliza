@@ -14,7 +14,7 @@ const navigationItems = [
   { name: "My shops", href: "/business-dashboard/shop" },
   { name: "Proposal mailings", href: "/business-dashboard/mailings" },
   { name: "About service", href: "/business-dashboard/about" },
-  { name: "Help", href: "/business-dashboard/help" },
+  { name: "Help", href: "/business-dashboard/about?section=help" },
 ]
 
 export function BusinessHeader() {

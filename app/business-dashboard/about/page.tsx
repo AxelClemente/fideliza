@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { HelpCircle, LifeBuoy, FileText, CreditCard, QrCode, Share2 } from 'lucide-react'
 import { Breadcrumb } from './components/breadcrumb'
 import FAQSection from './components/faq-section'
@@ -13,6 +14,15 @@ import { ShareAppModal } from './components/share-app'
 export default function ServiceInfo() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const searchParams = useSearchParams()
+
+  // Efecto para manejar el parámetro section de la URL
+  useEffect(() => {
+    const section = searchParams.get('section')
+    if (section === 'help') {
+      setActiveSection('Help')
+    }
+  }, [searchParams])
 
   const handleReset = () => {
     setActiveSection(null)
