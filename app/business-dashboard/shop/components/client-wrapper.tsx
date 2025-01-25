@@ -593,15 +593,11 @@ export function ClientWrapper({
         {access.canEdit && (
           <>
             {/* Versión Móvil */}
-            <div className="
+            <div className={`
               md:hidden 
               w-full 
-              fixed        /* Nuevo */
-              bottom-6     /* Nuevo */
-              left-0       /* Nuevo */
-              px-3         /* Nuevo */
-              z-50         /* Nuevo */
-            ">
+              ${!hasPlaces ? 'fixed bottom-6 left-0 z-50 px-3' : ''} 
+            `}>
               <button 
                 onClick={() => setIsSubscriptionModalOpen(true)}
                 className="
@@ -616,7 +612,7 @@ export function ClientWrapper({
                   leading-[22px] 
                 "
               >
-                Add subscription
+                {!hasPlaces ? "Add subscription" : "Add new subscription"}
               </button>
             </div>
 
@@ -624,11 +620,12 @@ export function ClientWrapper({
             <button 
               onClick={() => setIsSubscriptionModalOpen(true)}
               className={`
-                hidden
+                hidden            
                 md:flex         
                 justify-end   
                 items-center      
-                px-4              
+                w-full
+                whitespace-nowrap
               `}
             >
               <span className={`
@@ -641,7 +638,7 @@ export function ClientWrapper({
               </span>
             </button>
 
-            {/* Modal */}
+            {/* Modales */}
             {isMobile ? (
               <MobileNewSubscription
                 isOpen={isSubscriptionModalOpen}
