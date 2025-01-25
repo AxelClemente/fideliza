@@ -401,15 +401,11 @@ export function ClientWrapper({
         {access.canEdit && (
           <>
             {/* Versión Móvil */}
-            <div className="
+            <div className={`
               md:hidden 
               w-full 
-              fixed        /* Nuevo */
-              bottom-6     /* Nuevo */
-              left-0       /* Nuevo */
-              px-3         /* Nuevo */
-              z-50         /* Nuevo */
-            ">
+              ${!hasPlaces ? 'fixed bottom-6 left-0 z-50 px-3' : ''} 
+            `}>
               <button 
                 onClick={() => setIsSpecialOfferModalOpen(true)}
                 className="
@@ -424,7 +420,7 @@ export function ClientWrapper({
                   leading-[22px] 
                 "
               >
-                Add special offer
+                {!hasPlaces ? "Add special offer" : "Add new special offer"}
               </button>
             </div>
 
