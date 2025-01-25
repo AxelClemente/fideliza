@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { CustomerOfferModal } from "../../../modal/customer-offer-modal"
 import { CompanyOffers } from "./company-offers"
+import { useParams } from "next/navigation"
 
 interface Offer {
   id: string
@@ -26,6 +27,8 @@ interface RestaurantOffersProps {
 export function RestaurantOffers({ offers }: RestaurantOffersProps) {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null)
   const [isCompanyOffersOpen, setIsCompanyOffersOpen] = useState(false)
+  const params = useParams()
+  const restaurantId = params.restaurantId as string
 
   const getImageUrl = (offer: Offer) => {
     if (!offer.images || offer.images.length === 0) {
@@ -33,6 +36,17 @@ export function RestaurantOffers({ offers }: RestaurantOffersProps) {
     }
     return offer.images[0].url
   }
+
+  // Transformamos la oferta para incluir el restaurantId
+  const formatOffer = (offer: Offer) => ({
+    ...offer,
+    place: offer.place ? {
+      ...offer.place,
+      restaurant: {
+        id: restaurantId
+      }
+    } : undefined
+  })
 
   console.log('Offers data:', JSON.stringify(offers, null, 2))
   offers.forEach(offer => {
@@ -76,7 +90,7 @@ export function RestaurantOffers({ offers }: RestaurantOffersProps) {
       <CustomerOfferModal
         isOpen={!!selectedOffer}
         onClose={() => setSelectedOffer(null)}
-        offer={selectedOffer || undefined}
+        offer={selectedOffer ? formatOffer(selectedOffer) : undefined}
       />
 
       <CompanyOffers
