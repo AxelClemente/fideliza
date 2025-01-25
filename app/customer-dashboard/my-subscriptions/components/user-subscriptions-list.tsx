@@ -5,6 +5,7 @@ import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import { SubscriptionQRModal } from './subscription-qr-modal'
 import { UpgradeSubscriptionModal } from '@/app/customer-dashboard/my-subscriptions/components/upgrade-subscription-modal'
+import { toast } from 'sonner'
 
 interface UserSubscriptionsListProps {
   subscriptions: Array<{
@@ -50,6 +51,51 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
   const handleUpgradeClick = (subscription: UserSubscriptionsListProps['subscriptions'][0]) => {
     setSubscriptionToUpgrade(subscription)
     setIsUpgradeModalOpen(true)
+  }
+
+  const handleUnsubscribe = async (subscriptionId: string) => {
+    toast(
+      "Are you sure you want to cancel this subscription?",
+      {
+        duration: Infinity,
+        position: "bottom-right",
+        style: {
+          backgroundColor: 'white',
+          color: 'black',
+          border: '1px solid #e5e7eb',
+        },
+        action: {
+          label: "Delete",
+          onClick: async () => {
+            try {
+              const response = await fetch('/api/user-subscriptions', {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userSubscriptionId: subscriptionId }),
+              })
+
+              if (!response.ok) {
+                const error = await response.json()
+                throw new Error(error.message || 'Failed to cancel subscription')
+              }
+
+              toast.success('Subscription cancelled successfully')
+              window.location.reload()
+              
+            } catch (error) {
+              console.error('Error canceling subscription:', error)
+              toast.error('Failed to cancel subscription')
+            }
+          },
+        },
+        cancel: {
+          label: "Cancel",
+          onClick: () => {},
+        },
+      }
+    )
   }
 
   if (subscriptions.length === 0) {
@@ -288,7 +334,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                   Upgrade
                 </button>
                 <button 
-                  onClick={() => {}} // Implementar cancelación
+                  onClick={() => handleUnsubscribe(sub.id)}
                   className="
                     w-[329px]
                     h-[78px]

@@ -154,3 +154,57 @@ export async function GET() {
     )
   }
 }
+
+export async function PATCH(req: Request) {
+  try {
+    console.log('PATCH /api/user-subscriptions - Starting')
+    
+    // Verificar sesión
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) {
+      console.log('No session found')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Obtener datos del body
+    const { userSubscriptionId } = await req.json()
+    
+    if (!userSubscriptionId) {
+      return NextResponse.json({ error: 'Missing subscription ID' }, { status: 400 })
+    }
+
+    // Verificar que la suscripción pertenece al usuario
+    const subscription = await prisma.userSubscription.findFirst({
+      where: {
+        id: userSubscriptionId,
+        userId: session.user.id
+      }
+    })
+
+    if (!subscription) {
+      return NextResponse.json({ error: 'Subscription not found' }, { status: 404 })
+    }
+
+    // Actualizar el estado de la suscripción
+    const updatedSubscription = await prisma.userSubscription.update({
+      where: { id: userSubscriptionId },
+      data: {
+        status: 'CANCELLED',
+        isActive: false,
+        endDate: new Date() // O podrías mantener la fecha original de finalización
+      }
+    })
+
+    return NextResponse.json({ 
+      success: true, 
+      subscription: updatedSubscription 
+    })
+
+  } catch (error) {
+    console.error('Error in PATCH /api/user-subscriptions:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' }, 
+      { status: 500 }
+    )
+  }
+}
