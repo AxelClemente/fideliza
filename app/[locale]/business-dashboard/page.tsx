@@ -1,6 +1,6 @@
-import { RestaurantProvider } from '../business-dashboard/shop/components/restaurant-provider'
+import { RestaurantProvider } from './shop/components/restaurant-provider'
 import AnalyticsDashboard from "./components/chart"
-import { Breadcrumb } from "@/app/business-dashboard/components/breadcrumb"
+import { Breadcrumb } from "@/app/[locale]/business-dashboard/components/breadcrumb"
 import { getRestaurantStats } from './utils/get-stats'
 
 export default async function BusinessDashboardPage() {

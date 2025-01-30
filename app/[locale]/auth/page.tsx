@@ -2,9 +2,9 @@
 
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import SignInForm from '@/app/auth/components/signInForm'
-import SignUpForm from '@/app/auth/components/signUpForm'
-import AuthLayout from '@/app/auth/components/authLayout'
+import SignInForm from '@/app/[locale]/auth/components/signInForm'
+import SignUpForm from '@/app/[locale]/auth/components/signUpForm'
+import AuthLayout from '@/app/[locale]/auth/components/authLayout'
 
 // Componente que usa useSearchParams
 function AuthContent() {

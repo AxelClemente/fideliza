@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { AddNewUserModal } from "../modal/add-new-user"
 import { useState } from "react"
 import Image from "next/image"
-import { usePermissions } from "@/app/business-dashboard/shop/contexts/permission-context"
+import { usePermissions } from "@/app/[locale]/business-dashboard/shop/contexts/permission-context"
 
 interface UserActionsProps {
   userId: string

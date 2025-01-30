@@ -1,17 +1,20 @@
+import { ShopTabs } from "@/app/[locale]/business-dashboard/shop/components/shop-tabs"
+import { Breadcrumb } from "@/app/[locale]/business-dashboard/components/breadcrumb"
 import { Toaster } from 'sonner'
-import { PermissionProvider } from '../shop/contexts/permission-context'
+import { PermissionProvider } from './contexts/permission-context'
 import { getServerSession } from 'next-auth'
 import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
-import { Breadcrumb } from "@/app/business-dashboard/components/breadcrumb"
+import { TabContentWrapper } from "./components/tab-content-wrapper"
 
-export default async function UsersLayout({
+export default async function ShopLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions)
   
+  // Obtener los permisos del usuario
   const permissions = session?.user?.id 
     ? await prisma.permission.findMany({
         where: { userId: session.user.id }
@@ -23,12 +26,17 @@ export default async function UsersLayout({
       permissions={permissions}
       role={session?.user?.role ?? null}
     >
-      <div className="p-0 sm:p-8 overflow-x-hidden">
-        <div className="mb-4">
+      <div className="px-0 md:p-8">
+        <div className="hidden md:block mb-4">
           <Breadcrumb />
         </div>
-        <div className="mt-6">
-          {children}
+        <div className="mt-[20px] md:mt-0">
+          <ShopTabs />
+        </div>
+        <div className="mt-4 md:mt-8">
+          <TabContentWrapper>
+            {children}
+          </TabContentWrapper>
         </div>
         <Toaster 
           richColors 

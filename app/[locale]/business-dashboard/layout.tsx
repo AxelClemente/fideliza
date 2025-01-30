@@ -7,7 +7,7 @@ import { SubscribersDataProvider } from "./context/subscribers-provider"
 import { prisma } from "@/lib/prisma"
 import { MainContentWrapper } from "./components/main-content-wrapper"
 import { Metadata } from 'next'
-import { metadata as siteMetadata } from '../metadata-config'
+import { metadata as siteMetadata } from '../../metadata-config'
 
 export const metadata: Metadata = {
   title: siteMetadata.business.title,

@@ -7,7 +7,7 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { useSearchParams, useRouter } from 'next/navigation'
 import type { Mailing } from "../../shop/types/types"
-import { Restaurant } from '@/app/business-dashboard/shop/types/types'
+import { Restaurant } from '@/app/[locale]/business-dashboard/shop/types/types'
 import { ClipLoader } from "react-spinners"
 
 interface MailingActionsProps {

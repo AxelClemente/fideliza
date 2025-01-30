@@ -1,7 +1,12 @@
+'use client';
+
+import {useTranslations} from 'next-intl';
 import Link from 'next/link'
 import Image from 'next/image'
 
 export function MainHeader() {
+  const t = useTranslations('Header');
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 bg-black text-white p-4 z-50">
@@ -22,25 +27,25 @@ export function MainHeader() {
               href="/about" 
               className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
             >
-              About service
+              {t('about')}
             </Link>
             <Link 
               href="/help" 
               className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
             >
-              Help
+              {t('help')}
             </Link>
             <Link 
               href="/auth?mode=signup" 
               className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
             >
-              Sign up
+              {t('signup')}
             </Link>
             <Link 
               href="/auth?mode=signin" 
               className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
             >
-              Sign in
+              {t('signin')}
             </Link>
           </nav>
         </div>

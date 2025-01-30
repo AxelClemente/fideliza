@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Open_Sans, Poppins } from 'next/font/google';
-import { AuthProvider } from "@/components/providers/auth-provider";
-import "./globals.css";
+import { AuthProvider } from "@/app/[locale]/components/providers/auth-provider";
+import "@/app/globals.css";
 import { Toaster } from "@/components/ui/toaster"
+import {NextIntlClientProvider} from 'next-intl';
+import {notFound} from 'next/navigation';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -24,13 +26,28 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'es' }];
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params
+}: {
   children: React.ReactNode;
-}>) {
+  params: { locale: string };
+}) {
+  const { locale } = await Promise.resolve(params);
+
+  let messages;
+  try {
+    messages = (await import(`../../messages/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         suppressHydrationWarning={true}
         className={`${openSans.variable} ${poppins.variable} font-sans antialiased
@@ -40,10 +57,16 @@ export default function RootLayout({
           [&_h3]:text-h3
           text-body-regular-1`}
       >
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-        <Toaster />
+        <NextIntlClientProvider 
+          locale={locale}
+          messages={messages}
+          timeZone="America/New_York"
+        >
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+          <Toaster />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
