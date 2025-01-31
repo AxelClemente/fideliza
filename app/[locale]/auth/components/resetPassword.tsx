@@ -5,8 +5,10 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Lock } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useTranslations } from 'next-intl'
 
 function ResetPasswordContent() {
+  const t = useTranslations('Auth')
   const router = useRouter()
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || ''
@@ -23,7 +25,7 @@ function ResetPasswordContent() {
     setIsLoading(true)
 
     if (passwords.password !== passwords.confirmPassword) {
-      setError('Passwords do not match')
+      setError(t('passwordsDoNotMatch'))
       setIsLoading(false)
       return
     }
@@ -44,10 +46,10 @@ function ResetPasswordContent() {
         router.push('/auth?mode=signin&message=password-reset-success')
       } else {
         const data = await response.json()
-        setError(data.error || 'Something went wrong')
+        setError(data.error || t('genericError'))
       }
     } catch {
-      setError('An error occurred. Please try again.')
+      setError(t('errorOccurredForgot'))
     } finally {
       setIsLoading(false)
     }
@@ -57,10 +59,11 @@ function ResetPasswordContent() {
     <div className="w-[400px] sm:w-[514px] h-[700px] sm:h-[822px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
       <div className="text-center mb-6 mt-12">
         <h1 className="!text-[20px] font-bold leading-[28px] text-main-dark mb-2 font-open-sans">
-          Reset Password
+          {t('forgotPasswordTitle')}
         </h1>
         <p className="text-[16px] font-semibold leading-[20px] text-center font-open-sans">
-          Please enter your new password for<br />
+          {t('forgotPasswordSubtitle')}
+          <br />
           {email}
         </p>
       </div>
@@ -76,7 +79,7 @@ function ResetPasswordContent() {
           <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
             type="password"
-            placeholder="New Password"
+            placeholder={t('passwordPlaceholder')}
             className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-16 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -91,7 +94,7 @@ function ResetPasswordContent() {
           <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
             type="password"
-            placeholder="Confirm Password"
+            placeholder={t('confirmPasswordPlaceholder')}
             className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-16 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -107,7 +110,7 @@ function ResetPasswordContent() {
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
           disabled={isLoading}
         >
-          Reset Password
+          {t('verifyButton')}
         </Button>
 
         <Button
@@ -116,7 +119,7 @@ function ResetPasswordContent() {
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] hover:text-gray-900 text-[16px] font-semibold leading-[20px] font-open-sans underline decoration-solid"
           onClick={() => router.push('/auth?mode=signin')}
         >
-          Cancel
+          {t('cancelButton')}
         </Button>
       </form>
     </div>
@@ -124,6 +127,7 @@ function ResetPasswordContent() {
 }
 
 export default function ResetPassword() {
+  const t = useTranslations('Auth')
   return (
     <Suspense 
       fallback={

@@ -6,8 +6,10 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Mail, Lock } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useTranslations } from 'next-intl'
 
 export default function SignInForm() {
+  const t = useTranslations('Auth')
   const router = useRouter()
   const { data: session, status } = useSession()
   const searchParams = useSearchParams()
@@ -113,26 +115,26 @@ export default function SignInForm() {
           className="cursor-pointer font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-third-gray"
           onClick={() => router.push('/auth?mode=signup')}
         >
-          Sign up
+          {t('signUp')}
         </span>
         <span className="font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-third-gray">|</span>
         <span 
           className="cursor-pointer font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-main-dark"
         >
-          Sign in
+          {t('signIn')}
         </span>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3 flex flex-col items-center">
         {message === 'password-reset-success' && (
           <div className="p-3 text-green-500 bg-green-100 rounded-md text-sm w-[360px]">
-            Password reset successful. Please login with your new password.
+            {t('passwordResetSuccess')}
           </div>
         )}
         
         {error && (
           <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[390px] sm:w-[462px]">
-            {error}
+            {t(error)}
           </div>
         )}
         
@@ -140,7 +142,7 @@ export default function SignInForm() {
           <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
             type="email"
-            placeholder="Email"
+            placeholder={t('emailPlaceholder')}
             className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-16 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -156,7 +158,7 @@ export default function SignInForm() {
             <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
             <Input
               type="password"
-              placeholder="Password"
+              placeholder={t('passwordPlaceholder')}
               className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-16 border-0 
                        !text-[16px] !font-semibold text-third-gray
                        placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -172,7 +174,7 @@ export default function SignInForm() {
               onClick={() => router.push('/auth/forgot-password')}
               className="text-semi-bold-2 hover:text-gray-900 underline decoration-solid my-3"
             >
-              Forgot password
+              {t('forgotPassword')}
             </button>
           </div>
         </div>
@@ -181,7 +183,7 @@ export default function SignInForm() {
           type="submit" 
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
         >
-          Login to Continue
+          {t('loginButton')}
         </Button>
 
         <div className="w-[390px] sm:w-[462px] relative my-6">
@@ -189,7 +191,7 @@ export default function SignInForm() {
             <div className="w-full border-t border-third-gray/30"></div>
           </div>
           <div className="relative flex justify-center">
-            <span className="bg-white px-4 text-semi-bold-2">or</span>
+            <span className="bg-white px-4 text-semi-bold-2">{t('or')}</span>
           </div>
         </div>
 
@@ -200,7 +202,7 @@ export default function SignInForm() {
           onClick={handleGoogleSignIn}
         >
           <img src="/google.svg" alt="Google logo" className="w-4 h-4 mr-2" />
-          Google account
+          {t('googleAccount')}
         </Button>
 
         <Button
@@ -210,7 +212,7 @@ export default function SignInForm() {
           onClick={handleFacebookSignIn}
         >
           <img src="/facebook.svg" alt="Facebook logo" className="w-4 h-4 mr-2" />
-          Facebook account
+          {t('facebookAccount')}
         </Button>
       </form>
     </div>

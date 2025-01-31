@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { MapPin, ChevronDown } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
+import { useTranslations } from 'next-intl'
 import {
   Select,
   SelectContent,
@@ -128,36 +129,40 @@ const cities = [
 ]
 
 export default function Location() {
+  const t = useTranslations('Auth')
   const router = useRouter()
   const { toast } = useToast()
-  const [selectedCity, setSelectedCity] = React.useState("")
+  const [selectedCity, setSelectedCity] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
+
     if (selectedCity) {
-      setIsLoading(true)
       try {
-        const response = await fetch('/api/location', {
+        const response = await fetch('/api/auth/update-city', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            location: selectedCity,
-          }),
+          body: JSON.stringify({ city: selectedCity }),
         })
 
-        if (!response.ok) {
-          throw new Error('Failed to update location')
+        if (response.ok) {
+          router.push('/auth/choose-role')
+        } else {
+          toast({
+            variant: "destructive",
+            title: t('cityUpdateError'),
+            description: t('cityUpdateGenericError'),
+          })
         }
-
-        router.push('/auth/choose-role')
-      } catch {
+      } catch (error) {
         toast({
-          title: "Error",
-          description: "Failed to update location. Please try again.",
           variant: "destructive",
+          title: t('cityUpdateError'),
+          description: t('cityUpdateGenericError'),
         })
         setIsLoading(false)
       }
@@ -167,7 +172,7 @@ export default function Location() {
   return (
     <div className="w-[500px] h-[580px] sm:w-[500px] w-full bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center mx-auto sm:mx-0">
       <h2 className="text-[20px] font-semibold text-main-dark mb-12 mt-8">
-        Your city
+        {t('locationTitle')}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center w-full sm:w-auto px-4 sm:px-0">
@@ -181,7 +186,7 @@ export default function Location() {
                        placeholder:text-third-gray placeholder:text-[14px] placeholder:font-semibold
                        focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
             >
-              <SelectValue placeholder="Search your city" />
+              <SelectValue placeholder={t('searchCityPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
               {cities.map((city) => (
@@ -205,10 +210,10 @@ export default function Location() {
           {isLoading ? (
             <div className="flex items-center justify-center gap-2">
               <ClipLoader size={20} color="#FFFFFF" />
-              <span>Updating...</span>
+              <span>{t('loading')}</span>
             </div>
           ) : (
-            "Continue"
+            t('continueButton')
           )}
         </Button>
 
@@ -219,7 +224,7 @@ export default function Location() {
           onClick={() => router.push('/auth/choose-role')}
           disabled={isLoading}
         >
-          Skip
+          {t('skipButton')}
         </Button>
       </form>
     </div>

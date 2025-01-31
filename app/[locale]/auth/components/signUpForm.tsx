@@ -7,8 +7,10 @@ import { User, Mail, Lock } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
+import { useTranslations } from 'next-intl'
 
 export default function SignUpForm() {
+  const t = useTranslations('Auth')
   const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
@@ -30,7 +32,6 @@ export default function SignUpForm() {
     try {
       setIsLoading(true)
       
-      // Registro del usuario
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -45,19 +46,17 @@ export default function SignUpForm() {
 
       if (!response.ok) throw new Error('Registration failed')
       
-      // Iniciar sesión automáticamente después del registro
       await signIn('credentials', {
         email: formData.email,
         password: formData.password,
         redirect: false,
       })
 
-      // Redirigir según el flujo normal post-login
       router.push('/auth/location')
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
+        description: error instanceof Error ? t(error.message) : t('Something went wrong. Please try again.'),
         variant: "destructive",
       })
     } finally {
@@ -103,28 +102,28 @@ export default function SignUpForm() {
     <div className="w-[400px] sm:w-[514px] h-[800px] sm:h-[822px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center mt-8 sm:mt-0">
       <div className="flex gap-2 mb-6 mt-12">
         <span className="cursor-pointer font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-main-dark">
-          Sign up
+          {t('signUp')}
         </span>
         <span className="font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-third-gray">|</span>
         <span 
           className="cursor-pointer font-['Open_Sans'] text-[20px] leading-[32.68px] font-[700] text-third-gray"
           onClick={() => router.push('/auth?mode=signin')}
         >
-          Sign in
+          {t('signIn')}
         </span>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3 flex flex-col items-center">
         {error && (
           <div className="p-3 text-red-500 bg-red-100 rounded-md text-sm w-[390px] sm:w-[462px]">
-            {error}
+            {t(error)}
           </div>
         )}
         
         <div className="relative">
           <User className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
-            placeholder="Name"
+            placeholder={t('namePlaceholder')}
             className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-20 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -139,7 +138,7 @@ export default function SignUpForm() {
           <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
             type="email"
-            placeholder="Email"
+            placeholder={t('emailPlaceholder')}
             className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-20 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -154,7 +153,7 @@ export default function SignUpForm() {
           <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
             type="password"
-            placeholder="Password"
+            placeholder={t('passwordPlaceholder')}
             className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-20 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -169,7 +168,7 @@ export default function SignUpForm() {
           <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-third-gray" />
           <Input
             type="password"
-            placeholder="Confirm password"
+            placeholder={t('confirmPasswordPlaceholder')}
             className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-gray pl-20 border-0 
                      !text-[16px] !font-semibold text-third-gray
                      placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
@@ -185,7 +184,7 @@ export default function SignUpForm() {
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
           disabled={isLoading}
         >
-          {isLoading ? 'Signing up...' : 'Continue'}
+          {isLoading ? t('signingUp') : t('continueButton')}
         </Button>
 
         <div className="w-[390px] sm:w-[462px] relative my-6">
@@ -193,7 +192,7 @@ export default function SignUpForm() {
             <div className="w-full border-t border-third-gray/30"></div>
           </div>
           <div className="relative flex justify-center">
-            <span className="bg-white px-4 text-semi-bold-2">or</span>
+            <span className="bg-white px-4 text-semi-bold-2">{t('or')}</span>
           </div>
         </div>
 
@@ -204,7 +203,7 @@ export default function SignUpForm() {
           onClick={handleGoogleSignIn}
         >
           <img src="/google.svg" alt="Google logo" className="w-4 h-4 mr-2" />
-          Google account
+          {t('googleAccount')}
         </Button>
 
         <Button
@@ -214,7 +213,7 @@ export default function SignUpForm() {
           onClick={handleFacebookSignIn}
         >
           <img src="/facebook.svg" alt="Facebook logo" className="w-4 h-4 mr-2" />
-          Facebook account
+          {t('facebookAccount')}
         </Button>
       </form>
     </div>

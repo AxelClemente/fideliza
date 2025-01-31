@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
+import { useTranslations } from 'next-intl'
 
 export default function VerifyCode({ email }: { email: string }) {
+  const t = useTranslations('Auth')
   const router = useRouter()
   const [code, setCode] = useState(['', '', '', ''])
   const [error, setError] = useState('')
@@ -36,7 +38,7 @@ export default function VerifyCode({ email }: { email: string }) {
   const handleVerify = async () => {
     const fullCode = code.join('')
     if (fullCode.length !== 4) {
-      setError('Please enter all digits')
+      setError(t('enterAllDigits'))
       return
     }
 
@@ -52,11 +54,11 @@ export default function VerifyCode({ email }: { email: string }) {
       } else {
         const errorData = await response.json()
         console.log('Error data:', errorData)
-        setError('Invalid code')
+        setError(t('invalidCode'))
       }
     } catch {
       console.error('Verify error')
-      setError('An error occurred')
+      setError(t('errorVerifying'))
     }
   }
 
@@ -70,19 +72,23 @@ export default function VerifyCode({ email }: { email: string }) {
       })
       setTimer(55)
     } catch {
-      setError('Failed to resend code')
+      setError(t('errorVerifying'))
     }
     setIsResending(false)
   }
+
+  const maskedEmail = email.replace(/(.{2})(.*)(?=@)/, (_, start, rest) => 
+    start + '*'.repeat(rest.length)
+  )
 
   return (
     <div className="w-[400px] sm:w-[514px] h-[700px] sm:h-[822px] bg-white rounded-[20px] shadow-[0_10px_50px_0_rgba(0,0,0,0.1)] p-4 flex flex-col items-center">
       <div className="text-center mb-6 mt-12">
         <h1 className="!text-[20px] font-bold leading-[28px] text-main-dark mb-2 font-open-sans">
-          Forgot the password?
+          {t('verifyCodeTitle')}
         </h1>
         <p className="text-[16px] font-semibold leading-[20px] text-third-gray text-center font-open-sans">
-          Code has been send to {email.replace(/(.{2})(.*)(?=@)/, (_, start, rest) => start + '*'.repeat(rest.length))}
+          {t('verifyCodeSubtitle', { email: maskedEmail })}
         </p>
       </div>
 
@@ -113,7 +119,7 @@ export default function VerifyCode({ email }: { email: string }) {
             disabled={timer > 0 || isResending}
             className="text-[16px] font-semibold leading-[20px] font-open-sans"
           >
-            Resend code in {timer}s
+            {t('resendCodeButton', { seconds: timer })}
           </button>
         </div>
 
@@ -121,7 +127,7 @@ export default function VerifyCode({ email }: { email: string }) {
           onClick={handleVerify}
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
         >
-          Verify
+          {t('verifyButton')}
         </Button>
 
         <Button
@@ -130,7 +136,7 @@ export default function VerifyCode({ email }: { email: string }) {
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] hover:text-gray-900 text-[16px] font-semibold leading-[20px] font-open-sans underline decoration-solid"
           onClick={() => router.push('/auth')}
         >
-          Cancel
+          {t('cancelButton')}
         </Button>
       </form>
     </div>
