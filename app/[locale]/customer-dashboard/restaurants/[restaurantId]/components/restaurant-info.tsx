@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from "next/image"
 import { SubscriptionCarousel } from '../../../components/subscription-carousel'
 import { CompanySubscriptions } from './../modal/company-subscriptions-modal'
-import { Subscription } from '@/app/customer-dashboard/types/subscription'
+import { Subscription } from '@/app/[locale]/customer-dashboard/types/subscription'
 
 interface RestaurantInfoProps {
   restaurant: {
