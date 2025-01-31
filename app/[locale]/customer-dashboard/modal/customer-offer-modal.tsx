@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { MapPinIcon } from "lucide-react"
 import Image from "next/image"
-import { OfferViewTracker } from "@/app/customer-dashboard/components/offer-view-tracker"
+import { OfferViewTracker } from "@/app/[locale]/customer-dashboard/components/offer-view-tracker"
 import { useRouter } from 'next/navigation'
 
 interface CustomerOfferModalProps {

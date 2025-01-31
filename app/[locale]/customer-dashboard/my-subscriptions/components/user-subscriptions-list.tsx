@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import { SubscriptionQRModal } from './subscription-qr-modal'
-import { UpgradeSubscriptionModal } from '@/app/customer-dashboard/my-subscriptions/components/upgrade-subscription-modal'
+import { UpgradeSubscriptionModal } from '@/app/[locale]/customer-dashboard/my-subscriptions/components/upgrade-subscription-modal'
 import { toast } from 'sonner'
 
 interface UserSubscriptionsListProps {
