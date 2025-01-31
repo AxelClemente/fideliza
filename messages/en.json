@@ -4,5 +4,78 @@
       "help": "Help",
       "signup": "Sign up",
       "signin": "Sign in"
+    },
+    "FAQ": {
+      "title": "Your Questions\nAnswered",
+      "question1": "Who This Platform is For?",
+      "answer1": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.",
+      "question2": "What are the benefits of this platform for local businesses?",
+      "answer2": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.",
+      "question3": "What benefits will I receive from subscribing?",
+      "answer3": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.",
+      "cta": {
+        "title": "Choose Your Role and Join Right Now!",
+        "business": "Get Started, As Business Owner",
+        "customer": "Get Started, As Customer"
+      }
+    },
+    "Testimonials": {
+      "name": "Casey Kaspol",
+      "role": "General Manager",
+      "quote": "\"We're loving it. This is simply unbelievable! I like it more and more each day because it makes my life a lot easier.\""
+    },
+    "Hero": {
+      "logoAlt": "Fideliza Logo",
+      "title": {
+        "part1": "Your Local Favorites,",
+        "part2": "Just",
+        "highlight": "Scan Away"
+      },
+      "subtitle": {
+        "part1": "Easily connect with local businesses, customize your",
+        "part2": "subscriptions, and save big!"
+      },
+      "learnMore": "Learn More",
+      "cta": {
+        "title": {
+          "part1": "Choose Your Role and Join",
+          "part2": "Right Now!"
+        },
+        "business": "Get Started, As Business Owner",
+        "customer": "Get Started, As Customer"
+      }
+    },
+    "Video": {
+      "title": {
+        "part1": "Let's Learn",
+        "part2": "How we work"
+      },
+      "playButton": "Play video",
+      "subtitle": {
+        "part1": "Get Your Sub Now and",
+        "part2": "Enjoy All the Advantages"
+      },
+      "features": {
+        "support": {
+          "title": "Support Locals",
+          "description": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed."
+        },
+        "access": {
+          "title": "Easy Access",
+          "description": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed."
+        },
+        "deals": {
+          "title": "Tailored Deals",
+          "description": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed."
+        }
+      },
+      "cta": {
+        "title": {
+          "part1": "Choose Your Role and Join",
+          "part2": "Right Now!"
+        },
+        "business": "Get Started, As Business Owner",
+        "customer": "Get Started, As Customer"
+      }
     }
   }

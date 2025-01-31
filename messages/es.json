@@ -4,5 +4,78 @@
       "help": "Ayuda",
       "signup": "Registrarse",
       "signin": "Iniciar sesión"
+    },
+    "FAQ": {
+      "title": "Respondemos\nTus Preguntas",
+      "question1": "¿Para quién es esta plataforma?",
+      "answer1": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.",
+      "question2": "¿Cuáles son los beneficios de esta plataforma para negocios locales?",
+      "answer2": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.",
+      "question3": "¿Qué beneficios recibiré al suscribirme?",
+      "answer3": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.",
+      "cta": {
+        "title": "¡Elige tu rol y únete ahora!",
+        "business": "Comenzar como Dueño de Negocio",
+        "customer": "Comenzar como Cliente"
+      }
+    },
+    "Testimonials": {
+      "name": "Casey Kaspol",
+      "role": "Gerente General",
+      "quote": "\"¡Nos encanta! Esto es simplemente increíble. Me gusta más y más cada día porque hace mi vida mucho más fácil.\""
+    },
+    "Hero": {
+      "logoAlt": "Logo de Fideliza",
+      "title": {
+        "part1": "Tus Locales Favoritos,",
+        "part2": "Solo",
+        "highlight": "Escanea"
+      },
+      "subtitle": {
+        "part1": "Conéctate fácilmente con negocios locales, personaliza tus",
+        "part2": "suscripciones, ¡y ahorra en grande!"
+      },
+      "learnMore": "Saber Más",
+      "cta": {
+        "title": {
+          "part1": "Elige tu Rol y Únete",
+          "part2": "¡Ahora Mismo!"
+        },
+        "business": "Comenzar como Dueño de Negocio",
+        "customer": "Comenzar como Cliente"
+      }
+    },
+    "Video": {
+      "title": {
+        "part1": "Aprende",
+        "part2": "Cómo trabajamos"
+      },
+      "playButton": "Reproducir video",
+      "subtitle": {
+        "part1": "Obtén tu Suscripción Ahora y",
+        "part2": "Disfruta de Todas las Ventajas"
+      },
+      "features": {
+        "support": {
+          "title": "Apoya lo Local",
+          "description": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed."
+        },
+        "access": {
+          "title": "Acceso Fácil",
+          "description": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed."
+        },
+        "deals": {
+          "title": "Ofertas Personalizadas",
+          "description": "Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed."
+        }
+      },
+      "cta": {
+        "title": {
+          "part1": "Elige tu Rol y Únete",
+          "part2": "¡Ahora Mismo!"
+        },
+        "business": "Comenzar como Dueño de Negocio",
+        "customer": "Comenzar como Cliente"
+      }
     }
   }

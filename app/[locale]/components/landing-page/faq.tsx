@@ -1,4 +1,7 @@
+'use client';
+
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useTranslations } from 'next-intl';
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +10,9 @@ import {
 } from "@/components/ui/accordion"
 
 export default function FAQSection() {
+  const t = useTranslations('FAQ');
+  const testimonials = useTranslations('Testimonials');
+
   return (
     <>
       <section className="w-full py-10 sm:py-20 mt-[-100px] sm:mt-0">
@@ -17,36 +23,34 @@ export default function FAQSection() {
           {/* Right side - FAQ content */}
           <div className="w-full px-4 sm:px-0 sm:w-[523px] space-y-6 sm:space-y-8">
             <h2 className="!text-[28px] sm:!text-[64px] !font-[800] !leading-[43.2px] sm:!leading-[76.8px] !tracking-tight !text-main-dark !font-['Open_Sans']">
-              Your Questions
-              <br />
-              Answered
+              {t('title')}
             </h2>
 
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
                 <AccordionTrigger className="!text-[24px] sm:!text-[40px] !font-[700] !leading-[32px] sm:!leading-[54px] !text-main-dark !font-['Open_Sans'] text-left">
-                  Who This Platform is For?
+                  {t('question1')}
                 </AccordionTrigger>
                 <AccordionContent className="!text-[16px] sm:!text-[20px] !font-[500] !leading-[24px] sm:!leading-[32px] !text-third-gray !font-['Poppins']">
-                  Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.
+                  {t('answer1')}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-2">
                 <AccordionTrigger className="!text-[24px] sm:!text-[40px] !font-[700] !leading-[32px] sm:!leading-[54px] !text-main-dark !font-['Open_Sans'] text-left">
-                  What are the benefits of this platform for local businesses?
+                  {t('question2')}
                 </AccordionTrigger>
                 <AccordionContent className="!text-[16px] sm:!text-[20px] !font-[500] !leading-[24px] sm:!leading-[32px] !text-third-gray !font-['Poppins']">
-                  Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.
+                  {t('answer2')}
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-3">
                 <AccordionTrigger className="!text-[24px] sm:!text-[40px] !font-[700] !leading-[32px] sm:!leading-[54px] !text-main-dark !font-['Open_Sans'] text-left">
-                  What benefits will I receive from subscribing?
+                  {t('question3')}
                 </AccordionTrigger>
                 <AccordionContent className="!text-[16px] sm:!text-[20px] !font-[500] !leading-[24px] sm:!leading-[32px] !text-third-gray !font-['Poppins']">
-                  Lorem ipsum dolor sit amet, consec adipiscing elit. In ac sagittis cursus quam quis morbi sed.
+                  {t('answer3')}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -64,20 +68,16 @@ export default function FAQSection() {
               </div>
               <div>
                 <div className="!text-[16px] sm:!text-[24px] !font-[700] !leading-[24px] sm:!leading-[32px] !text-main-dark !font-['Open_Sans'] text-center">
-                  Casey Kaspol
+                  {testimonials('name')}
                 </div>
                 <div className="!text-[14px] sm:!text-[18px] !font-[400] !leading-[20px] sm:!leading-[24px] !text-third-gray !font-['Open_Sans']">
-                  General Manager
+                  {testimonials('role')}
                 </div>
               </div>
             </div>
             <div className="relative">
               <blockquote className="!text-[20px] sm:!text-[40px] !font-[700] !leading-[28px] sm:!leading-[54px] !text-main-dark !font-['Open_Sans'] ml-4 sm:ml-20">
-                &ldquo;We&apos;re loving it. This is simply unbelievable!
-                <br className="hidden sm:block" />
-                I like it more and more each day because it
-                <br className="hidden sm:block" />
-                makes my life a lot easier.&rdquo;
+                {testimonials('quote')}
               </blockquote>
               {/* Avatar placeholder */}
               <div className="absolute -top-24 sm:-top-4 right-2 sm:right-10 w-16 sm:w-40 h-16 sm:h-40 bg-main-gray rounded-full"></div>
@@ -100,19 +100,17 @@ export default function FAQSection() {
           <div className="mt-8 sm:mt-16 bg-black rounded-2xl sm:rounded-3xl mx-[-16px] sm:mx-0 p-4 sm:p-8 pt-8 sm:pt-12 text-center min-h-[250px] sm:min-h-[412px] flex items-center justify-center">
             <div className="px-4">
               <h2 className="!text-[#F4F4F4] !text-[28px] sm:!text-[72px] !font-[800] !leading-[40px] sm:!leading-[86.4px] text-center mb-8 !font-['Open_Sans']">
-                Choose Your Role and Join{' '}
-                <br className="hidden sm:block" />
-                Right Now!
+                {t('cta.title')}
               </h2>
               <div className="flex flex-col sm:flex-row gap-6 sm:gap-20 justify-center mt-8 sm:mt-16 hidden sm:flex">
                 <button className="w-full sm:w-auto px-6 py-3 bg-[#816DF7] hover:opacity-90 transition-colors rounded-full">
                   <span className="text-[#FFFFFF] text-[18px] sm:text-[24px] font-[700] leading-[24px] sm:leading-[32px] font-['Open_Sans']">
-                    Get Started, As Business Owner
+                    {t('cta.business')}
                   </span>
                 </button>
                 <button className="w-full sm:w-auto px-6 py-3 bg-[#816DF7] hover:opacity-90 transition-colors rounded-full">
                   <span className="text-[#FFFFFF] text-[18px] sm:text-[24px] font-[700] leading-[24px] sm:leading-[32px] font-['Open_Sans']">
-                    Get Started, As Customer
+                    {t('cta.customer')}
                   </span>
                 </button>
               </div>
