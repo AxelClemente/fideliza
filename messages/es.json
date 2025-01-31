@@ -220,6 +220,15 @@
         "howToCancel": "¿Cómo puedo cancelar mi suscripción?",
         "howToCancelAnswer": "Puedes cancelar tu suscripción en cualquier momento a través de la configuración de tu cuenta. El servicio permanecerá activo hasta el final de tu período de facturación actual."
       },
+      "share": {
+        "title": "Compartir App",
+        "description": "¡Comparte nuestra app con tus clientes y ayúdales a descubrir grandes ofertas!",
+        "copyLink": "Compartir Enlace",
+        "linkCopied": "¡Enlace copiado al portapapeles!",
+        "copyError": "Error al copiar el enlace",
+        "facebookAlt": "Ícono de Facebook",
+        "twitterAlt": "Ícono de Twitter"
+      },
       "terms": {
         "title": "Términos de Uso",
         "introduction": {
@@ -239,7 +248,7 @@
         "freeTrial": {
           "title": "4. Prueba Gratuita y Cancelación",
           "item1": "Si se ofrece, la prueba gratuita permite a los usuarios acceder al servicio por un tiempo limitado sin cargo.",
-          "item2": "Las suscripciones pueden cancelarse en cualquier momento a través de la configuración de la cuenta. El acceso a los descuentos se mantendrá hasta el final del período de facturación."
+          "item2": "Las suscripciones pueden cancelarse en cualquier momento a través de la configuración de la cuenta. El acceso a los descuentos permanecerá hasta el final del período de facturación."
         },
         "partnerOffers": {
           "title": "5. Ofertas de Socios y Disponibilidad",
@@ -256,6 +265,17 @@
           "title": "7. Reembolsos y Problemas de Pago",
           "item1": "Las cuotas de suscripción no son reembolsables a menos que la ley lo requiera.",
           "item2": "Si un pago falla, el acceso al servicio puede ser restringido hasta que se resuelva el problema."
+        }
+      },
+      "qr": {
+        "links": {
+          "title": "Enlaces",
+          "description": "Puedes usar este enlace para publicaciones en redes sociales o para informar a tus clientes sobre la participación en nuestro programa de fidelización y atraer más personas a tus suscripciones."
+        },
+        "qrs": {
+          "title": "QRs",
+          "description": "Puedes imprimir un código QR para el registro en nuestro servicio y colocarlo en un lugar visible cerca de la caja registradora. Esto facilitará y agilizará el registro de tus clientes en el servicio y la suscripción a tus descuentos.",
+          "downloadButton": "Descargar plantilla QR para imprimir"
         }
       }
     }

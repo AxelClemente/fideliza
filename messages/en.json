@@ -261,6 +261,17 @@
           "item1": "Subscription fees are non-refundable unless otherwise required by law.",
           "item2": "If a payment fails, access to the service may be restricted until the issue is resolved."
         }
+      },
+      "qr": {
+        "links": {
+          "title": "Links",
+          "description": "You can use this link for social media posts or to tell your customers about participating in our loyalty program and attract more people to your subscriptions."
+        },
+        "qrs": {
+          "title": "QRs",
+          "description": "You can print out a QR code for registration in our service and place it in a visible place near the cash register. This will make it easier and faster for your customers to register in the service and sign up for your discounts.",
+          "downloadButton": "Download QR template for print"
+        }
       }
     }
   }
