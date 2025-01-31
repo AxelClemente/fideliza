@@ -159,7 +159,7 @@ export default function Location() {
           })
           setIsLoading(false)
         }
-      } catch (error) {
+      } catch {
         toast({
           variant: "destructive",
           title: t('cityUpdateError'),
