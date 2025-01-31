@@ -3,7 +3,7 @@
 import useEmblaCarousel from 'embla-carousel-react'
 import { useCallback, useState, useEffect } from 'react'
 import { CustomerSubscriptionModal } from '../modal/customer-subscription-modal'
-import { Subscription } from '@/app/customer-dashboard/types/subscription'
+import { Subscription } from '@/app/[locale]/customer-dashboard/types/subscription'
 
 export function SubscriptionCarousel({ subscriptions }: { subscriptions: Subscription[] }) {
   console.log('SubscriptionCarousel - subscriptions:', subscriptions)
