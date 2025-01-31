@@ -125,6 +125,30 @@
       "searchCityPlaceholder": "Search your city",
       "skipButton": "Skip",
       "cityUpdateError": "Error updating city",
-      "cityUpdateGenericError": "An error occurred updating your city"
+      "cityUpdateGenericError": "An error occurred updating your city",
+      "signUpSubtitle": "First time? Create your account to get started",
+      "signInSubtitle": "Welcome back! Sign in to continue"
+    },
+    "BusinessHeader": {
+      "home": "Home",
+      "users": "Users",
+      "myShops": "My shops",
+      "proposalMailings": "Proposal mailings",
+      "aboutService": "About service",
+      "help": "Help",
+      "logout": "Logout",
+      "loading": "Loading..."
+    },
+    "BusinessDashboard": {
+      "views": "Views",
+      "earnings": "Earnings",
+      "subscriptions": "Subscriptions",
+      "newViews": "New views",
+      "newSubs": "New Subs",
+      "currentWeek": "Current Week",
+      "previousWeek": "Previous Week",
+      "selectPeriod": "Select period",
+      "thisWeek": "This week",
+      "currentOffers": "Current offers"
     }
   }

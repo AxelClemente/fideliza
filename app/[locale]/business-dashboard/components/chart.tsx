@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import {
   Carousel,
   CarouselContent,
@@ -57,6 +58,7 @@ export default function AnalyticsDashboard({
   featuredOffers = [],
   viewStats
 }: AnalyticsDashboardProps) {
+  const t = useTranslations('BusinessDashboard')
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('views')
 
   // Generar datos del gráfico basados en los valores reales
@@ -93,17 +95,17 @@ export default function AnalyticsDashboard({
   const stats = [
     {
       id: 'views' as MetricType,
-      title: "New views",
+      title: t('newViews'),
       ...viewStats.views
     },
     {
       id: 'earnings' as MetricType,
-      title: "Earnings",
+      title: t('earnings'),
       ...viewStats.earnings
     },
     {
       id: 'subscriptions' as MetricType,
-      title: "New Subs",
+      title: t('newSubs'),
       ...viewStats.subscriptions
     }
   ]
@@ -112,13 +114,13 @@ export default function AnalyticsDashboard({
   const getMetricTitle = () => {
     switch(selectedMetric) {
       case 'views':
-        return 'Views'
+        return t('views')
       case 'earnings':
-        return 'Earnings'
+        return t('earnings')
       case 'subscriptions':
-        return 'Subscriptions'
+        return t('subscriptions')
       default:
-        return 'Views'
+        return t('views')
     }
   }
 
@@ -147,11 +149,11 @@ export default function AnalyticsDashboard({
         <div className="flex flex-col items-center md:items-start md:flex-row gap-4">
           <div className="flex items-center justify-center w-full md:justify-start gap-20 md:gap-4">
             <div className="text-center md:text-left">
-              <p className="text-lg md:text-sm text-muted-foreground">Current Week </p>
+              <p className="text-lg md:text-sm text-muted-foreground">{t('currentWeek')}</p>
               <p className="text-2xl font-bold">{getCurrentValue()}</p>
             </div>
             <div className="text-center md:text-left">
-              <p className="text-lg md:text-sm text-muted-foreground">Previous Week </p>
+              <p className="text-lg md:text-sm text-muted-foreground">{t('previousWeek')}</p>
               <p className="text-2xl font-bold">{getPreviousValue()}</p>
             </div>
           </div>
@@ -166,16 +168,14 @@ export default function AnalyticsDashboard({
                     height={24}
                   />
                   <SelectValue 
-                    placeholder="Select period" 
+                    placeholder={t('selectPeriod')}
                     className="text-[#7B7B7B]"
                   />
                 </div>
                 <ChevronDown className="ml-auto h-6 w-6 text-[#7B7B7B] opacity-50" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="this-week">This week</SelectItem>
-                <SelectItem value="last-week">Last week</SelectItem>
-                <SelectItem value="last-month">Last month</SelectItem>
+                <SelectItem value="this-week">{t('thisWeek')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -327,7 +327,7 @@ export default function AnalyticsDashboard({
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold tracking-tight mb-4">Current offers</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-4">{t('currentOffers')}</h2>
         <div className="grid gap-4 md:grid-cols-2">
           {featuredOffers.map((offer) => (
             <Card key={offer.id}>

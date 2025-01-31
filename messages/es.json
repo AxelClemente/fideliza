@@ -125,6 +125,30 @@
       "searchCityPlaceholder": "Busca tu ciudad",
       "skipButton": "Omitir",
       "cityUpdateError": "Error al actualizar la ciudad",
-      "cityUpdateGenericError": "Ocurrió un error al actualizar tu ciudad"
+      "cityUpdateGenericError": "Ocurrió un error al actualizar tu ciudad",
+      "signUpSubtitle": "¿Primera vez? Crea tu cuenta para comenzar",
+      "signInSubtitle": "¡Bienvenido de nuevo! Inicia sesión para continuar"
+    },
+    "BusinessHeader": {
+      "home": "Inicio",
+      "users": "Usuarios",
+      "myShops": "Mis tiendas",
+      "proposalMailings": "Correos",
+      "aboutService": "Sobre el servicio",
+      "help": "Ayuda",
+      "logout": "Cerrar sesión",
+      "loading": "Cargando..."
+    },
+    "BusinessDashboard": {
+      "views": "Vistas",
+      "earnings": "Ganancias",
+      "subscriptions": "Suscripciones",
+      "newViews": "Nuevas vistas",
+      "newSubs": "Nuevos subs",
+      "currentWeek": "Semana actual",
+      "previousWeek": "Semana anterior",
+      "selectPeriod": "Seleccionar período",
+      "thisWeek": "Esta semana",
+      "currentOffers": "Ofertas actuales"
     }
   }

@@ -6,22 +6,23 @@ import { usePathname, useRouter } from "next/navigation"
 import { useSession, signOut } from "next-auth/react"
 import { ArrowLeft, Menu, X, ChevronDown } from "lucide-react"
 import { useState } from "react"
+import { useTranslations } from 'next-intl'
 
 const navigationItems = [
-  { name: "Home", href: "/business-dashboard" },
-  { name: "Users", href: "/business-dashboard/users" },
-  { name: "My shops", href: "/business-dashboard/shop" },
-  { name: "Mailing", href: "/business-dashboard/mailings" },
-  { name: "About service", href: "/business-dashboard/about" },
-  { name: "Help", href: "/business-dashboard/help" },
+  { name: "home", href: "/business-dashboard" },
+  { name: "users", href: "/business-dashboard/users" },
+  { name: "myShops", href: "/business-dashboard/shop" },
+  { name: "proposalMailings", href: "/business-dashboard/mailings" },
+  { name: "aboutService", href: "/business-dashboard/about" },
+  { name: "help", href: "/business-dashboard/help" },
 ]
 
 export function MobileBusinessHeader() {
+  const t = useTranslations('BusinessHeader')
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const { data: session } = useSession()
-
 
   function handleBack() {
     if (pathname === '/business-dashboard') {
@@ -120,7 +121,7 @@ export function MobileBusinessHeader() {
                 `}
                 onClick={toggleMenu}
               >
-                {item.name}
+                {t(item.name)}
               </Link>
             ))}
           </nav>
@@ -130,7 +131,7 @@ export function MobileBusinessHeader() {
             onClick={() => signOut({ callbackUrl: '/' })}
             className="mt-8 text-gray-400 hover:text-white text-lg font-semibold"
           >
-            Logout
+            {t('logout')}
           </button>
         </div>
       </div>

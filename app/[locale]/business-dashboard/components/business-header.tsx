@@ -7,17 +7,19 @@ import { useSession, signOut } from "next-auth/react"
 import { ChevronDown } from "lucide-react"
 import { useEffect, useState, useTransition } from "react"
 import { ClipLoader } from 'react-spinners'
+import { useTranslations } from 'next-intl'
 
 const navigationItems = [
-  { name: "Home", href: "/business-dashboard" },
-  { name: "Users", href: "/business-dashboard/users" },
-  { name: "My shops", href: "/business-dashboard/shop" },
-  { name: "Proposal mailings", href: "/business-dashboard/mailings" },
-  { name: "About service", href: "/business-dashboard/about" },
-  { name: "Help", href: "/business-dashboard/about?section=help" },
+  { name: "home", href: "/business-dashboard" },
+  { name: "users", href: "/business-dashboard/users" },
+  { name: "myShops", href: "/business-dashboard/shop" },
+  { name: "proposalMailings", href: "/business-dashboard/mailings" },
+  { name: "aboutService", href: "/business-dashboard/about" },
+  { name: "help", href: "/business-dashboard/about?section=help" },
 ]
 
 export function BusinessHeader() {
+  const t = useTranslations('BusinessHeader')
   const pathname = usePathname()
   const router = useRouter()
   const { data: session, status } = useSession()
@@ -104,7 +106,7 @@ export function BusinessHeader() {
                 `}
                 style={{ fontFamily: 'Open Sans' }}
               >
-                {item.name}
+                {t(item.name)}
                 {isPending && activeLink === item.href && (
                   <span className="absolute -right-6 top-1/2 -translate-y-1/2">
                     <ClipLoader size={16} color="#0066FF" />
@@ -119,7 +121,7 @@ export function BusinessHeader() {
             onClick={() => signOut({ callbackUrl: '/' })}
             className="text-semi-bold-2 text-third-gray hover:text-main-light md:ml-8 whitespace-nowrap"
           >
-            Logout
+            {t('logout')}
           </button>
         </div>
       </header>
