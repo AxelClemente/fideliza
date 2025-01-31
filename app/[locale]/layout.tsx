@@ -35,15 +35,15 @@ export default async function RootLayout({
   params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await Promise.resolve(params);
-
+  const resolvedParams = await params;
+  const { locale } = resolvedParams;
+  
   let messages;
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+  } catch (_) {
     notFound();
   }
 
