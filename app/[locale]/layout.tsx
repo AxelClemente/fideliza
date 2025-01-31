@@ -42,7 +42,7 @@ export default async function RootLayout({
   let messages;
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
+  } catch (_) {
     notFound();
   }
 
