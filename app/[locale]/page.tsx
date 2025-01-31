@@ -9,9 +9,10 @@ import { redirect } from 'next/navigation'
 export default async function Page({
   params
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await Promise.resolve(params);
+  const resolvedParams = await params;
+  const { locale } = resolvedParams;
 
   if (!['en', 'es'].includes(locale)) {
     redirect('/en');
