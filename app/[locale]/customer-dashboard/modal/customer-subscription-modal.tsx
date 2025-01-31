@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { MapPinIcon } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
-import { Subscription } from '@/app/customer-dashboard/types/subscription'
+import { Subscription } from '@/app/[locale]/customer-dashboard/types/subscription'
 
 interface CustomerSubscriptionModalProps {
   isOpen: boolean
