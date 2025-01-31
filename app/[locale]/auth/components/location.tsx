@@ -157,6 +157,7 @@ export default function Location() {
             title: t('cityUpdateError'),
             description: t('cityUpdateGenericError'),
           })
+          setIsLoading(false)
         }
       } catch (error) {
         toast({

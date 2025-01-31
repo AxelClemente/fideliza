@@ -127,7 +127,6 @@ function ResetPasswordContent() {
 }
 
 export default function ResetPassword() {
-  const t = useTranslations('Auth')
   return (
     <Suspense 
       fallback={
