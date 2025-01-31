@@ -422,7 +422,7 @@ export function ClientWrapper({
                   leading-[22px] 
                 "
               >
-                {!hasPlaces ? "Add special offer" : "Add new special offer"}
+                {!hasPlaces ? t('addSpecialOffer') : t('addNewSpecialOffer')}
               </button>
             </div>
 
@@ -444,7 +444,7 @@ export function ClientWrapper({
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1120px] pb-2"
                 }
               `}>
-                {!hasPlaces ? "Add special offer" : "Add new special offer"}
+                {!hasPlaces ? t('addSpecialOffer') : t('addNewSpecialOffer')}
               </span>
             </button>
 
@@ -614,7 +614,7 @@ export function ClientWrapper({
                   leading-[22px] 
                 "
               >
-                {!hasPlaces ? "Add subscription" : "Add new subscription"}
+                {!hasPlaces ? t('addNewSubscription') : t('addNewSubscription')}
               </button>
             </div>
 
@@ -636,7 +636,7 @@ export function ClientWrapper({
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1070px] pb-2"
                 }
               `}>
-                {!hasPlaces ? "Add subscription" : "Add new subscription"}
+                {!hasPlaces ? t('addNewSubscription') : t('addNewSubscription')}
               </span>
             </button>
 

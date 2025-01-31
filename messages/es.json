@@ -160,6 +160,12 @@
       "offers": "Ofertas",
       "addNewMainInfo": "Nuevo restaurante",
       "addNewPlace": "Nueva sucursal",
-      "places": "Sucursales"
+      "places": "Sucursales",
+      "inProgress": "En progreso",
+      "archive": "Archivo",
+      "addNewOffersMailing": "Nuevo correo de ofertas",
+      "update": "Actualizar",
+      "save": "Guardar",
+      "cancel": "Cancelar"
     }
   }

@@ -160,6 +160,16 @@
       "offers": "Offers",
       "addNewMainInfo": "Add new main info",
       "addNewPlace": "Add new place",
-      "places": "Places"
+      "places": "Places",
+      "addNewSpecialOffer": "Add new special offer",
+      "addSpecialOffer": "Add special offer",
+      "addNewSubscription": "Add new subscription",
+      "addSubscription": "Add subscription",
+      "inProgress": "In progress",
+      "archive": "Archive",
+      "addNewOffersMailing": "Add new offers mailings",
+      "update": "Update",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   }

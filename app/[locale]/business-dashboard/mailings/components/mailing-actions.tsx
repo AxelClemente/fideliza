@@ -7,8 +7,9 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { useSearchParams, useRouter } from 'next/navigation'
 import type { Mailing } from "../../shop/types/types"
-import { Restaurant } from '@/app/[locale]/business-dashboard/shop/types/types'
+import { Restaurant } from '@/app/business-dashboard/shop/types/types'
 import { ClipLoader } from "react-spinners"
+import { useTranslations } from 'next-intl'
 
 interface MailingActionsProps {
   mode?: 'edit'
@@ -37,6 +38,7 @@ export function MailingActions({
   const router = useRouter()
   const activeTab = searchParams.get('tab') || 'in_progress'
   const [isSending, setIsSending] = useState(false)
+  const t = useTranslations('BusinessDashboard')
 
   // Si no tiene permisos de edición y está en modo edit, no mostrar nada
   if (mode === 'edit' && !access.canEdit) {
@@ -325,7 +327,7 @@ export function MailingActions({
               }
             `}
           >
-            In progress
+            {t('inProgress')}
           </button>
           <button
             onClick={() => router.push('/business-dashboard/mailings?tab=archive')}
@@ -343,7 +345,7 @@ export function MailingActions({
               }
             `}
           >
-            Archive
+            {t('archive')}
           </button>
         </div>
       )}
@@ -373,7 +375,7 @@ export function MailingActions({
                   }
                 `}
               >
-                Add new offers mailings
+                {t('addNewOffersMailing')}
               </button>
 
               {/* Versión Móvil */}
@@ -394,7 +396,7 @@ export function MailingActions({
                   block
                 "
               >
-                Add new offers mailings
+                {t('addNewOffersMailing')}
               </button>
 
               <AddNewOffersMailingsModal 
