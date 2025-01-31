@@ -15,6 +15,7 @@ import { MobileAddMainInfo } from '../modal/mobile/mobile-add-main-info'
 import { MobileAddPlaceInfo } from '../modal/mobile/mobile-add-place-info'
 import { MobileAddSpecialOffer } from '../modal/mobile/mobile-add-special-offer'
 import { MobileNewSubscription } from '../modal/mobile/mobile-new-subscription'
+import { useTranslations } from 'next-intl'
 
 interface ClientWrapperProps {
   type: string
@@ -50,6 +51,7 @@ export function ClientWrapper({
 }: ClientWrapperProps) {
   const { canAccess } = usePermissions()
   const access = canAccess(getModelType(type))
+  const t = useTranslations('BusinessDashboard')
 
   // Estados
   const [isMainInfoModalOpen, setIsMainInfoModalOpen] = useState(false)
@@ -665,41 +667,19 @@ export function ClientWrapper({
         {access.canEdit && (
           <>
             {/* Versión Móvil */}
-            <div className={`
-              md:hidden 
-              w-full 
-              ${!restaurants.length ? 'fixed bottom-6 left-0 z-50' : ''} 
-              px-3
-            `}>
+            <div className={`md:hidden w-full ${!restaurants.length ? 'fixed bottom-6 left-0 z-50' : ''} px-3`}>
               <button 
                 onClick={() => setIsMainInfoModalOpen(true)}
-                className="
-                  w-full
-                  h-[78px] 
-                  rounded-[100px] 
-                  bg-[#000000] 
-                  text-white 
-                  shadow-lg
-                  text-[18px] 
-                  font-semibold 
-                  leading-[22px]
-                "
+                className="w-full h-[78px] rounded-[100px] bg-[#000000] text-white shadow-lg text-[18px] font-semibold leading-[22px]"
               >
-                {!restaurants.length ? "Add main info" : "Add new main info"}
+                {!restaurants.length ? t('addNewMainInfo') : t('addNewMainInfo')}
               </button>
             </div>
 
             {/* Versión Desktop */}
             <button 
               onClick={() => setIsMainInfoModalOpen(true)}
-              className={`
-                hidden            
-                md:flex         
-                justify-end   
-                items-center      
-                w-full
-                whitespace-nowrap
-              `}
+              className="hidden md:flex justify-end items-center w-full whitespace-nowrap"
             >
               <span className={`
                 ${!restaurants.length 
@@ -707,7 +687,7 @@ export function ClientWrapper({
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pb-4 pl-[1170px]"
                 }
               `}>
-                {!restaurants.length ? "Add main info" : "Add new main info"}
+                {!restaurants.length ? t('addNewMainInfo') : t('addNewMainInfo')}
               </span>
             </button>
 
@@ -738,14 +718,7 @@ export function ClientWrapper({
           <>
             <button 
               onClick={() => setIsPlaceInfoModalOpen(true)}
-              className={`
-                hidden            
-                md:flex         
-                justify-end   
-                items-center      
-                w-full
-                whitespace-nowrap
-              `}
+              className="hidden md:flex justify-end items-center w-full whitespace-nowrap"
             >
               <span className={`
                 ${!hasPlaces 
@@ -753,33 +726,17 @@ export function ClientWrapper({
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid"
                 }
               `}>
-                {!hasPlaces ? "Add place" : "Add new place"}
+                {!hasPlaces ? t('addNewPlace') : t('addNewPlace')}
               </span>
             </button>
 
             {/* Versión Móvil */}
-            <div className="
-              md:hidden
-              flex
-              justify-center
-              w-full
-              mt-6
-            ">
+            <div className="md:hidden flex justify-center w-full mt-6">
               <button 
                 onClick={() => setIsPlaceInfoModalOpen(true)}
-                className="
-                  w-[390px]
-                  h-[78px]
-                  bg-black
-                  text-white
-                  text-[18px]
-                  font-semibold
-                  leading-[22px]
-                  rounded-[100px]
-                  shadow-lg
-                "
+                className="w-[390px] h-[78px] bg-black text-white text-[18px] font-semibold leading-[22px] rounded-[100px] shadow-lg"
               >
-                Add new place
+                {t('addNewPlace')}
               </button>
             </div>
 

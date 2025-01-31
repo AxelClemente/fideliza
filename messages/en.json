@@ -149,6 +149,17 @@
       "previousWeek": "Previous Week",
       "selectPeriod": "Select period",
       "thisWeek": "This week",
-      "currentOffers": "Current offers"
+      "currentOffers": "Current offers",
+      "owner": "Owner",
+      "subscribers": "Subscribers",
+      "admins": "Admins",
+      "staff": "Staff",
+      "addNewUser": "Add new user",
+      "mainInfo": "Main info",
+      "specialOffers": "Special offers",
+      "offers": "Offers",
+      "addNewMainInfo": "Add new main info",
+      "addNewPlace": "Add new place",
+      "places": "Places"
     }
   }

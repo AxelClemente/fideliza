@@ -4,9 +4,11 @@ import type { Restaurant } from './types/types'
 import { ImageSlider } from './components/image-slider'
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 import { DescriptionText } from './components/description-text'
+import { getTranslations } from 'next-intl/server'
 
 export default async function ShopPage() {
   const { restaurants } = await RestaurantProvider()
+  const t = await getTranslations('BusinessDashboard')
 
   return (
     <div className="w-full px-4 md:px-8 max-w-full overflow-x-hidden">
@@ -160,11 +162,11 @@ export default async function ShopPage() {
               !font-bold          
               pl-4              
               md:pl-0
-              mt-6              /* Agregar margen superior en móvil */
-              md:mt-0           /* Remover margen en desktop */
+              mt-6              
+              md:mt-0           
               text-[#7B7B7B]
             ">
-              Places ({restaurants.reduce((total, restaurant) => total + restaurant.places.length, 0)})
+              {t('places')} ({restaurants.reduce((total, restaurant) => total + restaurant.places.length, 0)})
             </h2>
 
             {/* Botón Add new place solo en desktop */}

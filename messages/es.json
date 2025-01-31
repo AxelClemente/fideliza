@@ -149,6 +149,17 @@
       "previousWeek": "Semana anterior",
       "selectPeriod": "Seleccionar período",
       "thisWeek": "Esta semana",
-      "currentOffers": "Ofertas actuales"
+      "currentOffers": "Ofertas actuales",
+      "owner": "Propietario",
+      "subscribers": "Suscriptores",
+      "admins": "Administradores",
+      "staff": "Personal",
+      "addNewUser": "Agregar usuario",
+      "mainInfo": "Información principal",
+      "specialOffers": "Ofertas especiales",
+      "offers": "Ofertas",
+      "addNewMainInfo": "Nuevo restaurante",
+      "addNewPlace": "Nueva sucursal",
+      "places": "Sucursales"
     }
   }

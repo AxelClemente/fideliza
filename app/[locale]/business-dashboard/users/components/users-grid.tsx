@@ -5,6 +5,7 @@ import { UserCard } from "./user-card"
 import { BusinessUserCard } from "./business-user-card"
 import { SubscriberCard } from "./subscriber-card"
 import { ModelType, PermissionType } from '@prisma/client'
+import { useTranslations } from "use-intl"
 
 interface UsersGridProps {
   businessUser: {
@@ -48,6 +49,7 @@ interface UsersGridProps {
 }
 
 export function UsersGrid({ businessUser, adminUsers, staffUsers, searchTerm }: UsersGridProps) {
+  const t = useTranslations('BusinessDashboard')
   const [filteredAdminUsers, setFilteredAdminUsers] = useState(adminUsers)
   const [filteredStaffUsers, setFilteredStaffUsers] = useState(staffUsers)
 
@@ -77,7 +79,7 @@ export function UsersGrid({ businessUser, adminUsers, staffUsers, searchTerm }: 
         {/* Business User Section */}
         <div className="sm:flex sm:flex-col mb-8 sm:mb-0">
           <div className="flex items-center justify-between mb-4 w-[calc(100%-2rem)] sm:!w-[457px] mx-4 sm:mx-0 !mt-8">
-            <h2 className="!text-[24px] font-medium">Owner</h2>
+            <h2 className="!text-[24px] font-medium">{t('owner')}</h2>
           </div>
           <div className="space-y-2 w-full">
             <BusinessUserCard
@@ -88,11 +90,10 @@ export function UsersGrid({ businessUser, adminUsers, staffUsers, searchTerm }: 
           </div>
         </div>
 
-        {/* 
-        ribers Section */}
+        {/* Subscribers Section */}
         <div className="sm:flex sm:flex-col">
           <div className="flex items-center justify-between mb-4 w-[calc(100%-2rem)] sm:!w-[457px] mx-4 sm:mx-0 !mt-8">
-            <h2 className="!text-[24px] font-medium">Subscribers</h2>
+            <h2 className="!text-[24px] font-medium">{t('subscribers')}</h2>
           </div>
           <SubscriberCard />
         </div>
@@ -102,7 +103,7 @@ export function UsersGrid({ businessUser, adminUsers, staffUsers, searchTerm }: 
       {showAdminsSection && (
         <section className="col-span-2 mt-6">
           <div className="flex items-center justify-between mb-4 w-[calc(100%-2rem)] sm:!w-[457px] mx-4 sm:mx-0">
-            <h2 className="!text-[24px] font-medium">Admins</h2>
+            <h2 className="!text-[24px] font-medium">{t('admins')}</h2>
           </div>
           <div className="space-y-2">
             {filteredAdminUsers.length > 0 ? (

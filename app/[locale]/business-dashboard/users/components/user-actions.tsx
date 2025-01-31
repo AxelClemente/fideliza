@@ -6,6 +6,7 @@ import { AddNewUserModal } from "../modal/add-new-user"
 import { useState } from "react"
 import Image from "next/image"
 import { usePermissions } from "@/app/[locale]/business-dashboard/shop/contexts/permission-context"
+import { useTranslations } from 'next-intl'
 
 interface UserActionsProps {
   userId: string
@@ -29,6 +30,7 @@ export function UserActions({ userId, restaurants, onSearch, isMobile }: UserAct
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const { canAccess } = usePermissions()
   const access = canAccess('ADMIN_USERS')
+  const t = useTranslations('BusinessDashboard')
 
   // Solo mostrar el botón para la versión móvil inferior
   if (isMobile === "button") {
@@ -38,7 +40,7 @@ export function UserActions({ userId, restaurants, onSearch, isMobile }: UserAct
           onClick={() => setIsAddModalOpen(true)}
           className="w-full bg-black text-white rounded-[100px] h-[78px] px-8 text-[18px] font-[600] leading-[22px]"
         >
-          Add new user
+          {t('addNewUser')}
         </Button>
         <AddNewUserModal 
           isOpen={isAddModalOpen}
@@ -100,7 +102,7 @@ export function UserActions({ userId, restaurants, onSearch, isMobile }: UserAct
             onClick={() => setIsAddModalOpen(true)}
             className="w-full sm:w-[192px] bg-black text-white rounded-[100px] h-[78px] px-8 text-[18px] font-[600] leading-[22px]"
           >
-            Add new user
+            {t('addNewUser')}
           </Button>
           <AddNewUserModal 
             isOpen={isAddModalOpen}

@@ -3,21 +3,22 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { ClipLoader } from 'react-spinners'
+import { useTranslations } from 'next-intl'
 
 const tabs = [
   { 
-    name: 'Main info', 
-    mobileName: 'Main info',
+    name: 'mainInfo', 
+    mobileName: 'mainInfo',
     href: '/business-dashboard/shop' 
   },
   { 
-    name: 'Special offers', 
-    mobileName: 'Offers',
+    name: 'specialOffers', 
+    mobileName: 'offers',
     href: '/business-dashboard/shop/special-offers' 
   },
   { 
-    name: 'Subscriptions', 
-    mobileName: 'Subscriptions',
+    name: 'subscriptions', 
+    mobileName: 'subscriptions',
     href: '/business-dashboard/shop/subscriptions' 
   }
 ]
@@ -27,6 +28,7 @@ export function ShopTabs() {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [activeTab, setActiveTab] = useState(pathname)
+  const t = useTranslations('BusinessDashboard')
 
   const handleTabClick = (href: string) => {
     setActiveTab(href)
@@ -63,8 +65,8 @@ export function ShopTabs() {
                 ${isPending && activeTab === tab.href ? 'opacity-50' : ''}
               `}
             >
-              <span className="md:hidden">{tab.mobileName}</span>
-              <span className="hidden md:inline">{tab.name}</span>
+              <span className="md:hidden">{t(tab.mobileName)}</span>
+              <span className="hidden md:inline">{t(tab.name)}</span>
               {isPending && activeTab === tab.href && (
                 <span className="absolute -right-6 top-1/2 -translate-y-1/2">
                   <ClipLoader size={16} color="#0066FF" />
