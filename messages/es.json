@@ -207,6 +207,56 @@
         "emailPlaceholder": "Correo electrónico",
         "messagePlaceholder": "¡Hola! Quiero decir - ¡son un gran equipo!",
         "sendButton": "Enviar"
+      },
+      "faq": {
+        "howItWorks": "¿Cómo funciona nuestro servicio de fidelización?",
+        "howItWorksAnswer": "Nuestro servicio de fidelización te recompensa por comprar en tiendas participantes. Gana puntos con cada compra y canjéalos por recompensas y descuentos exclusivos.",
+        "whichStores": "¿Qué tiendas forman parte del programa?",
+        "whichStoresAnswer": "Tenemos alianzas con una amplia gama de comercios, desde tiendas locales hasta grandes marcas. Consulta nuestro directorio de tiendas para ver una lista completa de ubicaciones participantes.",
+        "subscriptionPlans": "¿Qué planes de suscripción están disponibles?",
+        "subscriptionPlansAnswer": "Ofrecemos varios niveles de suscripción para diferentes necesidades, desde planes básicos hasta premium. Cada plan incluye diferentes beneficios y tasas de recompensa.",
+        "howToSubscribe": "¿Cómo me suscribo?",
+        "howToSubscribeAnswer": "Puedes suscribirte a través del sitio web o la aplicación eligiendo el plan que más te convenga. Los pagos se cargan automáticamente de forma mensual.",
+        "howToCancel": "¿Cómo puedo cancelar mi suscripción?",
+        "howToCancelAnswer": "Puedes cancelar tu suscripción en cualquier momento a través de la configuración de tu cuenta. El servicio permanecerá activo hasta el final de tu período de facturación actual."
+      },
+      "terms": {
+        "title": "Términos de Uso",
+        "introduction": {
+          "title": "1. Introducción",
+          "content": "¡Bienvenido a [Nombre del Servicio]! Al usar nuestra plataforma, aceptas los siguientes términos y condiciones. Por favor, léelos cuidadosamente. Si no estás de acuerdo, no deberías usar nuestro servicio."
+        },
+        "serviceDescription": {
+          "title": "2. Descripción del Servicio",
+          "content": "Nuestra plataforma proporciona a los usuarios acceso a descuentos y ofertas especiales en tiendas asociadas a través de un plan de suscripción. Los descuentos están sujetos a los términos establecidos por cada socio participante."
+        },
+        "registration": {
+          "title": "3. Registro de Usuario y Suscripción",
+          "item1": "Los usuarios deben crear una cuenta para acceder a nuestro servicio.",
+          "item2": "Las cuotas de suscripción se cobran mensualmente, con pagos procesados automáticamente.",
+          "item3": "Los usuarios son responsables de mantener actualizada su información de pago."
+        },
+        "freeTrial": {
+          "title": "4. Prueba Gratuita y Cancelación",
+          "item1": "Si se ofrece, la prueba gratuita permite a los usuarios acceder al servicio por un tiempo limitado sin cargo.",
+          "item2": "Las suscripciones pueden cancelarse en cualquier momento a través de la configuración de la cuenta. El acceso a los descuentos se mantendrá hasta el final del período de facturación."
+        },
+        "partnerOffers": {
+          "title": "5. Ofertas de Socios y Disponibilidad",
+          "item1": "Los descuentos y ofertas varían según el socio y están sujetos a cambios sin previo aviso.",
+          "item2": "La disponibilidad de las ofertas puede variar según la ubicación u otras condiciones definidas por los socios."
+        },
+        "userResponsibilities": {
+          "title": "6. Responsabilidades del Usuario",
+          "item1": "Los usuarios deben usar el servicio de manera legal y de acuerdo con estos Términos.",
+          "item2": "Compartir información de la cuenta o el uso no autorizado del servicio está prohibido.",
+          "item3": "Los usuarios son responsables de asegurar que sus acciones cumplan con los términos de cada oferta de socio."
+        },
+        "refunds": {
+          "title": "7. Reembolsos y Problemas de Pago",
+          "item1": "Las cuotas de suscripción no son reembolsables a menos que la ley lo requiera.",
+          "item2": "Si un pago falla, el acceso al servicio puede ser restringido hasta que se resuelva el problema."
+        }
       }
     }
   }

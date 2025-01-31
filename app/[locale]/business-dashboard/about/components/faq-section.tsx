@@ -4,53 +4,56 @@ import {
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion"
+  import { useTranslations } from 'next-intl'
   
   export default function FAQSection() {
+    const t = useTranslations('BusinessDashboard.faq')
+
     return (
       <div className="w-full">
         <Accordion type="single" collapsible className="w-full space-y-4">
           <AccordionItem value="item-1" className="border border-gray-100 rounded-xl shadow-sm">
             <AccordionTrigger className="text-[20px] sm:text-[30px] font-bold font-['Open_Sans'] leading-[26px] sm:leading-[36px] py-[16px] sm:py-[20px] text-left px-4">
-              How does our loyalty service work?
+              {t('howItWorks')}
             </AccordionTrigger>
             <AccordionContent className="!px-4 !text-[20px] !font-semibold !font-['Open_Sans'] !leading-[26px] !paragraph-[20px]">
-              Our loyalty service rewards you for shopping at participating stores. Earn points with every purchase and redeem them for exclusive rewards and discounts.
+              {t('howItWorksAnswer')}
             </AccordionContent>
           </AccordionItem>
   
           <AccordionItem value="item-2" className="border border-gray-100 rounded-xl shadow-sm">
             <AccordionTrigger className="text-[20px] sm:text-[30px] font-bold font-['Open_Sans'] leading-[26px] sm:leading-[36px] py-[16px] sm:py-[20px] text-left px-4">
-              Which stores are part of the program?
+              {t('whichStores')}
             </AccordionTrigger>
             <AccordionContent className="!px-4 !text-[20px] !font-semibold !font-['Open_Sans'] !leading-[26px] !paragraph-[20px]">
-              We have partnerships with a wide range of retailers, from local shops to major brands. Check our store directory for a complete list of participating locations.
+              {t('whichStoresAnswer')}
             </AccordionContent>
           </AccordionItem>
   
           <AccordionItem value="item-3" className="border border-gray-100 rounded-xl shadow-sm">
             <AccordionTrigger className="text-[20px] sm:text-[30px] font-bold font-['Open_Sans'] leading-[26px] sm:leading-[36px] py-[16px] sm:py-[20px] text-left px-4">
-              What subscription plans are available?
+              {t('subscriptionPlans')}
             </AccordionTrigger>
             <AccordionContent className="!px-4 !text-[20px] !font-semibold !font-['Open_Sans'] !leading-[26px] !paragraph-[20px]">
-              We offer several subscription tiers to suit different needs, from basic to premium plans. Each plan includes different benefits and reward rates.
+              {t('subscriptionPlansAnswer')}
             </AccordionContent>
           </AccordionItem>
   
           <AccordionItem value="item-4" className="border border-gray-100 rounded-xl shadow-sm">
             <AccordionTrigger className="text-[20px] sm:text-[30px] font-bold font-['Open_Sans'] leading-[26px] sm:leading-[36px] py-[16px] sm:py-[20px] text-left px-4">
-              How do I subscribe?
+              {t('howToSubscribe')}
             </AccordionTrigger>
             <AccordionContent className="!px-4 !text-[20px] !font-semibold !font-['Open_Sans'] !leading-[26px] !paragraph-[20px]">
-              You can subscribe via the website or app by choosing the plan that suits you. Payments are charged automatically on a monthly basis.
+              {t('howToSubscribeAnswer')}
             </AccordionContent>
           </AccordionItem>
   
           <AccordionItem value="item-5" className="border border-gray-100 rounded-xl shadow-sm">
             <AccordionTrigger className="text-[20px] sm:text-[30px] font-bold font-['Open_Sans'] leading-[26px] sm:leading-[36px] py-[16px] sm:py-[20px] text-left px-4">
-              How can I cancel my subscription?
+              {t('howToCancel')}
             </AccordionTrigger>
             <AccordionContent className="!px-4 !text-[20px] !font-semibold !font-['Open_Sans'] !leading-[26px] !paragraph-[20px]">
-              You can cancel your subscription at any time through your account settings. The service will remain active until the end of your current billing period.
+              {t('howToCancelAnswer')}
             </AccordionContent>
           </AccordionItem>
         </Accordion>

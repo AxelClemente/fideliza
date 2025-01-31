@@ -211,6 +211,56 @@
         "emailPlaceholder": "Email",
         "messagePlaceholder": "Hi! I wanna say - your are cool team!",
         "sendButton": "Send"
+      },
+      "faq": {
+        "howItWorks": "How does our loyalty service work?",
+        "howItWorksAnswer": "Our loyalty service rewards you for shopping at participating stores. Earn points with every purchase and redeem them for exclusive rewards and discounts.",
+        "whichStores": "Which stores are part of the program?",
+        "whichStoresAnswer": "We have partnerships with a wide range of retailers, from local shops to major brands. Check our store directory for a complete list of participating locations.",
+        "subscriptionPlans": "What subscription plans are available?",
+        "subscriptionPlansAnswer": "We offer several subscription tiers to suit different needs, from basic to premium plans. Each plan includes different benefits and reward rates.",
+        "howToSubscribe": "How do I subscribe?",
+        "howToSubscribeAnswer": "You can subscribe via the website or app by choosing the plan that suits you. Payments are charged automatically on a monthly basis.",
+        "howToCancel": "How can I cancel my subscription?",
+        "howToCancelAnswer": "You can cancel your subscription at any time through your account settings. The service will remain active until the end of your current billing period."
+      },
+      "terms": {
+        "title": "Terms of Use",
+        "introduction": {
+          "title": "1. Introduction",
+          "content": "Welcome to [Your Service Name]! By using our platform, you agree to the following terms and conditions. Please read them carefully. If you don't agree, you should not use our service."
+        },
+        "serviceDescription": {
+          "title": "2. Service Description",
+          "content": "Our platform provides users with access to discounts and special offers at partner stores through a subscription plan. The discounts are subject to the terms set by each participating partner."
+        },
+        "registration": {
+          "title": "3. User Registration and Subscription",
+          "item1": "Users must create an account to access our service.",
+          "item2": "Subscription fees are charged on a monthly basis, with payments processed automatically.",
+          "item3": "Users are responsible for maintaining up-to-date payment information."
+        },
+        "freeTrial": {
+          "title": "4. Free Trial and Cancellation",
+          "item1": "If offered, the free trial allows users to access the service for a limited time without charge.",
+          "item2": "Subscriptions can be canceled at any time via the user's account settings. Access to discounts will remain until the end of the billing period."
+        },
+        "partnerOffers": {
+          "title": "5. Partner Offers and Availability",
+          "item1": "Discounts and offers vary by partner and are subject to change without prior notice.",
+          "item2": "Availability of offers may differ based on location or other conditions defined by partners."
+        },
+        "userResponsibilities": {
+          "title": "6. User Responsibilities",
+          "item1": "Users must use the service lawfully and in accordance with these Terms.",
+          "item2": "Sharing account information or unauthorized use of the service is prohibited.",
+          "item3": "Users are responsible for ensuring their actions align with the terms of each partner offer."
+        },
+        "refunds": {
+          "title": "7. Refunds and Payment Issues",
+          "item1": "Subscription fees are non-refundable unless otherwise required by law.",
+          "item2": "If a payment fails, access to the service may be restricted until the issue is resolved."
+        }
       }
     }
   }
