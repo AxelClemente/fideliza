@@ -166,6 +166,47 @@
       "addNewOffersMailing": "Nuevo correo de ofertas",
       "update": "Actualizar",
       "save": "Guardar",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "noMailingsYet": "¡No hay correos aún!",
+      "billing": {
+        "unlimitedTariff": "Tarifa ilimitada",
+        "pricePerYear": "90€ al año",
+        "validUntil": "Válido hasta: {date}",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat mi et libero et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "downloadContract": "Descargar copia del contrato",
+        "extendContract": "Extender el contrato",
+        "changeTariff": "Cambiar tarifa",
+        "seeTransactions": "Ver transacciones",
+        "date": "Fecha",
+        "tariff": "Tarifa",
+        "price": "Precio",
+        "state": "Estado",
+        "success": "Exitoso"
+      },
+      "about": {
+        "title": "Sobre el servicio",
+        "faq": "FAQ",
+        "help": "Ayuda",
+        "termsOfUse": "Términos de uso",
+        "billing": "Facturación",
+        "qrAndLinks": "QR y enlaces",
+        "shareApp": "Compartir app",
+        "faqDescription": "Encuentra respuestas a las preguntas más comunes sobre nuestro servicio y sus características. Aprende a usar tu suscripción y disfruta de los descuentos.",
+        "helpDescription": "Contáctanos si tienes preguntas o sugerencias. Nuestro equipo de soporte está listo para ayudarte rápidamente.",
+        "termsDescription": "Lee nuestros términos de uso y comprende tus derechos y obligaciones como usuario de nuestro servicio.",
+        "billingDescription": "Gestiona tu suscripción, visualiza tu historial de facturación y descarga facturas.",
+        "qrDescription": "Recomendaciones para usar QRs y enlaces a nuestro servicio para que tus clientes se unan al servicio más rápido y apoyen tu negocio con suscripciones.",
+        "shareDescription": "Contáctanos si tienes preguntas o sugerencias. Nuestro equipo de soporte está listo para ayudarte rápidamente."
+      },
+      "help": {
+        "title": "¿Necesitas ayuda?",
+        "subtitle": "¡Escríbenos o llámanos - te ayudamos!",
+        "callUs": "Llámanos",
+        "writeUs": "Escríbenos",
+        "namePlaceholder": "Nombre",
+        "emailPlaceholder": "Correo electrónico",
+        "messagePlaceholder": "¡Hola! Quiero decir - ¡son un gran equipo!",
+        "sendButton": "Enviar"
+      }
     }
   }

@@ -170,6 +170,47 @@
       "addNewOffersMailing": "Add new offers mailings",
       "update": "Update",
       "save": "Save",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "noMailingsYet": "No Mailings yet!",
+      "billing": {
+        "unlimitedTariff": "Unlimited tariff",
+        "pricePerYear": "90€ a year",
+        "validUntil": "Valid until: {date}",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat mi et libero et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "downloadContract": "Download your contract copy",
+        "extendContract": "Extend the contract",
+        "changeTariff": "Change tariff",
+        "seeTransactions": "See transactions",
+        "date": "Date",
+        "tariff": "Tariff",
+        "price": "Price",
+        "state": "State",
+        "success": "Success"
+      },
+      "about": {
+        "title": "About Service",
+        "faq": "FAQ",
+        "help": "Help",
+        "termsOfUse": "Terms of Use",
+        "billing": "Billing",
+        "qrAndLinks": "QR and links",
+        "shareApp": "Share app",
+        "faqDescription": "Find answers to the most common questions about our service and its features. Learn how to use your subscription and enjoy discounts.",
+        "helpDescription": "Get in touch with us if you have questions or suggestions. Our support team is ready to assist you promptly.",
+        "termsDescription": "Read our terms of use and understand your rights and obligations as a user of our service.",
+        "billingDescription": "Manage your subscription, view your billing history, and download invoices.",
+        "qrDescription": "Recommendations for using QRs and links to our service to get your customers to join the service faster and support your business with subscriptions.",
+        "shareDescription": "Get in touch with us if you have questions or suggestions. Our support team is ready to assist you promptly."
+      },
+      "help": {
+        "title": "Need help?",
+        "subtitle": "Write or call us - we help you!",
+        "callUs": "Call us",
+        "writeUs": "Write us",
+        "namePlaceholder": "Name",
+        "emailPlaceholder": "Email",
+        "messagePlaceholder": "Hi! I wanna say - your are cool team!",
+        "sendButton": "Send"
+      }
     }
   }

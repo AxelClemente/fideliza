@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { HelpCircle, LifeBuoy, FileText, CreditCard, QrCode, Share2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Breadcrumb } from './components/breadcrumb'
 import FAQSection from './components/faq-section'
 import TermsSection from './components/terms-section'
@@ -15,6 +16,7 @@ export default function ServiceInfo() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
   const searchParams = useSearchParams()
+  const t = useTranslations('BusinessDashboard.about')
 
   // Efecto para manejar el parámetro section de la URL
   useEffect(() => {
@@ -49,10 +51,8 @@ export default function ServiceInfo() {
               className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <HelpCircle className="w-12 h-12 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">FAQ</h3>
-              <p className="text-sm">
-                Find answers to the most common questions about our service and its features. Learn how to use your subscription and enjoy discounts.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t('faq')}</h3>
+              <p className="text-sm">{t('faqDescription')}</p>
             </div>
 
             {/* Help Section */}
@@ -61,10 +61,8 @@ export default function ServiceInfo() {
               className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <LifeBuoy className="w-12 h-12 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Help</h3>
-              <p className="text-sm">
-                Need assistance? This section provides guides, tips, and solutions for common issues with our service.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t('help')}</h3>
+              <p className="text-sm">{t('helpDescription')}</p>
             </div>
 
             {/* Terms of Use Section */}
@@ -73,10 +71,8 @@ export default function ServiceInfo() {
               className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <FileText className="w-12 h-12 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Terms of Use</h3>
-              <p className="text-sm">
-                Here you&apos;ll find the rules and conditions for using our service. Review them to understand your rights and responsibilities as a user.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t('termsOfUse')}</h3>
+              <p className="text-sm">{t('termsDescription')}</p>
             </div>
 
             {/* Billing Section */}
@@ -85,10 +81,8 @@ export default function ServiceInfo() {
               className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <CreditCard className="w-12 h-12 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Billing</h3>
-              <p className="text-sm">
-                Terms and details of the contract and payment terms.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t('billing')}</h3>
+              <p className="text-sm">{t('billingDescription')}</p>
             </div>
 
             {/* QR and Links Section */}
@@ -97,10 +91,8 @@ export default function ServiceInfo() {
               className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <QrCode className="w-12 h-12 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">QR and links</h3>
-              <p className="text-sm">
-                Recommendations for using QRs and links to our service to get your customers to join the service faster and support your business with subscriptions.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t('qrAndLinks')}</h3>
+              <p className="text-sm">{t('qrDescription')}</p>
             </div>
 
             {/* Share App Section */}
@@ -109,10 +101,8 @@ export default function ServiceInfo() {
               className="p-6 bg-white rounded-lg border border-gray-200 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors w-[389px] sm:w-auto mx-auto sm:mx-0"
             >
               <Share2 className="w-12 h-12 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Share app</h3>
-              <p className="text-sm">
-                Get in touch with us if you have questions or suggestions. Our support team is ready to assist you promptly.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t('shareApp')}</h3>
+              <p className="text-sm">{t('shareDescription')}</p>
             </div>
           </div>
         )
@@ -123,14 +113,14 @@ export default function ServiceInfo() {
     <div className="p-0 md:p-8">
       {/* Título móvil con padding superior añadido */}
       <h3 className="text-center text-[24px] font-[700] leading-[32px] mb-6 pt-6 md:hidden">
-        About Service
+        {t('title')}
       </h3>
 
       {/* Breadcrumb solo visible en desktop */}
       <div className="mx-0 md:mx-8">
         <div className="mb-4 px-4 md:px-0 hidden md:block">
           <Breadcrumb 
-            section={activeSection ?? "About service"} 
+            section={activeSection ?? t('title')} 
             onReset={handleReset}
           />
         </div>

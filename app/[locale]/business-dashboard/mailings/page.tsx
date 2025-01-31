@@ -3,12 +3,14 @@ import { MailingProvider } from './components/mailing-provider';
 import { MailingActions } from './components/mailing-actions';
 import { Breadcrumb } from '../components/breadcrumb';
 import { RestaurantProvider } from '../shop/components/restaurant-provider';
+import { getTranslations } from 'next-intl/server'
 
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export default async function MailingsPage({ searchParams }: PageProps) {
+  const t = await getTranslations('BusinessDashboard')
   const resolvedSearchParams = await searchParams;
   const { restaurants } = await RestaurantProvider();
   const currentTab =
@@ -36,7 +38,7 @@ export default async function MailingsPage({ searchParams }: PageProps) {
           <div className="hidden md:flex justify-between items-center">
             {mailings.length === 0 && (
               <h2 className="text-[30px] font-[700] leading-[36px] text-third-gray">
-                No Mailings yet!
+                {t('noMailingsYet')}
               </h2>
             )}
             <div className="ml-auto">

@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 export default function HelpSection() {
   const [activeTab, setActiveTab] = useState<'call' | 'write'>('call')
+  const t = useTranslations('BusinessDashboard.help')
 
   return (
     <div className="w-full relative min-h-[600px] md:min-h-[500px] overflow-hidden">
@@ -22,21 +24,21 @@ export default function HelpSection() {
 
       {/* Content */}
       <div className="relative z-10">
-        {/* Title - Mobile version - Reducido el tamaño */}
+        {/* Title - Mobile version */}
         <div className="md:hidden mb-6 px-4">
           <h2 className="!text-[24px] md:text-[40px] font-bold leading-[1.2]">
-            Need help?
+            {t('title')}
           </h2>
         </div>
 
         <div className="flex flex-col md:flex-row md:gap-20">
-          {/* Left card - Ajustamos para móvil */}
+          {/* Left card */}
           <div className="w-full md:w-[514px] min-h-[550px] md:min-h-[500px] bg-white 
               rounded-none md:rounded-xl border-x-0 border-t border-b md:border 
               border-gray-100 shadow-none md:shadow-[0_4px_20px_rgba(0,0,0,0.05)] 
               px-4 md:px-6 py-6">
             <div className="h-full flex flex-col">
-              {/* Botones superiores */}
+              {/* Top buttons */}
               <div className="flex justify-center gap-4 mb-12 md:mb-6">
                 <button 
                   className={`
@@ -48,7 +50,7 @@ export default function HelpSection() {
                   `}
                   onClick={() => setActiveTab('call')}
                 >
-                  Call us
+                  {t('callUs')}
                 </button>
                 <span className="text-gray-400 text-[24px] font-[700] leading-[33px]">|</span>
                 <button 
@@ -61,7 +63,7 @@ export default function HelpSection() {
                   `}
                   onClick={() => setActiveTab('write')}
                 >
-                  Write us
+                  {t('writeUs')}
                 </button>
               </div>
               
@@ -73,7 +75,7 @@ export default function HelpSection() {
                     className="w-16 h-16"
                   />
                   <button className="w-full h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
-                    Call us
+                    {t('callUs')}
                   </button>
                 </div>
               ) : (
@@ -89,7 +91,7 @@ export default function HelpSection() {
                       />
                       <input
                         type="text"
-                        placeholder="Name"
+                        placeholder={t('namePlaceholder')}
                         className="w-full px-4 py-3 pl-12 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
                       />
                     </div>
@@ -104,20 +106,20 @@ export default function HelpSection() {
                       />
                       <input
                         type="email"
-                        placeholder="Email"
+                        placeholder={t('emailPlaceholder')}
                         className="w-full px-4 py-3 pl-12 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
                       />
                     </div>
 
                     <textarea
-                      placeholder="Hi! I wanna say - your are cool team!"
+                      placeholder={t('messagePlaceholder')}
                       rows={4}
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200 resize-none"
                     />
                   </div>
                   <div className="w-full mt-8">
                     <button className="w-full h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
-                      Send
+                      {t('sendButton')}
                     </button>
                   </div>
                 </div>
@@ -128,10 +130,10 @@ export default function HelpSection() {
           {/* Right card - desktop only */}
           <div className="flex-1 hidden md:block md:mt-0 md:text-left">
             <h2 className="!text-[40px] !font-[800] !leading-[55px] mb-4">
-              Need help?
+              {t('title')}
             </h2>
             <p className="!text-[24px] !font-[800] !leading-[33px]">
-              Write or call us - we help you!
+              {t('subtitle')}
             </p>
           </div>
         </div>
