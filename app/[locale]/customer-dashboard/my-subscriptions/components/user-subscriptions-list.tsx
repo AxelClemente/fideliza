@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { SubscriptionQRModal } from './subscription-qr-modal'
 import { UpgradeSubscriptionModal } from '@/app/[locale]/customer-dashboard/my-subscriptions/components/upgrade-subscription-modal'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 interface UserSubscriptionsListProps {
   subscriptions: Array<{
@@ -45,6 +46,7 @@ interface UserSubscriptionsListProps {
 }
 
 export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListProps) {
+  const t = useTranslations('CustomerDashboard.MySubscriptions')
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscriptionsListProps['subscriptions'][0] | null>(null)
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false)
   const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<UserSubscriptionsListProps['subscriptions'][0] | null>(null)
@@ -56,7 +58,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
 
   const handleUnsubscribe = async (subscriptionId: string) => {
     toast(
-      "Are you sure you want to cancel this subscription?",
+      t('unsubscribe'),
       {
         duration: Infinity,
         position: "bottom-right",
@@ -66,7 +68,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
           border: '1px solid #e5e7eb',
         },
         action: {
-          label: "Delete",
+          label: t('unsubscribe'),
           onClick: async () => {
             try {
               const response = await fetch('/api/user-subscriptions', {
@@ -157,17 +159,21 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                 </div>
                 <div className="text-center py-4">
                   <p className="
-                    w-[209px]
-                    h-[26px]
+                    w-auto
+                    min-w-[209px]
+                    h-auto
+                    min-h-[26px]
                     text-[20px]
                     leading-[26px]
                     font-['Open_Sans']
                     font-semibold
-                    text-justify
+                    text-center
                     mx-auto
                     flex
                     items-center
                     justify-center
+                    whitespace-nowrap
+                    px-2
                   ">
                     {sub.place.restaurant.title}
                   </p>
@@ -221,7 +227,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                 text-[#7B7B7B]
                 mb-4
               ">
-                Valid until: {formatDate(sub.nextPayment)}
+                {t('validUntil')}: {formatDate(sub.nextPayment)}
               </p>
               {sub.subscription.visitsPerMonth && sub.remainingVisits !== null && (
                 <p className="
@@ -233,7 +239,10 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                   text-[#7B7B7B]
                   mb-4
                 ">
-                  {sub.remainingVisits} /  {sub.subscription.visitsPerMonth} visits remaining
+                  {t('visitsRemaining', {
+                    remaining: sub.remainingVisits,
+                    total: sub.subscription.visitsPerMonth
+                  })}
                 </p>
               )}
               
@@ -243,7 +252,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                 font-['Open_Sans']            
                 mb-1
               ">
-                Purchase benefits:
+                {t('purchaseBenefits')}:
               </h4>
               <div className="relative group">
                 <p className="
@@ -308,7 +317,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                     transition-colors
                   "
                 >
-                  Generate QR
+                  {t('generateQR')}
                 </button>
                 <button 
                   onClick={() => handleShare(sub)}
@@ -330,7 +339,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                     transition-colors
                   "
                 >
-                  Share info
+                  {t('shareInfo')}
                 </button>
                 <button 
                   onClick={() => handleUpgradeClick(sub)}
@@ -352,7 +361,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                     transition-colors
                   "
                 >
-                  Upgrade
+                  {t('upgrade')}
                 </button>
                 <button 
                   onClick={() => handleUnsubscribe(sub.id)}
@@ -376,7 +385,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                     transition-colors
                   "
                 >
-                  Unsubscribe 
+                  {t('unsubscribe')}
                 </button>
               </div>
             </div>

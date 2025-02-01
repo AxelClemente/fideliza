@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 export default function Help() {
   const [activeTab, setActiveTab] = useState<'call' | 'write'>('call')
+  const t = useTranslations('CustomerDashboard.help')
 
   return (
     <div className="w-full relative min-h-[600px] md:min-h-[500px] overflow-hidden">
@@ -24,7 +26,7 @@ export default function Help() {
         {/* Title - Mobile version */}
         <div className="md:hidden mb-6 px-4">
           <h2 className="!text-[24px] md:text-[40px] font-bold leading-[1.2]">
-            Need help?
+            {t('title')}
           </h2>
         </div>
 
@@ -38,17 +40,17 @@ export default function Help() {
               {/* Tab buttons */}
               <div className="flex justify-center gap-4 mb-12 md:mb-6">
                 <button 
-                  className={`font-semibold transition-colors  ${activeTab === 'call' ? 'text-black' : 'text-gray-400'}`}
+                  className={`font-semibold transition-colors ${activeTab === 'call' ? 'text-black' : 'text-gray-400'}`}
                   onClick={() => setActiveTab('call')}
                 >
-                  Call us
+                  {t('callUs')}
                 </button>
                 <span className="text-gray-400">|</span>
                 <button 
                   className={`font-semibold transition-colors ${activeTab === 'write' ? 'text-black' : 'text-gray-400'}`}
                   onClick={() => setActiveTab('write')}
                 >
-                  Write us
+                  {t('writeUs')}
                 </button>
               </div>
               
@@ -60,7 +62,7 @@ export default function Help() {
                     className="w-16 h-16"
                   />
                   <button className="w-full h-[60px] md:h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
-                    Call us
+                    {t('callUs')}
                   </button>
                 </div>
               ) : (
@@ -68,23 +70,23 @@ export default function Help() {
                   <div className="w-full space-y-4">
                     <input
                       type="text"
-                      placeholder="Name"
+                      placeholder={t('namePlaceholder')}
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
                     />
                     <input
                       type="email"
-                      placeholder="Email"
+                      placeholder={t('emailPlaceholder')}
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200"
                     />
                     <textarea
-                      placeholder="Hi! I wanna say - your are cool team!"
+                      placeholder={t('messagePlaceholder')}
                       rows={4}
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-100 focus:outline-none focus:border-gray-200 resize-none"
                     />
                   </div>
                   <div className="w-full mt-8">
                     <button className="w-full h-[60px] md:h-[78px] rounded-[100px] bg-black text-white hover:bg-gray-800 transition-colors">
-                      Send
+                      {t('sendButton')}
                     </button>
                   </div>
                 </div>
@@ -95,10 +97,10 @@ export default function Help() {
           {/* Right card - desktop only */}
           <div className="flex-1 hidden md:block md:mt-0 md:text-left">
             <h2 className="text-[40px] font-bold leading-[54px] mb-4">
-              Need help?
+              {t('title')}
             </h2>
             <p className="text-[24px] leading-[32px] font-semibold">
-              Write or call us - we help you!
+              {t('subtitle')}
             </p>
           </div>
         </div>

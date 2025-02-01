@@ -1,46 +1,50 @@
+import { useTranslations } from 'next-intl'
+
 export default function Terms() {
+    const t = useTranslations('CustomerDashboard.terms')
+    
     return (
       <div className="w-full px-4 md:px-0">
         <h2 className="!text-[24px] font-bold font-[&quot;Open_Sans&quot;] leading-[32px] paragraph-[20px] text-center mb-6 
           sm:!text-[24px] sm:font-semibold sm:font-sans sm:leading-normal sm:paragraph-normal sm:text-left 
           md:!text-[30px] md:leading-normal md:mb-8">
-          Terms of Use
+          {t('title')}
         </h2>
         <div className="space-y-6 md:space-y-8">
           {/* Introduction */}
           <section>
             <h3 className="!text-[18px] sm:text-[16px] md:text-[18px] font-semibold sm:font-medium font-[&quot;Open_Sans&quot;] sm:font-sans leading-[24px] sm:leading-normal mb-4 sm:mb-2">
-              1. Introduction
+              {t('introduction.title')}
             </h3>
             <p className="!text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-              Welcome to [Your Service Name]! By using our platform, you agree to the following terms and conditions. Please read them carefully. If you do not agree, you should not use our service.
+              {t('introduction.content')}
             </p>
           </section>
   
           {/* Service Description */}
           <section>
             <h3 className="!text-[18px] sm:text-[16px] md:text-[18px] font-semibold sm:font-medium font-[&quot;Open_Sans&quot;] sm:font-sans leading-[24px] sm:leading-normal mb-4 sm:mb-2">
-              2. Service Description
+              {t('serviceDescription.title')}
             </h3>
             <p className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-              Our platform provides users with access to discounts and special offers at partner stores through a subscription plan. The discounts are subject to the terms set by each participating partner.
+              {t('serviceDescription.content')}
             </p>
           </section>
   
           {/* User Registration and Subscription */}
           <section>
             <h3 className="!text-[18px] sm:text-[16px] md:text-[18px] font-semibold sm:font-medium font-[&quot;Open_Sans&quot;] sm:font-sans leading-[24px] sm:leading-normal mb-4 sm:mb-2">
-              3. User Registration and Subscription
+              {t('registration.title')}
             </h3>
             <ul className="list-disc pl-4 md:pl-5 space-y-3 sm:space-y-2">
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Users must create an account to access our service.
+                {t('registration.item1')}
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Subscription fees are charged on a monthly basis, with payments processed automatically.
+                {t('registration.item2')}
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Users are responsible for maintaining up-to-date payment information.
+                {t('registration.item3')}
               </li>
             </ul>
           </section>
@@ -48,14 +52,14 @@ export default function Terms() {
           {/* Free Trial and Cancellation */}
           <section>
             <h3 className="!text-[18px] sm:text-[16px] md:text-[18px] font-semibold sm:font-medium font-[&quot;Open_Sans&quot;] sm:font-sans leading-[24px] sm:leading-normal mb-4 sm:mb-2">
-              4. Free Trial and Cancellation
+              {t('freeTrial.title')}
             </h3>
             <ul className="list-disc pl-4 md:pl-5 space-y-3 sm:space-y-2">
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                If offered, the free trial allows users to access the service for a limited time without charge.
+                {t('freeTrial.item1')}
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Subscriptions can be canceled at any time via the user&apos;s account settings. Access to discounts will remain until the end of the billing period.
+                {t('freeTrial.item2')}
               </li>
             </ul>
           </section>
@@ -63,14 +67,14 @@ export default function Terms() {
           {/* Partner Offers and Availability */}
           <section>
             <h3 className="!text-[18px] sm:text-[16px] md:text-[18px] font-semibold sm:font-medium font-[&quot;Open_Sans&quot;] sm:font-sans leading-[24px] sm:leading-normal mb-4 sm:mb-2">
-              5. Partner Offers and Availability
+              {t('partnerOffers.title')}
             </h3>
             <ul className="list-disc pl-4 md:pl-5 space-y-3 sm:space-y-2">
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Discounts and offers vary by partner and are subject to change without prior notice.
+                {t('partnerOffers.item1')}
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Availability of offers may differ based on location or other conditions defined by partners.
+                {t('partnerOffers.item2')}
               </li>
             </ul>
           </section>
@@ -78,17 +82,17 @@ export default function Terms() {
           {/* User Responsibilities */}
           <section>
             <h3 className="!text-[18px] sm:text-[16px] md:text-[18px] font-semibold sm:font-medium font-[&quot;Open_Sans&quot;] sm:font-sans leading-[24px] sm:leading-normal mb-4 sm:mb-2">
-              6. User Responsibilities
+              {t('userResponsibilities.title')}
             </h3>
             <ul className="list-disc pl-4 md:pl-5 space-y-3 sm:space-y-2">
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Users must use the service lawfully and in accordance with these Terms.
+                {t('userResponsibilities.item1')}
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Sharing account information or unauthorized use of the service is prohibited.
+                {t('userResponsibilities.item2')}
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Users are responsible for ensuring their actions align with the terms of each partner offer.
+                {t('userResponsibilities.item3')}
               </li>
             </ul>
           </section>
@@ -96,14 +100,14 @@ export default function Terms() {
           {/* Refunds and Payment Issues */}
           <section>
             <h3 className="!text-[18px] sm:text-[16px] md:text-[18px] font-semibold sm:font-medium font-[&quot;Open_Sans&quot;] sm:font-sans leading-[24px] sm:leading-normal mb-4 sm:mb-2">
-              7. Refunds and Payment Issues
+              {t('refunds.title')}
             </h3>
             <ul className="list-disc pl-4 md:pl-5 space-y-3 sm:space-y-2">
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                Subscription fees are non-refundable unless otherwise required by law.
+                {t('refunds.item1')}
               </li>
               <li className="text-[18px] sm:text-sm font-semibold sm:font-normal font-[&quot;Open_Sans&quot;] sm:font-sans leading-[22px] sm:leading-relaxed paragraph-[21.92px] sm:paragraph-normal">
-                If a payment fails, access to the service may be restricted until the issue is resolved.
+                {t('refunds.item2')}
               </li>
             </ul>
           </section>

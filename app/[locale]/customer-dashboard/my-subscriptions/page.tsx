@@ -3,9 +3,11 @@ import { authOptions } from "@/app/api/auth/auth.config"
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { UserSubscriptionsList } from './components/user-subscriptions-list'
+import { getTranslations } from 'next-intl/server'
 
 export default async function MySubscriptionsPage() {
   const session = await getServerSession(authOptions)
+  const t = await getTranslations('CustomerDashboard')
   
   if (!session?.user?.id) {
     redirect('/auth/signin')
@@ -89,7 +91,7 @@ export default async function MySubscriptionsPage() {
           !font-['Open_Sans']
           !font-[700]
         ">
-          My Subscriptions
+          {t('MySubscriptions.title')}
         </h1>
         <span className="
           !text-[24px]
@@ -115,7 +117,7 @@ export default async function MySubscriptionsPage() {
           text-[30px]
           font-bold
         ">
-          My Subscriptions
+          {t('MySubscriptions.title')}
         </h1>
         <span className="
           text-[30px]

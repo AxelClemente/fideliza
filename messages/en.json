@@ -298,6 +298,89 @@
       "offerModal": {
         "title": "Special offer details",
         "viewRestaurant": "View Restaurant"
+      },
+      "faq": {
+        "howItWorks": "How does our loyalty service work?",
+        "howItWorksAnswer": "Our loyalty service rewards you for shopping at participating stores. Earn points with every purchase and redeem them for exclusive rewards and discounts.",
+        "whichStores": "Which stores are part of the program?",
+        "whichStoresAnswer": "We have partnerships with a wide range of retailers, from local shops to major brands. Check our store directory for a complete list of participating locations.",
+        "subscriptionPlans": "What subscription plans are available?",
+        "subscriptionPlansAnswer": "We offer several subscription tiers to suit different needs, from basic to premium plans. Each plan includes different benefits and reward rates.",
+        "howToSubscribe": "How do I subscribe?",
+        "howToSubscribeAnswer": "You can subscribe via the website or app by choosing the plan that suits you. Payments are charged automatically on a monthly basis.",
+        "howToCancel": "How can I cancel my subscription?",
+        "howToCancelAnswer": "You can cancel your subscription at any time through your account settings. The service will remain active until the end of your current billing period.",
+        "noDiscount": "What should I do if I don't see a discount in the store?",
+        "noDiscountAnswer": "If you don't see your discount applied, please verify your subscription status and contact our support team for immediate assistance."
+      },
+      "help": {
+        "title": "Need help?",
+        "subtitle": "Write or call us - we help you!",
+        "callUs": "Call us",
+        "writeUs": "Write us",
+        "namePlaceholder": "Name",
+        "emailPlaceholder": "Email",
+        "messagePlaceholder": "Hi! I wanna say - your are cool team!",
+        "sendButton": "Send"
+      },
+      "terms": {
+        "title": "Terms and Conditions",
+        "introduction": {
+          "title": "1. Introduction",
+          "content": "Welcome to our loyalty service. By using our service, you agree to these terms and conditions in full."
+        },
+        "serviceDescription": {
+          "title": "2. Service Description",
+          "content": "We provide a loyalty platform that connects local businesses with customers, enabling subscriptions and exclusive benefits."
+        },
+        "registration": {
+          "title": "3. Registration and Subscription",
+          "item1": "You must provide accurate and complete information during registration.",
+          "item2": "You are responsible for maintaining the security of your account.",
+          "item3": "Subscriptions automatically renew until cancelled."
+        },
+        "freeTrial": {
+          "title": "4. Free Trial and Cancellation",
+          "item1": "We offer a free trial period for new users.",
+          "item2": "You can cancel your subscription at any time from your account."
+        },
+        "partnerOffers": {
+          "title": "5. Partner Offers",
+          "item1": "Offers and discounts are subject to availability.",
+          "item2": "Specific terms for each offer may vary by partner."
+        },
+        "userResponsibilities": {
+          "title": "6. User Responsibilities",
+          "item1": "Users must use the service lawfully and in accordance with these terms.",
+          "item2": "Sharing account information or unauthorized use of the service is prohibited.",
+          "item3": "Users are responsible for ensuring their actions align with the terms of each offer."
+        },
+        "refunds": {
+          "title": "7. Refunds and Payment Issues",
+          "item1": "Subscription fees are non-refundable unless required by law.",
+          "item2": "If a payment fails, access to the service may be restricted until the issue is resolved."
+        }
+      },
+      "MySubscriptions": {
+        "title": "My Subscriptions",
+        "validUntil": "Valid until",
+        "purchaseBenefits": "Purchase benefits",
+        "generateQR": "Generate QR",
+        "shareInfo": "Share info",
+        "upgrade": "Upgrade",
+        "unsubscribe": "Unsubscribe",
+        "visitsRemaining": "{remaining} / {total} visits remaining"
+      },
+      "about": {
+        "title": "About service",
+        "faq": "FAQ",
+        "help": "Help",
+        "termsOfUse": "Terms of use",
+        "faqDescription": "Find answers to the most common questions about our service and its features. Learn how to use your subscription and enjoy discounts.",
+        "helpDescription": "Need help? Get in touch with us if you have questions or suggestions. Our support team is ready to assist you.",
+        "termsDescription": "Read our terms of use and understand your rights and obligations as a user of our service.",
+        "shareApp": "Share app",
+        "shareDescription": "Let your friends find the best deals in town!"
       }
     }
   }

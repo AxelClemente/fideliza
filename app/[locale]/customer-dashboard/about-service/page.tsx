@@ -9,8 +9,10 @@ import Terms from './components/terms'
 import Help from './components/help'
 import { ShareAppModal } from './components/share-app'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 export default function CustomerServiceInfo() {
+  const t = useTranslations('CustomerDashboard.about')
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
   const searchParams = useSearchParams()
@@ -46,10 +48,10 @@ export default function CustomerServiceInfo() {
             >
               <HelpCircle className="w-[72px] h-[72px] md:w-12 md:h-12 mb-3 md:mb-4" />
               <h3 className="text-[24px] md:text-lg font-bold md:font-semibold leading-[32.68px] md:leading-normal mb-[21.5px] md:mb-2 text-justify md:text-center">
-                FAQ
+                {t('faq')}
               </h3>
               <p className="text-[14px] md:text-sm font-[600] md:font-normal leading-[18px] md:leading-normal font-['Open_Sans'] md:font-sans tracking-[-0.1px] paragraph-[21.92px] md:paragraph-normal md:text-current">
-                Find answers to the most common questions about our service and its features. Learn how to use your subscription and enjoy discounts.
+                {t('faqDescription')}
               </p>
             </div>
 
@@ -66,10 +68,10 @@ export default function CustomerServiceInfo() {
                 className="md:w-12 md:h-12 mb-3 md:mb-4"
               />
               <h3 className="text-[24px] md:text-lg font-bold md:font-semibold leading-[32.68px] md:leading-normal mb-[21.5px] md:mb-2 text-justify md:text-center">
-                Help
+                {t('help')}
               </h3>
               <p className="text-[14px] md:text-sm font-[600] md:font-normal leading-[18px] md:leading-normal font-['Open_Sans'] md:font-sans tracking-[-0.1px] paragraph-[21.92px] md:paragraph-normal md:text-current">
-                Need assistance? This section provides guides, tips, and solutions for common issues with our service.
+                {t('helpDescription')}
               </p>
             </div>
 
@@ -80,10 +82,10 @@ export default function CustomerServiceInfo() {
             >
               <FileText className="w-[72px] h-[72px] md:w-12 md:h-12 mb-3 md:mb-4" />
               <h3 className="text-[24px] md:text-lg font-bold md:font-semibold leading-[32.68px] md:leading-normal mb-[21.5px] md:mb-2 text-justify md:text-center">
-                Terms of Use
+                {t('termsOfUse')}
               </h3>
               <p className="text-[14px] md:text-sm font-[600] md:font-normal leading-[18px] md:leading-normal font-['Open_Sans'] md:font-sans tracking-[-0.1px] paragraph-[21.92px] md:paragraph-normal md:text-current">
-                Here you&apos;ll find the rules and conditions for using our service. Review them to understand your rights and responsibilities as a user.
+                {t('termsDescription')}
               </p>
             </div>
 
@@ -94,10 +96,10 @@ export default function CustomerServiceInfo() {
             >
               <Share2 className="w-[72px] h-[72px] md:w-12 md:h-12 mb-3 md:mb-4" />
               <h3 className="!text-[30px] font-['Open_Sans'] font-[700] leading-[36px] mb-5">
-                Share app
+                {t('shareApp')}
               </h3>
               <p className="text-[14px] md:text-sm font-[600] md:font-normal leading-[18px] md:leading-normal font-['Open_Sans'] md:font-sans tracking-[-0.1px] paragraph-[21.92px] md:paragraph-normal md:text-current">
-                Let your friends find the best deals in town!
+                {t('shareDescription')}
               </p>
             </div>
           </div>
@@ -110,7 +112,7 @@ export default function CustomerServiceInfo() {
       <div className="mx-0 md:mx-8">
         <div className="mb-4 px-4 md:px-0">
           <Breadcrumb 
-            section={activeSection ?? "About service"} 
+            section={activeSection ?? t('title')} 
             onReset={handleReset}
           />
         </div>
