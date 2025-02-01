@@ -5,6 +5,7 @@ import Image from "next/image"
 import { CustomerOfferModal } from "../../../modal/customer-offer-modal"
 import { CompanyOffers } from "./company-offers"
 import { useParams } from "next/navigation"
+import { useTranslations } from 'next-intl'
 
 interface Offer {
   id: string
@@ -29,6 +30,7 @@ export function RestaurantOffers({ offers }: RestaurantOffersProps) {
   const [isCompanyOffersOpen, setIsCompanyOffersOpen] = useState(false)
   const params = useParams()
   const restaurantId = params.restaurantId as string
+  const t = useTranslations('CustomerDashboard.dashboard')
 
   const getImageUrl = (offer: Offer) => {
     if (!offer.images || offer.images.length === 0) {
@@ -59,7 +61,7 @@ export function RestaurantOffers({ offers }: RestaurantOffersProps) {
         onClick={() => setIsCompanyOffersOpen(true)} 
         className="!text-[30px] font-bold mb-8 cursor-pointer"
       >
-        Special offers ({offers.length})
+        {t('specialOffers')} ({offers.length})
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {offers.map((offer) => (

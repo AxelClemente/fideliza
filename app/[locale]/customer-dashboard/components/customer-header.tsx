@@ -6,12 +6,13 @@ import Image from "next/image"
 import { useSession, signOut } from "next-auth/react"
 import { ChevronDown, Menu, X, ArrowLeft } from "lucide-react"
 import { useState } from "react"
+import { useTranslations } from 'next-intl'
 
 const navigationItems = [
-  { name: "Home", href: "/customer-dashboard" },
-  { name: "My subscriptions", href: "/customer-dashboard/my-subscriptions" },
-  { name: "About service", href: "/customer-dashboard/about-service" },
-  { name: "Help", href: "/customer-dashboard/about-service?section=Help" },
+  { name: 'home', href: "/customer-dashboard" },
+  { name: 'mySubscriptions', href: "/customer-dashboard/my-subscriptions" },
+  { name: 'aboutService', href: "/customer-dashboard/about-service" },
+  { name: 'help', href: "/customer-dashboard/about-service?section=Help" },
 ]
 
 export function CustomerHeader() {
@@ -20,6 +21,7 @@ export function CustomerHeader() {
   const router = useRouter()
   const { data: session, status } = useSession()
   const isLoading = status === 'loading'
+  const t = useTranslations('CustomerDashboard.header')
 
   function handleBack() {
     if (pathname === '/customer-dashboard') {
@@ -98,22 +100,16 @@ export function CustomerHeader() {
               </div>
             </Link>
 
-            {/* Navigation */}
-            <nav className="flex flex-col space-y-4">
+            {/* Navigation Links */}
+            <nav className="space-y-6">
               {navigationItems.map((item) => (
                 <Link
-                  key={item.href}
+                  key={item.name}
                   href={item.href}
-                  className={`
-                    py-2 text-lg font-semibold
-                    ${pathname === item.href
-                      ? "text-white"
-                      : "text-gray-400 hover:text-white"
-                    }
-                  `}
+                  className="block text-white hover:text-gray-300"
                   onClick={toggleMenu}
                 >
-                  {item.name}
+                  {t(item.name)}
                 </Link>
               ))}
             </nav>
@@ -176,7 +172,7 @@ export function CustomerHeader() {
             <nav className="flex flex-wrap justify-center gap-6 md:gap-8 mr-12">
               {navigationItems.map((item) => (
                 <Link
-                  key={item.href}
+                  key={item.name}
                   href={item.href}
                   className={`
                     text-base md:text-lg
@@ -190,7 +186,7 @@ export function CustomerHeader() {
                   `}
                   style={{ fontFamily: 'Open Sans' }}
                 >
-                  {item.name}
+                  {t(item.name)}
                 </Link>
               ))}
             </nav>

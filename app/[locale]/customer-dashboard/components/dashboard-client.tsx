@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CustomerOfferModal } from '../modal/customer-offer-modal'
 import { FilterModal } from './../../customer-dashboard/modal/filter-modal'
+import { useTranslations } from 'next-intl'
 
 // Importamos la interfaz Restaurant del customer-search-wrapper
 interface Subscription {
@@ -75,6 +76,7 @@ interface FilterValues {
 }
 
 export function DashboardClient({ restaurants, userLocation }: DashboardClientProps) {
+  const t = useTranslations('CustomerDashboard.dashboard')
   const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants)
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -178,17 +180,17 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
       {/* Subscriptions Section */}
       <div className="mb-12">
         <div className="flex items-center mb-6 relative md:px-8">
-          <h2 className="!text-[24px] md:!text-[30px] font-bold">Subscriptions</h2>
+          <h2 className="!text-[24px] md:!text-[30px] font-bold">{t('subscriptions')}</h2>
           <div className="flex-1" />
           <Link 
             href="/customer-dashboard/subscriptions" 
             onClick={(e) => {
-              e.preventDefault() // Previene la navegación
-              handleResetFilters() // Resetea los filtros
+              e.preventDefault()
+              handleResetFilters()
             }}
             className="!text-[20px] md:!text-[24px] font-bold text-main-dark hover:text-gray-800 absolute right-0 md:right-12 pt-[2px] md:pt-0"
           >
-            See all
+            {t('seeAll')}
           </Link>
         </div>
         
@@ -202,13 +204,13 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
       {/* Special Offers Section */}
       <div>
         <div className="flex items-center mb-6 relative md:px-8">
-          <h2 className="!text-[24px] md:!text-[30px] font-bold">Special offerss</h2>
+          <h2 className="!text-[24px] md:!text-[30px] font-bold">{t('specialOffers')}</h2>
           <div className="flex-1" />
           <Link 
             href="/customer-dashboard/offers" 
             className="!text-[20px] md:!text-[24px] font-bold text-main-dark hover:text-gray-800 absolute right-0 md:right-8 pt-[2px] md:pt-0"
           >
-            See all
+            {t('seeAll')}
           </Link>
         </div>
         

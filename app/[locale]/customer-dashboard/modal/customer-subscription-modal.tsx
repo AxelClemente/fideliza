@@ -6,6 +6,7 @@ import { MapPinIcon } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { Subscription } from '@/app/[locale]/customer-dashboard/types/subscription'
+import { useTranslations } from 'next-intl'
 
 interface CustomerSubscriptionModalProps {
   isOpen: boolean
@@ -19,6 +20,7 @@ export function CustomerSubscriptionModal({
   subscription 
 }: CustomerSubscriptionModalProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const t = useTranslations('CustomerDashboard.subscriptionModal')
   
   console.log('🔍 Modal Subscription Data:', {
     subscription,
@@ -117,7 +119,7 @@ export function CustomerSubscriptionModal({
                   !leading-[36px]
                   mb-8
                 ">
-                  Subscription detail
+                  {t('title')}
                 </h2>
                 <DialogTitle className="
                   !text-[40px]
@@ -168,7 +170,7 @@ export function CustomerSubscriptionModal({
                   md:!font-semibold
                   md:!leading-[32px]
                 ">
-                  Purchase benefit:
+                  {t('purchaseBenefit')}:
                 </h3>
                 <p className="
                   text-[18px]
@@ -195,7 +197,7 @@ export function CustomerSubscriptionModal({
                     md:!font-semibold
                     md:!leading-[32px]
                   ">
-                    Where to use:
+                    {t('whereToUse')}:
                   </h3>
                   <div className="space-y-4">
                     {subscription.places.map((place) => (
@@ -335,7 +337,7 @@ export function CustomerSubscriptionModal({
                 hover:bg-gray-100
               "
             >
-              Other subscriptions
+              {t('otherSubscriptions')}
             </Button>
           </div>
         </div>

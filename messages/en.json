@@ -273,5 +273,31 @@
           "downloadButton": "Download QR template for print"
         }
       }
+    },
+    "CustomerDashboard": {
+      "header": {
+        "home": "Home",
+        "mySubscriptions": "My subscriptions",
+        "aboutService": "About service",
+        "help": "Help"
+      },
+      "dashboard": {
+        "subscriptions": "Subscriptions",
+        "specialOffers": "Special offers",
+        "seeAll": "See all"
+      },
+      "restaurant": {
+        "places": "Places ({count})"
+      },
+      "subscriptionModal": {
+        "title": "Subscription detail",
+        "whereToUse": "Where to use",
+        "purchaseBenefit": "Purchase benefit",
+        "otherSubscriptions": "Other subscriptions"
+      },
+      "offerModal": {
+        "title": "Special offer details",
+        "viewRestaurant": "View Restaurant"
+      }
     }
   }

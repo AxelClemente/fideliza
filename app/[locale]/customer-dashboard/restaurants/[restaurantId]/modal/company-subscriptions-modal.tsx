@@ -7,6 +7,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import { useCallback, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 interface CompanySubscriptionsProps {
   isOpen: boolean
@@ -34,6 +35,7 @@ export function CompanySubscriptions({
   onClose,
   subscriptions 
 }: CompanySubscriptionsProps) {
+  const t = useTranslations('CustomerDashboard.subscriptionModal')
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     containScroll: 'trimSnaps',
@@ -131,7 +133,7 @@ export function CompanySubscriptions({
             md:px-8 
             mt-10
           ">
-            Subscriptions
+            {t('title')}
           </DialogTitle>
         </DialogHeader>
 
@@ -189,7 +191,7 @@ export function CompanySubscriptions({
                       !leading-[32px]
                       !mb-2
                     ">
-                      Purchase benefit:
+                      {t('purchaseBenefit')}:
                     </h4>
                     <p className="
                       !text-[14px]
@@ -211,7 +213,7 @@ export function CompanySubscriptions({
                         !leading-[32px]
                         mb-4
                       ">
-                        Where to use:
+                        {t('whereToUse')}:
                       </h4>
                       <div className="space-y-4">
                         {subscription.places.map((place) => (
@@ -365,7 +367,7 @@ export function CompanySubscriptions({
                             !leading-[32px]
                             !mb-2
                           ">
-                            Purchase benefit:
+                            {t('purchaseBenefit')}:
                           </h4>
                           <p className="
                             !text-[14px]
@@ -387,7 +389,7 @@ export function CompanySubscriptions({
                               !leading-[32px]
                               
                             ">
-                              Where to use:
+                              {t('whereToUse')}:
                             </h4>
                             <div className="space-y-4">
                               {subscription.places.map((place) => (

@@ -278,5 +278,31 @@
           "downloadButton": "Descargar plantilla QR para imprimir"
         }
       }
+    },
+    "CustomerDashboard": {
+      "header": {
+        "home": "Inicio",
+        "mySubscriptions": "Mis suscripciones",
+        "aboutService": "Sobre el servicio",
+        "help": "Ayuda"
+      },
+      "dashboard": {
+        "subscriptions": "Suscripciones",
+        "specialOffers": "Ofertas especiales",
+        "seeAll": "Ver todo"
+      },
+      "restaurant": {
+        "places": "Sucursales ({count})"
+      },
+      "subscriptionModal": {
+        "title": "Detalle de suscripción",
+        "whereToUse": "Dónde usar",
+        "purchaseBenefit": "Beneficio de compra",
+        "otherSubscriptions": "Otras suscripciones"
+      },
+      "offerModal": {
+        "title": "Detalles de la oferta",
+        "viewRestaurant": "Ver Restaurante"
+      }
     }
   }

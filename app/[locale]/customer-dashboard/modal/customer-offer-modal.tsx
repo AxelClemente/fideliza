@@ -6,6 +6,7 @@ import { MapPinIcon } from "lucide-react"
 import Image from "next/image"
 import { OfferViewTracker } from "@/app/[locale]/customer-dashboard/components/offer-view-tracker"
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 interface CustomerOfferModalProps {
   isOpen: boolean
@@ -34,6 +35,7 @@ export function CustomerOfferModal({
   offer 
 }: CustomerOfferModalProps) {
   const router = useRouter()
+  const t = useTranslations('CustomerDashboard.offerModal')
   
   if (!offer) return null
 
@@ -87,7 +89,7 @@ export function CustomerOfferModal({
             mt-6
             md:mt-10
           ">
-            Special offer details
+            {t('title')}
           </DialogTitle>
         </DialogHeader>
 
@@ -254,7 +256,7 @@ export function CustomerOfferModal({
               hover:bg-gray-900
             "
           >
-            View Restaurant
+            {t('viewRestaurant')}
           </Button>
         </div>
       </DialogContent>

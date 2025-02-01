@@ -5,6 +5,7 @@ import Image from "next/image"
 import { SubscriptionCarousel } from '../../../components/subscription-carousel'
 import { CompanySubscriptions } from './../modal/company-subscriptions-modal'
 import { Subscription } from '@/app/[locale]/customer-dashboard/types/subscription'
+import { useTranslations } from 'next-intl'
 
 interface RestaurantInfoProps {
   restaurant: {
@@ -24,6 +25,7 @@ export function RestaurantInfo({ restaurant, subscriptions }: RestaurantInfoProp
   );
 
   const [isCompareOpen, setIsCompareOpen] = useState(false)
+  const t = useTranslations('CustomerDashboard.dashboard')
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -65,7 +67,7 @@ export function RestaurantInfo({ restaurant, subscriptions }: RestaurantInfoProp
                 onClick={() => setIsCompareOpen(true)}
                 className="!text-[30px] font-bold mb-4 md:underline mt-[4px] cursor-pointer"
               >
-                Subscriptions ({uniqueSubscriptions.length})
+                {t('subscriptions')} ({uniqueSubscriptions.length})
               </h2>
               <SubscriptionCarousel subscriptions={uniqueSubscriptions} />
             </div>
