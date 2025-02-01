@@ -3,7 +3,12 @@
       "about": "About service",
       "help": "Help",
       "signup": "Sign up",
-      "signin": "Sign in"
+      "signin": "Sign in",
+      "languages": {
+        "es": "Español",
+        "en": "English",
+        "fr": "Français"
+      }
     },
     "FAQ": {
       "title": "Your Questions\nAnswered",
