@@ -14,7 +14,7 @@ export default async function Page({
   const resolvedParams = await params;
   const { locale } = resolvedParams;
 
-  if (!['en', 'es'].includes(locale)) {
+  if (!['en', 'es', 'fr'].includes(locale)) {
     redirect('/en');
   }
 
