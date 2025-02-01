@@ -277,7 +277,8 @@
           "description": "You can print out a QR code for registration in our service and place it in a visible place near the cash register. This will make it easier and faster for your customers to register in the service and sign up for your discounts.",
           "downloadButton": "Download QR template for print"
         }
-      }
+      },
+      "noMainInfo": "No Main info yet!"
     },
     "CustomerDashboard": {
       "header": {

@@ -284,7 +284,8 @@
           "description": "Puedes imprimir un código QR para el registro en nuestro servicio y colocarlo en un lugar visible cerca de la caja registradora. Esto facilitará y agilizará el registro de tus clientes en el servicio y la suscripción a tus descuentos.",
           "downloadButton": "Descargar plantilla QR para imprimir"
         }
-      }
+      },
+      "noMainInfo": "¡Aún no hay restaurantes!"
     },
     "CustomerDashboard": {
       "header": {

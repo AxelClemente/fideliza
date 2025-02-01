@@ -141,12 +141,12 @@ export default function Location() {
 
     if (selectedCity) {
       try {
-        const response = await fetch('/api/auth/update-city', {
+        const response = await fetch('/api/location', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ city: selectedCity }),
+          body: JSON.stringify({ location: selectedCity }),
         })
 
         if (response.ok) {

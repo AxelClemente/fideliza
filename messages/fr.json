@@ -236,6 +236,7 @@
       "copyError": "Erreur lors de la copie du lien",
       "facebookAlt": "Partager sur Facebook",
       "twitterAlt": "Partager sur Twitter"
-    }
+    },
+    "noMainInfo": "Pas encore d'informations principales !"
   }
 }

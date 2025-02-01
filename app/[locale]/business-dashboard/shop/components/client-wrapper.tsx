@@ -440,13 +440,14 @@ export function ClientWrapper({
             >
               <span className={`
                 ${!hasPlaces 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center " 
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1120px] pb-2"
                 }
               `}>
                 {!hasPlaces ? t('addSpecialOffer') : t('addNewSpecialOffer')}
               </span>
             </button>
+
 
             {/* Modales */}
             {isMobile ? (
@@ -632,7 +633,7 @@ export function ClientWrapper({
             >
               <span className={`
                 ${!hasPlaces 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1070px] pb-2"
                 }
               `}>
@@ -683,7 +684,7 @@ export function ClientWrapper({
             >
               <span className={`
                 ${!restaurants.length 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pb-4 pl-[1170px]"
                 }
               `}>
@@ -722,7 +723,7 @@ export function ClientWrapper({
             >
               <span className={`
                 ${!hasPlaces 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
                   : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid"
                 }
               `}>
@@ -844,7 +845,7 @@ export function ClientWrapper({
                   >
                     <span className={`
                       ${!hasPlaces 
-                        ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center" 
+                        ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
                         : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid"
                       }
                     `}>

@@ -30,9 +30,9 @@ export default async function ShopPage() {
                   text-[#7B7B7B]
                   mt-8               
                   md:mt-0           
-                  whitespace-nowrap    /* Añadido: previene el salto de línea */
+                  whitespace-nowrap
                 ">
-                  No Main info yet!
+                  {t('noMainInfo')}
                 </h2>
               )}
               <div className={`${restaurants.length > 0 ? 'hidden md:block' : ''}`}>
