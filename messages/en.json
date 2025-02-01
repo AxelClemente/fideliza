@@ -278,7 +278,13 @@
           "downloadButton": "Download QR template for print"
         }
       },
-      "noMainInfo": "No Main info yet!"
+      "noMainInfo": "No Main info yet!",
+      "noAdminUsers": "No admin users yet",
+      "noStaffUsers": "No staff users yet",
+      "noAdminUsersFound": "No admin users found",
+      "noStaffUsersFound": "No staff users found",
+      "noSubscribers": "No subscribers yet",
+      "noSpecialOffers": "No Special offers yet!"
     },
     "CustomerDashboard": {
       "header": {

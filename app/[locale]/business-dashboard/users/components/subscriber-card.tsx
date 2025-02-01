@@ -2,9 +2,11 @@
 
 import { Trash2 } from "lucide-react"
 import { useSubscribers } from "../../context/subscribers-context"
+import { useTranslations } from "use-intl"
 
 export function SubscriberCard() {
   const { subscribers } = useSubscribers()
+  const t = useTranslations('BusinessDashboard')
   
   // Eliminar duplicados basados en el ID del suscriptor
   const uniqueSubscribers = Array.from(
@@ -56,7 +58,7 @@ export function SubscriberCard() {
         ))
       ) : (
         <div className="!text-[20px] text-muted-foreground hover:no-underline !font-[700] pt-3 pl-4">
-          No subscribers yet
+          {t('noSubscribers')}
         </div>
       )}
     </div>

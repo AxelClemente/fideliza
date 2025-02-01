@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { format } from 'date-fns'
 import type { Offer } from '../types/types'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { getTranslations } from 'next-intl/server'
 
 interface ExtendedOffer extends Offer {
   placeName: string;
@@ -19,6 +20,7 @@ type Restaurant = {
 
 export default async function SpecialOffersPage() {
   const { restaurants } = await RestaurantProvider()
+  const t = await getTranslations('BusinessDashboard')
   
   const offers: ExtendedOffer[] = (restaurants as Restaurant[]).flatMap(restaurant => 
     restaurant.places.flatMap(place => 
@@ -52,7 +54,7 @@ export default async function SpecialOffersPage() {
               mt-8               /* Nuevo: margen superior solo en móvil */
               md:mt-0           /* Reset del margen en desktop */
             ">
-              No Special offers yet!
+              {t('noSpecialOffers')}
             </h2>
           )}
           

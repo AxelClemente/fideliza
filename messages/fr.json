@@ -237,6 +237,17 @@
       "facebookAlt": "Partager sur Facebook",
       "twitterAlt": "Partager sur Twitter"
     },
-    "noMainInfo": "Pas encore d'informations principales !"
+    "noMainInfo": "Pas encore d'informations principales !",
+    "noAdminUsers": "Pas encore d'utilisateurs administrateurs",
+    "noStaffUsers": "Pas encore d'utilisateurs du personnel",
+    "noAdminUsersFound": "Aucun utilisateur administrateur trouvé",
+    "noStaffUsersFound": "Aucun utilisateur du personnel trouvé",
+    "noSubscribers": "Pas encore d'abonnés",
+    "noSpecialOffers": "Pas encore d'offres spéciales !",
+    "specialOffers": "Offres spéciales",
+    "addNewSpecialOffer": "Nouvelle offre spéciale",
+    "addSpecialOffer": "Ajouter une offre spéciale",
+    "addSubscription": "Ajouter un abonnement",
+    "addNewSubscription": "Nouvel abonnement"
   }
 }

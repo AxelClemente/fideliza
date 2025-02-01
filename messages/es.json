@@ -285,7 +285,17 @@
           "downloadButton": "Descargar plantilla QR para imprimir"
         }
       },
-      "noMainInfo": "¡Aún no hay restaurantes!"
+      "noMainInfo": "¡Aún no hay restaurantes!",
+      "noAdminUsers": "No hay administradores",
+      "noStaffUsers": "No hay usuarios con nivel staff",
+      "noAdminUsersFound": "No se encontraron usuarios administradores",
+      "noStaffUsersFound": "No se encontraron usuarios del personal",
+      "noSubscribers": "Aún no hay suscriptores",
+      "noSpecialOffers": "¡Aún no hay ofertas especiales!",
+      "addSpecialOffer": "Agregar oferta especial",
+      "addNewSpecialOffer": "Nueva oferta especial",
+      "addSubscription": "Agregar suscripción",
+      "addNewSubscription": "Nueva suscripción"
     },
     "CustomerDashboard": {
       "header": {

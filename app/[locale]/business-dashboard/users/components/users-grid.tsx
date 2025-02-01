@@ -122,7 +122,7 @@ export function UsersGrid({ businessUser, adminUsers, staffUsers, searchTerm }: 
               ))
             ) : (
               <div className="!text-[20px] text-muted-foreground hover:no-underline !font-[700] pt-3 pl-4">
-                {searchTerm ? "No admin users found" : "No admin users yet"}
+                {searchTerm ? t('noAdminUsersFound') : t('noAdminUsers')}
               </div>
             )}
           </div>
@@ -152,7 +152,7 @@ export function UsersGrid({ businessUser, adminUsers, staffUsers, searchTerm }: 
               ))
             ) : (
               <div className="!text-[20px] text-muted-foreground hover:no-underline !font-[700] pt-3 pl-4">
-                {searchTerm ? "No staff users found" : "No staff users yet"}
+                {searchTerm ? t('noStaffUsersFound') : t('noStaffUsers')}
               </div>
             )}
           </div>
