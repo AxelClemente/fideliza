@@ -7,6 +7,7 @@ import { Menu, Globe } from "lucide-react"
 import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 export function MobileMainHeader() {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -16,6 +17,7 @@ export function MobileMainHeader() {
   const router = useRouter()
   const pathname = usePathname()
   const t = useTranslations('Header.languages')
+  const { data: session } = useSession()
 
   const languages = [
     { code: 'es', name: t('es') },
@@ -40,6 +42,16 @@ export function MobileMainHeader() {
     router.push(newPath)
     router.refresh()
     setIsLangOpen(false)
+  }
+
+  // Función para manejar la redirección al dashboard según el rol
+  const handleDashboardClick = () => {
+    setIsOpen(false) // Cerrar el menú móvil
+    if (session?.user?.role === 'CUSTOMER') {
+      router.push(`/${currentLocale}/customer-dashboard`)
+    } else if (['BUSINESS', 'ADMIN', 'STAFF'].includes(session?.user?.role || '')) {
+      router.push(`/${currentLocale}/business-dashboard`)
+    }
   }
 
   return (
@@ -99,20 +111,33 @@ export function MobileMainHeader() {
         <div className="fixed inset-0 z-40 bg-white pt-10">
           <nav className="flex flex-col h-[calc(100vh-80px)] justify-end px-4">
             <div className="mb-24 space-y-4">
-              <Link 
-                href="/auth?mode=signin" 
-                onClick={() => setIsOpen(false)}
-                className="block w-[390px] h-[78px] leading-[78px] text-lg font-[800] text-white bg-black text-center border border-black rounded-full hover:bg-white hover:text-black transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link 
-                href="/auth?mode=signup" 
-                onClick={() => setIsOpen(false)}
-                className="block text-lg font-[800] text-black text-center transition-colors hover:text-gray-600"
-              >
-                Join now
-              </Link>
+              {session ? (
+                // Usuario autenticado - Mostrar Dashboard
+                <button 
+                  onClick={handleDashboardClick}
+                  className="block w-[390px] h-[78px] leading-[78px] text-lg font-[800] text-white bg-black text-center border border-black rounded-full hover:bg-white hover:text-black transition-colors"
+                >
+                  Dashboard
+                </button>
+              ) : (
+                // Usuario no autenticado - Mostrar Sign In y Join now
+                <>
+                  <Link 
+                    href="/auth?mode=signin" 
+                    onClick={() => setIsOpen(false)}
+                    className="block w-[390px] h-[78px] leading-[78px] text-lg font-[800] text-white bg-black text-center border border-black rounded-full hover:bg-white hover:text-black transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    href="/auth?mode=signup" 
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg font-[800] text-black text-center transition-colors hover:text-gray-600"
+                  >
+                    Join now
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
