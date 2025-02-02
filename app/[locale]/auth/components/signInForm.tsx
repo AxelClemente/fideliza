@@ -23,7 +23,18 @@ export default function SignInForm() {
   console.log('Render - Session Status:', status)
   console.log('Render - Session Data:', session)
 
+  console.log('🔍 Current URL params:', {
+    mode: searchParams.get('mode'),
+    returnUrl: searchParams.get('returnUrl'),
+    callbackUrl: searchParams.get('callbackUrl')
+  })
+
   useEffect(() => {
+    console.log('🔄 useEffect triggered:', { 
+      status, 
+      sessionUser: session?.user,
+      currentPath: window.location.pathname + window.location.search
+    })
     console.log('useEffect - Checking session:', session)
     if (status === 'authenticated' && session?.user) {
       console.log('useEffect - User authenticated:', session.user)
@@ -80,30 +91,36 @@ export default function SignInForm() {
 
   const handleGoogleSignIn = async () => {
     try {
+      console.log('🚀 Starting Google sign in...')
       const result = await signIn('google', {
+        callbackUrl: '/auth?mode=signin',
         redirect: false,
       })
+      console.log('📥 Google sign in result:', result)
 
       if (result?.error) {
         setError('Error signing in with Google')
       }
-      // No hacemos redirección aquí, useEffect se encargará
-    } catch {
+    } catch (error) {
+      console.error('❌ Google sign in error:', error)
       setError('An error occurred during Google sign in')
     }
   }
 
   const handleFacebookSignIn = async () => {
     try {
+      console.log('🚀 Starting Facebook sign in...')
       const result = await signIn('facebook', {
+        callbackUrl: '/auth?mode=signin',
         redirect: false,
       })
+      console.log('📥 Facebook sign in result:', result)
 
       if (result?.error) {
         setError('Error signing in with Facebook')
       }
-      // No hacemos redirección aquí, useEffect se encargará
-    } catch {
+    } catch (error) {
+      console.error('❌ Facebook sign in error:', error)
       setError('An error occurred during Facebook sign in')
     }
   }

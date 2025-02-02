@@ -115,12 +115,12 @@ export const authOptions: AuthOptions = {
     },
 
     async redirect({ url, baseUrl }) {
-      if (url.includes('/signin') || url.includes('/auth/signin')) {
+      if (url.startsWith(`${baseUrl}/auth/signin`) || url.includes('/signin')) {
         return `${baseUrl}/auth?mode=signin`
       }
       
       if (!url.startsWith(baseUrl)) {
-        return url
+        return baseUrl
       }
       
       return url
