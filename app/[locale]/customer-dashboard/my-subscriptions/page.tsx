@@ -10,7 +10,7 @@ export default async function MySubscriptionsPage() {
   const t = await getTranslations('CustomerDashboard')
   
   if (!session?.user?.id) {
-    redirect('/auth/signin')
+    redirect('/auth?mode=signin')
   }
 
   const userSubscriptions = await prisma.userSubscription.findMany({
