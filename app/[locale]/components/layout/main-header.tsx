@@ -7,6 +7,7 @@ import { Globe, ChevronDown } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
+import { useSession } from 'next-auth/react'
 
 export function MainHeader() {
   const t = useTranslations('Header');
@@ -15,6 +16,7 @@ export function MainHeader() {
   const currentLocale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   // Lista de idiomas disponibles
   const languages = [
@@ -22,6 +24,16 @@ export function MainHeader() {
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' }
   ];
+
+  // Función para manejar la redirección al dashboard según el rol
+  const handleDashboardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (session?.user?.role === 'CUSTOMER') {
+      router.push(`/${currentLocale}/customer-dashboard`);
+    } else if (['BUSINESS', 'ADMIN', 'STAFF'].includes(session?.user?.role || '')) {
+      router.push(`/${currentLocale}/business-dashboard`);
+    }
+  };
 
   // Cerrar el dropdown cuando se hace clic fuera
   useEffect(() => {
@@ -75,18 +87,32 @@ export function MainHeader() {
             >
               {t('help')}
             </Link>
-            <Link 
-              href={`/${currentLocale}/auth?mode=signup`}
-              className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
-            >
-              {t('signup')}
-            </Link>
-            <Link 
-              href={`/${currentLocale}/auth?mode=signin`}
-              className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
-            >
-              {t('signin')}
-            </Link>
+            
+            {session ? (
+              // Usuario autenticado - Mostrar Dashboard con redirección condicional
+              <button 
+                onClick={handleDashboardClick}
+                className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
+              >
+                Dashboard
+              </button>
+            ) : (
+              // Usuario no autenticado - Mostrar Registro e Inicio de sesión
+              <>
+                <Link 
+                  href={`/${currentLocale}/auth?mode=signup`}
+                  className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
+                >
+                  {t('signup')}
+                </Link>
+                <Link 
+                  href={`/${currentLocale}/auth?mode=signin`}
+                  className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
+                >
+                  {t('signin')}
+                </Link>
+              </>
+            )}
 
             {/* Language Selector */}
             <div className="relative" ref={dropdownRef}>
