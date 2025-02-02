@@ -1,9 +1,12 @@
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { BusinessProvider } from "../../components/business-provider"
 import { RestaurantInfo } from "./components/restaurant-info"
 import { RestaurantOffers } from "./components/restaurant-offers"
 import { RestaurantPlaces } from "./components/restaurant-places"
 import { ViewTracker } from './components/view-tracker'
+import { getServerSession } from 'next-auth'
+import { authOptions } from "@/app/api/auth/auth.config"
+import { getAuthRedirectUrl } from '@/lib/auth-utils'
 
 interface Place {
   id: string
@@ -50,8 +53,15 @@ interface RestaurantPageProps {
 }
 
 export default async function RestaurantPage({ params }: RestaurantPageProps) {
+  const session = await getServerSession(authOptions)
+  const { restaurantId } = await params
+
+  if (!session?.user?.id) {
+    const returnUrl = `/customer-dashboard/restaurants/${restaurantId}`
+    redirect(getAuthRedirectUrl(returnUrl))
+  }
+
   try {
-    const { restaurantId } = await params
     const { getRestaurantById } = await BusinessProvider()
     const restaurant = await getRestaurantById(restaurantId) as Restaurant | null
 

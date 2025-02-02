@@ -115,7 +115,7 @@ export const authOptions: AuthOptions = {
     },
 
     async redirect({ url, baseUrl }) {
-      if (url.includes('/auth/signin')) {
+      if (url.includes('/signin') || url.includes('/auth/signin')) {
         return `${baseUrl}/auth?mode=signin`
       }
       
@@ -176,6 +176,8 @@ export const authOptions: AuthOptions = {
     strategy: "jwt"
   },
   pages: {
-    signIn: '/auth?mode=signin'
+    signIn: '/auth?mode=signin',
+    error: '/auth?mode=signin',
+    newUser: '/auth?mode=signup'
   }
 }
