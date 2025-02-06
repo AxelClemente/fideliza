@@ -12,7 +12,7 @@ interface ShareAppModalProps {
 
 export function ShareAppModal({ isOpen, onClose }: ShareAppModalProps) {
   const t = useTranslations('BusinessDashboard.share')
-  const shareUrl = "http://oursite.com" // Reemplazar con la URL real
+  const shareUrl = "http://fideliza.com" // Reemplazar con la URL real
   
   const handleCopyLink = async () => {
     try {
