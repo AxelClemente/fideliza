@@ -5,6 +5,7 @@ import "@/app/globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import {NextIntlClientProvider} from 'next-intl';
 import {notFound} from 'next/navigation';
+import { metadata as appMetadata } from '@/app/metadata-config';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -19,8 +20,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Fideliza",
-  description: "Your Local Favorites App",
+  title: appMetadata.landing.title ?? "Fideliza",
+  description: appMetadata.landing.description ?? "Your Local Favorites App",
   icons: {
     icon: '/favicon.svg',
   }
@@ -50,6 +51,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <title>{metadata.title as string}</title>
+        <meta name="description" content={metadata.description as string} />
+      </head>
       <body
         suppressHydrationWarning={true}
         className={`${openSans.variable} ${poppins.variable} font-sans antialiased
