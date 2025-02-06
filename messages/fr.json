@@ -223,9 +223,11 @@
       "title": "Partager l'application",
       "description": "Invitez vos amis à découvrir les meilleures offres en ville !",
       "copyLink": "Copier le lien",
+      "linkCopied": "Lien copié dans le presse-papiers !",
       "copyError": "Erreur lors de la copie du lien",
-      "facebookAlt": "Partager sur Facebook",
-      "twitterAlt": "Partager sur Twitter"
+      "shareIconAlt": "Icône de partage",
+      "facebookAlt": "Icône Facebook",
+      "twitterAlt": "Icône Twitter"
     }
   },
   "BusinessDashboard": {

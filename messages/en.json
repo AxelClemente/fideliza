@@ -393,6 +393,16 @@
         "termsDescription": "Read our terms of use and understand your rights and obligations as a user of our service.",
         "shareApp": "Share app",
         "shareDescription": "Let your friends find the best deals in town!"
+      },
+      "share": {
+        "title": "Share App",
+        "description": "Let your friends find the best deals in town!",
+        "copyLink": "Copy Link",
+        "linkCopied": "Link copied to clipboard!",
+        "copyError": "Error copying the link",
+        "shareIconAlt": "Share icon",
+        "facebookAlt": "Facebook icon",
+        "twitterAlt": "Twitter icon"
       }
     }
   }
