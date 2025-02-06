@@ -285,7 +285,8 @@
       "noStaffUsersFound": "No staff users found",
       "noSubscribers": "No subscribers yet",
       "noSpecialOffers": "No Special offers yet!",
-      "cannotDeleteActiveSubscription": "You cannot delete an active subscription."
+      "cannotDeleteActiveSubscription": "You cannot delete an active subscription.",
+      "errorDeletingSubscription": "An error occurred while deleting the subscription."
     },
     "CustomerDashboard": {
       "header": {

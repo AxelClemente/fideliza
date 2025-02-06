@@ -18,10 +18,15 @@ export function SubscriberCard() {
     try {
       // Verificar condiciones
       const subscriber = uniqueSubscribers.find(sub => sub.id === subscriberId)
+      console.log('Subscriber found:', subscriber)
+      
       if (!subscriber || subscriber.subscription.status === 'ACTIVE' || new Date(subscriber.subscription.endDate) > new Date()) {
+        console.log('Cannot delete active or non-expired subscription')
         toast.error(t('cannotDeleteActiveSubscription'))
         return
       }
+
+      console.log('Sending PATCH request for subscriptionId:', subscriptionId)
 
       // Realizar la solicitud PATCH
       const response = await fetch(`/api/user-subscriptions`, {
@@ -31,6 +36,8 @@ export function SubscriberCard() {
         },
         body: JSON.stringify({ userSubscriptionId: subscriptionId }),
       })
+
+      console.log('Response status:', response.status)
 
       if (response.ok) {
         toast.success(t('subscriptionDeleted'))

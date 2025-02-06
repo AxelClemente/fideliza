@@ -161,6 +161,8 @@ export async function PATCH(req: Request) {
     
     // Verificar sesión
     const session = await getServerSession(authOptions)
+    console.log('Session:', session)
+    
     if (!session?.user?.id) {
       console.log('No session found')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -168,8 +170,10 @@ export async function PATCH(req: Request) {
 
     // Obtener datos del body
     const { userSubscriptionId } = await req.json()
+    console.log('Received userSubscriptionId:', userSubscriptionId)
     
     if (!userSubscriptionId) {
+      console.log('Missing subscription ID')
       return NextResponse.json({ error: 'Missing subscription ID' }, { status: 400 })
     }
 
@@ -180,13 +184,16 @@ export async function PATCH(req: Request) {
         userId: session.user.id
       }
     })
+    console.log('Subscription found:', subscription)
 
     if (!subscription) {
+      console.log('Subscription not found')
       return NextResponse.json({ error: 'Subscription not found' }, { status: 404 })
     }
 
-    // Verificar que la suscripción no esté activa y haya vencido
-    if (subscription.isActive || new Date(subscription.endDate) > new Date()) {
+    // Verificar que la suscripción no esté activa y haya vencido o esté cancelada
+    if (subscription.isActive || (subscription.status !== 'CANCELLED' && new Date(subscription.endDate) > new Date())) {
+      console.log('Cannot delete active or non-expired subscription')
       return NextResponse.json({ error: 'Cannot delete active or non-expired subscription' }, { status: 400 })
     }
 
@@ -199,6 +206,7 @@ export async function PATCH(req: Request) {
         endDate: new Date() // O podrías mantener la fecha original de finalización
       }
     })
+    console.log('Subscription updated:', updatedSubscription)
 
     return NextResponse.json({ 
       success: true, 

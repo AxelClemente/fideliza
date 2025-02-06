@@ -2,8 +2,11 @@ import { Toaster } from "sonner"
 import { UsersContainer } from "./components/users-container"
 import { BusinessUserProvider } from "./components/user-provider"
 import type { BusinessUser, User, UserWithRestaurants } from "./types/types"
+import { updateSubscriptionStatus } from "../utils/update-subscriptions"
 
 export default async function BusinessUsersPage() {
+  await updateSubscriptionStatus()
+
   const { businessUser, staff } = await BusinessUserProvider()
 
   if (!businessUser?.id) {
