@@ -157,6 +157,7 @@ export async function getRestaurantStats(restaurantId: string) {
       isActive: true
     },
     select: {
+      id: true,
       status: true,
       startDate: true,
       endDate: true,
@@ -201,6 +202,7 @@ export async function getRestaurantStats(restaurantId: string) {
         email: sub.user.email || 'No email',
         imageUrl: sub.user.image || undefined,
         subscription: {
+          id: sub.id,
           type: sub.subscription.name,
           name: sub.subscription.name,
           status: sub.status,

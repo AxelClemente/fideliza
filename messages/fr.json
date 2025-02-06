@@ -250,6 +250,7 @@
     "addNewSpecialOffer": "Nouvelle offre spéciale",
     "addSpecialOffer": "Ajouter une offre spéciale",
     "addSubscription": "Ajouter un abonnement",
-    "addNewSubscription": "Nouvel abonnement"
+    "addNewSubscription": "Nouvel abonnement",
+    "cannotDeleteActiveSubscription": "Vous ne pouvez pas supprimer un abonnement actif."
   }
 }

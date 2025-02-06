@@ -185,6 +185,11 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: 'Subscription not found' }, { status: 404 })
     }
 
+    // Verificar que la suscripción no esté activa y haya vencido
+    if (subscription.isActive || new Date(subscription.endDate) > new Date()) {
+      return NextResponse.json({ error: 'Cannot delete active or non-expired subscription' }, { status: 400 })
+    }
+
     // Actualizar el estado de la suscripción
     const updatedSubscription = await prisma.userSubscription.update({
       where: { id: userSubscriptionId },

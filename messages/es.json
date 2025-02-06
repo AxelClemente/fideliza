@@ -295,7 +295,8 @@
       "addSpecialOffer": "Agregar oferta especial",
       "addNewSpecialOffer": "Nueva oferta especial",
       "addSubscription": "Agregar suscripción",
-      "addNewSubscription": "Nueva suscripción"
+      "addNewSubscription": "Nueva suscripción",
+      "cannotDeleteActiveSubscription": "No puedes eliminar una suscripción activa."
     },
     "CustomerDashboard": {
       "header": {

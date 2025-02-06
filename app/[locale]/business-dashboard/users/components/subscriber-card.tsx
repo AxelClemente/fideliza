@@ -3,6 +3,7 @@
 import { Trash2 } from "lucide-react"
 import { useSubscribers } from "../../context/subscribers-context"
 import { useTranslations } from "use-intl"
+import { toast } from "sonner"
 
 export function SubscriberCard() {
   const { subscribers } = useSubscribers()
@@ -13,6 +14,36 @@ export function SubscriberCard() {
     new Map(subscribers.map(sub => [sub.id, sub])).values()
   )
   
+  const handleDelete = async (subscriberId: string, subscriptionId: string) => {
+    try {
+      // Verificar condiciones
+      const subscriber = uniqueSubscribers.find(sub => sub.id === subscriberId)
+      if (!subscriber || subscriber.subscription.status === 'ACTIVE' || new Date(subscriber.subscription.endDate) > new Date()) {
+        toast.error(t('cannotDeleteActiveSubscription'))
+        return
+      }
+
+      // Realizar la solicitud PATCH
+      const response = await fetch(`/api/user-subscriptions`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userSubscriptionId: subscriptionId }),
+      })
+
+      if (response.ok) {
+        toast.success(t('subscriptionDeleted'))
+        // Aquí podrías actualizar el estado local o volver a cargar los datos
+      } else {
+        toast.error(t('errorDeletingSubscription'))
+      }
+    } catch (error) {
+      console.error('Error deleting subscription:', error)
+      toast.error(t('errorDeletingSubscription'))
+    }
+  }
+
   return (
     <div className="space-y-5">
       {uniqueSubscribers.length > 0 ? (
@@ -51,7 +82,10 @@ export function SubscriberCard() {
               </div>
             </div>
             
-            <button className="text-black hover:text-destructive transition-colors p-4 pr-10">
+            <button 
+              className="text-black hover:text-destructive transition-colors p-4 pr-10"
+              onClick={() => handleDelete(subscriber.id, subscriber.subscription.id)}
+            >
               <Trash2 className="h-5 w-5" />
             </button>
           </div>

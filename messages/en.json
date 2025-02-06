@@ -284,7 +284,8 @@
       "noAdminUsersFound": "No admin users found",
       "noStaffUsersFound": "No staff users found",
       "noSubscribers": "No subscribers yet",
-      "noSpecialOffers": "No Special offers yet!"
+      "noSpecialOffers": "No Special offers yet!",
+      "cannotDeleteActiveSubscription": "You cannot delete an active subscription."
     },
     "CustomerDashboard": {
       "header": {

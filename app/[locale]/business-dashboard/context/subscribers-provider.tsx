@@ -22,7 +22,15 @@ export async function SubscribersDataProvider({
       name: subscriber.name,
       email: subscriber.email,
       imageUrl: subscriber.imageUrl,
-      subscription: subscriber.subscription
+      subscription: {
+        id: subscriber.subscription.id,
+        type: subscriber.subscription.type,
+        name: subscriber.subscription.name,
+        status: subscriber.subscription.status,
+        startDate: subscriber.subscription.startDate,
+        endDate: subscriber.subscription.endDate,
+        remainingVisits: subscriber.subscription.remainingVisits
+      }
     })),
     totalSubscribers: parseInt(stats.subscriptions.value),
     activeSubscribers: stats.subscriptions.subscribers.length

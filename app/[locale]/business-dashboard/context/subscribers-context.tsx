@@ -9,6 +9,7 @@ type Subscriber = {
   email: string
   imageUrl?: string
   subscription: {
+    id: string
     type: string
     name: string
     status: SubscriptionStatus
