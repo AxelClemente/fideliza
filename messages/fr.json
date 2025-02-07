@@ -304,7 +304,9 @@
     "purchaseBenefit": "Avantage d'achat",
     "whereToUse": "Où utiliser",
     "visitsPerMonth": "{visits} visites par mois",
-    "perMonth": "€/mois"
+    "perMonth": "€/mois",
+    "selectBranchError": "Veuillez sélectionner une succursale",
+    "fillRequiredFields": "Veuillez remplir tous les champs requis"
   },
   "CustomerDashboard": {
     "header": {

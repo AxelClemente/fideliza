@@ -9,6 +9,7 @@ import { ClipLoader } from 'react-spinners'
 import { toast } from '@/components/ui/use-toast'
 import { Check } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useTranslations } from 'next-intl'
 
 interface AddSubscriptionModalProps {
   isOpen: boolean
@@ -33,6 +34,7 @@ export function AddSubscriptionModal({
   mode = 'create',
   initialData 
 }: AddSubscriptionModalProps) {
+  const t = useTranslations('BusinessDashboard')
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState(initialData?.name || '')
   const [benefits, setBenefits] = useState(initialData?.benefits || '')
@@ -45,73 +47,66 @@ export function AddSubscriptionModal({
   const [visitsPerMonth, setVisitsPerMonth] = useState(
     initialData?.visitsPerMonth?.toString() || ''
   )
+  const [showErrors, setShowErrors] = useState(false)
 
   const handleSubmit = async () => {
-    try {
-      setIsLoading(true)
-      console.log('Starting submission...', { mode, initialData })
+    setShowErrors(true)
+    
+    if (selectedPlaces.length === 0) {
+      setIsLoading(false)
+      return
+    }
 
-      // Validaciones básicas
-      if (!name.trim() || !benefits.trim() || !price || selectedPlaces.length === 0) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Please fill in all required fields",
-        })
-        return
-      }
-
-      const endpoint = mode === 'create' 
-        ? '/api/subscriptions' 
-        : `/api/subscriptions?id=${initialData?.id}`
-      
-      const method = mode === 'create' ? 'POST' : 'PUT'
-
-      const payload = {
-        name: name.trim(),
-        benefits: benefits.trim(),
-        price: Number(price),
-        placeIds: selectedPlaces,
-        ...(website && { website: website.trim() }),
-        visitsPerMonth: Number(visitsPerMonth)
-      }
-
-      console.log('Sending request:', { endpoint, method, payload })
-
-      const response = await fetch(endpoint, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || `Failed to ${mode} subscription`)
-      }
-
-      const data = await response.json()
-      console.log('Success response:', data)
-
-      toast({
-        title: "Success",
-        description: `Subscription ${mode === 'create' ? 'created' : 'updated'} successfully`,
-      })
-
-      onClose()
-      window.location.reload()
-    } catch (error) {
-      console.error('Error:', error)
+    if (!name.trim() || !benefits.trim() || !price) {
+      setIsLoading(false)
       toast({
         variant: "destructive",
         title: "Error",
-        description: error instanceof Error ? error.message : `Failed to ${mode} subscription`,
+        description: t('fillRequiredFields')
       })
-    } finally {
-      setIsLoading(false)
+      return
     }
+
+    const endpoint = mode === 'create' 
+      ? '/api/subscriptions' 
+      : `/api/subscriptions?id=${initialData?.id}`
+    
+    const method = mode === 'create' ? 'POST' : 'PUT'
+
+    const payload = {
+      name: name.trim(),
+      benefits: benefits.trim(),
+      price: Number(price),
+      placeIds: selectedPlaces,
+      ...(website && { website: website.trim() }),
+      visitsPerMonth: Number(visitsPerMonth)
+    }
+
+    console.log('Sending request:', { endpoint, method, payload })
+
+    const response = await fetch(endpoint, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+
+    if (!response.ok) {
+      const data = await response.json()
+      throw new Error(data.error || `Failed to ${mode} subscription`)
+    }
+
+    const data = await response.json()
+    console.log('Success response:', data)
+
+    toast({
+      title: "Success",
+      description: `Subscription ${mode === 'create' ? 'created' : 'updated'} successfully`,
+    })
+
+    onClose()
+    window.location.reload()
   }
 
-  // Aseguramos que places sea único por ID
   const uniquePlaces = Array.from(
     new Map(places.map(place => [place.id, place])).values()
   )
@@ -160,10 +155,8 @@ export function AddSubscriptionModal({
           </DialogTitle>
         </DialogHeader>
 
-        {/* Contenedor con scroll */}
         <div className="flex-1 overflow-y-auto max-md:pb-[120px]">
           <div className="p-4 space-y-4">
-            {/* Nombre de la Suscripción */}
             <div className="space-y-3 px-8 max-md:px-0">
               <div className="relative">
                 <Input 
@@ -198,7 +191,6 @@ export function AddSubscriptionModal({
                 </svg>
               </div>
 
-              {/* Purchase benefit */}
               <div>
                 <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 max-md:pl-4">
                   Purchase benefit
@@ -223,7 +215,6 @@ export function AddSubscriptionModal({
                 />
               </div>
 
-              {/* Price Section */}
               <div>
                 <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 max-md:pl-4">
                   Price
@@ -237,7 +228,6 @@ export function AddSubscriptionModal({
                   max-md:px-0
                   md:px-6
                 ">
-                  {/* Price Input */}
                   <Input 
                     type="number"
                     value={price}
@@ -259,7 +249,6 @@ export function AddSubscriptionModal({
                     placeholder="2"
                   />
                   
-                  {/* Currency */}
                   <Input 
                     type="text"
                     value="€"
@@ -282,7 +271,6 @@ export function AddSubscriptionModal({
                     "
                   />
                   
-                  {/* Period */}
                   <Input 
                     type="text"
                     value="Month"
@@ -307,7 +295,6 @@ export function AddSubscriptionModal({
                 </div>
               </div>
 
-              {/* Visits per month section */}
               <div>
                 <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
                   Visits per month
@@ -333,7 +320,6 @@ export function AddSubscriptionModal({
                 />
               </div>
 
-              {/* Where to use - Nueva implementación */}
               <div>
                 <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 max-md:pl-4">
                   Where to use
@@ -385,6 +371,11 @@ export function AddSubscriptionModal({
                       </svg>
                     </Button>
                   </PopoverTrigger>
+                  {showErrors && selectedPlaces.length === 0 && (
+                    <p className="text-red-500 text-sm mt-2 ml-6">
+                      {t('selectBranchError')}
+                    </p>
+                  )}
                   <PopoverContent className="w-full p-0">
                     <div className="max-h-[300px] overflow-auto p-2">
                       {uniquePlaces.map((place) => (
@@ -412,7 +403,6 @@ export function AddSubscriptionModal({
                   </PopoverContent>
                 </Popover>
                 
-                {/* Selected places tags */}
                 {selectedPlaces.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-2 pl-6">
                     {selectedPlaces.map((placeId) => {
@@ -439,7 +429,6 @@ export function AddSubscriptionModal({
                 )}
               </div>
 
-              {/* Website */}
               <div className="relative">
                 <Input 
                   value={website}
@@ -477,7 +466,6 @@ export function AddSubscriptionModal({
           </div>
         </div>
 
-        {/* Footer con botones */}
         <div className="
           p-3 
           flex 

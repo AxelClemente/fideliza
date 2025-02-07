@@ -304,7 +304,9 @@
     "purchaseBenefit": "Purchase benefit",
     "whereToUse": "Where to use",
     "visitsPerMonth": "{visits} visits per month",
-    "perMonth": "€/month"
+    "perMonth": "€/month",
+    "selectBranchError": "Please select a branch",
+    "fillRequiredFields": "Please fill in all required fields"
   },
   "CustomerDashboard": {
     "header": {
