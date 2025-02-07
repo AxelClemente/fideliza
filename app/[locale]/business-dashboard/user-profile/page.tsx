@@ -3,6 +3,17 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
 
+// Definimos el tipo para los permisos permitidos
+type AllowedPermissions = 'VIEW_ONLY' | 'ADD_EDIT' | 'ADD_EDIT_DELETE'
+
+// Función de utilidad para formatear los tipos de modelo
+function formatModelType(modelType: string): string {
+  return modelType
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
 async function getUserProfile() {
   const session = await getServerSession(authOptions)
   
@@ -75,11 +86,14 @@ async function getUserProfile() {
   const accesses = [{
     name: "My Permissions",
     editAccess: permissions
-      .filter(p => p.permission === 'ADD_EDIT_DELETE')
-      .map(p => p.modelType),
+      .filter(p => p.permission as AllowedPermissions === 'ADD_EDIT_DELETE')
+      .map(p => formatModelType(p.modelType)),
+    addEditAccess: permissions
+      .filter(p => p.permission as AllowedPermissions === 'ADD_EDIT')
+      .map(p => formatModelType(p.modelType)),
     viewAccess: permissions
-      .filter(p => p.permission === 'VIEW_ONLY')
-      .map(p => p.modelType)
+      .filter(p => p.permission as AllowedPermissions === 'VIEW_ONLY')
+      .map(p => formatModelType(p.modelType))
   }]
 
   return {

@@ -49,7 +49,7 @@ export function ClientWrapper({
   subscription,
   mailing
 }: ClientWrapperProps) {
-  const { canAccess } = usePermissions()
+  const { canAccess, permissions } = usePermissions()
   const access = canAccess(getModelType(type))
   const t = useTranslations('BusinessDashboard')
 
@@ -634,7 +634,7 @@ export function ClientWrapper({
               <span className={`
                 ${!hasPlaces 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1070px] pb-2"
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1110px] pb-2"
                 }
               `}>
                 {!hasPlaces ? t('addNewSubscription') : t('addNewSubscription')}
@@ -896,7 +896,7 @@ export function ClientWrapper({
         // Nuevo código para editar
         <>
           {access.canEdit && (
-            <div className="flex ">
+            <div className="flex">
               <button
                 onClick={() => setIsMainInfoModalOpen(true)}
                 className="text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100"
@@ -906,25 +906,23 @@ export function ClientWrapper({
                   alt="Edit"
                   width={16}
                   height={16}
-                  className="
-                    w-4 h-4
-                    md:w-5 md:h-5
-                  "
+                  className="w-4 h-4 md:w-5 md:h-5"
                 />
               </button>
 
-              <button
-                onClick={handleDeleteRestaurantConfirmation}
-                className="p-1.5 text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100"
-              >
-                <Image 
-                  src="/trash.svg"
-                  alt="Delete"
-                  width={32}
-                  height={32}
- 
-                />
-              </button>
+              {permissions.some(p => p.permission === 'ADD_EDIT_DELETE') && (
+                <button
+                  onClick={handleDeleteRestaurantConfirmation}
+                  className="p-1.5 text-gray-600 hover:text-gray-900 rounded-full hover:bg-gray-100"
+                >
+                  <Image 
+                    src="/trash.svg"
+                    alt="Delete"
+                    width={32}
+                    height={32}
+                  />
+                </button>
+              )}
 
               <AddMainInfoModal
                 isOpen={isMainInfoModalOpen}

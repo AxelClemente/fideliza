@@ -72,9 +72,6 @@ const userSelect = {
       modelType: true,
       permission: true,
       restaurantId: true
-    },
-    where: {
-      modelType: 'ADMIN_USERS'
     }
   }
 } satisfies Prisma.UserSelect

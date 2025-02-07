@@ -12,6 +12,7 @@ import { Trash2 } from "lucide-react"
 interface AccessPlace {
   name: string
   editAccess: string[]
+  addEditAccess: string[]
   viewAccess?: string[]
 }
 
@@ -196,7 +197,7 @@ export function ProfileInfo({
                   
                   <div>
                     <div className="flex justify-between items-center mb-1">
-                      <p className="font-bold text-[16px]">Add/Edit</p>
+                      <p className="font-bold text-[16px]">Add/Edit/Delete</p>
                       <div className="flex gap-3">
                         <Image 
                           src="/edit.svg"
@@ -211,7 +212,14 @@ export function ProfileInfo({
                     <p className="text-gray-600 text-[16px]">{access.editAccess.join(', ')}</p>
                   </div>
                   
-                  {access.viewAccess && (
+                  {access.addEditAccess.length > 0 && (
+                    <div>
+                      <p className="font-bold mb-1 text-[16px]">Add/Edit</p>
+                      <p className="text-gray-600 text-[16px]">{access.addEditAccess.join(', ')}</p>
+                    </div>
+                  )}
+                  
+                  {access.viewAccess && access.viewAccess.length > 0 && (
                     <div>
                       <p className="font-bold mb-1 text-[16px]">View only</p>
                       <p className="text-gray-600 text-[16px]">{access.viewAccess.join(', ')}</p>

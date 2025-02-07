@@ -396,7 +396,7 @@ export function AddNewUserModal({
                 rounded-[100px] 
                 bg-black 
                 text-white 
-                text-[16px] 
+                text-[16px] que
                 font-semibold 
                 leading-[20px] 
                 font-['Open_Sans']
@@ -432,6 +432,7 @@ export function AddNewUserModal({
         onClose={() => setIsAccessModalOpen(false)}
         onSave={handleSavePermissions}
         restaurants={restaurants}
+        initialPermissions={permissions}
       />
     </>
   )

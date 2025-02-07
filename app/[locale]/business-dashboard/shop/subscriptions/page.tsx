@@ -1,5 +1,6 @@
 import { RestaurantProvider } from '../components/restaurant-provider'
 import { ClientWrapper } from '../components/client-wrapper'
+import { getTranslations } from 'next-intl/server'
 import type { Subscription } from '../types/types'
 
 interface ProviderSubscription {
@@ -15,6 +16,8 @@ interface ProviderSubscription {
 
 export default async function SubscriptionsPage() {
   const { restaurants } = await RestaurantProvider()
+  const hasPlaces = restaurants.some(r => r.places && r.places.length > 0)
+  const t = await getTranslations('BusinessDashboard')
   
   const subscriptionMap = new Map<string, Subscription>()
   
@@ -57,18 +60,20 @@ export default async function SubscriptionsPage() {
               mt-8               /* Nuevo: margen superior solo en móvil */
               md:mt-0           /* Reset del margen en desktop */
             ">
-              No Subscriptions yet!
+              {!hasPlaces ? t('createPlaceFirst') : t('noSubscriptionsYet')}
             </h2>
           )}
           
-          <div className="hidden md:block">
-            <ClientWrapper 
-              type="subscription"
-              mode="add"
-              restaurants={restaurants}
-              hasSubscriptions={uniqueSubscriptions.length > 0}
-            />
-          </div>
+          {hasPlaces && (
+            <div className="hidden md:block">
+              <ClientWrapper 
+                type="subscription"
+                mode="add"
+                restaurants={restaurants}
+                hasSubscriptions={uniqueSubscriptions.length > 0}
+              />
+            </div>
+          )}
         </div>
 
         {uniqueSubscriptions.length > 0 ? (
@@ -90,20 +95,20 @@ export default async function SubscriptionsPage() {
                       </p>
                       {subscription.visitsPerMonth && (
                         <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
-                          {subscription.visitsPerMonth} visits per month
+                          {t('visitsPerMonth', { visits: subscription.visitsPerMonth })}
                         </p>
                       )}
                     </div>
 
                     <div className="mt-4">
-                      <h4 className="text-[16px] mb-2">Purchase benefit:</h4>
+                      <h4 className="text-[16px] mb-2">{t('purchaseBenefit')}:</h4>
                       <div className="whitespace-pre-line text-[14px] leading-[20px] pl-4">
                         {subscription.benefits}
                       </div>
                     </div>
 
                     <div className="mt-4 pt-3">
-                      <h4 className="text-[16px] mb-2">Where to use:</h4>
+                      <h4 className="text-[16px] mb-2">{t('whereToUse')}:</h4>
                       <div className="flex flex-col space-y-2">
                         {subscription.places.map(place => (
                           <div key={`${subscription.id}-${place.id}`} className="flex items-center gap-2">
@@ -204,20 +209,20 @@ export default async function SubscriptionsPage() {
                           </p>
                           {subscription.visitsPerMonth && (
                             <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
-                              {subscription.visitsPerMonth} visits per month
+                              {t('visitsPerMonth', { visits: subscription.visitsPerMonth })}
                             </p>
                           )}
                         </div>
 
                         <div className="mt-8 md:mt-4">
-                          <h4 className="text-[16px] mb-2">Purchase benefit:</h4>
+                          <h4 className="text-[16px] mb-2">{t('purchaseBenefit')}:</h4>
                           <div className="whitespace-pre-line text-[14px] leading-[20px]">
                             {subscription.benefits}
                           </div>
                         </div>
 
                         <div className="mt-8 md:mt-4">
-                          <h4 className="text-[16px] mb-2">Where to use:</h4>
+                          <h4 className="text-[16px] mb-2">{t('whereToUse')}:</h4>
                           <div className="flex flex-col space-y-2">
                             {subscription.places.map(place => (
                               <div key={`${subscription.id}-${place.id}`} className="flex items-center gap-2">
@@ -274,14 +279,16 @@ export default async function SubscriptionsPage() {
           <div className="text-gray-500" />
         )}
 
-        <div className="!mt-4 md:hidden">
-          <ClientWrapper 
-            type="subscription"
-            mode="add"
-            restaurants={restaurants}
-            hasSubscriptions={uniqueSubscriptions.length > 0}
-          />
-        </div>
+        {hasPlaces && (
+          <div className="!mt-4 md:hidden">
+            <ClientWrapper 
+              type="subscription"
+              mode="add"
+              restaurants={restaurants}
+              hasSubscriptions={uniqueSubscriptions.length > 0}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

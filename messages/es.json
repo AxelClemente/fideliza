@@ -296,7 +296,14 @@
       "addNewSpecialOffer": "Nueva oferta especial",
       "addSubscription": "Agregar suscripción",
       "addNewSubscription": "Nueva suscripción",
-      "cannotDeleteActiveSubscription": "No puedes eliminar una suscripción activa."
+      "cannotDeleteActiveSubscription": "No puedes eliminar una suscripción activa.",
+      "createPlaceFirst": "¡Agrega tu restaurante primero para añadir suscripciones!",
+      "createPlaceFirstOffers": "¡Agrega tu restaurante primero para añadir ofertas!",
+      "noSubscriptionsYet": "¡Aún no hay suscripciones!",
+      "purchaseBenefit": "Beneficio de compra",
+      "whereToUse": "Dónde usar",
+      "visitsPerMonth": "{visits} visitas por mes",
+      "perMonth": "€/mes"
     },
     "CustomerDashboard": {
       "header": {

@@ -297,7 +297,14 @@
     "addNewSpecialOffer": "Nouvelle offre spéciale",
     "addSubscription": "Ajouter un abonnement",
     "addNewSubscription": "Nouvel abonnement",
-    "cannotDeleteActiveSubscription": "Vous ne pouvez pas supprimer un abonnement actif."
+    "cannotDeleteActiveSubscription": "Vous ne pouvez pas supprimer un abonnement actif.",
+    "createPlaceFirst": "Créez d'abord un lieu pour ajouter des abonnements !",
+    "createPlaceFirstOffers": "Créez d'abord un lieu pour ajouter des offres !",
+    "noSubscriptionsYet": "Pas encore d'abonnements !",
+    "purchaseBenefit": "Avantage d'achat",
+    "whereToUse": "Où utiliser",
+    "visitsPerMonth": "{visits} visites par mois",
+    "perMonth": "€/mois"
   },
   "CustomerDashboard": {
     "header": {

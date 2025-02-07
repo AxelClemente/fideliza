@@ -282,6 +282,7 @@ enum ModelType {
 enum PermissionType {
   VIEW_ONLY
   ADD_EDIT_DELETE
+  ADD_EDIT
 }
 
 enum SubscriptionStatus {

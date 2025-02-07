@@ -5,6 +5,14 @@ import { authOptions } from "@/app/api/auth/auth.config"
 import { hash } from 'bcryptjs'
 import { ModelType, PermissionType, Role, PrismaClient } from '@prisma/client'
 
+// Definimos el tipo para los permisos permitidos
+type AllowedPermissions = 'VIEW_ONLY' | 'ADD_EDIT' | 'ADD_EDIT_DELETE'
+
+// Función de validación
+const isValidPermission = (permission: string): permission is AllowedPermissions => {
+  return ['VIEW_ONLY', 'ADD_EDIT', 'ADD_EDIT_DELETE'].includes(permission)
+}
+
 interface UserPermission {
   modelType: ModelType
   permission: PermissionType
@@ -35,9 +43,11 @@ const checkUserPermissions = async (prismaClient: PrismaClient, userId: string) 
   }
 
   if (user?.role === 'STAFF') {
-    return user.permissions?.some(p => 
-      p.modelType === 'ADMIN_USERS' && p.permission === 'ADD_EDIT_DELETE'
-    ) || false
+    return user.permissions?.some(p => {
+      if (!isValidPermission(p.permission)) return false
+      return p.modelType === 'ADMIN_USERS' && 
+        ['ADD_EDIT_DELETE', 'ADD_EDIT'].includes(p.permission)
+    }) || false
   }
 
   return false

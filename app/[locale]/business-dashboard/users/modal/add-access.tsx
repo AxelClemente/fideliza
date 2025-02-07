@@ -21,19 +21,51 @@ interface AddAccessModalProps {
       name: string
     }[]
   }[]
+  initialPermissions?: Array<{
+    modelType: ModelType
+    permission: PermissionType
+    restaurantId: string
+  }>
 }
 
-export function AddAccessModal({ isOpen, onClose, onSave, restaurants }: AddAccessModalProps) {
+export function AddAccessModal({ 
+  isOpen, 
+  onClose, 
+  onSave, 
+  restaurants,
+  initialPermissions = []
+}: AddAccessModalProps) {
   const [selectedRestaurant, setSelectedRestaurant] = useState('')
   const [canDeleteShop, setCanDeleteShop] = useState(false)
-  const [permissions, setPermissions] = useState<Record<ModelType, PermissionType>>({
-    ADMIN_USERS: 'VIEW_ONLY',
-    SUBSCRIBERS: 'VIEW_ONLY',
-    MAIN_INFO: 'VIEW_ONLY',
-    PLACES: 'VIEW_ONLY',
-    SPECIAL_OFFERS: 'VIEW_ONLY',
-    SUBSCRIPTIONS: 'VIEW_ONLY',
-    OFFERS_MAILINGS: 'VIEW_ONLY'
+
+  const [permissions, setPermissions] = useState<Record<ModelType, PermissionType>>(() => {
+    if (initialPermissions?.length) {
+      const existingPermissions: Record<ModelType, PermissionType> = {
+        ADMIN_USERS: 'VIEW_ONLY',
+        SUBSCRIBERS: 'VIEW_ONLY',
+        MAIN_INFO: 'VIEW_ONLY',
+        PLACES: 'VIEW_ONLY',
+        SPECIAL_OFFERS: 'VIEW_ONLY',
+        SUBSCRIPTIONS: 'VIEW_ONLY',
+        OFFERS_MAILINGS: 'VIEW_ONLY'
+      }
+
+      initialPermissions.forEach(perm => {
+        existingPermissions[perm.modelType] = perm.permission
+      })
+
+      return existingPermissions
+    }
+
+    return {
+      ADMIN_USERS: 'VIEW_ONLY',
+      SUBSCRIBERS: 'VIEW_ONLY',
+      MAIN_INFO: 'VIEW_ONLY',
+      PLACES: 'VIEW_ONLY',
+      SPECIAL_OFFERS: 'VIEW_ONLY',
+      SUBSCRIPTIONS: 'VIEW_ONLY',
+      OFFERS_MAILINGS: 'VIEW_ONLY'
+    }
   })
 
   const handlePermissionChange = (modelType: ModelType, permission: PermissionType) => {
@@ -131,6 +163,7 @@ export function AddAccessModal({ isOpen, onClose, onSave, restaurants }: AddAcce
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="VIEW_ONLY">View only</SelectItem>
+                      <SelectItem value="ADD_EDIT">Add/Edit</SelectItem>
                       <SelectItem value="ADD_EDIT_DELETE">Add/Edit/Delete</SelectItem>
                     </SelectContent>
                   </Select>

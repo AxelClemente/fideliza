@@ -3,12 +3,21 @@
 import { createContext, useContext, ReactNode } from 'react'
 import type { Permission, Role, ModelType } from '@prisma/client'
 
+// Definimos un tipo que incluya todos los valores posibles de PermissionType
+type AllowedPermissions = 'VIEW_ONLY' | 'ADD_EDIT' | 'ADD_EDIT_DELETE'
+
+// Verificamos que el permiso es uno de los valores permitidos
+const isValidPermission = (permission: string): permission is AllowedPermissions => {
+  return ['VIEW_ONLY', 'ADD_EDIT', 'ADD_EDIT_DELETE'].includes(permission)
+}
+
 interface PermissionContextType {
   permissions: Permission[]
   role: Role | null
   canAccess: (modelType: ModelType) => {
     canView: boolean
     canEdit: boolean
+    canDelete: boolean
   }
 }
 
@@ -32,7 +41,8 @@ export function PermissionProvider({ children, permissions = [], role }: Permiss
     if (role === 'ADMIN' || role === 'BUSINESS') {
       return {
         canView: true,
-        canEdit: true
+        canEdit: true,
+        canDelete: true
       }
     }
 
@@ -41,20 +51,22 @@ export function PermissionProvider({ children, permissions = [], role }: Permiss
       const staffPermissions = Array.isArray(permissions) ? permissions : []
       
       // Verificar si tiene el permiso específico para el modelType
-      const hasPermission = staffPermissions.some(p => {
-        console.log('Checking permission:', {
-          currentModelType: p.modelType,
-          requestedModelType: modelType,
-          permission: p.permission,
-          matches: p.modelType === modelType && p.permission === 'ADD_EDIT_DELETE'
-        })
-        return p.modelType === modelType && p.permission === 'ADD_EDIT_DELETE'
+      const hasEditPermission = staffPermissions.some(p => {
+        if (!isValidPermission(p.permission)) return false
+        return p.modelType === modelType && 
+          ['ADD_EDIT_DELETE', 'ADD_EDIT'].includes(p.permission)
       })
+      
+      const hasDeletePermission = staffPermissions.some(p => 
+        p.modelType === modelType && 
+        p.permission === 'ADD_EDIT_DELETE'
+      )
       
       console.log('Staff permissions check:', {
         modelType,
         permissionsCount: staffPermissions.length,
-        hasPermission,
+        hasEditPermission,
+        hasDeletePermission,
         permissions: staffPermissions.map(p => ({
           modelType: p.modelType,
           permission: p.permission
@@ -64,15 +76,17 @@ export function PermissionProvider({ children, permissions = [], role }: Permiss
       return {
         canView: staffPermissions.some(p => 
           p.modelType === modelType && 
-          (p.permission === 'VIEW_ONLY' || p.permission === 'ADD_EDIT_DELETE')
+          (p.permission === 'VIEW_ONLY' || p.permission === 'ADD_EDIT_DELETE' || p.permission === 'ADD_EDIT')
         ),
-        canEdit: hasPermission
+        canEdit: hasEditPermission,
+        canDelete: hasDeletePermission
       }
     }
 
     return {
       canView: false,
-      canEdit: false
+      canEdit: false,
+      canDelete: false
     }
   }
 

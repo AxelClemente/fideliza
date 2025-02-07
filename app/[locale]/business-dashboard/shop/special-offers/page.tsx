@@ -20,6 +20,7 @@ type Restaurant = {
 
 export default async function SpecialOffersPage() {
   const { restaurants } = await RestaurantProvider()
+  const hasPlaces = restaurants.some(r => r.places && r.places.length > 0)
   const t = await getTranslations('BusinessDashboard')
   
   const offers: ExtendedOffer[] = (restaurants as Restaurant[]).flatMap(restaurant => 
@@ -54,17 +55,20 @@ export default async function SpecialOffersPage() {
               mt-8               /* Nuevo: margen superior solo en móvil */
               md:mt-0           /* Reset del margen en desktop */
             ">
-              {t('noSpecialOffers')}
+              {!hasPlaces ? t('createPlaceFirstOffers') : t('noSpecialOffers')}
             </h2>
           )}
           
-          <div className="hidden md:block">
-            <ClientWrapper 
-              type="special-offer"
-              mode="add"
-              restaurants={restaurants}
-            />
-          </div>
+          {/* Solo mostrar el botón si hay places */}
+          {hasPlaces && (
+            <div className="hidden md:block">
+              <ClientWrapper 
+                type="special-offer"
+                mode="add"
+                restaurants={restaurants}
+              />
+            </div>
+          )}
         </div>
 
         {offers.length > 0 ? (
@@ -377,14 +381,16 @@ export default async function SpecialOffersPage() {
           <div className="text-gray-500" />
         )}
 
-        {/* Botón móvil al final - Ajustado el margen superior */}
-        <div className="!mt-4 md:hidden">
-          <ClientWrapper 
-            type="special-offer"
-            mode="add"
-            restaurants={restaurants}
-          />
-        </div>
+        {/* Solo mostrar el botón móvil si hay places */}
+        {hasPlaces && (
+          <div className="!mt-4 md:hidden">
+            <ClientWrapper 
+              type="special-offer"
+              mode="add"
+              restaurants={restaurants}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
