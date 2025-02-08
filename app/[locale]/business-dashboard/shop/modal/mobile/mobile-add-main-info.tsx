@@ -401,12 +401,12 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
                             <ClipLoader size={20} color="#000000" />
                           </div>
                         )}
-                        {photos.map((photo, index) => (
+                        {photos.map(photo => (
                           <SortablePhoto
                             key={photo}
                             url={photo}
                             id={photo}
-                            onDelete={(id) => setPhotos(photos.filter((p) => p !== id))}
+                            onDelete={(id) => setPhotos(photos.filter(p => p !== id))}
                           />
                         ))}
                       </div>
