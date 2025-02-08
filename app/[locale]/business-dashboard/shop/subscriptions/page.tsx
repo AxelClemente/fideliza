@@ -57,23 +57,24 @@ export default async function SubscriptionsPage() {
               md:text-[30px] 
               text-[#7B7B7B] 
               font-bold
-              mt-8               /* Nuevo: margen superior solo en móvil */
-              md:mt-0           /* Reset del margen en desktop */
+              mt-8
+              md:mt-0
+              flex-1
             ">
               {!hasPlaces ? t('createPlaceFirst') : t('noSubscriptionsYet')}
             </h2>
           )}
           
-          {hasPlaces && (
-            <div className="hidden md:block">
+          <div className="flex-1 flex justify-end">
+            {hasPlaces && (
               <ClientWrapper 
                 type="subscription"
                 mode="add"
                 restaurants={restaurants}
                 hasSubscriptions={uniqueSubscriptions.length > 0}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {uniqueSubscriptions.length > 0 ? (

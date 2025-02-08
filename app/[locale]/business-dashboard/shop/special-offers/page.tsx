@@ -54,21 +54,21 @@ export default async function SpecialOffersPage() {
               font-bold
               mt-8               /* Nuevo: margen superior solo en móvil */
               md:mt-0           /* Reset del margen en desktop */
+              flex-1
             ">
               {!hasPlaces ? t('createPlaceFirstOffers') : t('noSpecialOffers')}
             </h2>
           )}
           
-          {/* Solo mostrar el botón si hay places */}
-          {hasPlaces && (
-            <div className="hidden md:block">
+          <div className="flex-1 flex justify-end">
+            {hasPlaces && (
               <ClientWrapper 
                 type="special-offer"
                 mode="add"
                 restaurants={restaurants}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {offers.length > 0 ? (

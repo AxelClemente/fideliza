@@ -431,8 +431,8 @@ export function ClientWrapper({
             >
               <span className={`
                 ${!hasOffers 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[600px] pb-2"
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold ml-[600px]" 
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[600px]"
                 }
               `}>
                 {!hasPlaces ? t('addSpecialOffer') : t('addNewSpecialOffer')}
@@ -634,8 +634,8 @@ export function ClientWrapper({
             >
               <span className={`
                 ${!hasExistingSubscriptions 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[600px] pb-2"
+                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold ml-[600px]" 
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[600px]"
                 }
               `}>
                 {!hasPlaces ? t('addNewSubscription') : t('addNewSubscription')}
