@@ -50,6 +50,13 @@ function SortablePhoto({ url, index, onDelete }: { url: string; index: number; o
     transition,
   } = useSortable({ id: url });
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log('Delete button clicked for image at index:', index);
+    onDelete(index);
+  };
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -59,23 +66,34 @@ function SortablePhoto({ url, index, onDelete }: { url: string; index: number; o
     <div 
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      className="relative group w-[70px] h-[70px] flex-shrink-0 cursor-move"
+      className="relative cursor-move"
     >
-      <Image
-        src={url}
-        alt={`Photo ${index + 1}`}
-        width={70}
-        height={70}
-        className="rounded-lg object-cover w-full h-full"
-      />
-      <button 
-        onClick={() => onDelete(index)}
-        className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
+      {/* Área arrastrable */}
+      <div 
+        {...attributes}
+        {...listeners}
+        className="relative w-[70px] h-[70px] flex-shrink-0"
       >
-        <Trash2 className="h-3 w-3 text-white" />
-      </button>
+        <Image
+          src={url}
+          alt={`Photo ${index + 1}`}
+          width={70}
+          height={70}
+          className="rounded-lg object-cover w-full h-full"
+        />
+      </div>
+      
+      {/* Botón de eliminar fuera de los listeners del DnD */}
+      <div className="absolute top-1 right-1 z-50">
+        <button
+          onClick={handleDelete}
+          className="bg-black/50 rounded-full p-1 hover:bg-black/70 cursor-pointer"
+          type="button"
+          aria-label="Delete image"
+        >
+          <Trash2 className="h-3 w-3 text-white" />
+        </button>
+      </div>
     </div>
   );
 }

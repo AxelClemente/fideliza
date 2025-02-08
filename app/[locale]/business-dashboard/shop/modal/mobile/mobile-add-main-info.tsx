@@ -32,14 +32,21 @@ interface MobileAddMainInfoProps {
 }
 
 // Componente Sortable para cada imagen
-function SortablePhoto({ url, index, onDelete }: { url: string; index: number; onDelete: (index: number) => void }) {
+function SortablePhoto({ url, id, onDelete }: { url: string; id: string; onDelete: (id: string) => void }) {
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
-  } = useSortable({ id: url });
+  } = useSortable({ id });
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log('Delete button clicked for image:', id);
+    onDelete(id);
+  };
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -50,23 +57,33 @@ function SortablePhoto({ url, index, onDelete }: { url: string; index: number; o
     <div 
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      className="relative group w-[70px] h-[70px] flex-shrink-0 cursor-move"
+      className="relative cursor-move"
     >
-      <Image
-        src={url}
-        alt={`Photo ${index + 1}`}
-        width={70}
-        height={70}
-        className="rounded-lg object-cover w-full h-full"
-      />
-      <button 
-        onClick={() => onDelete(index)}
-        className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
+      {/* Área arrastrable */}
+      <div 
+        {...attributes}
+        {...listeners}
+        className="relative w-[138px] h-[138px]"
       >
-        <Trash2 className="h-3 w-3 text-white" />
-      </button>
+        <Image 
+          src={url} 
+          alt="Preview"
+          fill
+          className="object-cover rounded-[20px]"
+        />
+      </div>
+      
+      {/* Botón de eliminar fuera de los listeners del DnD */}
+      <div className="absolute -top-2 -right-2 z-50">
+        <button
+          onClick={handleDelete}
+          className="bg-white rounded-full p-1.5 shadow-md hover:bg-gray-100 cursor-pointer"
+          type="button"
+          aria-label="Delete image"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 }
@@ -388,8 +405,8 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
                           <SortablePhoto
                             key={photo}
                             url={photo}
-                            index={index}
-                            onDelete={(index) => setPhotos(photos.filter((_, i) => i !== index))}
+                            id={photo}
+                            onDelete={(id) => setPhotos(photos.filter((p) => p !== id))}
                           />
                         ))}
                       </div>

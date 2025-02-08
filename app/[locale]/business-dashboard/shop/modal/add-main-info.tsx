@@ -53,6 +53,13 @@ function SortablePhoto({ url, id, onDelete }: { url: string; id: string; onDelet
     transition,
   } = useSortable({ id });
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log('Delete button clicked for image:', id);
+    onDelete(id);
+  };
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -62,24 +69,31 @@ function SortablePhoto({ url, id, onDelete }: { url: string; id: string; onDelet
     <div 
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       className="relative cursor-move"
     >
-      <div className="relative w-[138px] h-[138px]">
+      {/* Área arrastrable */}
+      <div 
+        {...attributes}
+        {...listeners}
+        className="relative w-[138px] h-[138px]"
+      >
         <Image 
           src={url} 
           alt="Preview"
           fill
           className="object-cover rounded-[20px]"
         />
-        <button
-          onClick={() => onDelete(id)}
-          className="absolute -top-2 -right-2 bg-white rounded-full p-1.5 shadow-md hover:bg-gray-100"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
       </div>
+      
+      {/* Botón de eliminar fuera de los listeners del DnD */}
+      <button
+        onClick={handleDelete}
+        className="absolute -top-2 -right-2 z-[100] bg-white rounded-full p-1.5 shadow-md hover:bg-gray-100 cursor-pointer"
+        type="button"
+        aria-label="Delete image"
+      >
+        <Trash2 className="w-4 h-4" />
+      </button>
     </div>
   );
 }
@@ -99,6 +113,7 @@ export function AddMainInfoModal({
   const [photos, setPhotos] = useState<string[]>(
     initialData?.images?.map(img => img.url) || []
   );
+  const [isUploadingImages, setIsUploadingImages] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -195,7 +210,7 @@ export function AddMainInfoModal({
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    if (!files) return
+    if (!files || isUploadingImages) return // Prevenir múltiples cargas
 
     // Validación de tamaño
     const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB en bytes
@@ -224,7 +239,11 @@ export function AddMainInfoModal({
     }
 
     try {
+      setIsUploadingImages(true)  // Activar spinner
+      console.log('Starting image upload...');
+
       const uploadPromises = Array.from(files).map(async (file) => {
+        console.log('Uploading file:', file.name);
         const formData = new FormData()
         formData.append('file', file)
 
@@ -234,14 +253,16 @@ export function AddMainInfoModal({
         })
 
         if (!response.ok) {
-          throw new Error('Failed to upload image')
+          throw new Error(`Failed to upload image: ${file.name}`)
         }
 
         const data = await response.json()
+        console.log('Upload successful:', data.secure_url);
         return data.secure_url
       })
 
       const uploadedUrls = await Promise.all(uploadPromises)
+      console.log('All uploads completed:', uploadedUrls);
       setPhotos(prev => [...prev, ...uploadedUrls])
 
     } catch (error) {
@@ -251,6 +272,9 @@ export function AddMainInfoModal({
         title: "Error",
         description: "Failed to upload images. Please try again.",
       })
+    } finally {
+      setIsUploadingImages(false)  // Desactivar spinner
+      console.log('Upload process finished');
     }
   }
 
@@ -502,8 +526,8 @@ export function AddMainInfoModal({
                       ))}
                       
                       {/* Botón de upload */}
-                      <div className="w-[138px] h-[138px]">
-                        <label className="
+                      <div className="w-[138px] h-[138px] relative">
+                        <label className={`
                           w-full 
                           h-full 
                           flex 
@@ -513,17 +537,21 @@ export function AddMainInfoModal({
                           border-dashed 
                           border-gray-300 
                           rounded-[20px]
-                          cursor-pointer
-                          hover:border-gray-400
-                        ">
+                          ${isUploadingImages ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:border-gray-400'}
+                        `}>
                           <input
                             type="file"
                             multiple
                             className="hidden"
                             onChange={handleImageUpload}
                             accept="image/*"
+                            disabled={isUploadingImages}
                           />
-                          <Plus className="w-8 h-8 text-gray-400" />
+                          {isUploadingImages ? (
+                            <ClipLoader size={24} color="#666666" />
+                          ) : (
+                            <Plus className="w-8 h-8 text-gray-400" />
+                          )}
                         </label>
                       </div>
                     </div>
