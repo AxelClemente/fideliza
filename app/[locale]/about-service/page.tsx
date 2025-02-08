@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 import { useSearchParams } from 'next/navigation'
-import { HelpCircle, LifeBuoy, FileText, CreditCard, QrCode, Share2 } from 'lucide-react'
+import { HelpCircle, LifeBuoy,CreditCard, QrCode, Share2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 // Importar todos los componentes necesarios
@@ -15,7 +15,7 @@ import { ShareAppModal } from '../components/landing-page/share-app'
 export default function AboutPage() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
-  const searchParams = useSearchParams()
+  
   const t = useTranslations('BusinessDashboard.about')
 
   const renderContent = () => {
