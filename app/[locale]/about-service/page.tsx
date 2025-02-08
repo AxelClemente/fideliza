@@ -1,7 +1,6 @@
 'use client'
 
 import { useState} from 'react'
-import { useSearchParams } from 'next/navigation'
 import { HelpCircle, LifeBuoy,CreditCard, QrCode, Share2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
