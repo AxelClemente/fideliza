@@ -99,7 +99,6 @@ export function AddMainInfoModal({
   const [photos, setPhotos] = useState<string[]>(
     initialData?.images?.map(img => img.url) || []
   );
-  const [isUploadingImages, setIsUploadingImages] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -225,7 +224,6 @@ export function AddMainInfoModal({
     }
 
     try {
-      setIsUploadingImages(true)  // Activar spinner
       const uploadPromises = Array.from(files).map(async (file) => {
         const formData = new FormData()
         formData.append('file', file)
@@ -253,8 +251,6 @@ export function AddMainInfoModal({
         title: "Error",
         description: "Failed to upload images. Please try again.",
       })
-    } finally {
-      setIsUploadingImages(false)  // Desactivar spinner
     }
   }
 
