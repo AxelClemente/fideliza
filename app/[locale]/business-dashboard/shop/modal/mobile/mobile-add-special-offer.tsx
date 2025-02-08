@@ -21,6 +21,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragEndEvent
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -110,8 +111,8 @@ export function MobileAddSpecialOffer({
     })
   );
 
-  // Agregar manejador de drag and drop
-  const handleDragEnd = (event: any) => {
+  // Actualizar el tipo del manejador
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     
     if (over && active.id !== over.id) {
