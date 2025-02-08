@@ -76,16 +76,10 @@ export function MainHeader() {
           {/* Navigation */}
           <nav className="flex items-center gap-16">
             <Link 
-              href={`/${currentLocale}/about`}
+              href={`/${currentLocale}/about-service`}
               className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
             >
               {t('about')}
-            </Link>
-            <Link 
-              href={`/${currentLocale}/help`}
-              className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
-            >
-              {t('help')}
             </Link>
             
             {session ? (
