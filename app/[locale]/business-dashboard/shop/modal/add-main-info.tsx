@@ -4,12 +4,28 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Trash2, ChevronDown } from 'lucide-react'
+import { Trash2, ChevronDown, Plus } from 'lucide-react'
 import Image from "next/image"
 import { useState } from "react"
 import { ClipLoader } from 'react-spinners'
 import { toast } from '@/components/ui/use-toast'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { 
+  DndContext, 
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface AddMainInfoModalProps {
   isOpen: boolean
@@ -26,9 +42,50 @@ interface AddMainInfoModalProps {
   }
 }
 
+// Componente Sortable para cada imagen
+function SortablePhoto({ url, id, onDelete }: { url: string; id: string; onDelete: (id: string) => void }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div 
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="relative cursor-move"
+    >
+      <div className="relative w-[138px] h-[138px]">
+        <Image 
+          src={url} 
+          alt="Preview"
+          fill
+          className="object-cover rounded-[20px]"
+        />
+        <button
+          onClick={() => onDelete(id)}
+          className="absolute -top-2 -right-2 bg-white rounded-full p-1.5 shadow-md hover:bg-gray-100"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function AddMainInfoModal({ 
   isOpen, 
-  onClose, 
+  onClose,
   mode = 'create',
   initialData 
 }: AddMainInfoModalProps) {
@@ -40,8 +97,31 @@ export function AddMainInfoModal({
   const [subcategory, setSubcategory] = useState(initialData?.subcategory || '')
   const [photos, setPhotos] = useState<string[]>(
     initialData?.images?.map(img => img.url) || []
-  )
+  );
   const [isUploadingImages, setIsUploadingImages] = useState(false)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      setPhotos((items) => {
+        const oldIndex = items.findIndex(item => item === active.id);
+        const newIndex = items.findIndex(item => item === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
+  const handleImageDelete = (urlToDelete: string) => {
+    setPhotos(prev => prev.filter(url => url !== urlToDelete));
+  };
 
   const handleSubmit = async () => {
     try {
@@ -399,114 +479,59 @@ export function AddMainInfoModal({
               </Select>
             </div>
 
-            {/* Fotos */}
-            <div>
-              <div className="flex items-center justify-between mb-2 px-4 md:px-8">
-                <label 
-                  htmlFor="fileInput" 
-                  className="
-                    block 
-                    !text-[16px] 
-                    !font-['Open_Sans'] 
-                    !font-bold 
-                    !leading-[26px] 
-                    text-black 
-                    cursor-pointer 
-                    hover:opacity-80 
-                    pl-8
-                  "
-                >
+            {/* Sección de fotos */}
+            <div className="flex flex-col items-center space-y-4 px-4">
+              <div className="w-full">
+                <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 pl-8">
                   Photos +
                 </label>
-                <input
-                  id="fileInput"
-                  type="file"
-                  onChange={handleImageUpload}
-                  multiple
-                  accept="image/*"
-                  className="hidden"
-                />
-              </div>
-              
-              {/* Área de previsualización con placeholder */}
-              <div className="px-4 md:px-8">
-                {photos.length === 0 ? (
-                  <div 
-                    onClick={() => document.getElementById('fileInput')?.click()}
-                    className="
-                      bg-main-gray 
-                      h-[78px] 
-                      w-[390px]          
-                      rounded-[100px]
-                      border-0
-                      mx-auto
-                      -ml-4 
-                      md:w-[558px]
-                      md:mx-0
-                      flex              
-                      items-center      
-                      justify-center    
-                      cursor-pointer    
-                      hover:bg-gray-100 
-                      transition-colors
-                      text-third-gray   // <- Añadido para consistencia con otros inputs
-                    "
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext 
+                    items={photos}
+                    strategy={rectSortingStrategy}
                   >
-                    {isUploadingImages ? (
-                      <ClipLoader size={20} color="#7B7B7B" />
-                    ) : (
-                      <p className="text-[#7B7B7B] text-sm">
-                        Upload your restaurant photos here
-                      </p>
-                    )}
-                  </div>
-                ) : (
-                  <div className="
-                    w-[390px]           
-                    mx-auto            
-                    -ml-4
-                    md:w-[558px]          
-                    md:mx-0            
-                  ">
-                    <div className="
-                      flex 
-                      gap-2 
-                      md:gap-4 
-                      overflow-x-auto 
-                      pb-2
-                      pl-6            // <- Añadido padding izquierdo
-                    ">
-                      {photos.map((photo, index) => (
-                        <div 
-                          key={index} 
-                          className="
-                            relative 
-                            group 
-                            w-[70px] 
-                            h-[70px] 
-                            md:w-[80px] 
-                            md:h-[80px] 
-                            flex-shrink-0
-                          "
-                        >
-                          <Image
-                            src={photo}
-                            alt={`Photo ${index + 1}`}
-                            width={80}
-                            height={80}
-                            className="rounded-lg object-cover w-full h-full"
-                          />
-                          <button 
-                            onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
-                            className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
-                          >
-                            <Trash2 className="h-3 w-3 text-white" />
-                          </button>
-                        </div>
+                    <div className="flex flex-wrap gap-4 p-4">
+                      {photos.map((url) => (
+                        <SortablePhoto 
+                          key={url} 
+                          id={url} 
+                          url={url}
+                          onDelete={handleImageDelete}
+                        />
                       ))}
+                      
+                      {/* Botón de upload */}
+                      <div className="w-[138px] h-[138px]">
+                        <label className="
+                          w-full 
+                          h-full 
+                          flex 
+                          items-center 
+                          justify-center 
+                          border-2 
+                          border-dashed 
+                          border-gray-300 
+                          rounded-[20px]
+                          cursor-pointer
+                          hover:border-gray-400
+                        ">
+                          <input
+                            type="file"
+                            multiple
+                            className="hidden"
+                            onChange={handleImageUpload}
+                            accept="image/*"
+                          />
+                          <Plus className="w-8 h-8 text-gray-400" />
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  </SortableContext>
+                </DndContext>
               </div>
             </div>
           </div>

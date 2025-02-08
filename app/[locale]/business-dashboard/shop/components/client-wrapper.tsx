@@ -379,53 +379,44 @@ export function ClientWrapper({
           </button>
         </div>
 
-        {/* Modal de edición */}
+        {/* Modal condicional según el dispositivo */}
         {editingOffer && (
-          <AddSpecialOfferModal
-            isOpen={isSpecialOfferModalOpen}
-            onClose={() => {
-              setIsSpecialOfferModalOpen(false)
-              setEditingOffer(null)
-            }}
-            mode="edit"
-            initialData={editingOffer}
-            places={places}
-          />
+          isMobile ? (
+            <MobileAddSpecialOffer
+              isOpen={isSpecialOfferModalOpen}
+              onClose={() => {
+                setIsSpecialOfferModalOpen(false)
+                setEditingOffer(null)
+              }}
+              mode="edit"
+              initialData={editingOffer}
+              places={places}
+            />
+          ) : (
+            <AddSpecialOfferModal
+              isOpen={isSpecialOfferModalOpen}
+              onClose={() => {
+                setIsSpecialOfferModalOpen(false)
+                setEditingOffer(null)
+              }}
+              mode="edit"
+              initialData={editingOffer}
+              places={places}
+            />
+          )
         )}
       </>
     )
   }
 
-  // Si es special-offer en modo add (botón principal)
+  // Si es special-offer en modo add
   if (type === 'special-offer' && mode === 'add') {
+    const hasOffers = restaurants.some(r => r.offers && r.offers.length > 0)
+    
     return (
       <>
         {access.canEdit && (
           <>
-            {/* Versión Móvil */}
-            <div className={`
-              md:hidden 
-              w-full 
-              ${!hasPlaces ? 'fixed bottom-6 left-0 z-50 px-3' : ''} 
-            `}>
-              <button 
-                onClick={() => setIsSpecialOfferModalOpen(true)}
-                className="
-                  w-full 
-                  h-[78px] 
-                  rounded-[100px] 
-                  bg-[#000000] 
-                  text-white 
-                  shadow-lg
-                  text-[18px] 
-                  font-semibold 
-                  leading-[22px] 
-                "
-              >
-                {!hasPlaces ? t('addSpecialOffer') : t('addNewSpecialOffer')}
-              </button>
-            </div>
-
             {/* Versión Desktop */}
             <button 
               onClick={() => setIsSpecialOfferModalOpen(true)}
@@ -439,17 +430,30 @@ export function ClientWrapper({
               `}
             >
               <span className={`
-                ${!hasPlaces 
+                ${!hasOffers 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1120px] pb-2"
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[600px] pb-2"
                 }
               `}>
                 {!hasPlaces ? t('addSpecialOffer') : t('addNewSpecialOffer')}
               </span>
             </button>
 
+            {/* Versión Móvil */}
+            <div className={`
+              md:hidden 
+              w-full 
+              ${!hasOffers ? 'fixed bottom-6 left-0 z-50 px-3' : ''} 
+            `}>
+              <button 
+                onClick={() => setIsSpecialOfferModalOpen(true)}
+                className="w-full h-[78px] rounded-[100px] bg-[#000000] text-white shadow-lg text-[18px] font-semibold leading-[22px]"
+              >
+                {!hasOffers ? t('addSpecialOffer') : t('addNewSpecialOffer')}
+              </button>
+            </div>
 
-            {/* Modales */}
+            {/* Modales (sin cambios) */}
             {isMobile ? (
               <MobileAddSpecialOffer
                 isOpen={isSpecialOfferModalOpen}
@@ -573,52 +577,49 @@ export function ClientWrapper({
             </button>
           </div>
 
-          <AddSubscriptionModal
-            isOpen={isSubscriptionModalOpen}
-            onClose={() => setIsSubscriptionModalOpen(false)}
-            places={places}
-            mode="edit"
-            initialData={{
-              id: subscription.id,
-              name: subscription.name,
-              benefits: subscription.benefits,
-              price: subscription.price,
-              website: subscription.website,
-              placeId: subscription.places?.[0]?.id || places[0]?.id
-            }}
-          />
+          {/* Modal condicional según el dispositivo */}
+          {isMobile ? (
+            <MobileNewSubscription
+              isOpen={isSubscriptionModalOpen}
+              onClose={() => setIsSubscriptionModalOpen(false)}
+              places={places}
+              mode="edit"
+              initialData={{
+                id: subscription.id,
+                name: subscription.name,
+                benefits: subscription.benefits,
+                price: subscription.price,
+                website: subscription.website,
+                placeId: subscription.places?.[0]?.id || places[0]?.id
+              }}
+            />
+          ) : (
+            <AddSubscriptionModal
+              isOpen={isSubscriptionModalOpen}
+              onClose={() => setIsSubscriptionModalOpen(false)}
+              places={places}
+              mode="edit"
+              initialData={{
+                id: subscription.id,
+                name: subscription.name,
+                benefits: subscription.benefits,
+                price: subscription.price,
+                website: subscription.website,
+                placeId: subscription.places?.[0]?.id || places[0]?.id
+              }}
+            />
+          )}
         </>
       )
     }
+
+    // Calculamos si hay suscripciones existentes
+    const hasExistingSubscriptions = restaurants.some(r => r.subscriptions && r.subscriptions.length > 0)
 
     return (
       <>
         {access.canEdit && (
           <>
-            {/* Versión Móvil */}
-            <div className={`
-              md:hidden 
-              w-full 
-              ${!hasPlaces ? 'fixed bottom-6 left-0 z-50 px-3' : ''} 
-            `}>
-              <button 
-                onClick={() => setIsSubscriptionModalOpen(true)}
-                className="
-                  w-full 
-                  h-[78px] 
-                  rounded-[100px] 
-                  bg-[#000000] 
-                  text-white 
-                  shadow-lg
-                  text-[18px] 
-                  font-semibold 
-                  leading-[22px] 
-                "
-              >
-                {!hasPlaces ? t('addNewSubscription') : t('addNewSubscription')}
-              </button>
-            </div>
-
             {/* Versión Desktop */}
             <button 
               onClick={() => setIsSubscriptionModalOpen(true)}
@@ -632,16 +633,30 @@ export function ClientWrapper({
               `}
             >
               <span className={`
-                ${!hasPlaces 
+                ${!hasExistingSubscriptions 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[1110px] pb-2"
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pl-[600px] pb-2"
                 }
               `}>
                 {!hasPlaces ? t('addNewSubscription') : t('addNewSubscription')}
               </span>
             </button>
 
-            {/* Modales */}
+            {/* Versión Móvil */}
+            <div className={`
+              md:hidden 
+              w-full 
+              ${!hasExistingSubscriptions ? 'fixed bottom-6 left-0 z-50 px-3' : ''} 
+            `}>
+              <button 
+                onClick={() => setIsSubscriptionModalOpen(true)}
+                className="w-full h-[78px] rounded-[100px] bg-[#000000] text-white shadow-lg text-[18px] font-semibold leading-[22px]"
+              >
+                {!hasExistingSubscriptions ? t('addSubscription') : t('addNewSubscription')}
+              </button>
+            </div>
+
+            {/* Modales (sin cambios) */}
             {isMobile ? (
               <MobileNewSubscription
                 isOpen={isSubscriptionModalOpen}
@@ -711,7 +726,7 @@ export function ClientWrapper({
     )
   }
 
-  // Para el botón de Add new place
+  // Si es place en modo add
   if (type === 'place' && mode === 'add') {
     return (
       <>
@@ -741,13 +756,21 @@ export function ClientWrapper({
               </button>
             </div>
 
-            {/* Modal */}
+            {/* Modal - Ahora usando el modal correcto según el dispositivo */}
             {isPlaceInfoModalOpen && restaurants.length > 0 && (
-              <MobileAddPlaceInfo
-                isOpen={isPlaceInfoModalOpen}
-                onClose={() => setIsPlaceInfoModalOpen(false)}
-                restaurantId={restaurants[0].id}
-              />
+              isMobile ? (
+                <MobileAddPlaceInfo
+                  isOpen={isPlaceInfoModalOpen}
+                  onClose={() => setIsPlaceInfoModalOpen(false)}
+                  restaurantId={restaurants[0].id}
+                />
+              ) : (
+                <AddPlaceInfoModal
+                  isOpen={isPlaceInfoModalOpen}
+                  onClose={() => setIsPlaceInfoModalOpen(false)}
+                  restaurantId={restaurants[0].id}
+                />
+              )
             )}
           </>
         )}
@@ -881,7 +904,7 @@ export function ClientWrapper({
 
                   {/* Modal */}
                   {isPlaceInfoModalOpen && restaurants.length > 0 && (
-                    <MobileAddPlaceInfo
+                    <AddPlaceInfoModal
                       isOpen={isPlaceInfoModalOpen}
                       onClose={() => setIsPlaceInfoModalOpen(false)}
                       restaurantId={restaurants[0].id}

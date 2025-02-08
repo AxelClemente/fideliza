@@ -8,10 +8,66 @@ import Image from "next/image";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "@/components/ui/use-toast";
+import { 
+  DndContext, 
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface MobileAddMainInfoProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+// Componente Sortable para cada imagen
+function SortablePhoto({ url, index, onDelete }: { url: string; index: number; onDelete: (index: number) => void }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: url });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div 
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="relative group w-[70px] h-[70px] flex-shrink-0 cursor-move"
+    >
+      <Image
+        src={url}
+        alt={`Photo ${index + 1}`}
+        width={70}
+        height={70}
+        className="rounded-lg object-cover w-full h-full"
+      />
+      <button 
+        onClick={() => onDelete(index)}
+        className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
+      >
+        <Trash2 className="h-3 w-3 text-white" />
+      </button>
+    </div>
+  );
 }
 
 export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
@@ -22,7 +78,26 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
   const [photos, setPhotos] = useState<string[]>([])
   const [isUploadingImages, setIsUploadingImages] = useState(false)
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
   if (!isOpen) return null
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      setPhotos((items) => {
+        const oldIndex = items.findIndex(item => item === active.id);
+        const newIndex = items.findIndex(item => item === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
 
   const handleSubmit = async () => {
     try {
@@ -293,30 +368,32 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
                 </div>
               ) : (
                 <div className="w-[359px] mx-auto">
-                  <div className="flex gap-2 overflow-x-auto pb-2">
-                    {isUploadingImages && (
-                      <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-2xl">
-                        <ClipLoader size={20} color="#000000" />
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <SortableContext 
+                      items={photos}
+                      strategy={rectSortingStrategy}
+                    >
+                      <div className="flex gap-2 overflow-x-auto pb-2">
+                        {isUploadingImages && (
+                          <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-2xl">
+                            <ClipLoader size={20} color="#000000" />
+                          </div>
+                        )}
+                        {photos.map((photo, index) => (
+                          <SortablePhoto
+                            key={photo}
+                            url={photo}
+                            index={index}
+                            onDelete={(index) => setPhotos(photos.filter((_, i) => i !== index))}
+                          />
+                        ))}
                       </div>
-                    )}
-                    {photos.map((photo, index) => (
-                      <div key={index} className="relative group w-[70px] h-[70px] flex-shrink-0">
-                        <Image
-                          src={photo}
-                          alt={`Photo ${index + 1}`}
-                          width={70}
-                          height={70}
-                          className="rounded-lg object-cover w-full h-full"
-                        />
-                        <button 
-                          onClick={() => setPhotos(photos.filter((_, i) => i !== index))}
-                          className="absolute top-1 right-1 p-1 bg-black/50 rounded-full z-10"
-                        >
-                          <Trash2 className="h-3 w-3 text-white" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                    </SortableContext>
+                  </DndContext>
                 </div>
               )}
             </div>

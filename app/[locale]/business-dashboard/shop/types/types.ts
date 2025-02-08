@@ -16,6 +16,8 @@ export interface RestaurantImage {
     updatedAt: Date
     images: RestaurantImage[]
     places: Place[]
+    subscriptions?: Subscription[]
+    offers?: Offer[]
   }
   
   export interface Place {
