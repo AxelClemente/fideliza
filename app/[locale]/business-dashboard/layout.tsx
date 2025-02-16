@@ -4,6 +4,7 @@ import { BusinessHeader } from "./components/business-header"
 import { MobileBusinessHeader } from "./components/mobile-business-header"
 import { authOptions } from "@/app/api/auth/auth.config"
 import { SubscribersDataProvider } from "./context/subscribers-provider"
+import { QRProvider } from "./components/qr-context"
 import { prisma } from "@/lib/prisma"
 import { MainContentWrapper } from "./components/main-content-wrapper"
 import { Metadata } from 'next'
@@ -62,19 +63,21 @@ export default async function BusinessDashboardLayout({
 
   return (
     <div className="flex flex-col w-full min-h-screen">
-      <SubscribersDataProvider restaurantId={restaurant?.id ?? "default"}>
-        <div className="block sm:hidden">
-          <MobileBusinessHeader />
-        </div>
-        <div className="hidden sm:block">
-          <BusinessHeader />
-        </div>
-        <main className="w-full flex-1 mt-16 sm:mt-0">
-          <MainContentWrapper>
-            {children}
-          </MainContentWrapper>
-        </main>
-      </SubscribersDataProvider>
+      <QRProvider restaurantId={restaurant?.id}>
+        <SubscribersDataProvider restaurantId={restaurant?.id ?? "default"}>
+          <div className="block sm:hidden">
+            <MobileBusinessHeader />
+          </div>
+          <div className="hidden sm:block">
+            <BusinessHeader />
+          </div>
+          <main className="w-full flex-1 mt-16 sm:mt-0">
+            <MainContentWrapper>
+              {children}
+            </MainContentWrapper>
+          </main>
+        </SubscribersDataProvider>
+      </QRProvider>
     </div>
   )
 }

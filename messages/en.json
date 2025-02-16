@@ -142,7 +142,8 @@
     "aboutService": "About the service",
     "help": "Help",
     "logout": "Log out",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "qrScan": "QR Scan"
   },
   "BusinessDashboard": {
     "views": "Views",
@@ -313,7 +314,8 @@
       "home": "Home",
       "mySubscriptions": "My subscriptions",
       "aboutService": "About the service",
-      "help": "Help"
+      "help": "Help",
+      "qrScan": "QR Scan"
     },
     "dashboard": {
       "subscriptions": "Subscriptions",

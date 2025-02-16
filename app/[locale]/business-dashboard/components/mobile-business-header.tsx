@@ -7,6 +7,8 @@ import { useSession, signOut } from "next-auth/react"
 import { ArrowLeft, Menu, X, ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { useTranslations } from 'next-intl'
+import { useQR } from './qr-context'
+import { QRScanModal } from '../modal/qr-scan-modal'
 
 const navigationItems = [
   { name: "home", href: "/business-dashboard" },
@@ -23,6 +25,7 @@ export function MobileBusinessHeader() {
   const pathname = usePathname()
   const router = useRouter()
   const { data: session } = useSession()
+  const { isQRModalOpen, setIsQRModalOpen, canShowQRScan } = useQR()
 
   function handleBack() {
     if (pathname === '/business-dashboard') {
@@ -124,6 +127,19 @@ export function MobileBusinessHeader() {
                 {t(item.name)}
               </Link>
             ))}
+            
+            {/* QR Scan Button */}
+            {canShowQRScan && (
+              <button
+                onClick={() => {
+                  toggleMenu() // Cerrar el menú
+                  setIsQRModalOpen(true) // Abrir el modal
+                }}
+                className="py-2 text-lg font-semibold text-gray-400 hover:text-white text-left"
+              >
+                {t('qrScan')}
+              </button>
+            )}
           </nav>
 
           {/* Logout */}
@@ -135,6 +151,12 @@ export function MobileBusinessHeader() {
           </button>
         </div>
       </div>
+
+      {/* QR Scan Modal */}
+      <QRScanModal 
+        isOpen={isQRModalOpen}
+        onClose={() => setIsQRModalOpen(false)}
+      />
     </>
   )
 }

@@ -142,7 +142,8 @@
     "aboutService": "À propos du service",
     "help": "Aide",
     "logout": "Déconnexion",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "qrScan": "Scanner QR"
   },
   "BusinessDashboard": {
     "views": "Vues",

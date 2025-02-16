@@ -8,6 +8,8 @@ import { ChevronDown } from "lucide-react"
 import { useEffect, useState, useTransition } from "react"
 import { ClipLoader } from 'react-spinners'
 import { useTranslations } from 'next-intl'
+import { useQR } from './qr-context'
+import { QRScanModal } from '../modal/qr-scan-modal'
 
 const navigationItems = [
   { name: "home", href: "/business-dashboard" },
@@ -26,6 +28,7 @@ export function BusinessHeader() {
   const [isPending, startTransition] = useTransition()
   const [activeLink, setActiveLink] = useState(pathname)
   const isLoading = status === 'loading'
+  const { isQRModalOpen, setIsQRModalOpen, canShowQRScan } = useQR()
 
   const handleNavigation = (href: string) => {
     setActiveLink(href)
@@ -114,6 +117,17 @@ export function BusinessHeader() {
                 )}
               </button>
             ))}
+            
+            {/* QR Scan Button */}
+            {canShowQRScan && (
+              <button
+                onClick={() => setIsQRModalOpen(true)}
+                className="relative text-base md:text-lg leading-tight font-semibold whitespace-nowrap text-third-gray hover:text-main-light"
+                style={{ fontFamily: 'Open Sans' }}
+              >
+                {t('qrScan')}
+              </button>
+            )}
           </nav>
 
           {/* Logout */}
@@ -125,6 +139,12 @@ export function BusinessHeader() {
           </button>
         </div>
       </header>
+
+      {/* QR Scan Modal */}
+      <QRScanModal 
+        isOpen={isQRModalOpen}
+        onClose={() => setIsQRModalOpen(false)}
+      />
     </div>
   )
 }

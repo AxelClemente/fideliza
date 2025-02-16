@@ -137,12 +137,13 @@
     "BusinessHeader": {
       "home": "Inicio",
       "users": "Usuarios",
-      "myShops": "Mis tiendas",
-      "proposalMailings": "Correos",
+      "myShops": "Mis Tiendas",
+      "proposalMailings": "Mailings",
       "aboutService": "Sobre el servicio",
       "help": "Ayuda",
       "logout": "Cerrar sesión",
-      "loading": "Cargando..."
+      "loading": "Cargando...",
+      "qrScan": "Escanear QR"
     },
     "BusinessDashboard": {
       "views": "Vistas",
