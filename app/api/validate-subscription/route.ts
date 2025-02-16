@@ -3,6 +3,15 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
 
+interface QRCodeData {
+  subscriptionId: string
+  timestamp: string
+  restaurantName: string
+  placeName: string
+  numericCode: string
+  remainingVisits: number | null
+}
+
 export async function POST(req: Request) {
   try {
     console.log('POST /api/validate-subscription - Starting')
@@ -53,14 +62,14 @@ export async function POST(req: Request) {
     console.log('Processing code:', code)
 
     let subscriptionId: string;
-    let qrData: any;
+    let qrData: QRCodeData;
 
     try {
       // Intentar parsear como JSON (para códigos QR)
-      qrData = JSON.parse(code);
+      qrData = JSON.parse(code) as QRCodeData;
       subscriptionId = qrData.subscriptionId;
       console.log('Decoded QR data:', qrData);
-    } catch (error) {
+    } catch {
       // Si falla el parse, asumimos que es un código numérico
       console.log('Not a JSON code, processing as numeric code:', code);
       

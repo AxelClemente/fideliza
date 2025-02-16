@@ -21,8 +21,9 @@ export async function POST(req: Request) {
     try {
       const qrData = JSON.parse(code);
       subscriptionId = qrData.subscriptionId;
-    } catch (error) {
+    } catch {
       // Si falla el parse, asumimos que es un código numérico
+      console.log('Failed to parse QR code, trying as numeric code')
       const subscription = await prisma.userSubscription.findFirst({
         where: {
           isActive: true,
