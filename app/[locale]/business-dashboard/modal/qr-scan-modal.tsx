@@ -2,6 +2,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
 
 interface QRScanModalProps {
   isOpen: boolean
@@ -20,6 +21,7 @@ interface SubscriptionDetails {
 }
 
 export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
+  const { data: session } = useSession()
   const [manualCode, setManualCode] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState('')
@@ -86,8 +88,7 @@ export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
     setIsProcessing(true)
 
     try {
-      console.log('Validating code:', manualCode)
-      
+      // Primero validamos la suscripción (esto ya funciona)
       const response = await fetch('/api/validate-subscription', {
         method: 'POST',
         headers: {
@@ -100,6 +101,30 @@ export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
       console.log('Validation response:', data)
 
       if (response.ok) {
+        // Si la validación fue exitosa, guardamos el registro
+        const validationResponse = await fetch('/api/validate-subscription/save-validation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subscriberId: subscriptionDetails?.userId,
+            subscriptionId: data.subscriptionId,
+            subscriptionName: subscriptionDetails?.subscriptionName,
+            remainingVisits: data.remainingVisits,
+            placeId: data.placeId,
+            placeName: subscriptionDetails?.placeName,
+            staffId: session?.user?.id,
+            ownerId: session?.user?.ownerId,
+            status: subscriptionDetails?.status,
+            startDate: subscriptionDetails?.startDate,
+            endDate: subscriptionDetails?.endDate
+          }),
+        })
+
+        const validationData = await validationResponse.json()
+        console.log('Validation record saved:', validationData)
+
         setManualCode('')
         setSubscriptionDetails(null)
         setShowConfirmation(false)

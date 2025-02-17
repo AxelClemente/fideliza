@@ -109,6 +109,7 @@ export async function POST(req: Request) {
         status: 'ACTIVE'
       },
       include: {
+        subscription: true,
         place: {
           include: {
             restaurant: {
@@ -164,7 +165,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ 
       success: true,
       message: 'Subscription validated successfully',
-      remainingVisits: subscription.remainingVisits !== null ? subscription.remainingVisits - 1 : null
+      remainingVisits: subscription.remainingVisits !== null ? subscription.remainingVisits - 1 : null,
+      subscriptionId: subscription.subscription.id,
+      placeId: subscription.placeId,
+      restaurantId: subscription.place.restaurant.id
     })
 
   } catch (error) {

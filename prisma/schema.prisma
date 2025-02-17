@@ -61,6 +61,8 @@ model User {
   sessions      Session[]
   restaurants   Restaurant[]
   userSubscriptions UserSubscription[]
+  validationsAsStaff      SubscriptionValidation[] @relation("StaffValidations")
+  validationsAsSubscriber SubscriptionValidation[] @relation("SubscriberValidations")
 }
 
 model Restaurant {
@@ -75,6 +77,7 @@ model Restaurant {
   places      Place[]
   images      RestaurantImage[]
   views       RestaurantView[]
+  subscriptionValidations SubscriptionValidation[]
 
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
@@ -103,6 +106,7 @@ model Place {
   offers        Offer[]        
   subscriptions Subscription[] // Relación muchos a muchos con subscriptions
   userSubscriptions UserSubscription[]
+  validations SubscriptionValidation[]
 
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -315,5 +319,45 @@ model RestaurantView {
 
   @@index([restaurantId])
   @@index([viewedAt])
+}
+
+model SubscriptionValidation {
+  id                String   @id @default(uuid())
+  validationDate    DateTime @default(now())
+  
+  // Datos de la suscripción
+  subscriberId      String?   
+  subscriberName    String?   // Añadimos el nombre del suscriptor
+  subscriptionId    String?   
+  subscriptionName  String?   
+  remainingVisits   Int?      
+  
+  // Datos del lugar y restaurante
+  placeId          String?    // Opcional
+  placeName        String?    // Opcional
+  restaurantId     String?    // Opcional
+  
+  // Datos del staff
+  staffId          String?    // Opcional
+  ownerId          String?    // Opcional
+  
+  // Estado de la suscripción al momento de la validación
+  status           SubscriptionStatus?  // Opcional
+  startDate        DateTime?   // Opcional
+  endDate          DateTime?   // Opcional
+
+  // Relaciones
+  restaurant       Restaurant? @relation(fields: [restaurantId], references: [id])
+  place           Place?      @relation(fields: [placeId], references: [id])
+  staff           User?       @relation("StaffValidations", fields: [staffId], references: [id])
+  subscriber      User?       @relation("SubscriberValidations", fields: [subscriberId], references: [id])
+
+  @@index([restaurantId])
+  @@index([placeId])
+  @@index([staffId])
+  @@index([subscriberId])
+  @@index([validationDate])
+  
+  @@map("subscription_validations")
 }
 
