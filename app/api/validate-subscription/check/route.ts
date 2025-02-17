@@ -73,7 +73,11 @@ export async function POST(req: Request) {
         userName: subscription.user.name,
         subscriptionName: subscription.subscription.name,
         remainingVisits: subscription.remainingVisits,
-        placeName: subscription.place.name
+        placeName: subscription.place.name,
+        startDate: subscription.startDate,
+        endDate: subscription.endDate,
+        status: subscription.status,
+        userId: subscription.userId
       }
     })
 

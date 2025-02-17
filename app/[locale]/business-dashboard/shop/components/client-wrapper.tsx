@@ -700,7 +700,7 @@ export function ClientWrapper({
               <span className={`
                 ${!restaurants.length 
                   ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pb-4 pl-[1150px]"
+                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pb-4 pl-[1180px]"
                 }
               `}>
                 {!restaurants.length ? t('addNewMainInfo') : t('addNewMainInfo')}

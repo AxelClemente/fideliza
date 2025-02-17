@@ -1,7 +1,7 @@
 'use client'
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface QRScanModalProps {
   isOpen: boolean
@@ -13,6 +13,10 @@ interface SubscriptionDetails {
   subscriptionName: string
   remainingVisits: number | null
   placeName: string
+  startDate: string
+  endDate: string
+  status: string
+  userId: string
 }
 
 export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
@@ -22,7 +26,22 @@ export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
   const [subscriptionDetails, setSubscriptionDetails] = useState<SubscriptionDetails | null>(null)
   const [showConfirmation, setShowConfirmation] = useState(false)
 
+  useEffect(() => {
+    if (!isOpen) {
+      setManualCode('')
+      setError('')
+      setSubscriptionDetails(null)
+      setShowConfirmation(false)
+      setIsProcessing(false)
+    }
+  }, [isOpen])
+
   const checkSubscription = async () => {
+    if (!manualCode.trim()) {
+      setError('Please enter a code')
+      return
+    }
+
     setError('')
     setIsProcessing(true)
     setShowConfirmation(false)
@@ -96,16 +115,24 @@ export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
     }
   }
 
+  // Función para formatear la fecha actual
+  const getCurrentDateTime = () => {
+    return new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'medium',
+      timeStyle: 'medium'
+    }).format(new Date())
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-hidden">
+        <DialogHeader className="pb-2">
           <DialogTitle>
             {showConfirmation ? 'Confirm Subscription' : 'Scan Subscription QR'}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col items-center justify-center p-4">
-          <form onSubmit={handleSubmit} className="w-full space-y-4">
+        <div className="flex flex-col items-center justify-center px-4">
+          <form onSubmit={handleSubmit} className="w-full space-y-3">
             {!showConfirmation ? (
               <div>
                 <label className="text-sm text-gray-500">Enter Code Manually:</label>
@@ -113,32 +140,63 @@ export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
                   type="text"
                   value={manualCode}
                   onChange={(e) => setManualCode(e.target.value)}
-                  className="w-full p-2 mt-1 border rounded-md"
+                  className="w-[329px] h-[78px] p-2 mt-1 rounded-[100px] bg-main-gray pl-6 border-0 
+                           text-[16px] font-semibold text-third-gray
+                           placeholder:text-third-gray placeholder:text-[16px] placeholder:font-semibold
+                           focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                   placeholder="Enter 8-digit code"
                   maxLength={8}
                 />
               </div>
             ) : (
-              <div className="space-y-3 bg-gray-50 p-4 rounded-lg">
-                <h3 className="font-semibold text-lg">Subscription Details</h3>
-                <div>
-                  <p className="text-sm text-gray-500">Customer</p>
-                  <p className="font-medium">{subscriptionDetails?.userName}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Subscription</p>
-                  <p className="font-medium">{subscriptionDetails?.subscriptionName}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Place</p>
-                  <p className="font-medium">{subscriptionDetails?.placeName}</p>
-                </div>
-                {subscriptionDetails?.remainingVisits !== null && (
+              <div className="space-y-2 bg-gray-50 p-3 rounded-lg max-h-[50vh] overflow-y-auto">
+                <h3 className="font-semibold text-lg mb-2">Subscription Details</h3>
+                <div className="space-y-2">
                   <div>
-                    <p className="text-sm text-gray-500">Remaining Visits</p>
-                    <p className="font-medium">{subscriptionDetails?.remainingVisits}</p>
+                    <p className="text-sm text-gray-500">Date & Time</p>
+                    <p className="font-medium">{getCurrentDateTime()}</p>
                   </div>
-                )}
+                  <div>
+                    <p className="text-sm text-gray-500">Customer</p>
+                    <p className="font-medium">{subscriptionDetails?.userName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Subscription</p>
+                    <p className="font-medium">{subscriptionDetails?.subscriptionName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Place</p>
+                    <p className="font-medium">{subscriptionDetails?.placeName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Start Date</p>
+                    <p className="font-medium">
+                      {subscriptionDetails?.startDate ? new Date(subscriptionDetails.startDate).toLocaleDateString() : '-'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">End Date</p>
+                    <p className="font-medium">
+                      {subscriptionDetails?.endDate ? new Date(subscriptionDetails.endDate).toLocaleDateString() : '-'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Status</p>
+                    <p className={`font-medium ${
+                      subscriptionDetails?.status === 'ACTIVE' 
+                        ? 'text-green-600' 
+                        : 'text-red-600'
+                    }`}>
+                      {subscriptionDetails?.status}
+                    </p>
+                  </div>
+                  {subscriptionDetails?.remainingVisits !== null && (
+                    <div>
+                      <p className="text-sm text-gray-500">Remaining Visits</p>
+                      <p className="font-medium">{subscriptionDetails?.remainingVisits}</p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
             
@@ -146,20 +204,12 @@ export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
               <p className="text-sm text-red-500">{error}</p>
             )}
             
-            <div className="flex gap-3">
-              {showConfirmation && (
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmation(false)}
-                  className="flex-1 p-2 text-black bg-gray-200 rounded-md hover:bg-gray-300 disabled:opacity-50"
-                >
-                  Back
-                </button>
-              )}
+            <div className="flex flex-col space-y-2 pt-2">
               <button
                 type="submit"
                 disabled={isProcessing}
-                className="flex-1 p-2 text-white bg-black rounded-md hover:bg-black/80 disabled:opacity-50"
+                className="h-[60px] w-full rounded-[100px] bg-main-dark text-white 
+                         hover:bg-main-dark/90 disabled:opacity-50 text-[16px] font-semibold"
               >
                 {isProcessing 
                   ? 'Processing...' 
@@ -168,6 +218,16 @@ export function QRScanModal({ isOpen, onClose }: QRScanModalProps) {
                     : 'Check Code'
                 }
               </button>
+              {showConfirmation && (
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmation(false)}
+                  className="h-[60px] w-full rounded-[100px] border-[1px] border-third-gray/30 
+                           text-[16px] font-semibold bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                >
+                  Back
+                </button>
+              )}
             </div>
           </form>
         </div>
