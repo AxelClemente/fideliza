@@ -1,16 +1,18 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+type Props = {
+  params: { ownerId: string }
+}
+
 export async function GET(
-  request: Request,
-  context: {
-    params: { ownerId: string }
-  }
+  req: NextRequest,
+  props: Props
 ) {
   try {
     const restaurant = await prisma.restaurant.findFirst({
       where: {
-        userId: context.params.ownerId
+        userId: props.params.ownerId
       }
     })
 
