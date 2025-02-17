@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+interface RouteParams {
+  params: {
+    ownerId: string
+  },
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
 export async function GET(
   request: Request,
-  { params }: { params: { ownerId: string } }
+  { params }: RouteParams
 ) {
   try {
     const restaurant = await prisma.restaurant.findFirst({
