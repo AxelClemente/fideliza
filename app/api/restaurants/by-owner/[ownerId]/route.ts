@@ -3,12 +3,12 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: Request,
-  { params }: { params: { ownerId: string } }
+  { params }: { params: { ownerId: string } } // Corrige la tipificación aquí
 ) {
   try {
     const restaurant = await prisma.restaurant.findFirst({
       where: {
-        userId: params.ownerId
+        userId: params.ownerId // Accede directamente desde params
       }
     })
 
@@ -27,4 +27,4 @@ export async function GET(
       { status: 500 }
     )
   }
-} 
+}
