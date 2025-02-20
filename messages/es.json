@@ -327,7 +327,10 @@
         "title": "Detalle de suscripción",
         "whereToUse": "Dónde usar",
         "purchaseBenefit": "Beneficio de compra",
-        "otherSubscriptions": "Otras suscripciones"
+        "otherSubscriptions": "Otras suscripciones",
+        "purchasing": "Comprando...",
+        "purchase": "Comprar",
+        "purchaseSuccess": "¡Suscripción comprada exitosamente!"
       },
       "offerModal": {
         "title": "Detalles de la oferta",

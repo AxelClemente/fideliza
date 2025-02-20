@@ -7,15 +7,33 @@ export async function POST(req: Request) {
   try {
     console.log('POST /api/user-subscriptions - Starting')
     
-    // Verificar sesión
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
       console.log('No session found')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Obtener datos del body
     const { subscriptionId, placeId, amount, initialVisits } = await req.json()
+    
+    // Verificar si el usuario ya tiene una suscripción activa del mismo tipo
+    const existingSubscription = await prisma.userSubscription.findFirst({
+      where: {
+        userId: session.user.id,
+        subscriptionId: subscriptionId,
+        isActive: true,
+        status: 'ACTIVE'
+      }
+    })
+
+    if (existingSubscription) {
+      console.log('User already has an active subscription of this type')
+      return NextResponse.json(
+        { error: 'You already have an active subscription of this type' }, 
+        { status: 400 }
+      )
+    }
+
+    // Obtener datos del body
     console.log('Request body:', { subscriptionId, placeId, amount, initialVisits })
 
     if (!subscriptionId || !placeId || !amount) {
@@ -159,16 +177,12 @@ export async function PATCH(req: Request) {
   try {
     console.log('PATCH /api/user-subscriptions - Starting')
     
-    // Verificar sesión
     const session = await getServerSession(authOptions)
-    console.log('Session:', session)
-    
     if (!session?.user?.id) {
       console.log('No session found')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Obtener datos del body
     const { userSubscriptionId } = await req.json()
     console.log('Received userSubscriptionId:', userSubscriptionId)
     
@@ -191,26 +205,32 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: 'Subscription not found' }, { status: 404 })
     }
 
-    // Verificar que la suscripción no esté activa y haya vencido o esté cancelada
-    if (subscription.isActive || (subscription.status !== 'CANCELLED' && new Date(subscription.endDate) > new Date())) {
-      console.log('Cannot delete active or non-expired subscription')
-      return NextResponse.json({ error: 'Cannot delete active or non-expired subscription' }, { status: 400 })
+    // Nueva condición que incluye remainingVisits === 0
+    const canCancel = 
+      !subscription.isActive || 
+      subscription.status === 'CANCELLED' || 
+      new Date(subscription.endDate) < new Date() ||
+      subscription.remainingVisits === 0;
+
+    if (!canCancel) {
+      console.log('Cannot cancel subscription - conditions not met')
+      return NextResponse.json({ 
+        error: 'Cannot cancel subscription. Must be inactive, expired, or have no remaining visits.' 
+      }, { status: 400 })
     }
 
-    // Actualizar el estado de la suscripción
-    const updatedSubscription = await prisma.userSubscription.update({
-      where: { id: userSubscriptionId },
-      data: {
-        status: 'CANCELLED',
-        isActive: false,
-        endDate: new Date() // O podrías mantener la fecha original de finalización
+    // Eliminar la suscripción en lugar de actualizarla
+    await prisma.userSubscription.delete({
+      where: { 
+        id: userSubscriptionId 
       }
     })
-    console.log('Subscription updated:', updatedSubscription)
+
+    console.log('Subscription deleted:', userSubscriptionId)
 
     return NextResponse.json({ 
       success: true, 
-      subscription: updatedSubscription 
+      message: 'Subscription successfully deleted'
     })
 
   } catch (error) {

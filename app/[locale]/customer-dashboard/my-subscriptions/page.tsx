@@ -14,10 +14,12 @@ export default async function MySubscriptionsPage() {
   }
 
   const userSubscriptions = await prisma.userSubscription.findMany({
-    distinct: ['subscriptionId'],
     where: {
       userId: session.user.id,
       isActive: true
+    },
+    orderBy: {
+      createdAt: 'desc'
     },
     select: {
       id: true,
@@ -25,6 +27,8 @@ export default async function MySubscriptionsPage() {
       status: true,
       nextPayment: true,
       amount: true,
+      subscriptionId: true,
+      createdAt: true,
       subscription: {
         select: {
           name: true,
@@ -43,22 +47,6 @@ export default async function MySubscriptionsPage() {
                   url: true
                 },
                 take: 1
-              },
-              places: {
-                select: {
-                  id: true,
-                  name: true,
-                  location: true,
-                  subscriptions: {
-                    select: {
-                      id: true,
-                      name: true,
-                      benefits: true,
-                      price: true,
-                      visitsPerMonth: true
-                    }
-                  }
-                }
               }
             }
           }
@@ -67,7 +55,17 @@ export default async function MySubscriptionsPage() {
     }
   })
 
-  console.log('UserSubscriptions data:', JSON.stringify(userSubscriptions.map(sub => ({
+  const latestSubscriptions = Object.values(
+    userSubscriptions.reduce((acc, sub) => {
+      if (!acc[sub.subscriptionId] || 
+          new Date(acc[sub.subscriptionId].createdAt) < new Date(sub.createdAt)) {
+        acc[sub.subscriptionId] = sub;
+      }
+      return acc;
+    }, {} as Record<string, typeof userSubscriptions[0]>)
+  );
+
+  console.log('UserSubscriptions data:', JSON.stringify(latestSubscriptions.map(sub => ({
     subscriptionId: sub.id,
     restaurantId: sub.place.restaurant.id,
     restaurantTitle: sub.place.restaurant.title
@@ -100,7 +98,7 @@ export default async function MySubscriptionsPage() {
           !font-[700]
           text-main-dark
         ">
-          ({userSubscriptions.length})
+          ({latestSubscriptions.length})
         </span>
       </div>
 
@@ -124,10 +122,10 @@ export default async function MySubscriptionsPage() {
           font-bold
           text-main-dark
         ">
-          ({userSubscriptions.length})
+          ({latestSubscriptions.length})
         </span>
       </div>
-      <UserSubscriptionsList subscriptions={userSubscriptions} />
+      <UserSubscriptionsList subscriptions={latestSubscriptions} />
     </div>
   )
 }

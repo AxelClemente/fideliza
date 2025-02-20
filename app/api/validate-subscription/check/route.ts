@@ -1,73 +1,63 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
 
 export async function POST(req: Request) {
   try {
-    console.log('POST /api/validate-subscription/check - Starting')
+    console.log('Axelito resolviendo - POST /api/validate-subscription/check - Starting')
     
-    const session = await getServerSession(authOptions)
-    if (!session?.user?.id) {
-      console.log('No session found')
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { code } = await req.json()
-    console.log('Checking code:', code)
+    console.log('Axelito resolviendo - Received code:', code)
 
-    let subscriptionId: string;
-
-    try {
-      const qrData = JSON.parse(code);
-      subscriptionId = qrData.subscriptionId;
-    } catch {
-      // Si falla el parse, asumimos que es un código numérico
-      console.log('Failed to parse QR code, trying as numeric code')
-      const subscription = await prisma.userSubscription.findFirst({
-        where: {
-          isActive: true,
-          status: 'ACTIVE'
-        }
-      });
-
-      if (!subscription) {
-        return NextResponse.json({ error: 'Invalid code' }, { status: 400 });
-      }
-
-      subscriptionId = subscription.id;
-    }
-
-    const subscription = await prisma.userSubscription.findFirst({
-      where: {
-        id: subscriptionId,
-        isActive: true,
-        status: 'ACTIVE'
-      },
+    // Buscar el código en la base de datos
+    const subscriptionCode = await prisma.subscriptionCode.findUnique({
+      where: { code },
       include: {
-        user: {
-          select: {
-            name: true
-          }
-        },
         subscription: {
-          select: {
-            name: true
-          }
-        },
-        place: {
-          select: {
-            name: true
+          include: {
+            user: {
+              select: {
+                name: true,
+                id: true
+              }
+            },
+            subscription: {
+              select: {
+                name: true
+              }
+            },
+            place: {
+              select: {
+                name: true
+              }
+            }
           }
         }
       }
     })
 
-    if (!subscription) {
-      return NextResponse.json({ error: 'Invalid or inactive subscription' }, { status: 400 })
+    console.log('Axelito resolviendo - Found subscription code:', subscriptionCode)
+
+    if (!subscriptionCode) {
+      return NextResponse.json({ error: 'Invalid code' }, { status: 400 })
     }
 
-    return NextResponse.json({ 
+    if (subscriptionCode.isUsed) {
+      return NextResponse.json({ error: 'Code already used' }, { status: 400 })
+    }
+
+    if (subscriptionCode.expiresAt && subscriptionCode.expiresAt < new Date()) {
+      return NextResponse.json({ error: 'Code expired' }, { status: 400 })
+    }
+
+    const { subscription } = subscriptionCode
+
+    if (!subscription.isActive || subscription.status !== 'ACTIVE') {
+      return NextResponse.json({ error: 'Subscription is not active' }, { status: 400 })
+    }
+
+    console.log('Axelito resolviendo - Returning subscription details:', subscription)
+
+    return NextResponse.json({
       success: true,
       subscription: {
         userName: subscription.user.name,
@@ -77,12 +67,12 @@ export async function POST(req: Request) {
         startDate: subscription.startDate,
         endDate: subscription.endDate,
         status: subscription.status,
-        userId: subscription.userId
+        userId: subscription.user.id
       }
     })
 
   } catch (error) {
-    console.error('Error in POST /api/validate-subscription/check:', error)
+    console.error('Axelito resolviendo - Error in check:', error)
     return NextResponse.json(
       { error: 'Internal server error' }, 
       { status: 500 }

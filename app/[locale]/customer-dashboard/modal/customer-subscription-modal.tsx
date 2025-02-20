@@ -20,6 +20,7 @@ export function CustomerSubscriptionModal({
   subscription 
 }: CustomerSubscriptionModalProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
   const t = useTranslations('CustomerDashboard.subscriptionModal')
   
   console.log('🔍 Modal Subscription Data:', {
@@ -43,6 +44,7 @@ export function CustomerSubscriptionModal({
   const handlePurchase = async () => {
     try {
       setIsLoading(true)
+      setError('')  // Limpiar error previo
       
       const selectedPlace = subscription.places[0]
       console.log('Initiating purchase:', {
@@ -63,18 +65,17 @@ export function CustomerSubscriptionModal({
         })
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Failed to purchase subscription')
+        throw new Error(data.error || 'Failed to purchase subscription')
       }
 
-      const data = await response.json()
-      console.log('Purchase successful:', data)
-      
-      toast.success('Subscription purchased successfully!')
+      toast.success(t('purchaseSuccess'))
       onClose()
     } catch (error) {
       console.error('Purchase error:', error)
+      setError(error instanceof Error ? error.message : 'Failed to purchase subscription')
       toast.error(error instanceof Error ? error.message : 'Failed to purchase subscription')
     } finally {
       setIsLoading(false)
@@ -280,6 +281,12 @@ export function CustomerSubscriptionModal({
                 </div>
               )}
             </div>
+
+            {error && (
+              <div className="px-4 md:px-8 mb-4">
+                <p className="text-red-500 text-sm">{error}</p>
+              </div>
+            )}
           </div>
 
           {/* Buttons */}
@@ -312,7 +319,7 @@ export function CustomerSubscriptionModal({
                 md:!leading-[20px]
               "
             >
-              {isLoading ? 'Processing...' : 'Buy'}
+              {isLoading ? t('purchasing') : t('purchase')}
             </Button>
             
             <Button 

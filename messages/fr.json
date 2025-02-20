@@ -328,7 +328,10 @@
       "title": "Détail de l'abonnement",
       "whereToUse": "Où utiliser",
       "purchaseBenefit": "Avantage d'achat",
-      "otherSubscriptions": "Autres abonnements"
+      "otherSubscriptions": "Autres abonnements",
+      "purchasing": "Achat en cours...",
+      "purchase": "Acheter",
+      "purchaseSuccess": "Abonnement acheté avec succès !"
     },
     "offerModal": {
       "title": "Détails de l'offre",

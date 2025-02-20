@@ -329,7 +329,10 @@
       "title": "Subscription Detail",
       "whereToUse": "Where to use",
       "purchaseBenefit": "Purchase benefit",
-      "otherSubscriptions": "Other subscriptions"
+      "otherSubscriptions": "Other subscriptions",
+      "purchasing": "Purchasing...",
+      "purchase": "Purchase",
+      "purchaseSuccess": "Subscription purchased successfully!"
     },
     "offerModal": {
       "title": "Offer Details",

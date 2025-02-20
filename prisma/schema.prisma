@@ -202,6 +202,7 @@ model UserSubscription {
   paymentMethod PaymentMethod?
   createdAt     DateTime          @default(now())
   updatedAt     DateTime          @updatedAt
+  codes           SubscriptionCode[]
 
   user          User              @relation(fields: [userId], references: [id])
   subscription  Subscription      @relation(fields: [subscriptionId], references: [id])
@@ -359,5 +360,19 @@ model SubscriptionValidation {
   @@index([validationDate])
   
   @@map("subscription_validations")
+}
+
+model SubscriptionCode {
+  id              String    @id @default(uuid())
+  code            String    @unique
+  subscriptionId  String
+  subscription    UserSubscription @relation(fields: [subscriptionId], references: [id])
+  isUsed          Boolean   @default(false)
+  usedAt          DateTime?
+  generatedAt     DateTime  @default(now())
+  expiresAt       DateTime?
+
+  @@index([code])
+  @@index([subscriptionId])
 }
 

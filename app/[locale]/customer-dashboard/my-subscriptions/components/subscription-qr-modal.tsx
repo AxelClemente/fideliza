@@ -2,6 +2,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import QRCode from "react-qr-code"
+import { useEffect, useState } from "react"
 
 interface SubscriptionQRModalProps {
   isOpen: boolean
@@ -19,29 +20,64 @@ interface SubscriptionQRModalProps {
 }
 
 export function SubscriptionQRModal({ isOpen, onClose, subscriptionData }: SubscriptionQRModalProps) {
-  // Generamos un timestamp en milisegundos
-  const timestamp = new Date().getTime();
-  
-  // Log para debug
-  console.log('Generating QR for subscription CHECKKKKKKKK:', {
-    id: subscriptionData.id,
-    remainingVisits: subscriptionData.remainingVisits,
-    timestamp
-  });
-  
-  // Combinamos el ID de la suscripción con el timestamp para generar un código único
-  const numericCode = (subscriptionData.id + timestamp)
-    .replace(/[^0-9]/g, '')  // Removemos caracteres no numéricos
-    .slice(-8);              // Tomamos los últimos 8 dígitos
-    
+  const [generatedCode, setGeneratedCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log('Axelito resolviendo - Modal opened, subscription data:', {
+      id: subscriptionData.id,
+      remainingVisits: subscriptionData.remainingVisits,
+      place: subscriptionData.place.name,
+      restaurant: subscriptionData.place.restaurant.title
+    });
+
+    if (isOpen) {
+      generateCode();
+    } else {
+      setGeneratedCode(null);
+    }
+  }, [isOpen, subscriptionData.id]);
+
+  const generateCode = async () => {
+    try {
+      console.log('Axelito resolviendo - Generating code for subscription:', subscriptionData.id);
+      
+      const response = await fetch('/api/subscription-codes/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subscriptionId: subscriptionData.id,
+        }),
+      });
+
+      const data = await response.json();
+      console.log('Axelito resolviendo - API Response:', data);
+
+      if (!response.ok) {
+        console.error('Axelito resolviendo - API Error:', data.error);
+        return;
+      }
+
+      if (data.success && data.code) {
+        console.log('Axelito resolviendo - Code generated successfully:', data.code);
+        setGeneratedCode(data.code);
+      }
+    } catch (error) {
+      console.error('Axelito resolviendo - Error generating code:', error);
+    }
+  };
+
+  if (!generatedCode) {
+    console.log('Axelito resolviendo - No code generated yet');
+    return null;
+  }
+
   const qrValue = JSON.stringify({
-    subscriptionId: subscriptionData.id,
-    timestamp: new Date().toISOString(),
-    restaurantName: subscriptionData.place.restaurant.title,
-    placeName: subscriptionData.place.name,
-    numericCode,
-    remainingVisits: subscriptionData.remainingVisits,
-  })
+    code: generatedCode
+  });
+
+  console.log('Axelito resolviendo - Rendering QR with value:', qrValue);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -61,11 +97,11 @@ export function SubscriptionQRModal({ isOpen, onClose, subscriptionData }: Subsc
           <div className="mt-4 p-3 bg-gray-100 rounded-lg">
             <p className="text-sm text-gray-500 mb-1">Numeric Code:</p>
             <p className="text-2xl font-bold tracking-wider text-center">
-              {numericCode.match(/.{1,4}/g)?.join(' ')}
+              {generatedCode.match(/.{1,4}/g)?.join(' ')}
             </p>
           </div>
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
