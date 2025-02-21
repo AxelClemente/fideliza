@@ -66,14 +66,23 @@ export function ProfileInfo({
         body: formData,
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to upload image')
-      }
+      if (!response.ok) throw new Error('Failed to upload image')
 
       const data = await response.json()
       setPreviewImage(data.image)
       
-      // Actualizar solo la imagen en la sesión
+      // Actualizar la sesión y el token
+      await fetch('/api/auth/session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image: data.image
+        })
+      })
+
+      // Ahora actualizamos la sesión del cliente
       await updateSession({
         image: data.image
       })

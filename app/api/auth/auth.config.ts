@@ -81,25 +81,15 @@ export const authOptions: AuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
-        console.log('🔑 New login:', { provider: account?.provider, email: user.email })
+        token.sub = user.id
+        token.role = user.role
+        token.location = user.location
       }
-      
-      const dbUser = await prisma.user.findUnique({
-        where: { 
-          email: token.email! 
-        }
-      }) as { 
-        id: string
-        role?: 'BUSINESS' | 'ADMIN' | 'STAFF' | 'CUSTOMER' | null
-        location?: string | null 
-      }
-      
-      if (dbUser) {
-        token.sub = dbUser.id
-        token.role = dbUser.role
-        token.location = dbUser.location
+
+      if (trigger === "update" && session?.image) {
+        token.picture = session.image
       }
       
       return token
@@ -110,6 +100,7 @@ export const authOptions: AuthOptions = {
         session.user.id = token.sub
         session.user.role = token.role as 'BUSINESS' | 'ADMIN' | 'STAFF' | 'CUSTOMER' | null
         session.user.location = token.location as string | null
+        session.user.image = token.picture as string | null
       }
       return session
     },
