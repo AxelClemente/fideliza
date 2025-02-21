@@ -59,4 +59,52 @@ export async function POST(req: Request) {
       { status: 500 }
     )
   }
+}
+
+export async function GET(req: Request) {
+  try {
+    console.log('GET /api/validate-subscription/save-validation - Starting')
+    
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Obtener parámetros de la URL
+    const { searchParams } = new URL(req.url)
+    const subscriberId = searchParams.get('subscriberId')
+    
+    console.log('Fetching validations for:', {
+      subscriberId,
+      sessionUserId: session.user.id
+    })
+
+    // Buscar validaciones filtradas por subscriberId y ownerId
+    const validations = await prisma.subscriptionValidation.findMany({
+      where: {
+        subscriberId: subscriberId || undefined,
+        ownerId: session.user.id, // Filtra por el dueño actual
+      },
+      orderBy: {
+        validationDate: 'desc'
+      },
+      include: {
+        place: {
+          select: {
+            name: true
+          }
+        }
+      }
+    })
+
+    console.log(`Found ${validations.length} validations`)
+
+    return NextResponse.json({ success: true, validations })
+  } catch (error) {
+    console.error('Error fetching validations:', error)
+    return NextResponse.json(
+      { error: 'Error fetching validations' },
+      { status: 500 }
+    )
+  }
 } 

@@ -1,13 +1,34 @@
 'use client'
 
-import { Trash2 } from "lucide-react"
+import { FileText, Trash2 } from "lucide-react"
 import { useSubscribers } from "../../context/subscribers-context"
 import { useTranslations } from "use-intl"
 import { toast } from "sonner"
+import { useState } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { format } from 'date-fns'
+
+interface ValidationHistory {
+  id: string
+  validationDate: string
+  subscriptionName: string
+  placeName: string
+  remainingVisits: number | null
+}
+
+interface GroupedValidations {
+  [subscriptionName: string]: {
+    validations: ValidationHistory[];
+    placeName: string;
+  }
+}
 
 export function SubscriberCard() {
   const { subscribers } = useSubscribers()
   const t = useTranslations('BusinessDashboard')
+  const [selectedSubscriber, setSelectedSubscriber] = useState<string | null>(null)
+  const [validations, setValidations] = useState<ValidationHistory[]>([])
+  const [isLoading, setIsLoading] = useState(false)
   
   // Eliminar duplicados basados en el ID del suscriptor
   const uniqueSubscribers = Array.from(
@@ -51,6 +72,45 @@ export function SubscriberCard() {
     }
   }
 
+  const handleViewHistory = async (subscriberId: string) => {
+    try {
+      setIsLoading(true)
+      setSelectedSubscriber(subscriberId)
+      
+      console.log('Fetching history for subscriber:', subscriberId)
+      
+      const response = await fetch(`/api/validate-subscription/save-validation?subscriberId=${subscriberId}`)
+      const data = await response.json()
+      
+      console.log('History response:', data)
+
+      if (response.ok && data.validations) {
+        setValidations(data.validations)
+      } else {
+        toast.error(t('errorFetchingHistory'))
+      }
+    } catch (error) {
+      console.error('Error fetching history:', error)
+      toast.error(t('errorFetchingHistory'))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const groupValidationsBySubscription = (validations: ValidationHistory[]): GroupedValidations => {
+    return validations.reduce((groups, validation) => {
+      const key = validation.subscriptionName;
+      if (!groups[key]) {
+        groups[key] = {
+          validations: [],
+          placeName: validation.placeName
+        };
+      }
+      groups[key].validations.push(validation);
+      return groups;
+    }, {} as GroupedValidations);
+  };
+
   return (
     <div className="space-y-5">
       {uniqueSubscribers.length > 0 ? (
@@ -89,12 +149,20 @@ export function SubscriberCard() {
               </div>
             </div>
             
-            <button 
-              className="text-black hover:text-destructive transition-colors p-4 pr-10"
-              onClick={() => handleDelete(subscriber.id, subscriber.subscription.id)}
-            >
-              <Trash2 className="h-5 w-5" />
-            </button>
+            <div className="flex items-center gap-2 pr-4">
+              <button 
+                className="text-black hover:text-blue-600 transition-colors p-2"
+                onClick={() => handleViewHistory(subscriber.id)}
+              >
+                <FileText className="h-5 w-5" />
+              </button>
+              <button 
+                className="text-black hover:text-destructive transition-colors p-2"
+                onClick={() => handleDelete(subscriber.id, subscriber.subscription.id)}
+              >
+                <Trash2 className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         ))
       ) : (
@@ -102,6 +170,78 @@ export function SubscriberCard() {
           {t('noSubscribers')}
         </div>
       )}
+
+      <Dialog open={!!selectedSubscriber} onOpenChange={() => setSelectedSubscriber(null)}>
+        <DialogContent className="sm:max-w-[600px] p-0">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b">
+            <DialogTitle className="text-xl font-semibold">
+              {t('validationHistory')}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="px-6 py-4 max-h-[70vh] overflow-y-auto">
+            {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <span className="ml-3 text-gray-600">{t('loading')}</span>
+              </div>
+            ) : validations.length > 0 ? (
+              <div className="space-y-6">
+                {Object.entries(groupValidationsBySubscription(validations)).map(([subscriptionName, group]) => (
+                  <div key={subscriptionName} className="space-y-3">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h3 className="font-semibold text-gray-900">
+                        {subscriptionName}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {group.placeName}
+                      </p>
+                    </div>
+                    
+                    <div className="pl-4 space-y-3">
+                      {group.validations.map((validation) => (
+                        <div 
+                          key={validation.id} 
+                          className="bg-white rounded-lg p-3 border border-gray-100 shadow-sm hover:border-gray-200 transition-colors"
+                        >
+                          <div className="flex items-center justify-between">
+                            <time className="text-sm text-gray-500 tabular-nums">
+                              {format(new Date(validation.validationDate), 'PPp')}
+                            </time>
+                            
+                            {validation.remainingVisits !== null && (
+                              <div className="flex items-center gap-3">
+                                <div className="w-24 bg-gray-100 rounded-full h-2">
+                                  <div 
+                                    className="bg-primary rounded-full h-2" 
+                                    style={{ 
+                                      width: `${(validation.remainingVisits / (validation.remainingVisits + 5)) * 100}%`
+                                    }}
+                                  />
+                                </div>
+                                <span className="text-sm text-gray-600 tabular-nums">
+                                  {validation.remainingVisits} {t('remainingVisits')}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="text-gray-400 mb-2">
+                  <FileText className="h-12 w-12 mx-auto opacity-50" />
+                </div>
+                <p className="text-gray-600">{t('noValidationsFound')}</p>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

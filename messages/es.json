@@ -306,7 +306,11 @@
       "visitsPerMonth": "{visits} visitas por mes",
       "perMonth": "€/mes",
       "selectBranchError": "Por favor, selecciona una sucursal",
-      "fillRequiredFields": "Por favor, completa todos los campos requeridos"
+      "fillRequiredFields": "Por favor, completa todos los campos requeridos",
+      "validationHistory": "Historial de Validaciones",
+      "noValidationsFound": "No se encontraron validaciones",
+      "loading": "Cargando...",
+      "remainingVisits": "Visitas restantes"
     },
     "CustomerDashboard": {
       "header": {

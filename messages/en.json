@@ -307,7 +307,11 @@
     "visitsPerMonth": "{visits} visits per month",
     "perMonth": "€/month",
     "selectBranchError": "Please select a branch",
-    "fillRequiredFields": "Please fill in all required fields"
+    "fillRequiredFields": "Please fill in all required fields",
+    "validationHistory": "Validation History",
+    "noValidationsFound": "No validations found",
+    "loading": "Loading...",
+    "remainingVisits": "Remaining visits"
   },
   "CustomerDashboard": {
     "header": {

@@ -307,7 +307,11 @@
     "visitsPerMonth": "{visits} visites par mois",
     "perMonth": "€/mois",
     "selectBranchError": "Veuillez sélectionner une succursale",
-    "fillRequiredFields": "Veuillez remplir tous les champs requis"
+    "fillRequiredFields": "Veuillez remplir tous les champs requis",
+    "validationHistory": "Historique des Validations",
+    "noValidationsFound": "Aucune validation trouvée",
+    "loading": "Chargement...",
+    "remainingVisits": "Visites restantes"
   },
   "CustomerDashboard": {
     "header": {
