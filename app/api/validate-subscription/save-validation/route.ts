@@ -70,35 +70,29 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Obtener parámetros de la URL
     const { searchParams } = new URL(req.url)
     const subscriberId = searchParams.get('subscriberId')
     
-    console.log('Fetching validations for:', {
-      subscriberId,
-      sessionUserId: session.user.id
-    })
-
-    // Buscar validaciones filtradas por subscriberId y ownerId
     const validations = await prisma.subscriptionValidation.findMany({
       where: {
         subscriberId: subscriberId || undefined,
-        ownerId: session.user.id, // Filtra por el dueño actual
+        ownerId: session.user.id,
       },
       orderBy: {
         validationDate: 'desc'
       },
-      include: {
-        place: {
-          select: {
-            name: true
-          }
-        }
+      select: {
+        id: true,
+        validationDate: true,
+        subscriptionName: true,
+        placeName: true,
+        remainingVisits: true,
+        startDate: true,
+        endDate: true
       }
     })
 
-    console.log(`Found ${validations.length} validations`)
-
+    console.log('Validations data:', validations)
     return NextResponse.json({ success: true, validations })
   } catch (error) {
     console.error('Error fetching validations:', error)

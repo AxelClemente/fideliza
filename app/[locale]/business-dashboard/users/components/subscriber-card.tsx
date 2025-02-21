@@ -14,12 +14,16 @@ interface ValidationHistory {
   subscriptionName: string
   placeName: string
   remainingVisits: number | null
+  startDate: string | null
+  endDate: string | null
 }
 
 interface GroupedValidations {
   [subscriptionName: string]: {
     validations: ValidationHistory[];
     placeName: string;
+    startDate: string | null;
+    endDate: string | null;
   }
 }
 
@@ -103,7 +107,9 @@ export function SubscriberCard() {
       if (!groups[key]) {
         groups[key] = {
           validations: [],
-          placeName: validation.placeName
+          placeName: validation.placeName,
+          startDate: validation.startDate,
+          endDate: validation.endDate
         };
       }
       groups[key].validations.push(validation);
@@ -196,6 +202,11 @@ export function SubscriberCard() {
                       <p className="text-sm text-gray-500">
                         {group.placeName}
                       </p>
+                      {group.startDate && group.endDate && (
+                        <p className="text-xs text-gray-500 mt-1">
+                          {format(new Date(group.startDate), 'PP')} → {format(new Date(group.endDate), 'PP')}
+                        </p>
+                      )}
                     </div>
                     
                     <div className="pl-4 space-y-3">
