@@ -682,29 +682,33 @@ export function ClientWrapper({
       <>
         {access.canEdit && (
           <>
-            {/* Versión Móvil */}
-            <div className={`md:hidden w-full ${!restaurants.length ? 'fixed bottom-6 left-0 z-50' : ''} px-3`}>
+            {/* Versión Móvil - Sin cambios */}
+            <div className={`md:hidden w-full px-3 mb-8`}>
               <button 
                 onClick={() => setIsMainInfoModalOpen(true)}
                 className="w-full h-[78px] rounded-[100px] bg-[#000000] text-white shadow-lg text-[18px] font-semibold leading-[22px]"
               >
-                {!restaurants.length ? t('addNewMainInfo') : t('addNewMainInfo')}
+                {t('addNewMainInfo')}
               </button>
             </div>
 
-            {/* Versión Desktop */}
+            {/* Versión Desktop - Modificada */}
             <button 
               onClick={() => setIsMainInfoModalOpen(true)}
-              className="hidden md:flex justify-end items-center w-full whitespace-nowrap"
+              className={`
+                hidden 
+                md:block 
+                w-[329px] 
+                h-[78px] 
+                rounded-[100px] 
+                bg-[#000000] 
+                text-white 
+                text-[18px] 
+                font-semibold 
+                leading-[22px]
+              `}
             >
-              <span className={`
-                ${!restaurants.length 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid pb-4 pl-[1180px]"
-                }
-              `}>
-                {!restaurants.length ? t('addNewMainInfo') : t('addNewMainInfo')}
-              </span>
+              {t('addNewMainInfo')}
             </button>
 
             {/* Modales */}
@@ -736,13 +740,8 @@ export function ClientWrapper({
               onClick={() => setIsPlaceInfoModalOpen(true)}
               className="hidden md:flex justify-end items-center w-full whitespace-nowrap"
             >
-              <span className={`
-                ${!hasPlaces 
-                  ? "w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold" 
-                  : "text-black hover:text-black/80 text-[24px] font-semibold leading-[22px] font-['Open_Sans'] underline decoration-solid"
-                }
-              `}>
-                {!hasPlaces ? t('addNewPlace') : t('addNewPlace')}
+              <span className="w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white flex items-center justify-center font-semibold">
+                {t('addNewPlace')}
               </span>
             </button>
 
@@ -756,7 +755,6 @@ export function ClientWrapper({
               </button>
             </div>
 
-            {/* Modal - Ahora usando el modal correcto según el dispositivo */}
             {isPlaceInfoModalOpen && restaurants.length > 0 && (
               isMobile ? (
                 <MobileAddPlaceInfo

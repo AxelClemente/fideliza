@@ -35,7 +35,9 @@ export default async function ShopPage() {
                   {t('noMainInfo')}
                 </h2>
               )}
-              <div className={`${restaurants.length > 0 ? 'hidden md:block' : ''}`}>
+              <div className={`
+                ${restaurants.length > 0 ? 'hidden md:flex md:justify-end md:w-full' : ''}
+              `}>
                 <ClientWrapper type="main-info" restaurants={restaurants} mode="add" />
               </div>
             </div>
@@ -81,24 +83,25 @@ export default async function ShopPage() {
                       md:mx-0   
                     ">
                       <div className="flex justify-between items-center">
-                        <h3 className="
-                          !text-[24px]          
-                          md:!text-[30px]       
-                          !leading-[32px]       /* Updated for mobile */
-                          md:!leading-[36px]    
-                          !font-['Open_Sans'] 
-                          !font-bold 
-                          !text-black
-                          mr-2
-                        ">
-                          {restaurant.title}
-                        </h3>
-                        <ClientWrapper 
-                          type="main-info" 
-                          restaurants={restaurants}
-                          restaurant={restaurant} 
-                          mode="edit" 
-                        />
+                        <div className="flex items-center gap-6">
+                          <h3 className="
+                            !text-[24px]          
+                            md:!text-[30px]       
+                            !leading-[32px]       
+                            md:!leading-[36px]    
+                            !font-['Open_Sans'] 
+                            !font-bold 
+                            !text-black
+                          ">
+                            {restaurant.title}
+                          </h3>
+                          <ClientWrapper 
+                            type="main-info" 
+                            restaurants={restaurants}
+                            restaurant={restaurant} 
+                            mode="edit" 
+                          />
+                        </div>
                       </div>
                       <DescriptionText text={restaurant.description} />
                       {restaurant.website && (
