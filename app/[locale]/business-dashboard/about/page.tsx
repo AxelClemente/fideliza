@@ -11,12 +11,14 @@ import BillingSection from './components/billing-section'
 import QRSection from './components/qr-section'
 import HelpSection from './components/help-section'
 import { ShareAppModal } from './components/share-app'
+import { useRestaurant } from '@/hooks/useRestaurant'
 
 export default function ServiceInfo() {
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
   const searchParams = useSearchParams()
   const t = useTranslations('BusinessDashboard.about')
+  const { restaurant } = useRestaurant()
 
   // Efecto para manejar el parámetro section de la URL
   useEffect(() => {
@@ -28,6 +30,14 @@ export default function ServiceInfo() {
 
   const handleReset = () => {
     setActiveSection(null)
+  }
+
+  const getShareUrl = () => {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || window.location.origin
+    if (restaurant?.id) {
+      return `${baseUrl}/customer-dashboard/restaurants/${restaurant.id}`
+    }
+    return baseUrl
   }
 
   const renderContent = () => {
@@ -133,6 +143,7 @@ export default function ServiceInfo() {
       <ShareAppModal 
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
+        shareUrl={getShareUrl()}
       />
     </div>
   )

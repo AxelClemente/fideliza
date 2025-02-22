@@ -271,3 +271,33 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) {
+      console.log('❌ Unauthorized: No session found')
+      return new NextResponse("Unauthorized", { status: 401 })
+    }
+
+    // Buscar el restaurante asociado al usuario actual
+    const restaurant = await prisma.restaurant.findFirst({
+      where: {
+        userId: session.user.id
+      },
+      include: {
+        images: true
+      }
+    })
+
+    if (!restaurant) {
+      return new NextResponse("Restaurant not found", { status: 404 })
+    }
+
+    console.log('✅ Restaurant fetched:', restaurant.id)
+    return NextResponse.json(restaurant)
+  } catch (error) {
+    console.error('❌ [RESTAURANT_GET]', error)
+    return new NextResponse("Internal error", { status: 500 })
+  }
+}

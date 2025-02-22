@@ -8,11 +8,11 @@ import { useTranslations } from 'next-intl'
 interface ShareAppModalProps {
   isOpen: boolean
   onClose: () => void
+  shareUrl: string
 }
 
-export function ShareAppModal({ isOpen, onClose }: ShareAppModalProps) {
+export function ShareAppModal({ isOpen, onClose, shareUrl }: ShareAppModalProps) {
   const t = useTranslations('BusinessDashboard.share')
-  const shareUrl = "http://fideliza.com" // Reemplazar con la URL real
   
   const handleCopyLink = async () => {
     try {
@@ -57,7 +57,7 @@ export function ShareAppModal({ isOpen, onClose }: ShareAppModalProps) {
             </div>
             <Button
               onClick={handleCopyLink}
-              className="w-[360px] h-[78px] rounded-[100px] bg-[#000000] text-white mx-auto md:w-[192px] md:mx-0 md:absolute md:right-0 md:z-10"
+              className="w-[360px] h-[78px] rounded-[100px] bg-[#000000] text-white mx-auto md:w-[192px] md:mx-0 md:absolute md:right-0 md:z-10 hover:bg-[#000000]"
             >
               <span className="font-['Open_Sans'] font-[600] text-[16px] md:text-[18px] leading-[20px] md:leading-[22px] text-center">
                 {t('copyLink')}
