@@ -23,7 +23,7 @@ export function SubscriptionQRModal({ isOpen, onClose, subscriptionData }: Subsc
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('Axelito resolviendo - Modal opened, subscription data:', {
+    console.log('Modal opened, subscription data:', {
       id: subscriptionData.id,
       remainingVisits: subscriptionData.remainingVisits,
       place: subscriptionData.place.name,
@@ -39,7 +39,7 @@ export function SubscriptionQRModal({ isOpen, onClose, subscriptionData }: Subsc
 
   const generateCode = async () => {
     try {
-      console.log('Axelito resolviendo - Generating code for subscription:', subscriptionData.id);
+      console.log('Generating code for subscription:', subscriptionData.id);
       
       const response = await fetch('/api/subscription-codes/generate', {
         method: 'POST',
@@ -52,24 +52,24 @@ export function SubscriptionQRModal({ isOpen, onClose, subscriptionData }: Subsc
       });
 
       const data = await response.json();
-      console.log('Axelito resolviendo - API Response:', data);
+      console.log('API Response:', data);
 
       if (!response.ok) {
-        console.error('Axelito resolviendo - API Error:', data.error);
+        console.error('API Error:', data.error);
         return;
       }
 
       if (data.success && data.code) {
-        console.log('Axelito resolviendo - Code generated successfully:', data.code);
+        console.log('Code generated successfully:', data.code);
         setGeneratedCode(data.code);
       }
     } catch (error) {
-      console.error('Axelito resolviendo - Error generating code:', error);
+      console.error('Error generating code:', error);
     }
   };
 
   if (!generatedCode) {
-    console.log('Axelito resolviendo - No code generated yet');
+    console.log('No code generated yet');
     return null;
   }
 
@@ -77,7 +77,7 @@ export function SubscriptionQRModal({ isOpen, onClose, subscriptionData }: Subsc
     code: generatedCode
   });
 
-  console.log('Axelito resolviendo - Rendering QR with value:', qrValue);
+  console.log('Rendering QR with value:', qrValue);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

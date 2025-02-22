@@ -57,6 +57,7 @@ async function getCustomerProfile() {
     id: sub.id,
     nextPayment: sub.nextPayment,
     amount: sub.subscription.price,
+    remainingVisits: sub.remainingVisits,
     place: {
       name: sub.place.name,
       restaurant: {

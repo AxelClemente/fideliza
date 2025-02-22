@@ -178,35 +178,6 @@ export function FilterModal({ isOpen, onClose, onFilter }: FilterModalProps) {
                 </Select>
               </div>
 
-              {/* Has Subscriptions */}
-              <div className="space-y-2">
-                <label className="block text-[16px] font-bold pl-8">
-                  Has subscriptions
-                </label>
-                <Select value={filters.hasSubscriptions} onValueChange={value => setFilters({ ...filters, hasSubscriptions: value })}>
-                  <SelectTrigger className="
-                    bg-[#F6F6F6] 
-                    h-[78px] 
-                    w-[390px] 
-                    rounded-[100px] 
-                    border-0 
-                    mx-auto 
-                    md:mx-8 
-                    text-third-gray 
-                    pl-8 
-                    pr-8
-                    md:w-[598px]
-                  ">
-                    <SelectValue placeholder="Select option" />
-                    <ChevronDown className="h-6 w-6 opacity-50" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yes">Yes</SelectItem>
-                    <SelectItem value="no">No</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
               {/* Has Special offers */}
               <div className="space-y-2">
                 <label className="block text-[16px] font-bold pl-8">

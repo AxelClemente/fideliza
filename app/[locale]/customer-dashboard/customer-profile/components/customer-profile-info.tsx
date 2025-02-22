@@ -9,6 +9,7 @@ import { CustomerProfileModal } from "../modal/customer-profile-modal"
 import { ClipLoader } from 'react-spinners'
 import { toast } from 'sonner'
 import { useSession } from "next-auth/react"
+import { SubscriptionQRModal } from '../../my-subscriptions/components/subscription-qr-modal'
 
 interface CustomerProfileInfoProps {
   id: string
@@ -33,6 +34,7 @@ interface CustomerProfileInfoProps {
     }
     nextPayment: Date
     amount: number
+    remainingVisits: number | null
   }>
 }
 
@@ -49,6 +51,7 @@ export function CustomerProfileInfo({
   const [previewImage, setPreviewImage] = useState<string | null>(image)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { update: updateSession } = useSession()
+  const [selectedSubscription, setSelectedSubscription] = useState<typeof subscriptions[0] | null>(null)
 
   const handleImageClick = () => {
     fileInputRef.current?.click()
@@ -306,7 +309,7 @@ export function CustomerProfileInfo({
 
                     <div className="mt-6 space-y-3">
                       <button 
-                        onClick={() => {}}
+                        onClick={() => setSelectedSubscription(sub)}
                         className="
                           w-[329px]
                           h-[78px]
@@ -369,6 +372,23 @@ export function CustomerProfileInfo({
           avatar: image || ''
         }}
       />
+
+      {selectedSubscription && (
+        <SubscriptionQRModal
+          isOpen={!!selectedSubscription}
+          onClose={() => setSelectedSubscription(null)}
+          subscriptionData={{
+            id: selectedSubscription.id,
+            remainingVisits: selectedSubscription.remainingVisits,
+            place: {
+              name: selectedSubscription.place.name,
+              restaurant: {
+                title: selectedSubscription.place.restaurant.title
+              }
+            }
+          }}
+        />
+      )}
     </>
   )
 }
