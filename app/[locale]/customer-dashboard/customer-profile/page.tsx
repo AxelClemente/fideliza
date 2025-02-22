@@ -35,6 +35,7 @@ async function getCustomerProfile() {
             include: {
               restaurant: {
                 select: {
+                  id: true,
                   title: true,
                   images: {
                     select: {
@@ -61,6 +62,7 @@ async function getCustomerProfile() {
     place: {
       name: sub.place.name,
       restaurant: {
+        id: sub.place.restaurant.id,
         title: sub.place.restaurant.title,
         images: sub.place.restaurant.images
       }

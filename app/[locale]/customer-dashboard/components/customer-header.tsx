@@ -200,6 +200,9 @@ export function CustomerHeader() {
           </div>
         </header>
       </div>
+
+      {/* Spacer solo para tablet */}
+      <div className="hidden md:block lg:hidden h-16" />
     </>
   )
 }
