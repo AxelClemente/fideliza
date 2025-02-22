@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Calendar } from "@/components/ui/calendar"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format } from "date-fns"
-import { CalendarIcon, Trash2, ChevronDown } from 'lucide-react'
+import { CalendarIcon, Trash2, ChevronDown, Check } from 'lucide-react'
 import Image from "next/image"
 import { useState } from "react"
 import { ClipLoader } from 'react-spinners'
@@ -110,6 +109,7 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
   const [isUploadingImages, setIsUploadingImages] = useState(false)
   const [isStartDateOpen, setIsStartDateOpen] = useState(false)
   const [isFinishDateOpen, setIsFinishDateOpen] = useState(false)
+  const [openCommand, setOpenCommand] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -472,42 +472,68 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
 
               {/* Where to use */}
               <div>
-                <label className="px-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
+                <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
                   Where to use
                 </label>
-                <Select onValueChange={setSelectedPlace} value={selectedPlace}>
-                  <SelectTrigger className="
-                    relative    
-                    pl-8 
-                    w-full 
-                    bg-main-gray 
-                    border-0 
-                    rounded-2xl
-                    h-10
-                    md:w-[558px]      
-                    md:h-[78px]       
-                    md:rounded-[100px] 
-                    text-third-gray    
-                    max-md:h-[78px]          
-                    max-md:rounded-[100px]   
-                    max-md:text-[18px]          // <- Tamaño de fuente en móvil
-                    max-md:font-['Open_Sans']   // <- Fuente en móvil
-                    max-md:font-semibold       // <- Peso 600 en móvil
-                    max-md:leading-[22px]      // <- Line height en móvil
-                    max-md:w-[390px]          // <- Solo añadir esto para móvil
-                    max-md:-ml-6            
+                <Popover open={openCommand} onOpenChange={setOpenCommand}>
+                  <PopoverTrigger asChild>
+                    <div className="
+                      bg-main-gray 
+                      border-0 
+                      text-center 
+                      text-third-gray
+                      md:w-[558px]
+                      md:h-[78px]
+                      md:rounded-[100px]
+                      max-md:w-[390px]
+                      max-md:h-[78px]
+                      max-md:rounded-[100px]
+                      max-md:mx-auto
+                      cursor-pointer
+                      flex
+                      items-center
+                      justify-between
+                      px-8
+                    ">
+                      <span className="text-left">
+                        {selectedPlace ? places.find(p => p.id === selectedPlace)?.name : 'Select place...'}
+                      </span>
+                      <ChevronDown className="h-4 w-4 opacity-50" />
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="
+                    w-[558px]
+                    p-4
+                    bg-[#F6F6F6]
+                    border-0
+                    rounded-[20px]
+                    shadow-lg
                   ">
-                    <SelectValue placeholder="Select places" />
-                    <ChevronDown className="absolute right-8 top-1/2 -translate-y-1/2 h-4 w-4 text-third-gray" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {places.map((place) => (
-                      <SelectItem key={place.id} value={place.id}>
-                        {place.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    <div className="space-y-2">
+                      {places.map((place) => (
+                        <div
+                          key={place.id}
+                          className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 rounded-full cursor-pointer"
+                          onClick={() => {
+                            setSelectedPlace(place.id)
+                            setOpenCommand(false)
+                          }}
+                        >
+                          <div className={`
+                            w-5 h-5 rounded-full border
+                            ${selectedPlace === place.id ? 'bg-black border-black' : 'border-gray-400'}
+                            flex items-center justify-center
+                          `}>
+                            {selectedPlace === place.id && (
+                              <Check className="h-4 w-4 text-white" />
+                            )}
+                          </div>
+                          <span className="text-[16px] font-semibold">{place.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               {/* Website */}
