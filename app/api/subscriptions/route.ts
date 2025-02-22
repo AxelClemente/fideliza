@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    const { name, benefits, price, placeIds, website, visitsPerMonth } = body
+    const { name, benefits, price, placeIds, website, visitsPerMonth, unlimitedVisits, period } = body
     
     console.log('📦 [SUBSCRIPTIONS_POST] Payload:', { 
       name, 
@@ -106,7 +106,9 @@ export async function POST(request: Request) {
       price, 
       placeIds, 
       website,
-      visitsPerMonth 
+      visitsPerMonth,
+      unlimitedVisits,
+      period 
     })
 
     // Validar campos requeridos
@@ -128,7 +130,9 @@ export async function POST(request: Request) {
           benefits,
           price: Number(price),
           website,
-          visitsPerMonth: visitsPerMonth ? Number(visitsPerMonth) : null,
+          visitsPerMonth: unlimitedVisits ? 1000 : (visitsPerMonth ? Number(visitsPerMonth) : null),
+          unlimitedVisits: unlimitedVisits || false,
+          period: period || 'MONTHLY',
           places: {
             connect: placeIds.map((id: string) => ({ id }))
           }
@@ -167,7 +171,7 @@ export async function PUT(request: Request) {
     }
 
     const body = await request.json()
-    const { name, benefits, price, placeIds, website, visitsPerMonth } = body
+    const { name, benefits, price, placeIds, website, visitsPerMonth, unlimitedVisits, period } = body
 
     // Validar campos requeridos
     if (!name || !benefits || !price || !placeIds?.length) {
@@ -188,7 +192,9 @@ export async function PUT(request: Request) {
           benefits,
           price: Number(price),
           website,
-          visitsPerMonth: visitsPerMonth ? Number(visitsPerMonth) : null,
+          visitsPerMonth: unlimitedVisits ? 1000 : (visitsPerMonth ? Number(visitsPerMonth) : null),
+          unlimitedVisits: unlimitedVisits || false,
+          period: period || 'MONTHLY',
           places: {
             set: placeIds.map((id: string) => ({ id }))
           }

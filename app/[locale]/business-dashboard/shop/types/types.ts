@@ -55,6 +55,8 @@ export interface RestaurantImage {
     price: number
     website?: string | null
     visitsPerMonth?: number | null
+    period: 'MONTHLY' | 'ANNUAL'
+    unlimitedVisits?: boolean
     createdAt?: Date
     updatedAt?: Date
     places: { id: string; name: string }[]
@@ -76,4 +78,17 @@ export interface RestaurantImage {
     location: string
     createdAt: Date
     updatedAt: Date
+  }
+
+  export interface ProviderSubscription {
+    id: string
+    name: string
+    benefits: string
+    price: number
+    website?: string | null
+    visitsPerMonth?: number | null
+    period: 'MONTHLY' | 'ANNUAL'
+    unlimitedVisits?: boolean
+    createdAt?: Date
+    updatedAt?: Date
   }

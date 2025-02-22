@@ -310,7 +310,8 @@
       "validationHistory": "Historial de Validaciones",
       "noValidationsFound": "No se encontraron validaciones",
       "loading": "Cargando...",
-      "remainingVisits": "Visitas restantes"
+      "remainingVisits": "Visitas restantes",
+      "unlimited": "Ilimitadas"
     },
     "CustomerDashboard": {
       "header": {

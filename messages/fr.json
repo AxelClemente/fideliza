@@ -311,7 +311,8 @@
     "validationHistory": "Historique des Validations",
     "noValidationsFound": "Aucune validation trouvée",
     "loading": "Chargement...",
-    "remainingVisits": "Visites restantes"
+    "remainingVisits": "Visites restantes",
+    "unlimited": "Visites illimitées"
   },
   "CustomerDashboard": {
     "header": {

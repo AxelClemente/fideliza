@@ -10,6 +10,7 @@ interface ProviderSubscription {
   price: number
   website?: string | null
   visitsPerMonth?: number | null
+  period?: string | null
   createdAt?: Date
   updatedAt?: Date
 }
@@ -27,6 +28,7 @@ export default async function SubscriptionsPage() {
         if (!subscriptionMap.has(subscription.id)) {
           subscriptionMap.set(subscription.id, {
             ...subscription,
+            period: subscription.period?.toUpperCase() as "MONTHLY" | "ANNUAL",
             places: [{
               id: place.id,
               name: place.name
@@ -87,14 +89,18 @@ export default async function SubscriptionsPage() {
                   className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg w-[389px] h-[638px] relative"
                 >
                   <div className="p-6 space-y-4">
-                    <div className="text-center pb-6" >
+                    <div className="text-center pb-6">
                       <h3 className="text-[24px] font-bold leading-[30px] font-['Open_Sans']">
                         {subscription.name}
                       </h3>
                       <p className="text-[20px] font-semibold mt-2">
-                        {subscription.price}€/month
+                        {subscription.price}€/{subscription.period?.toLowerCase() === 'annual' ? 'year' : 'month'}
                       </p>
-                      {subscription.visitsPerMonth && (
+                      {subscription.period?.toLowerCase() === 'annual' ? (
+                        <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
+                          {t('unlimited')}
+                        </p>
+                      ) : subscription.visitsPerMonth && (
                         <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
                           {t('visitsPerMonth', { visits: subscription.visitsPerMonth })}
                         </p>
@@ -206,9 +212,13 @@ export default async function SubscriptionsPage() {
                             {subscription.name}
                           </h3>
                           <p className="text-[20px] font-bold mt-1">
-                            {subscription.price}€/month
+                            {subscription.price}€/{subscription.period?.toLowerCase() === 'annual' ? 'year' : 'month'}
                           </p>
-                          {subscription.visitsPerMonth && (
+                          {subscription.period?.toLowerCase() === 'annual' ? (
+                            <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
+                              {t('unlimited')}
+                            </p>
+                          ) : subscription.visitsPerMonth && (
                             <p className="text-[16px] font-semibold mt-1 text-[#7B7B7B]">
                               {t('visitsPerMonth', { visits: subscription.visitsPerMonth })}
                             </p>

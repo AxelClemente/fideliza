@@ -24,6 +24,8 @@ interface AddSubscriptionModalProps {
     placeId: string
     website?: string | null
     visitsPerMonth?: number
+    unlimitedVisits?: boolean
+    period?: 'MONTHLY' | 'ANNUAL'
   }
 }
 
@@ -44,8 +46,10 @@ export function AddSubscriptionModal({
   )
   const [website, setWebsite] = useState(initialData?.website || '')
   const [openCommand, setOpenCommand] = useState(false)
+  const [period, setPeriod] = useState<'MONTHLY' | 'ANNUAL'>(initialData?.period || 'MONTHLY')
+  const [unlimitedVisits, setUnlimitedVisits] = useState(initialData?.unlimitedVisits || false)
   const [visitsPerMonth, setVisitsPerMonth] = useState(
-    initialData?.visitsPerMonth?.toString() || ''
+    initialData?.unlimitedVisits ? 'unlimited' : (initialData?.visitsPerMonth?.toString() || '')
   )
   const [showErrors, setShowErrors] = useState(false)
 
@@ -78,8 +82,10 @@ export function AddSubscriptionModal({
       benefits: benefits.trim(),
       price: Number(price),
       placeIds: selectedPlaces,
-      ...(website && { website: website.trim() }),
-      visitsPerMonth: Number(visitsPerMonth)
+      period,
+      unlimitedVisits: visitsPerMonth === 'unlimited',
+      visitsPerMonth: visitsPerMonth === 'unlimited' ? 1000 : Number(visitsPerMonth),
+      ...(website && { website: website.trim() })
     }
 
     console.log('Sending request:', { endpoint, method, payload })
@@ -219,15 +225,7 @@ export function AddSubscriptionModal({
                 <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 max-md:pl-4">
                   Price
                 </label>
-                <div className="
-                  flex 
-                  flex-col
-                  md:flex-row 
-                  gap-3
-                  md:gap-1
-                  max-md:px-0
-                  md:px-6
-                ">
+                <div className="flex gap-3 items-center">
                   <Input 
                     type="number"
                     value={price}
@@ -271,10 +269,9 @@ export function AddSubscriptionModal({
                     "
                   />
                   
-                  <Input 
-                    type="text"
-                    value="Month"
-                    readOnly
+                  <select
+                    value={period}
+                    onChange={(e) => setPeriod(e.target.value as 'MONTHLY' | 'ANNUAL')}
                     className="
                       bg-main-gray 
                       border-0 
@@ -290,8 +287,14 @@ export function AddSubscriptionModal({
                       max-md:h-[78px]
                       max-md:rounded-[100px]
                       max-md:mx-auto
+                      appearance-none
+                      cursor-pointer
+                      px-4
                     "
-                  />
+                  >
+                    <option value="MONTHLY">Month</option>
+                    <option value="ANNUAL">Annual</option>
+                  </select>
                 </div>
               </div>
 
@@ -299,10 +302,13 @@ export function AddSubscriptionModal({
                 <label className="pt-3 pl-6 block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1">
                   Visits per month
                 </label>
-                <Input 
-                  type="number"
+                <select
                   value={visitsPerMonth}
-                  onChange={(e) => setVisitsPerMonth(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setVisitsPerMonth(value);
+                    setUnlimitedVisits(value === 'unlimited');
+                  }}
                   className="
                     bg-main-gray 
                     border-0 
@@ -315,9 +321,17 @@ export function AddSubscriptionModal({
                     max-md:h-[78px]
                     max-md:rounded-[100px]
                     max-md:mx-auto
-                  " 
-                  placeholder="5"
-                />
+                    appearance-none
+                    cursor-pointer
+                    px-4
+                  "
+                >
+                  <option value="">Select visits...</option>
+                  <option value="unlimited">Unlimited</option>
+                  {Array.from({length: 300}, (_, i) => i + 1).map(num => (
+                    <option key={num} value={num.toString()}>{num}</option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -376,27 +390,37 @@ export function AddSubscriptionModal({
                       {t('selectBranchError')}
                     </p>
                   )}
-                  <PopoverContent className="w-full p-0">
-                    <div className="max-h-[300px] overflow-auto p-2">
+                  <PopoverContent className="
+                    w-[558px]  // Mismo ancho que los inputs
+                    p-4
+                    bg-[#F6F6F6]  // Mismo color de fondo
+                    border-0
+                    rounded-[100px]  // Mismos bordes redondeados
+                    shadow-lg
+                  ">
+                    <div className="space-y-2">
                       {uniquePlaces.map((place) => (
                         <div
-                          key={`place-option-${place.id}`}
-                          className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
+                          key={place.id}
+                          className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 rounded-full cursor-pointer"
                           onClick={() => {
-                            setSelectedPlaces(current => {
-                              const isSelected = current.includes(place.id)
-                              return isSelected 
+                            setSelectedPlaces(current =>
+                              current.includes(place.id)
                                 ? current.filter(id => id !== place.id)
                                 : [...current, place.id]
-                            })
+                            )
                           }}
                         >
-                          <div className="border border-gray-300 rounded w-4 h-4 flex items-center justify-center">
+                          <div className={`
+                            w-5 h-5 rounded-full border
+                            ${selectedPlaces.includes(place.id) ? 'bg-black border-black' : 'border-gray-400'}
+                            flex items-center justify-center
+                          `}>
                             {selectedPlaces.includes(place.id) && (
-                              <Check className="h-3 w-3" />
+                              <Check className="h-4 w-4 text-white" />
                             )}
                           </div>
-                          <span className="text-sm">{place.name}</span>
+                          <span className="text-[16px] font-semibold">{place.name}</span>
                         </div>
                       ))}
                     </div>

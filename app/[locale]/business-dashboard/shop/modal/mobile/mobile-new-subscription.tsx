@@ -23,6 +23,9 @@ interface MobileNewSubscriptionProps {
     price: number
     placeId: string
     website?: string | null
+    period?: 'MONTHLY' | 'ANNUAL'
+    unlimitedVisits?: boolean
+    visitsPerMonth?: number
   }
 }
 
@@ -42,6 +45,12 @@ export function MobileNewSubscription({
   )
   const [website, setWebsite] = useState(initialData?.website || '')
   const [openCommand, setOpenCommand] = useState(false)
+  const [period, setPeriod] = useState<'MONTHLY' | 'ANNUAL'>(initialData?.period || 'MONTHLY')
+  const [visitsPerMonth, setVisitsPerMonth] = useState(
+    initialData?.unlimitedVisits ? 'unlimited' : (initialData?.visitsPerMonth?.toString() || '')
+  )
+  const [openVisitsPopover, setOpenVisitsPopover] = useState(false)
+  const [openPeriodPopover, setOpenPeriodPopover] = useState(false)
 
   if (!isOpen) return null
 
@@ -75,6 +84,9 @@ export function MobileNewSubscription({
         benefits: benefits.trim(),
         price: Number(price),
         placeIds: selectedPlaces,
+        period,
+        unlimitedVisits: visitsPerMonth === 'unlimited',
+        visitsPerMonth: visitsPerMonth === 'unlimited' ? 1000 : Number(visitsPerMonth),
         ...(website && { website: website.trim() })
       }
 
@@ -179,15 +191,7 @@ export function MobileNewSubscription({
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="
-                      bg-gray-50 
-                      border-none 
-                      w-[390px]
-                      h-[78px] 
-                      rounded-[100px]
-                      pl-[52px]
-                      mx-auto
-                    "
+                    className="bg-gray-50 border-none w-[390px] h-[78px] rounded-[100px] text-center mx-auto"
                     placeholder="2"
                   />
                   
@@ -195,36 +199,148 @@ export function MobileNewSubscription({
                     type="text"
                     value="€"
                     readOnly
-                    className="
-                      bg-gray-50 
-                      border-none 
-                      w-[390px]
-                      h-[78px] 
-                      rounded-[100px]
-                      text-left
-                      pl-12
-                      text-gray-500
-                      mx-auto
-                    "
-                  />
-                  
-                  <Input 
-                    type="text"
-                    value="Month"
-                    readOnly
-                    className="
-                      bg-gray-50 
-                      border-none 
-                      w-[390px]
-                      h-[78px] 
-                      rounded-[100px]
-                      text-left
-                      pl-12
-                      text-gray-500
-                      mx-auto
-                    "
+                    className="bg-gray-50 border-none w-[390px] h-[78px] rounded-[100px] text-center text-gray-500 mx-auto"
                   />
                 </div>
+              </div>
+
+              {/* Visits per month */}
+              <div className="space-y-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1 pl-6">
+                  Visits per month
+                </label>
+                <Popover open={openVisitsPopover} onOpenChange={setOpenVisitsPopover}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="
+                        w-[390px]
+                        h-[78px]
+                        bg-gray-50
+                        border-none
+                        rounded-[100px]
+                        justify-between
+                        pl-6
+                        mx-auto
+                        text-left
+                        hover:bg-gray-50
+                        hover:text-current
+                      "
+                    >
+                      {visitsPerMonth ? (visitsPerMonth === 'unlimited' ? 'Unlimited' : visitsPerMonth) : 'Select visits...'}
+                      <svg
+                        className="ml-2 h-4 w-4 shrink-0 opacity-50"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                        />
+                      </svg>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent 
+                    className="w-[390px] h-[200px] overflow-y-auto bg-gray-50 border-0 rounded-[100px] shadow-lg z-[9999]"
+                    align="center"
+                  >
+                    <div className="sticky top-0 px-4 py-2 bg-gray-50 border-b">
+                      <div
+                        className="hover:bg-gray-100 rounded-full cursor-pointer p-2 text-center"
+                        onClick={() => {
+                          setVisitsPerMonth('unlimited')
+                          setOpenVisitsPopover(false)
+                        }}
+                      >
+                        Unlimited
+                      </div>
+                    </div>
+                    <div className="py-2">
+                      {Array.from({length: 300}, (_, i) => i + 1).map(num => (
+                        <div
+                          key={num}
+                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-center"
+                          onClick={() => {
+                            setVisitsPerMonth(num.toString())
+                            setOpenVisitsPopover(false)
+                          }}
+                        >
+                          {num}
+                        </div>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Period selector */}
+              <div className="space-y-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1 pl-6">
+                  Period
+                </label>
+                <Popover open={openPeriodPopover} onOpenChange={setOpenPeriodPopover}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="
+                        w-[390px]
+                        h-[78px]
+                        bg-gray-50
+                        border-none
+                        rounded-[100px]
+                        justify-between
+                        pl-6
+                        mx-auto
+                        text-left
+                        hover:bg-gray-50
+                        hover:text-current
+                      "
+                    >
+                      {period === 'MONTHLY' ? 'Month' : 'Annual'}
+                      <svg
+                        className="ml-2 h-4 w-4 shrink-0 opacity-50"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                        />
+                      </svg>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent 
+                    className="w-[390px] p-4 bg-gray-50 border-0 rounded-[100px] shadow-lg z-[9999]"
+                    align="center"
+                  >
+                    <div className="space-y-2">
+                      <div
+                        className="px-4 py-2 hover:bg-gray-100 rounded-full cursor-pointer"
+                        onClick={() => {
+                          setPeriod('MONTHLY')
+                          setOpenPeriodPopover(false)
+                        }}
+                      >
+                        Month
+                      </div>
+                      <div
+                        className="px-4 py-2 hover:bg-gray-100 rounded-full cursor-pointer"
+                        onClick={() => {
+                          setPeriod('ANNUAL')
+                          setOpenPeriodPopover(false)
+                        }}
+                      >
+                        Annual
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               {/* Where to use */}
@@ -247,6 +363,9 @@ export function MobileNewSubscription({
                         justify-between
                         pl-6
                         mx-auto
+                        text-left
+                        hover:bg-gray-50
+                        hover:text-current
                       "
                     >
                       {selectedPlaces.length === 0 
@@ -268,28 +387,33 @@ export function MobileNewSubscription({
                       </svg>
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[390px] p-0 z-[9999]">
-                    <div className="max-h-[300px] overflow-auto p-2">
+                  <PopoverContent 
+                    className="w-[390px] p-4 bg-gray-50 border-0 rounded-[100px] shadow-lg z-[9999]"
+                    align="center"
+                  >
+                    <div className="space-y-2">
                       {places.map((place) => (
                         <div
                           key={place.id}
-                          className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
+                          className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 rounded-full cursor-pointer"
                           onClick={() => {
-                            setSelectedPlaces(current => {
-                              const isSelected = current.includes(place.id)
-                              return isSelected 
+                            setSelectedPlaces(current =>
+                              current.includes(place.id)
                                 ? current.filter(id => id !== place.id)
                                 : [...current, place.id]
-                            })
-                            console.log('Place clicked:', place.id)
+                            )
                           }}
                         >
-                          <div className="border border-gray-300 rounded w-4 h-4 flex items-center justify-center">
+                          <div className={`
+                            w-5 h-5 rounded-full border
+                            ${selectedPlaces.includes(place.id) ? 'bg-black border-black' : 'border-gray-400'}
+                            flex items-center justify-center
+                          `}>
                             {selectedPlaces.includes(place.id) && (
-                              <Check className="h-3 w-3" />
+                              <Check className="h-4 w-4 text-white" />
                             )}
                           </div>
-                          <span className="text-sm">{place.name}</span>
+                          <span className="text-[16px] font-semibold">{place.name}</span>
                         </div>
                       ))}
                     </div>
