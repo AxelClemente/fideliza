@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from "@/app/api/auth/auth.config"
 import { prisma } from '@/lib/prisma'
 import { Role } from '@prisma/client'
-import type { Restaurant, Place, Subscription } from '@/app/[locale]/business-dashboard/shop/types/types'
+import type { Restaurant, Place, Subscription as SubscriptionType } from '@/app/[locale]/business-dashboard/shop/types/types'
 
 // Interfaces
 interface CurrentUser {
@@ -13,10 +13,10 @@ interface CurrentUser {
 interface BusinessProviderResult {
   restaurants: Restaurant[];
   places: Place[];
-  subscriptions: Subscription[];
+  subscriptions: SubscriptionType[];
   getRestaurantById: (id: string) => Promise<Restaurant | null>;
   getPlacesByRestaurantId: (restaurantId: string) => Promise<Place[]>;
-  getSubscriptionsByPlaceId: (placeId: string) => Promise<Subscription[]>;
+  getSubscriptionsByPlaceId: (placeId: string) => Promise<SubscriptionType[]>;
 }
 
 export async function BusinessProvider(): Promise<BusinessProviderResult> {
@@ -99,6 +99,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
       price: true,
       website: true,
       visitsPerMonth: true,
+      period: true,
       places: {
         select: {
           id: true,
@@ -108,7 +109,10 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
         }
       }
     }
-  })
+  }).then(subs => subs.map(sub => ({
+    ...sub,
+    period: sub.period || 'MONTHLY'
+  })) as SubscriptionType[]);
   console.log('Subscriptions from DB:', JSON.stringify(subscriptions, null, 2))
 
   // Funciones auxiliares para obtener datos específicos
@@ -146,6 +150,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
                 price: true,
                 website: true,
                 visitsPerMonth: true,
+                period: true,
                 places: {
                   select: {
                     id: true,
@@ -179,8 +184,8 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
     })
   }
 
-  const getSubscriptionsByPlaceId = async (placeId: string) => {
-    return await prisma.subscription.findMany({
+  const getSubscriptionsByPlaceId = async (placeId: string): Promise<SubscriptionType[]> => {
+    const subs = await prisma.subscription.findMany({
       where: {
         places: {
           some: {
@@ -194,11 +199,22 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
         benefits: true,
         price: true,
         website: true,
-        createdAt: true,
-        updatedAt: true,
-        places: true
+        period: true,
+        places: {
+          select: {
+            id: true,
+            name: true,
+            location: true,
+            phoneNumber: true
+          }
+        }
       }
-    })
+    });
+
+    return subs.map(sub => ({
+      ...sub,
+      period: sub.period || 'MONTHLY'
+    })) as SubscriptionType[];
   }
 
   return {
