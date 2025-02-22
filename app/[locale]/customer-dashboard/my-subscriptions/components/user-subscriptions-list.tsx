@@ -8,6 +8,8 @@ import { UpgradeSubscriptionModal } from '@/app/[locale]/customer-dashboard/my-s
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { Period } from '@prisma/client'
+import { FileText } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 interface UserSubscriptionsListProps {
   subscriptions: Array<{
@@ -49,10 +51,13 @@ interface UserSubscriptionsListProps {
 }
 
 export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListProps) {
+  const { data: session } = useSession()
   const t = useTranslations('CustomerDashboard.MySubscriptions')
   const [selectedSubscription, setSelectedSubscription] = useState<typeof subscriptions[0] | null>(null)
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false)
   const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<typeof subscriptions[0] | null>(null)
+  const [isVisitsHistoryOpen, setIsVisitsHistoryOpen] = useState(false)
+  const [validationsHistory, setValidationsHistory] = useState<any[]>([])
 
   const handleUpgradeClick = (subscription: typeof subscriptions[0]) => {
     setSubscriptionToUpgrade(subscription)
@@ -123,6 +128,34 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
       toast.error('Failed to share restaurant info');
     }
   };
+
+  const fetchValidationsHistory = async () => {
+    try {
+      if (!session?.user?.id) {
+        console.log('No user session found')
+        return
+      }
+
+      console.log('Fetching validations for user:', session.user.id)
+      const response = await fetch(`/api/validate-subscription/save-validation?subscriberId=${session.user.id}`)
+      console.log('Response status:', response.status)
+      
+      const data = await response.json()
+      console.log('Data recibida:', data)
+      
+      if (data.success) {
+        console.log('Validaciones encontradas:', data.validations)
+        setValidationsHistory(data.validations)
+        setIsVisitsHistoryOpen(true)
+      } else {
+        console.log('Error en la respuesta:', data.error)
+        toast.error(t('errorFetchingHistory'))
+      }
+    } catch (error) {
+      console.error('Error completo en fetchValidationsHistory:', error)
+      toast.error(t('errorLoadingHistory'))
+    }
+  }
 
   if (subscriptions.length === 0) {
     return (
@@ -233,7 +266,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                 {t('validUntil')}: {formatDate(sub.nextPayment)}
               </p>
               {sub.subscription.visitsPerMonth && sub.remainingVisits !== null && (
-                <p className="
+                <div className="
                   text-[20px]
                   leading-[26px]
                   font-['Open_Sans']
@@ -241,12 +274,24 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                   text-center
                   text-[#7B7B7B]
                   mb-4
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
                 ">
-                  {t('visitsRemaining', {
-                    remaining: sub.remainingVisits,
-                    total: sub.subscription.visitsPerMonth
-                  })}
-                </p>
+                  <span>
+                    {t('visitsRemaining', {
+                      remaining: sub.remainingVisits,
+                      total: sub.subscription.visitsPerMonth
+                    })}
+                  </span>
+                  <button
+                    onClick={fetchValidationsHistory}
+                    className="hover:text-black transition-colors"
+                  >
+                    <FileText size={20} />
+                  </button>
+                </div>
               )}
               
               <h4 className="
@@ -412,6 +457,51 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
         }}
         currentSubscription={subscriptionToUpgrade}
       />
+
+      {isVisitsHistoryOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-4">{t('visitsHistory')}</h2>
+            
+            <div className="space-y-4">
+              {validationsHistory.length > 0 ? (
+                validationsHistory.map((validation) => (
+                  <div 
+                    key={validation.id} 
+                    className="border rounded-lg p-4 shadow-sm"
+                  >
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="font-semibold">{validation.subscriptionName}</p>
+                        <p className="text-gray-600">{validation.placeName}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold">
+                          {new Date(validation.validationDate).toLocaleDateString()}
+                        </p>
+                        <p className="text-gray-600">
+                          Remaining visits: {validation.remainingVisits}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-center text-gray-500">{t('noValidationHistory')}</p>
+              )}
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setIsVisitsHistoryOpen(false)}
+                className="bg-black text-white px-6 py-2 rounded-full hover:bg-black/90 transition-colors"
+              >
+                {t('close')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

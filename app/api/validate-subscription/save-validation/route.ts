@@ -73,10 +73,25 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
     const subscriberId = searchParams.get('subscriberId')
     
+    // Obtener el rol del usuario
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { role: true }
+    })
+
+    console.log('User role:', user?.role)
+    console.log('Subscriber ID:', subscriberId)
+
+    // Ajustar la consulta según el rol
     const validations = await prisma.subscriptionValidation.findMany({
       where: {
-        subscriberId: subscriberId || undefined,
-        ownerId: session.user.id,
+        ...(user?.role === 'CUSTOMER' 
+          ? { subscriberId: session.user.id }  // Si es customer, buscar sus propias validaciones
+          : { 
+              subscriberId: subscriberId || undefined,
+              ownerId: session.user.id  // Si es business/staff, mantener la lógica original
+            }
+        )
       },
       orderBy: {
         validationDate: 'desc'
@@ -92,7 +107,7 @@ export async function GET(req: Request) {
       }
     })
 
-    console.log('Validations data:', validations)
+    console.log('Validations found:', validations.length)
     return NextResponse.json({ success: true, validations })
   } catch (error) {
     console.error('Error fetching validations:', error)

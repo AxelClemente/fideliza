@@ -422,7 +422,10 @@
       "shareInfo": "Partager info",
       "upgrade": "Améliorer",
       "unsubscribe": "Se désabonner",
-      "visitsRemaining": "{remaining} / {total} visites restantes"
+      "visitsRemaining": "{remaining} / {total} visites restantes",
+      "visitsHistory": "Historique des Visites",
+      "noValidationHistory": "Aucun historique de validation trouvé",
+      "close": "Fermer"
     },
     "about": {
       "title": "À propos du service",
