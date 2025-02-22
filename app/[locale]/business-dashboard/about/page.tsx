@@ -51,7 +51,7 @@ export default function ServiceInfo() {
       case 'Billing':
         return <BillingSection />
       case 'QR and links':
-        return <QRSection />
+        return <QRSection shareUrl={getShareUrl()} />
       default:
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

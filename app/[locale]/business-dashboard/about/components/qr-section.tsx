@@ -3,9 +3,21 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
-export default function QRSection() {
+interface QRSectionProps {
+  shareUrl: string
+}
+
+export default function QRSection({ shareUrl }: QRSectionProps) {
   const [activeSection, setActiveSection] = useState<'links' | 'qrs'>('links')
   const t = useTranslations('BusinessDashboard.qr')
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+    } catch (err) {
+      console.error('Error copying link:', err)
+    }
+  }
 
   return (
     <div className="w-full">
@@ -36,9 +48,12 @@ export default function QRSection() {
                     width={20} 
                     height={20} 
                   />
-                  http://oursite.com
+                  {shareUrl}
                 </div>
-                <button className="w-[369px] h-[78px] bg-black text-white px-6 rounded-full hover:bg-gray-800 transition-colors">
+                <button 
+                  onClick={handleCopyLink}
+                  className="w-[369px] h-[78px] bg-black text-white px-6 rounded-full hover:bg-gray-800 transition-colors"
+                >
                   Share Link
                 </button>
               </div>
@@ -117,7 +132,7 @@ export default function QRSection() {
                       width={20} 
                       height={20} 
                     />
-                    http://oursite.com
+                    {shareUrl}
                   </div>
                   <button className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors">
                     Share Link
