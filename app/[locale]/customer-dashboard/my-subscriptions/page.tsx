@@ -80,16 +80,22 @@ export default async function MySubscriptionsPage() {
           new Date(acc[sub.subscriptionId].createdAt) < new Date(sub.createdAt)) {
         const transformedSub = {
           ...sub,
-          period: (sub.subscription.period || 'MONTHLY') as Period,
+          period: (sub.subscription.period || Period.MONTHLY) as Period,
           place: {
             ...sub.place,
             restaurant: {
               ...sub.place.restaurant,
               places: sub.place.restaurant.places?.map(place => ({
-                ...place,
+                id: place.id,
+                name: place.name,
+                location: place.location,
                 subscriptions: place.subscriptions.map(s => ({
-                  ...s,
-                  period: (s.period || 'MONTHLY') as Period
+                  id: s.id,
+                  name: s.name,
+                  benefits: s.benefits,
+                  price: s.price,
+                  visitsPerMonth: s.visitsPerMonth,
+                  period: (s.period || Period.MONTHLY) as Period
                 }))
               }))
             }

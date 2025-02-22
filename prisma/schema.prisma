@@ -178,7 +178,7 @@ model Subscription {
   website         String?
   visitsPerMonth  Int?
   unlimitedVisits Boolean? @default(false)
-  period          Period?  @default(MONTHLY)
+  period          Period   @default(MONTHLY)
   places          Place[]
   subscribers     UserSubscription[]
   createdAt       DateTime @default(now())
