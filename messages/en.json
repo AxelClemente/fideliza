@@ -423,7 +423,7 @@
       "shareInfo": "Share info",
       "upgrade": "Upgrade",
       "unsubscribe": "Unsubscribe",
-      "visitsRemaining": "{remaining} / {total} visits remaining",
+      "visitsRemaining": "visits remaining",
       "visitsHistory": "Visits History",
       "noValidationHistory": "No validation history found",
       "close": "Close"

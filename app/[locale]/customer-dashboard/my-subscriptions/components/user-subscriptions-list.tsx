@@ -68,6 +68,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
   const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<typeof subscriptions[0] | null>(null)
   const [isVisitsHistoryOpen, setIsVisitsHistoryOpen] = useState(false)
   const [validationsHistory, setValidationsHistory] = useState<ValidationHistory[]>([])
+  const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<string | null>(null)
 
   const handleUpgradeClick = (subscription: typeof subscriptions[0]) => {
     setSubscriptionToUpgrade(subscription)
@@ -139,7 +140,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
     }
   };
 
-  const fetchValidationsHistory = async () => {
+  const fetchValidationsHistory = async (subscriptionId: string) => {
     try {
       if (!session?.user?.id) {
         console.log('No user session found')
@@ -154,8 +155,14 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
       console.log('Data recibida:', data)
       
       if (data.success) {
-        console.log('Validaciones encontradas:', data.validations)
-        setValidationsHistory(data.validations)
+        // Filtramos las validaciones por subscriptionId
+        const filteredValidations = data.validations.filter(
+          (validation: ValidationHistory) => validation.subscriptionName === subscriptions.find(s => s.id === subscriptionId)?.subscription.name
+        )
+        console.log('Validaciones filtradas:', filteredValidations)
+        
+        setValidationsHistory(filteredValidations)
+        setSelectedSubscriptionId(subscriptionId)
         setIsVisitsHistoryOpen(true)
       } else {
         console.log('Error en la respuesta:', data.error)
@@ -296,7 +303,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                     })}
                   </span>
                   <button
-                    onClick={fetchValidationsHistory}
+                    onClick={() => fetchValidationsHistory(sub.id)}
                     className="hover:text-black transition-colors"
                   >
                     <FileText size={20} />
@@ -471,7 +478,9 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
       {isVisitsHistoryOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <h2 className="text-2xl font-bold mb-4">{t('visitsHistory')}</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {subscriptions.find(s => s.id === selectedSubscriptionId)?.subscription.name} - {t('visitsHistory')}
+            </h2>
             
             <div className="space-y-4">
               {validationsHistory.length > 0 ? (
@@ -489,9 +498,11 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                         <p className="font-semibold">
                           {new Date(validation.validationDate).toLocaleDateString()}
                         </p>
-                        <p className="text-gray-600">
-                          Remaining visits: {validation.remainingVisits}
-                        </p>
+                        {validation.remainingVisits !== null && (
+                          <p className="text-gray-600">
+                            {validation.remainingVisits} {t('visitsRemaining')}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -503,7 +514,10 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
 
             <div className="mt-6 flex justify-end">
               <button
-                onClick={() => setIsVisitsHistoryOpen(false)}
+                onClick={() => {
+                  setIsVisitsHistoryOpen(false)
+                  setSelectedSubscriptionId(null)
+                }}
                 className="bg-black text-white px-6 py-2 rounded-full hover:bg-black/90 transition-colors"
               >
                 {t('close')}

@@ -421,7 +421,7 @@
         "shareInfo": "Compartir info",
         "upgrade": "Mejorar",
         "unsubscribe": "Cancelar suscripción",
-        "visitsRemaining": "{remaining} / {total} visitas restantes",
+        "visitsRemaining": "visitas restantes",
         "visitsHistory": "Historial de Visitas",
         "noValidationHistory": "No se encontró historial de validaciones",
         "close": "Cerrar"
