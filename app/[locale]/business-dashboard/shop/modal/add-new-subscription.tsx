@@ -47,7 +47,6 @@ export function AddSubscriptionModal({
   const [website, setWebsite] = useState(initialData?.website || '')
   const [openCommand, setOpenCommand] = useState(false)
   const [period, setPeriod] = useState<'MONTHLY' | 'ANNUAL'>(initialData?.period || 'MONTHLY')
-  const [unlimitedVisits, setUnlimitedVisits] = useState(initialData?.unlimitedVisits || false)
   const [visitsPerMonth, setVisitsPerMonth] = useState(
     initialData?.unlimitedVisits ? 'unlimited' : (initialData?.visitsPerMonth?.toString() || '')
   )
@@ -304,11 +303,7 @@ export function AddSubscriptionModal({
                 </label>
                 <select
                   value={visitsPerMonth}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setVisitsPerMonth(value);
-                    setUnlimitedVisits(value === 'unlimited');
-                  }}
+                  onChange={(e) => setVisitsPerMonth(e.target.value)}
                   className="
                     bg-main-gray 
                     border-0 
