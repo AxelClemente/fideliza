@@ -254,6 +254,7 @@ export function CustomerOfferModal({
               leading-[20px] 
               font-['Open_Sans']
               hover:bg-gray-900
+              hover:text-white
             "
           >
             {t('viewRestaurant')}

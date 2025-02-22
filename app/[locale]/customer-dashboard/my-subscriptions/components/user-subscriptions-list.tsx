@@ -24,16 +24,17 @@ interface UserSubscriptionsListProps {
         images: Array<{
           url: string
         }>
-        subscriptions?: Array<{
+        places?: Array<{
           id: string
           name: string
-          benefits: string
-          price: number
-          visitsPerMonth: number | null
-          places: Array<{
+          location: string
+          subscriptions: Array<{
             id: string
             name: string
-            location: string
+            benefits: string
+            price: number
+            visitsPerMonth: number | null
+            period: 'MONTHLY' | 'ANNUAL'
           }>
         }>
       }
@@ -41,17 +42,18 @@ interface UserSubscriptionsListProps {
     status: string
     nextPayment: Date
     amount: number
+    period: 'MONTHLY' | 'ANNUAL'
     remainingVisits: number | null
   }>
 }
 
 export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListProps) {
   const t = useTranslations('CustomerDashboard.MySubscriptions')
-  const [selectedSubscription, setSelectedSubscription] = useState<UserSubscriptionsListProps['subscriptions'][0] | null>(null)
+  const [selectedSubscription, setSelectedSubscription] = useState<typeof subscriptions[0] | null>(null)
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false)
-  const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<UserSubscriptionsListProps['subscriptions'][0] | null>(null)
+  const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<typeof subscriptions[0] | null>(null)
 
-  const handleUpgradeClick = (subscription: UserSubscriptionsListProps['subscriptions'][0]) => {
+  const handleUpgradeClick = (subscription: typeof subscriptions[0]) => {
     setSubscriptionToUpgrade(subscription)
     setIsUpgradeModalOpen(true)
   }
@@ -101,7 +103,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
     )
   }
 
-  const handleShare = async (sub: UserSubscriptionsListProps['subscriptions'][0]) => {
+  const handleShare = async (sub: typeof subscriptions[0]) => {
     const restaurantUrl = `${window.location.origin}/customer-dashboard/restaurants/${sub.place.restaurant.id}`;
     
     try {

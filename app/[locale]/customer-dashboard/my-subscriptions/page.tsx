@@ -33,7 +33,8 @@ export default async function MySubscriptionsPage() {
         select: {
           name: true,
           benefits: true,
-          visitsPerMonth: true
+          visitsPerMonth: true,
+          period: true
         }
       },
       place: {
@@ -47,6 +48,20 @@ export default async function MySubscriptionsPage() {
                   url: true
                 },
                 take: 1
+              },
+              places: {
+                include: {
+                  subscriptions: {
+                    select: {
+                      id: true,
+                      name: true,
+                      benefits: true,
+                      price: true,
+                      visitsPerMonth: true,
+                      period: true
+                    }
+                  }
+                }
               }
             }
           }
@@ -59,10 +74,13 @@ export default async function MySubscriptionsPage() {
     userSubscriptions.reduce((acc, sub) => {
       if (!acc[sub.subscriptionId] || 
           new Date(acc[sub.subscriptionId].createdAt) < new Date(sub.createdAt)) {
-        acc[sub.subscriptionId] = sub;
+        acc[sub.subscriptionId] = {
+          ...sub,
+          period: sub.subscription.period || 'MONTHLY'
+        };
       }
       return acc;
-    }, {} as Record<string, typeof userSubscriptions[0]>)
+    }, {} as Record<string, typeof userSubscriptions[0] & { period: 'MONTHLY' | 'ANNUAL' }>)
   );
 
   console.log('UserSubscriptions data:', JSON.stringify(latestSubscriptions.map(sub => ({

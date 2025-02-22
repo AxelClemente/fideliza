@@ -37,6 +37,7 @@ interface UpgradeSubscriptionModalProps {
             benefits: string
             price: number
             visitsPerMonth: number | null
+            period: 'MONTHLY' | 'ANNUAL'
           }>
         }>
       }
@@ -44,11 +45,16 @@ interface UpgradeSubscriptionModalProps {
     status: string
     nextPayment: Date
     amount: number
+    period: 'MONTHLY' | 'ANNUAL'
     remainingVisits: number | null
   } | null
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+
+const formatPeriod = (period: 'MONTHLY' | 'ANNUAL') => {
+  return period === 'MONTHLY' ? '/month' : '/year'
+}
 
 export function UpgradeSubscriptionModal({
   isOpen,
@@ -96,6 +102,7 @@ export function UpgradeSubscriptionModal({
       name: string;
       location: string;
     }>;
+    period: 'MONTHLY' | 'ANNUAL';
   }>) || [];
 
   console.log('Current subscription:', currentSubscription);
@@ -123,6 +130,7 @@ export function UpgradeSubscriptionModal({
     name: string
     price: number
     places: Array<{ id: string }>
+    period: 'MONTHLY' | 'ANNUAL'
   }) => {
     try {
       if (!subscription.places?.[0]) {
@@ -185,10 +193,10 @@ export function UpgradeSubscriptionModal({
                   Current Plan
                 </h3>
                 <p className="text-[20px] font-['Open_Sans'] font-[700]">
-                  {currentSubscription.amount}€/month
+                  {currentSubscription?.amount}€{formatPeriod(currentSubscription?.period || 'MONTHLY')}
                 </p>
                 <p className="text-[16px] font-['Open_Sans'] text-gray-600 mt-2">
-                  Valid until: {formatDate(currentSubscription.nextPayment)}
+                  Valid until: {formatDate(currentSubscription?.nextPayment)}
                 </p>
               </div>
 
@@ -222,17 +230,15 @@ export function UpgradeSubscriptionModal({
                 className="border-2 border-black rounded-[20px] p-6 flex flex-col w-[389px] h-[600px] transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-lg bg-white"
               >
                 <div className="flex-1 space-y-6">
-                  {/* Header */}
                   <div className="text-center">
                     <h3 className="!text-[24px] !font-['Open_Sans'] font-[700] !leading-[32.68px] -mb-2">
                       {subscription.name}
                     </h3>
                     <p className="!text-[20px] !font-['Open_Sans'] font-[700] !leading-[32px]">
-                      ${subscription.price}/month
+                      ${subscription.price}{formatPeriod(subscription.period)}
                     </p>
                   </div>
 
-                  {/* Benefits */}
                   <div>
                     <h4 className="!text-[16px] !font-['Open_Sans'] !font-[400] !leading-[32px] !mb-2">
                       Purchase benefit:
@@ -242,7 +248,6 @@ export function UpgradeSubscriptionModal({
                     </p>
                   </div>
 
-                  {/* Places */}
                   {subscription.places?.length > 0 && (
                     <div>
                       <h4 className="!text-[16px] !font-['Open_Sans'] !font-[400] !leading-[32px] mb-4">
@@ -294,10 +299,10 @@ export function UpgradeSubscriptionModal({
                         Current Plan
                       </h3>
                       <p className="text-[20px] font-['Open_Sans'] font-[700]">
-                        {currentSubscription.amount}€/month
+                        {currentSubscription?.amount}€{formatPeriod(currentSubscription?.period || 'MONTHLY')}
                       </p>
                       <p className="text-[16px] font-['Open_Sans'] text-gray-600 mt-2">
-                        Valid until: {formatDate(currentSubscription.nextPayment)}
+                        Valid until: {formatDate(currentSubscription?.nextPayment)}
                       </p>
                     </div>
 
@@ -328,65 +333,48 @@ export function UpgradeSubscriptionModal({
                   {allRestaurantSubscriptions.map((subscription) => (
                     <div 
                       key={subscription.id}
-                      className="flex-[0_0_85%] min-w-0 border-2 border-black rounded-[20px] p-6 flex flex-col h-[600px] transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-lg bg-white"
+                      className="flex-[0_0_85%] min-w-0 border-2 border-black rounded-[20px] p-6 flex flex-col h-[600px]"
                     >
-                      <div className="flex-1 space-y-6">
-                        {/* Header */}
-                        <div className="text-center">
-                          <h3 className="!text-[24px] !font-['Open_Sans'] font-[700] !leading-[32.68px] -mb-2">
-                            {subscription.name}
-                          </h3>
-                          <p className="!text-[20px] !font-['Open_Sans'] font-[700] !leading-[32px]">
-                            ${subscription.price}/month
-                          </p>
-                        </div>
-
-                        {/* Benefits */}
-                        <div>
-                          <h4 className="!text-[16px] !font-['Open_Sans'] !font-[400] !leading-[32px] !mb-2">
-                            Purchase benefit:
-                          </h4>
-                          <p className="!text-[14px] !font-['Open_Sans'] leading-normal ml-10">
-                            {subscription.benefits}
-                          </p>
-                        </div>
-
-                        {/* Places */}
-                        {subscription.places?.length > 0 && (
-                          <div>
-                            <h4 className="!text-[16px] !font-['Open_Sans'] !font-[400] !leading-[32px] mb-4">
-                              Where to use:
-                            </h4>
-                            <div className="space-y-4">
-                              {subscription.places.map((place) => (
-                                <div key={place.id} className="flex items-start gap-2">
-                                  <MapPinIcon className="h-5 w-5 shrink-0 mt-1" />
-                                  <div>
-                                    <h5 className="!text-[14px] !font-['Open_Sans'] font-[600] !leading-[26px] underline">
-                                      {place.name}
-                                    </h5>
-                                    <p className="!text-[14px] !font-['Open_Sans'] font-[600] !leading-[26px] underline">
-                                      {place.location}
-                                    </p>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                      <div className="text-center">
+                        <h3 className="!text-[24px] !font-['Open_Sans'] font-[700] !leading-[32.68px] -mb-2">
+                          {subscription.name}
+                        </h3>
+                        <p className="!text-[20px] !font-['Open_Sans'] font-[700] !leading-[32px]">
+                          ${subscription.price}{formatPeriod(subscription.period)}
+                        </p>
                       </div>
 
-                      <Button
-                        onClick={() => handleUpgradeClick(subscription)}
-                        disabled={isLoading === subscription.id}
-                        className="w-full h-[78px] rounded-[100px] bg-black text-[16px] font-semibold mt-6"
-                      >
-                        {isLoading === subscription.id ? 'Processing...' : 
-                          subscription.price > currentSubscription.amount ? 'Upgrade to this plan' : 
-                          subscription.price < currentSubscription.amount ? 'Downgrade to this plan' :
-                          'Switch to this plan'
-                        }
-                      </Button>
+                      <div>
+                        <h4 className="!text-[16px] !font-['Open_Sans'] !font-[400] !leading-[32px] !mb-2">
+                          Purchase benefit:
+                        </h4>
+                        <p className="!text-[14px] !font-['Open_Sans'] leading-normal ml-10">
+                          {subscription.benefits}
+                        </p>
+                      </div>
+
+                      {subscription.places?.length > 0 && (
+                        <div>
+                          <h4 className="!text-[16px] !font-['Open_Sans'] !font-[400] !leading-[32px] mb-4">
+                            Where to use:
+                          </h4>
+                          <div className="space-y-4">
+                            {subscription.places.map((place) => (
+                              <div key={place.id} className="flex items-start gap-2">
+                                <MapPinIcon className="h-5 w-5 shrink-0 mt-1" />
+                                <div>
+                                  <h5 className="!text-[14px] !font-['Open_Sans'] font-[600] !leading-[26px] underline">
+                                    {place.name}
+                                  </h5>
+                                  <p className="!text-[14px] !font-['Open_Sans'] font-[600] !leading-[26px] underline">
+                                    {place.location}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
