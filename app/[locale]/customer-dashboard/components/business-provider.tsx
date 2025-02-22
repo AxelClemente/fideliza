@@ -56,23 +56,55 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
   // Obtener todos los restaurantes con sus relaciones
   const restaurants = await prisma.restaurant.findMany({
     include: {
-      images: true,
+      images: {
+        select: {
+          id: true,
+          url: true,
+          publicId: true,
+          restaurantId: true,
+          createdAt: true
+        }
+      },
       places: {
         include: {
           offers: {
             include: {
-              images: true,
+              images: {
+                select: {
+                  id: true,
+                  url: true,
+                  publicId: true,
+                  offerId: true
+                }
+              },
               place: {
                 select: {
                   id: true,
                   name: true,
                   location: true,
-                  phoneNumber: true
+                  phoneNumber: true,
+                  restaurantId: true
                 }
               }
             }
           },
-          subscriptions: true
+          subscriptions: {
+            select: {
+              id: true,
+              name: true,
+              benefits: true,
+              price: true,
+              website: true,
+              visitsPerMonth: true,
+              period: true,
+              places: {
+                select: {
+                  id: true,
+                  name: true
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -80,7 +112,14 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
 
   // Obtener todos los places
   const places = await prisma.place.findMany({
-    include: {
+    select: {
+      id: true,
+      name: true,
+      location: true,
+      phoneNumber: true,
+      restaurantId: true,
+      createdAt: true,
+      updatedAt: true,
       offers: {
         include: {
           images: true
@@ -105,7 +144,8 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
           id: true,
           name: true,
           location: true,
-          phoneNumber: true
+          phoneNumber: true,
+          restaurantId: true
         }
       }
     }
@@ -117,17 +157,20 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
 
   // Funciones auxiliares para obtener datos específicos
   const getRestaurantById = async (id: string): Promise<Restaurant | null> => {
-    const restaurant = await prisma.restaurant.findUnique({
+    return await prisma.restaurant.findUnique({
       where: { id },
       include: {
-        images: true,
-        places: {
+        images: {
           select: {
             id: true,
-            name: true,
-            location: true,
-            phoneNumber: true,
+            url: true,
+            publicId: true,
             restaurantId: true,
+            createdAt: true
+          }
+        },
+        places: {
+          include: {
             offers: {
               include: {
                 images: true,
@@ -154,10 +197,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
                 places: {
                   select: {
                     id: true,
-                    name: true,
-                    location: true,
-                    phoneNumber: true,
-                    restaurantId: true
+                    name: true
                   }
                 }
               }
@@ -166,14 +206,19 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
         }
       }
     })
-
-    return restaurant
   }
 
-  const getPlacesByRestaurantId = async (restaurantId: string) => {
+  const getPlacesByRestaurantId = async (restaurantId: string): Promise<Place[]> => {
     return await prisma.place.findMany({
       where: { restaurantId },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        location: true,
+        phoneNumber: true,
+        restaurantId: true,
+        createdAt: true,
+        updatedAt: true,
         offers: {
           include: {
             images: true
@@ -188,9 +233,7 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
     const subs = await prisma.subscription.findMany({
       where: {
         places: {
-          some: {
-            id: placeId
-          }
+          some: { id: placeId }
         }
       },
       select: {
@@ -199,13 +242,15 @@ export async function BusinessProvider(): Promise<BusinessProviderResult> {
         benefits: true,
         price: true,
         website: true,
+        visitsPerMonth: true,
         period: true,
         places: {
           select: {
             id: true,
             name: true,
             location: true,
-            phoneNumber: true
+            phoneNumber: true,
+            restaurantId: true
           }
         }
       }

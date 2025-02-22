@@ -14,6 +14,7 @@ interface Restaurant {
   }>
   places?: Array<{
     id: string
+    location: string
     offers?: Array<{
       id: string
       title: string
@@ -38,6 +39,22 @@ export function RestaurantCarousel({ restaurants }: { restaurants: Restaurant[] 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext()
   }, [emblaApi])
+
+  // Función para formatear las locations
+  const formatLocations = (places?: Array<{ location: string }>) => {
+    if (!places || places.length === 0) return '';
+    
+    // Obtener locations únicas (por si hay duplicados)
+    const uniqueLocations = [...new Set(places.map(place => place.location))];
+    
+    // Si hay más de 2 locations, mostrar las 2 primeras y un "+X más"
+    if (uniqueLocations.length > 2) {
+      return `${uniqueLocations[0]}, ${uniqueLocations[1]} +${uniqueLocations.length - 2} more`;
+    }
+    
+    // Si hay 2 o menos, mostrarlas todas separadas por coma
+    return uniqueLocations.join(', ');
+  }
 
   return (
     <div className="overflow-hidden">
@@ -77,6 +94,11 @@ export function RestaurantCarousel({ restaurants }: { restaurants: Restaurant[] 
                     </div>
                   )}
                   <div className="p-4 bg-white">
+                    {/* Locations */}
+                    <div className="text-third-gray text-sm font-semibold mb-2">
+                      {formatLocations(restaurant.places)}
+                    </div>
+                    
                     <div className="flex justify-between items-center">
                       <h3 className="font-semibold !text-[20px]">
                         {restaurant.title}
