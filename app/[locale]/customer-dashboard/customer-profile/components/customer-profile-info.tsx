@@ -166,24 +166,28 @@ export function CustomerProfileInfo({
               <div className="flex-1 space-y-2 text-center md:text-left">
                 <div className="flex items-center gap-2 justify-center md:justify-start">
                   <h1 className="
-                    !text-[30px]
-                    !leading-[36px]
-                    !font-['Open_Sans']
-                    !font-[700]
-                    !mt-3
+                    text-[24px]
+                    sm:text-[28px]
+                    lg:text-[30px]
+                    leading-[36px]
+                    font-['Open_Sans']
+                    font-[700]
+                    mt-3
                   ">
                     {name}
                   </h1>
                   <Image 
                     src={editIcon}
                     alt="Edit"
-                    className="mt-4 cursor-pointer ml-20"
+                    className="mt-4 cursor-pointer ml-4 sm:ml-6 md:ml-20"
                     onClick={() => setIsEditModalOpen(true)}
                   />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-center md:justify-start">
                   <p className="
-                    text-[20px]
+                    text-[16px]
+                    sm:text-[18px]
+                    lg:text-[20px]
                     leading-[26px]
                     font-['Open_Sans']
                     font-[700]
@@ -191,15 +195,19 @@ export function CustomerProfileInfo({
                   <p className="font-semibold">{email}</p>
                 </div>
                 {location && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 justify-center md:justify-start">
                     <p className="
-                      text-[20px]
+                      text-[16px]
+                      sm:text-[18px]
+                      lg:text-[20px]
                       leading-[26px]
                       font-['Open_Sans']
                       font-[700]
                     ">City:</p>
                     <p className="
-                      text-[20px]
+                      text-[16px]
+                      sm:text-[18px]
+                      lg:text-[20px]
                       leading-[26px]
                       font-['Open_Sans']
                       font-[600]
@@ -211,18 +219,34 @@ export function CustomerProfileInfo({
             </div>
           </div>
 
-          {/* Nueva sección de suscripciones */}
+          {/* Sección de suscripciones */}
           <div className="mt-8 md:pl-12">
-            <h2 className="text-[30px] font-bold mb-6 font-['Open_Sans'] pl-8">
+            <h2 className="
+              text-[24px]
+              sm:text-[28px]
+              lg:text-[30px]
+              font-bold 
+              mb-6 
+              font-['Open_Sans'] 
+              pl-8
+            ">
               Active Subscriptions
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:ml-0">
+            <div className="
+              grid 
+              grid-cols-1 
+              sm:grid-cols-2 
+              lg:grid-cols-3 
+              gap-6 
+              md:ml-0
+            ">
               {subscriptions.map((sub) => (
                 <div 
                   key={sub.id}
                   className="
                     w-full
-                    md:w-[389px]
+                    sm:max-w-[340px]
+                    lg:max-w-[389px]
                     border 
                     rounded-[20px]
                     overflow-hidden 
@@ -234,7 +258,13 @@ export function CustomerProfileInfo({
                 >
                   {sub.place.restaurant.images?.[0] && (
                     <>
-                      <div className="relative w-full md:w-[389px] h-[245px]">
+                      <div className="
+                        relative 
+                        w-full 
+                        sm:w-[340px]
+                        lg:w-[389px] 
+                        h-[245px]
+                      ">
                         <Image
                           src={sub.place.restaurant.images[0].url}
                           alt={sub.place.restaurant.title}
@@ -244,13 +274,12 @@ export function CustomerProfileInfo({
                       </div>
                       <div className="text-center py-4">
                         <p className="
-                          w-[209px]
-                          h-[26px]
-                          text-[20px]
+                          text-[16px]
+                          sm:text-[18px]
+                          lg:text-[20px]
                           leading-[26px]
                           font-['Open_Sans']
                           font-semibold
-                          text-justify
                           mx-auto
                           flex
                           items-center
@@ -259,7 +288,9 @@ export function CustomerProfileInfo({
                           {sub.place.restaurant.title}
                         </p>
                         <p className="
-                          text-[14px]
+                          text-[12px]
+                          sm:text-[13px]
+                          lg:text-[14px]
                           leading-[18px]
                           font-['Open_Sans']
                           font-[600]
@@ -276,13 +307,15 @@ export function CustomerProfileInfo({
                   
                   <div className="p-6">
                     <h2 className="
-                      !text-[24px]
-                      !leading-[32.68px]
-                      !font-['Open_Sans']
-                      !font-bold
-                      !text-center
-                      !mb-[2.5px]
-                      !mx-auto
+                      text-[20px]
+                      sm:text-[22px]
+                      lg:text-[24px]
+                      leading-[32.68px]
+                      font-['Open_Sans']
+                      font-bold
+                      text-center
+                      mb-[2.5px]
+                      mx-auto
                       flex
                       items-center
                       justify-center
@@ -291,7 +324,9 @@ export function CustomerProfileInfo({
                     </h2>
 
                     <p className="
-                      text-[20px]
+                      text-[16px]
+                      sm:text-[18px]
+                      lg:text-[20px]
                       leading-[24.2px]          
                       font-bold
                       text-center
@@ -300,7 +335,9 @@ export function CustomerProfileInfo({
                       {sub.amount}€/month
                     </p>
                     <p className="
-                      text-[20px]
+                      text-[16px]
+                      sm:text-[18px]
+                      lg:text-[20px]
                       leading-[26px]
                       font-['Open_Sans']
                       font-semibold
@@ -312,7 +349,9 @@ export function CustomerProfileInfo({
                     </p>
                     
                     <h4 className="
-                      text-[14px]
+                      text-[12px]
+                      sm:text-[13px]
+                      lg:text-[14px]
                       leading-[26px]
                       font-['Open_Sans']            
                       mb-1
@@ -320,7 +359,9 @@ export function CustomerProfileInfo({
                       Purchase benefits:
                     </h4>
                     <p className="
-                      text-[14px]
+                      text-[12px]
+                      sm:text-[13px]
+                      lg:text-[14px]
                       leading-[18px]
                       font-['Open_Sans']
                       font-[400]
@@ -332,12 +373,16 @@ export function CustomerProfileInfo({
                       <button 
                         onClick={() => setSelectedSubscription(sub)}
                         className="
-                          w-[329px]
+                          w-full
+                          sm:w-[280px]
+                          lg:w-[329px]
                           h-[78px]
                           rounded-[100px]
                           bg-black 
                           text-white 
-                          text-[18px] 
+                          text-[16px]
+                          sm:text-[17px]
+                          lg:text-[18px]
                           font-semibold 
                           leading-[22px] 
                           font-['Open_Sans']
@@ -354,12 +399,16 @@ export function CustomerProfileInfo({
                       <button 
                         onClick={() => handleShare(sub)}
                         className="
-                          w-[329px]
+                          w-full
+                          sm:w-[280px]
+                          lg:w-[329px]
                           h-[78px]
                           rounded-[100px]
                           bg-black 
                           text-white 
-                          text-[18px] 
+                          text-[16px]
+                          sm:text-[17px]
+                          lg:text-[18px]
                           font-semibold 
                           leading-[22px] 
                           font-['Open_Sans']

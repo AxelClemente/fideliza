@@ -184,13 +184,20 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="
+        grid 
+        grid-cols-1 
+        sm:grid-cols-2 
+        lg:grid-cols-3 
+        gap-6
+      ">
         {subscriptions.map((sub) => (
           <div 
             key={sub.id}
             className="
               w-full
-              md:w-[389px]
+              sm:max-w-[340px]
+              md:max-w-[389px]
               border 
               rounded-[20px]
               overflow-hidden 
@@ -202,7 +209,13 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
           >
             {sub.place.restaurant.images?.[0] && (
               <>
-                <div className="relative w-full md:w-[389px] h-[245px]">
+                <div className="
+                  relative 
+                  w-full 
+                  sm:w-[340px]
+                  md:w-[389px] 
+                  h-[245px]
+                ">
                   <Image
                     src={sub.place.restaurant.images[0].url}
                     alt={sub.place.restaurant.title}

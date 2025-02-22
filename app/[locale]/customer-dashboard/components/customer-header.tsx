@@ -80,7 +80,11 @@ export function CustomerHeader() {
         `}>
           <div className="pt-20 px-6">
             {/* User Profile */}
-            <Link href="/customer-dashboard/customer-profile" className="block mb-8">
+            <Link 
+              href="/customer-dashboard/customer-profile" 
+              className="block mb-8"
+              onClick={toggleMenu}
+            >
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-full flex items-center justify-center">
                   <Image
