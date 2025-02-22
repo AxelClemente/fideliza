@@ -38,7 +38,7 @@ export function CustomerHeader() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50">
         <header className="flex items-center justify-between bg-black p-4 h-16">
           <button 
             onClick={handleBack}
@@ -125,57 +125,57 @@ export function CustomerHeader() {
         </div>
       </div>
 
-      {/* Desktop Header (Original) */}
-      <div className="hidden md:block w-full bg-black">
-        <header className="container mx-auto px-4 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-start pl-4 md:pl-8">
-            <Link href="/" className="flex items-center gap-2 mr-8">
+      {/* Desktop Header with Tablet Responsive Adjustments */}
+      <div className="hidden lg:block w-full bg-black">
+        <header className="container mx-auto px-4 lg:px-8 py-4 flex flex-col lg:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4 lg:gap-6 w-full lg:w-auto justify-between lg:justify-start pl-2 lg:pl-8">
+            <Link href="/" className="flex items-center gap-2 mr-4 lg:mr-8">
               <Image
                 src="/logofideliza.svg"
                 alt="Logo"
-                width={53}
-                height={46}
-                className="text-main-light"
+                width={46}
+                height={40}
+                className="text-main-light lg:w-[53px] lg:h-[46px]"
               />
             </Link>
 
             <Link href="/customer-dashboard/customer-profile">
-              <div className="flex items-center gap-3 group">
-                <div className="h-12 w-12 rounded-full flex items-center justify-center">
+              <div className="flex items-center gap-2 lg:gap-3 group">
+                <div className="h-10 w-10 lg:h-12 lg:w-12 rounded-full flex items-center justify-center">
                   {isLoading ? (
-                    <div className="h-11 w-11 rounded-full bg-gray-200 animate-pulse" />
+                    <div className="h-10 w-10 lg:h-11 lg:w-11 rounded-full bg-gray-200 animate-pulse" />
                   ) : (
                     <Image
                       src={session?.user?.image || "/images/placeholder1.png"}
                       alt="User avatar"
-                      width={44}
-                      height={44}
-                      className="rounded-full"
+                      width={40}
+                      height={40}
+                      className="rounded-full lg:w-[44px] lg:h-[44px]"
                     />
                   )}
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className="text-main-light text-semi-bold-3 hidden sm:block group-hover:text-gray-300 transition-colors">
+                  <span className="text-main-light text-sm lg:text-base hidden sm:block group-hover:text-gray-300 transition-colors">
                     {isLoading ? (
-                      <div className="h-4 w-24 bg-gray-200 animate-pulse rounded" />
+                      <div className="h-4 w-20 lg:w-24 bg-gray-200 animate-pulse rounded" />
                     ) : (
                       session?.user?.name || "Guest"
                     )}
                   </span>
-                  <ChevronDown className="h-4 w-4 text-main-light hidden sm:block group-hover:text-gray-300 transition-colors" />
+                  <ChevronDown className="h-3 w-3 lg:h-4 lg:w-4 text-main-light hidden sm:block group-hover:text-gray-300 transition-colors" />
                 </div>
               </div>
             </Link>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto pr-4 md:pr-8">
-            <nav className="flex flex-wrap justify-center gap-6 md:gap-8 mr-12">
+          <div className="flex flex-col lg:flex-row items-center gap-3 lg:gap-4 w-full lg:w-auto pr-2 lg:pr-8">
+            <nav className="flex flex-wrap justify-center gap-4 lg:gap-8 mr-6 lg:mr-12">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={`
-                    text-base md:text-lg
+                    text-sm lg:text-lg
                     leading-tight
                     font-semibold 
                     whitespace-nowrap
@@ -193,7 +193,7 @@ export function CustomerHeader() {
 
             <button 
               onClick={() => signOut({ callbackUrl: '/' })}
-              className="mr-8 text-semi-bold-2 text-third-gray hover:text-main-light md:ml-8 whitespace-nowrap"
+              className="mr-4 lg:mr-8 text-sm lg:text-base text-third-gray hover:text-main-light lg:ml-8 whitespace-nowrap"
             >
               Logout
             </button>
