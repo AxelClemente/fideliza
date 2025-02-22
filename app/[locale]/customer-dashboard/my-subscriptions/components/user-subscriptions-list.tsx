@@ -7,6 +7,7 @@ import { SubscriptionQRModal } from './subscription-qr-modal'
 import { UpgradeSubscriptionModal } from '@/app/[locale]/customer-dashboard/my-subscriptions/components/upgrade-subscription-modal'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
+import { Period } from '@prisma/client'
 
 interface UserSubscriptionsListProps {
   subscriptions: Array<{
@@ -34,7 +35,7 @@ interface UserSubscriptionsListProps {
             benefits: string
             price: number
             visitsPerMonth: number | null
-            period: 'MONTHLY' | 'ANNUAL'
+            period: Period
           }>
         }>
       }
@@ -42,7 +43,7 @@ interface UserSubscriptionsListProps {
     status: string
     nextPayment: Date
     amount: number
-    period: 'MONTHLY' | 'ANNUAL'
+    period: Period
     remainingVisits: number | null
   }>
 }

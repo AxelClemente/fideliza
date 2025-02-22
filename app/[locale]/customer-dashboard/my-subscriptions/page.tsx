@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { UserSubscriptionsList } from './components/user-subscriptions-list'
 import { getTranslations } from 'next-intl/server'
+import { Period } from '@prisma/client'
 
 export default async function MySubscriptionsPage() {
   const session = await getServerSession(authOptions)
@@ -79,7 +80,7 @@ export default async function MySubscriptionsPage() {
           new Date(acc[sub.subscriptionId].createdAt) < new Date(sub.createdAt)) {
         const transformedSub = {
           ...sub,
-          period: sub.subscription.period || 'MONTHLY',
+          period: (sub.subscription.period || 'MONTHLY') as Period,
           place: {
             ...sub.place,
             restaurant: {
@@ -88,7 +89,7 @@ export default async function MySubscriptionsPage() {
                 ...place,
                 subscriptions: place.subscriptions.map(s => ({
                   ...s,
-                  period: s.period || 'MONTHLY'
+                  period: (s.period || 'MONTHLY') as Period
                 }))
               }))
             }
@@ -97,7 +98,7 @@ export default async function MySubscriptionsPage() {
         acc[sub.subscriptionId] = transformedSub;
       }
       return acc;
-    }, {} as Record<string, typeof userSubscriptions[0] & { period: 'MONTHLY' | 'ANNUAL' }>)
+    }, {} as Record<string, typeof userSubscriptions[0] & { period: Period }>)
   );
 
   console.log('UserSubscriptions data:', JSON.stringify(latestSubscriptions.map(sub => ({
