@@ -50,7 +50,10 @@ export default async function MySubscriptionsPage() {
                 take: 1
               },
               places: {
-                include: {
+                select: {
+                  id: true,
+                  name: true,
+                  location: true,
                   subscriptions: {
                     select: {
                       id: true,
@@ -74,10 +77,24 @@ export default async function MySubscriptionsPage() {
     userSubscriptions.reduce((acc, sub) => {
       if (!acc[sub.subscriptionId] || 
           new Date(acc[sub.subscriptionId].createdAt) < new Date(sub.createdAt)) {
-        acc[sub.subscriptionId] = {
+        const transformedSub = {
           ...sub,
-          period: sub.subscription.period || 'MONTHLY'
+          period: sub.subscription.period || 'MONTHLY',
+          place: {
+            ...sub.place,
+            restaurant: {
+              ...sub.place.restaurant,
+              places: sub.place.restaurant.places?.map(place => ({
+                ...place,
+                subscriptions: place.subscriptions.map(s => ({
+                  ...s,
+                  period: s.period || 'MONTHLY'
+                }))
+              }))
+            }
+          }
         };
+        acc[sub.subscriptionId] = transformedSub;
       }
       return acc;
     }, {} as Record<string, typeof userSubscriptions[0] & { period: 'MONTHLY' | 'ANNUAL' }>)
