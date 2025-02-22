@@ -11,6 +11,18 @@ import { Period } from '@prisma/client'
 import { FileText } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 
+// Interfaz para las validaciones
+interface ValidationHistory {
+  id: string
+  validationDate: string
+  subscriptionName: string
+  placeName: string
+  remainingVisits: number | null
+  startDate: string | null
+  endDate: string | null
+}
+
+// Interfaz para las props del componente
 interface UserSubscriptionsListProps {
   subscriptions: Array<{
     id: string
@@ -24,9 +36,7 @@ interface UserSubscriptionsListProps {
       restaurant: {
         id: string
         title: string
-        images: Array<{
-          url: string
-        }>
+        images: Array<{ url: string }>
         places?: Array<{
           id: string
           name: string
@@ -37,7 +47,7 @@ interface UserSubscriptionsListProps {
             benefits: string
             price: number
             visitsPerMonth: number | null
-            period: Period
+            period: Period  // Aseguramos que period no sea null
           }>
         }>
       }
@@ -45,7 +55,7 @@ interface UserSubscriptionsListProps {
     status: string
     nextPayment: Date
     amount: number
-    period: Period
+    period: Period  // Aseguramos que period no sea null
     remainingVisits: number | null
   }>
 }
@@ -57,7 +67,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false)
   const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<typeof subscriptions[0] | null>(null)
   const [isVisitsHistoryOpen, setIsVisitsHistoryOpen] = useState(false)
-  const [validationsHistory, setValidationsHistory] = useState<any[]>([])
+  const [validationsHistory, setValidationsHistory] = useState<ValidationHistory[]>([])
 
   const handleUpgradeClick = (subscription: typeof subscriptions[0]) => {
     setSubscriptionToUpgrade(subscription)
