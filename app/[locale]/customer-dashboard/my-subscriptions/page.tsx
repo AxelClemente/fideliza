@@ -24,6 +24,7 @@ export default async function MySubscriptionsPage() {
     },
     select: {
       id: true,
+      userId: true,
       remainingVisits: true,
       status: true,
       nextPayment: true,

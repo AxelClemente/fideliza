@@ -310,10 +310,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                   gap-2
                 ">
                   <span>
-                    {t('visitsRemaining', {
-                      remaining: sub.remainingVisits,
-                      total: sub.subscription.visitsPerMonth
-                    })}
+                    {t('visitsRemaining')} ({sub.remainingVisits ?? 0} / {sub.subscription.visitsPerMonth ?? 0})
                   </span>
                   <button
                     onClick={() => fetchValidationsHistory(sub.id)}
