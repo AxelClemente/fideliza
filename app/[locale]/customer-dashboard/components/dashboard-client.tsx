@@ -208,7 +208,7 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
           <div className="flex-1" />
           <Link 
             href="/customer-dashboard/offers" 
-            className="!text-[20px] md:!text-[24px] font-bold text-main-dark hover:text-gray-800 absolute right-0 md:right-8 pt-[2px] md:pt-0"
+            className="!text-[20px] md:!text-[24px] font-bold text-main-dark hover:text-gray-800 absolute right-0 md:right-12 pt-[2px] md:pt-0"
           >
             {t('seeAll')}
           </Link>

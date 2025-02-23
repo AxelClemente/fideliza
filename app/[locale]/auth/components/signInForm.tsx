@@ -80,11 +80,29 @@ export default function SignInForm() {
         password: formData.password,
       })
 
+      console.log('Sign in result:', result)
+
       if (result?.error) {
         setError('Invalid credentials')
+        return
       }
-      // No hacemos redirección aquí, useEffect se encargará
-    } catch {
+
+      // Si la autenticación fue exitosa, forzar actualización de la sesión
+      const session = await fetch('/api/auth/session')
+      const sessionData = await session.json()
+      console.log('Session after sign in:', sessionData)
+
+      // En lugar de redirigir directamente a location, verificamos el rol
+      if (sessionData.user?.role === 'BUSINESS') {
+        router.push('/business-dashboard')
+      } else if (sessionData.user?.location) {
+        router.push('/auth/choose-role')
+      } else {
+        router.push('/auth/location')
+      }
+
+    } catch (error) {
+      console.error('Sign in error:', error)
       setError('An error occurred during sign in')
     }
   }

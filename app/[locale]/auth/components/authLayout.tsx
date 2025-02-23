@@ -2,6 +2,8 @@
 
 import { ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { useEffect } from 'react'
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -12,7 +14,24 @@ interface AuthLayoutProps {
 }
 
 export default function AuthLayout({ children, headerText }: AuthLayoutProps) {
+  const { data: session, status } = useSession()
   const router = useRouter();
+
+  useEffect(() => {
+    console.log('AuthLayout - Session Status:', {
+      status,
+      session,
+      isAuthenticated: status === 'authenticated'
+    })
+
+    if (status === 'unauthenticated') {
+      router.push('/auth?mode=signin')
+    }
+  }, [status, router])
+
+  if (status === 'loading') {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="min-h-screen flex items-center overflow-y-auto">

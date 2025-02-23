@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { toast } from '@/components/ui/use-toast'
 import { ClipLoader } from 'react-spinners'
 
 export default function ChooseRolePage() {
-  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [selectedRole, setSelectedRole] = useState<'business' | 'customer' | null>(null)
 
@@ -30,6 +28,9 @@ export default function ChooseRolePage() {
           throw new Error('Failed to update role')
         }
 
+        // Forzar actualización de la sesión antes de redirigir
+        await fetch('/api/auth/session')
+        
         window.location.href = '/business-dashboard'
       } else {
         const response = await fetch('/api/auth/update-role', {
@@ -44,7 +45,10 @@ export default function ChooseRolePage() {
           throw new Error('Failed to update role')
         }
 
-        router.push('/customer-dashboard')
+        // Forzar actualización de la sesión antes de redirigir
+        await fetch('/api/auth/session')
+        
+        window.location.href = '/customer-dashboard'
       }
     } catch (error) {
       console.error('Error updating role:', error)
@@ -53,7 +57,6 @@ export default function ChooseRolePage() {
         title: "Error",
         description: "Failed to update role. Please try again.",
       })
-      // Solo reseteamos estados si hay error
       setIsLoading(false)
       setSelectedRole(null)
     }

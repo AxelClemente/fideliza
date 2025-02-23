@@ -7,7 +7,7 @@ import { Globe, ChevronDown } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 
 export function MainHeader() {
   const t = useTranslations('Header');
@@ -33,6 +33,11 @@ export function MainHeader() {
     } else if (['BUSINESS', 'ADMIN', 'STAFF'].includes(session?.user?.role || '')) {
       router.push(`/${currentLocale}/business-dashboard`);
     }
+  };
+
+  // Función para manejar el cierre de sesión
+  const handleSignOut = async () => {
+    await signOut({ redirect: true, callbackUrl: `/${currentLocale}` });
   };
 
   // Cerrar el dropdown cuando se hace clic fuera
@@ -83,13 +88,21 @@ export function MainHeader() {
             </Link>
             
             {session ? (
-              // Usuario autenticado - Mostrar Dashboard con redirección condicional
-              <button 
-                onClick={handleDashboardClick}
-                className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
-              >
-                Dashboard
-              </button>
+              // Usuario autenticado - Mostrar Dashboard y botón de logout
+              <>
+                <button 
+                  onClick={handleDashboardClick}
+                  className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
+                >
+                  Dashboard
+                </button>
+                <button 
+                  onClick={handleSignOut}
+                  className="text-white hover:text-gray-300 transition font-semibold text-[15.79px] leading-[21.5px]"
+                >
+                  {t('signout')}
+                </button>
+              </>
             ) : (
               // Usuario no autenticado - Mostrar Registro e Inicio de sesión
               <>

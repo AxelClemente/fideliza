@@ -29,7 +29,7 @@ export default async function BusinessDashboardLayout({
   const userRole = session.user?.role
   if (!userRole || (userRole !== 'BUSINESS' && userRole !== 'STAFF' && userRole !== 'ADMIN')) {
     console.log('Redirecting: Invalid role', userRole)
-    redirect('/choose-role')
+    redirect('/')
   }
 
   // Obtener el usuario con su rol y owner
