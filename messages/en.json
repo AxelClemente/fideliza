@@ -132,7 +132,8 @@
     "cityUpdateError": "Error updating city",
     "cityUpdateGenericError": "An error occurred updating your city",
     "signUpSubtitle": "First time? Create your account to start",
-    "signInSubtitle": "Welcome back! Sign in to continue"
+    "signInSubtitle": "Welcome back! Sign in to continue",
+    "signingIn": "Signing in..."
   },
   "BusinessHeader": {
     "home": "Home",

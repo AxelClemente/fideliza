@@ -132,7 +132,8 @@
       "cityUpdateError": "Error al actualizar la ciudad",
       "cityUpdateGenericError": "Ocurrió un error al actualizar tu ciudad",
       "signUpSubtitle": "¿Primera vez? Crea tu cuenta para comenzar",
-      "signInSubtitle": "¡Bienvenido de nuevo! Inicia sesión para continuar"
+      "signInSubtitle": "¡Bienvenido de nuevo! Inicia sesión para continuar",
+      "signingIn": "Iniciando sesión..."
     },
     "BusinessHeader": {
       "home": "Inicio",

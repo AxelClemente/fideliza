@@ -132,7 +132,8 @@
     "cityUpdateError": "Erreur lors de la mise à jour de la ville",
     "cityUpdateGenericError": "Une erreur s'est produite lors de la mise à jour de votre ville",
     "signUpSubtitle": "Première fois ? Créez votre compte pour commencer",
-    "signInSubtitle": "Bon retour ! Connectez-vous pour continuer"
+    "signInSubtitle": "Bon retour ! Connectez-vous pour continuer",
+    "signingIn": "Connexion en cours..."
   },
   "BusinessHeader": {
     "home": "Accueil",

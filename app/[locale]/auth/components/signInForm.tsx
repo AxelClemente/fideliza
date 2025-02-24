@@ -19,6 +19,7 @@ export default function SignInForm() {
     password: ''
   })
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   console.log('Render - Session Status:', status)
   console.log('Render - Session Data:', session)
@@ -74,13 +75,12 @@ export default function SignInForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
+      setIsLoading(true)
       const result = await signIn('credentials', {
         redirect: false,
         email: formData.email,
         password: formData.password,
       })
-
-      console.log('Sign in result:', result)
 
       if (result?.error) {
         setError('Invalid credentials')
@@ -90,11 +90,12 @@ export default function SignInForm() {
       // Si la autenticación fue exitosa, forzar actualización de la sesión
       const session = await fetch('/api/auth/session')
       const sessionData = await session.json()
-      console.log('Session after sign in:', sessionData)
 
-      // En lugar de redirigir directamente a location, verificamos el rol
+      // Manejar las redirecciones según el rol
       if (sessionData.user?.role === 'BUSINESS') {
         router.push('/business-dashboard')
+      } else if (sessionData.user?.role === 'CUSTOMER') {
+        router.push('/customer-dashboard')
       } else if (sessionData.user?.location) {
         router.push('/auth/choose-role')
       } else {
@@ -104,6 +105,8 @@ export default function SignInForm() {
     } catch (error) {
       console.error('Sign in error:', error)
       setError('An error occurred during sign in')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -217,8 +220,9 @@ export default function SignInForm() {
         <Button 
           type="submit" 
           className="h-[78px] w-[390px] sm:w-[462px] rounded-[100px] bg-main-dark text-white hover:bg-main-dark/90 text-[16px] font-semibold"
+          disabled={isLoading}
         >
-          {t('loginButton')}
+          {isLoading ? t('signingIn') : t('loginButton')}
         </Button>
 
         <div className="w-[390px] sm:w-[462px] relative my-6">
