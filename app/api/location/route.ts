@@ -71,6 +71,7 @@ export async function POST(req: Request) {
 
     const { location } = await req.json()
 
+    // Actualizar usuario en la base de datos
     const updatedUser = await prisma.user.update({
       where: {
         email: session.user.email,
@@ -80,7 +81,30 @@ export async function POST(req: Request) {
       } as Prisma.UserUpdateInput,
     })
 
-    return NextResponse.json(updatedUser)
+    // Forzar actualización de la sesión
+    await prisma.session.updateMany({
+      where: {
+        userId: updatedUser.id
+      },
+      data: {
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 días
+      }
+    })
+
+    // Crear una nueva sesión con los datos actualizados
+    const sessionToken = `${updatedUser.id}_${Date.now()}`
+    await prisma.session.create({
+      data: {
+        sessionToken: sessionToken,
+        userId: updatedUser.id,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      }
+    })
+
+    return NextResponse.json({
+      ...updatedUser,
+      sessionToken // Devolver el nuevo token para actualizar la sesión del cliente
+    })
   } catch (error) {
     console.error("Error updating location:", error)
     return new NextResponse("Internal error", { status: 500 })

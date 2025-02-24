@@ -1,19 +1,27 @@
 'use client'
 
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { toast } from '@/components/ui/use-toast'
 import { ClipLoader } from 'react-spinners'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function ChooseRolePage() {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedRole, setSelectedRole] = useState<'business' | 'customer' | null>(null)
+  const router = useRouter()
+  const { data: session } = useSession()
 
   const handleRoleSelection = async (role: 'business' | 'customer') => {
     setIsLoading(true)
     setSelectedRole(role)
 
     try {
+      console.log('🚀 Starting role update process for:', role)
+      console.log('👤 Current session:', session)
+      
       if (role === 'business') {
         const response = await fetch('/api/auth/update-role', {
           method: 'POST',
@@ -24,14 +32,25 @@ export default function ChooseRolePage() {
           }),
         })
 
+        console.log('📥 Update role response:', response.status)
+        
         if (!response.ok) {
           throw new Error('Failed to update role')
         }
 
-        // Forzar actualización de la sesión antes de redirigir
-        await fetch('/api/auth/session')
-        
-        window.location.href = '/business-dashboard'
+        console.log('🔄 Forcing session update...')
+        const result = await signIn('credentials', {
+          redirect: false,
+          email: session?.user?.email,
+        })
+
+        console.log('🔄 Session update result:', result)
+
+        const sessionResponse = await fetch('/api/auth/session')
+        const sessionData = await sessionResponse.json()
+        console.log('🔄 Final session check:', sessionData)
+
+        router.push('/business-dashboard')
       } else {
         const response = await fetch('/api/auth/update-role', {
           method: 'POST',
@@ -41,17 +60,28 @@ export default function ChooseRolePage() {
           }),
         })
 
+        console.log('📥 Update role response:', response.status)
+
         if (!response.ok) {
           throw new Error('Failed to update role')
         }
 
-        // Forzar actualización de la sesión antes de redirigir
-        await fetch('/api/auth/session')
-        
-        window.location.href = '/customer-dashboard'
+        console.log('🔄 Forcing session update...')
+        const result = await signIn('credentials', {
+          redirect: false,
+          email: session?.user?.email,
+        })
+
+        console.log('🔄 Session update result:', result)
+
+        const sessionResponse = await fetch('/api/auth/session')
+        const sessionData = await sessionResponse.json()
+        console.log('🔄 Final session check:', sessionData)
+
+        router.push('/customer-dashboard')
       }
     } catch (error) {
-      console.error('Error updating role:', error)
+      console.error('❌ Error updating role:', error)
       toast({
         variant: "destructive",
         title: "Error",

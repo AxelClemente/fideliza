@@ -92,17 +92,35 @@ export const authOptions: AuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
-      if (user) {
-        token.sub = user.id
-        token.role = user.role
-        token.location = user.location
+    async jwt({ token, user, trigger }) {
+      console.log('🔑 JWT Callback - Starting with trigger:', trigger)
+
+      // Obtener datos frescos del usuario SIEMPRE, no solo cuando hay un nuevo usuario
+      const freshUser = await prisma.user.findUnique({
+        where: { 
+          id: user?.id || token.sub 
+        },
+        select: {
+          id: true,
+          role: true,
+          location: true,
+          email: true,
+          name: true,
+          image: true
+        }
+      })
+      
+      console.log('📝 Fresh user data:', freshUser)
+
+      if (freshUser) {
+        token.sub = freshUser.id
+        token.role = freshUser.role
+        token.location = freshUser.location
+        token.email = freshUser.email
+        token.name = freshUser.name
+        token.picture = freshUser.image
       }
 
-      if (trigger === "update" && session?.image) {
-        token.picture = session.image
-      }
-      
       return token
     },
 
@@ -129,45 +147,57 @@ export const authOptions: AuthOptions = {
     },
 
     async signIn({ user, account }) {
-      if (account?.provider === "google") {
+      if (account && (account.provider === "google" || account.provider === "facebook")) {
         try {
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email! }
           });
 
-          if (!existingUser) {
-            await prisma.user.create({
-              data: {
-                email: user.email!,
-                name: user.name!,
-                image: user.image
-              }
-            });
-            console.log('👤 New user created:', user.email)
-          }
-        } catch (error) {
-          console.error("❌ Error in Google sign in:", error);
-          return false;
-        }
-      }
-      if (account?.provider === "facebook") {
-        try {
-          const existingUser = await prisma.user.findUnique({
-            where: { email: user.email! }
+          // Crear o actualizar usuario
+          const dbUser = existingUser || await prisma.user.create({
+            data: {
+              email: user.email!,
+              name: user.name!,
+              image: user.image || null,
+              emailVerified: new Date()
+            }
           });
 
-          if (!existingUser) {
-            await prisma.user.create({
-              data: {
-                email: user.email!,
-                name: user.name!,
-                image: user.image || null,
-                emailVerified: new Date()
+          // Crear o actualizar la cuenta del proveedor
+          if (account.provider) {
+            await prisma.account.upsert({
+              where: {
+                provider_providerAccountId: {
+                  provider: account.provider,
+                  providerAccountId: account.providerAccountId,
+                }
+              },
+              update: {
+                access_token: account.access_token,
+                expires_at: account.expires_at,
+                refresh_token: account.refresh_token,
+                token_type: account.token_type,
+                scope: account.scope,
+                id_token: account.id_token,
+                session_state: account.session_state
+              },
+              create: {
+                userId: dbUser.id,
+                type: account.type,
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                access_token: account.access_token,
+                expires_at: account.expires_at,
+                refresh_token: account.refresh_token,
+                token_type: account.token_type,
+                scope: account.scope,
+                id_token: account.id_token,
+                session_state: account.session_state
               }
             });
           }
         } catch (error) {
-          console.error("Error handling Facebook sign in:", error);
+          console.error("❌ Error in OAuth sign in:", error);
           return false;
         }
       }
@@ -175,7 +205,8 @@ export const authOptions: AuthOptions = {
     }
   },
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60 // 30 días
   },
   pages: {
     signIn: '/auth?mode=signin',

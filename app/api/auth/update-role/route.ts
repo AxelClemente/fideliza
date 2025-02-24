@@ -27,7 +27,6 @@ export async function POST(req: Request) {
   const body = await req.json() as UpdateRoleRequest
   const { role, setAsOwner, accessLevel } = body
   
-  // Validamos que el rol sea válido
   if (!['BUSINESS', 'CUSTOMER', 'ADMIN', 'STAFF'].includes(role)) {
     return NextResponse.json(
       { error: 'Invalid role' }, 
@@ -50,6 +49,7 @@ export async function POST(req: Request) {
       } : {})
     } satisfies Prisma.UserUpdateInput
 
+    // Actualizar usuario
     const updatedUser = await prisma.user.update({
       where: { 
         email: session.user.email
@@ -57,7 +57,36 @@ export async function POST(req: Request) {
       data: updateData,
     })
 
-    return NextResponse.json({ user: updatedUser })
+    // Actualizar la sesión en la base de datos
+    await prisma.session.updateMany({
+      where: {
+        userId: updatedUser.id
+      },
+      data: {
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      }
+    })
+
+    // Crear una nueva sesión con los datos actualizados
+    const sessionToken = `${updatedUser.id}_${Date.now()}`
+    await prisma.session.create({
+      data: {
+        sessionToken: sessionToken,
+        userId: updatedUser.id,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      }
+    })
+
+    console.log('✅ Role updated successfully:', {
+      userId: updatedUser.id,
+      newRole: updatedUser.role,
+      sessionToken
+    })
+
+    return NextResponse.json({ 
+      user: updatedUser,
+      sessionToken // Devolver el nuevo token
+    })
   } catch (error) {
     console.error('Failed to update user role:', error)
     return NextResponse.json(

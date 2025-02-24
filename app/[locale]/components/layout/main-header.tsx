@@ -25,13 +25,35 @@ export function MainHeader() {
     { code: 'fr', name: 'Français' }
   ];
 
+  // Añadir log para debugging
+  console.log('MainHeader - Session:', {
+    exists: !!session,
+    role: session?.user?.role,
+    location: session?.user?.location
+  });
+
   // Función para manejar la redirección al dashboard según el rol
-  const handleDashboardClick = (e: React.MouseEvent) => {
+  const handleDashboardClick = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (session?.user?.role === 'CUSTOMER') {
-      router.push(`/${currentLocale}/customer-dashboard`);
-    } else if (['BUSINESS', 'ADMIN', 'STAFF'].includes(session?.user?.role || '')) {
-      router.push(`/${currentLocale}/business-dashboard`);
+    
+    // Forzar actualización de la sesión
+    try {
+      const response = await fetch('/api/auth/session');
+      const sessionData = await response.json();
+      
+      console.log('Session data:', sessionData);
+
+      if (sessionData?.user?.role === 'CUSTOMER') {
+        router.push(`/${currentLocale}/customer-dashboard`);
+      } else if (['BUSINESS', 'ADMIN', 'STAFF'].includes(sessionData?.user?.role || '')) {
+        router.push(`/${currentLocale}/business-dashboard`);
+      } else {
+        console.log('No role found in session');
+        // Opcionalmente, redirigir a selección de rol
+        router.push('/auth/choose-role');
+      }
+    } catch (error) {
+      console.error('Error fetching session:', error);
     }
   };
 
