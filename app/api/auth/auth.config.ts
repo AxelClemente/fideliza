@@ -94,56 +94,83 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger }) {
       console.log('🔑 JWT Callback - Starting with trigger:', trigger)
+      console.log('📄 Current token:', token)
+      console.log('👤 User data:', user)
 
-      // Obtener datos frescos del usuario SIEMPRE, no solo cuando hay un nuevo usuario
-      const freshUser = await prisma.user.findUnique({
-        where: { 
-          id: user?.id || token.sub 
-        },
-        select: {
-          id: true,
-          role: true,
-          location: true,
-          email: true,
-          name: true,
-          image: true
+      try {
+        // Verificar que tenemos un email
+        if (!token.email) {
+          console.log('❌ No email found in token')
+          return token
         }
-      })
-      
-      console.log('📝 Fresh user data:', freshUser)
 
-      if (freshUser) {
-        token.sub = freshUser.id
-        token.role = freshUser.role
-        token.location = freshUser.location
-        token.email = freshUser.email
-        token.name = freshUser.name
-        token.picture = freshUser.image
+        // Ahora TypeScript sabe que token.email es string
+        const freshUser = await prisma.user.findUnique({
+          where: { 
+            email: token.email 
+          },
+          select: {
+            id: true,
+            role: true,
+            location: true,
+            email: true,
+            name: true,
+            image: true
+          }
+        })
+        
+        console.log('📝 Fresh user data:', freshUser)
+
+        if (freshUser) {
+          token.sub = freshUser.id
+          token.role = freshUser.role
+          token.location = freshUser.location
+          token.email = freshUser.email
+          token.name = freshUser.name
+          token.picture = freshUser.image
+        }
+
+        return token
+      } catch (error) {
+        console.error('Error in JWT callback:', error)
+        return token
       }
-
-      return token
     },
 
     async session({ session, token }) {
+      console.log('🔄 Session Callback - Starting')
+      console.log('📄 Current token:', token)
+      console.log('🎫 Current session:', session)
+
       if (session.user && token.sub) {
         session.user.id = token.sub
         session.user.role = token.role as 'BUSINESS' | 'ADMIN' | 'STAFF' | 'CUSTOMER' | null
         session.user.location = token.location as string | null
         session.user.image = token.picture as string | null
       }
+
+      console.log('✅ Updated session:', session)
       return session
     },
 
     async redirect({ url, baseUrl }) {
-      if (url.startsWith(`${baseUrl}/auth/signin`) || url.includes('/signin')) {
-        return `${baseUrl}/auth?mode=signin`
+      console.log('🔄 Redirect Callback:', { url, baseUrl })
+      
+      // Si es una URL de autenticación, permitir la redirección
+      if (url.startsWith('/auth/')) {
+        console.log('📍 Redirecting to auth path:', url)
+        return url
       }
       
-      if (!url.startsWith(baseUrl)) {
-        return baseUrl
+      // Si es una URL interna válida, permitirla
+      if (url.startsWith(baseUrl)) {
+        console.log('📍 Redirecting to internal path:', url)
+        return url
       }
       
-      return url
+      // Por defecto, redirigir a la página de location
+      console.log('📍 Default redirect to location')
+      return `${baseUrl}/auth/location`
     },
 
     async signIn({ user, account }) {

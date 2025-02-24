@@ -36,24 +36,35 @@ export function MainHeader() {
   const handleDashboardClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Forzar actualización de la sesión
     try {
+      // Primero obtener el email del usuario actual
       const response = await fetch('/api/auth/session');
       const sessionData = await response.json();
       
-      console.log('Session data:', sessionData);
+      console.log('Current session data:', sessionData);
 
-      if (sessionData?.user?.role === 'CUSTOMER') {
+      // Buscar el usuario por email en lugar de ID
+      const userResponse = await fetch('/api/user/get-current', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: sessionData?.user?.email 
+        })
+      });
+      
+      const userData = await userResponse.json();
+      console.log('User data from DB:', userData);
+
+      if (userData?.role === 'CUSTOMER') {
         router.push(`/${currentLocale}/customer-dashboard`);
-      } else if (['BUSINESS', 'ADMIN', 'STAFF'].includes(sessionData?.user?.role || '')) {
+      } else if (['BUSINESS', 'ADMIN', 'STAFF'].includes(userData?.role || '')) {
         router.push(`/${currentLocale}/business-dashboard`);
       } else {
-        console.log('No role found in session');
-        // Opcionalmente, redirigir a selección de rol
+        console.log('No role found for user');
         router.push('/auth/choose-role');
       }
     } catch (error) {
-      console.error('Error fetching session:', error);
+      console.error('Error fetching user data:', error);
     }
   };
 

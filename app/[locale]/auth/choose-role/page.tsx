@@ -38,17 +38,19 @@ export default function ChooseRolePage() {
           throw new Error('Failed to update role')
         }
 
-        console.log('🔄 Forcing session update...')
-        const result = await signIn('credentials', {
-          redirect: false,
-          email: session?.user?.email,
-        })
-
-        console.log('🔄 Session update result:', result)
-
-        const sessionResponse = await fetch('/api/auth/session')
-        const sessionData = await sessionResponse.json()
-        console.log('🔄 Final session check:', sessionData)
+        if (!session?.user?.email?.includes('gmail.com')) {
+          console.log('🔄 Forcing session update for non-Google account...')
+          await signIn('credentials', {
+            redirect: false,
+            email: session?.user?.email,
+          })
+        } else {
+          console.log('🔄 Waiting for Google session update...')
+          await new Promise(resolve => setTimeout(resolve, 1000))
+          const sessionResponse = await fetch('/api/auth/session')
+          const sessionData = await sessionResponse.json()
+          console.log('🔄 Updated session data:', sessionData)
+        }
 
         router.push('/business-dashboard')
       } else {
@@ -66,17 +68,17 @@ export default function ChooseRolePage() {
           throw new Error('Failed to update role')
         }
 
-        console.log('🔄 Forcing session update...')
-        const result = await signIn('credentials', {
-          redirect: false,
-          email: session?.user?.email,
-        })
-
-        console.log('🔄 Session update result:', result)
-
-        const sessionResponse = await fetch('/api/auth/session')
-        const sessionData = await sessionResponse.json()
-        console.log('🔄 Final session check:', sessionData)
+        if (!session?.user?.email?.includes('gmail.com')) {
+          await signIn('credentials', {
+            redirect: false,
+            email: session?.user?.email,
+          })
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 1000))
+          const sessionResponse = await fetch('/api/auth/session')
+          const sessionData = await sessionResponse.json()
+          console.log('🔄 Updated session data:', sessionData)
+        }
 
         router.push('/customer-dashboard')
       }

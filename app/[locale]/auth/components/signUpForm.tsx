@@ -66,17 +66,46 @@ export default function SignUpForm() {
 
   const handleGoogleSignIn = async () => {
     try {
+      console.log('🚀 Starting Google sign in process')
+      
+      // Primero, iniciamos sesión con Google
       const result = await signIn('google', {
-        callbackUrl: '/auth/location',
         redirect: false,
       })
 
+      console.log('📥 Google sign in result:', result)
+
       if (result?.error) {
+        console.error('❌ Google sign in error:', result.error)
         setError('Error signing in with Google')
-      } else if (result?.url) {
-        router.push(result.url)
+        return
       }
-    } catch {
+
+      // Esperamos un momento para que la sesión se inicialice
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      // Verificamos la sesión
+      const sessionResponse = await fetch('/api/auth/session')
+      const sessionData = await sessionResponse.json()
+      console.log('📝 Current session data:', sessionData)
+
+      if (!sessionData?.user) {
+        console.error('❌ No user found in session')
+        setError('Failed to initialize session')
+        return
+      }
+
+      // Forzamos una actualización de la sesión
+      await signIn('credentials', {
+        redirect: false,
+        email: sessionData.user.email,
+      })
+
+      console.log('🌍 Redirecting to location page')
+      router.push('/auth/location')
+
+    } catch (error) {
+      console.error('❌ Unexpected error during Google sign in:', error)
       setError('An error occurred during Google sign in')
     }
   }
