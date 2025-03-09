@@ -1,5 +1,5 @@
 'use client'
-
+//NUEVO: Añadir estadísticas de visitas
 import { useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -26,6 +26,9 @@ interface StatsData {
   }>
 }
 
+// Actualizar el tipo para incluir 'visits'
+type MetricType = 'views' | 'earnings' | 'subscriptions' | 'visits'
+
 interface AnalyticsDashboardProps {
   featuredOffers?: Array<{
     id: string
@@ -43,6 +46,7 @@ interface AnalyticsDashboardProps {
     views: StatsData
     earnings: StatsData
     subscriptions: StatsData
+    visits: StatsData // NUEVO: Añadir tipo para visitas
     offerViews: Array<{
       offerId: string
       value: string
@@ -51,8 +55,6 @@ interface AnalyticsDashboardProps {
     }>
   }
 }
-
-type MetricType = 'views' | 'earnings' | 'subscriptions'
 
 export default function AnalyticsDashboard({ 
   featuredOffers = [],
@@ -89,6 +91,15 @@ export default function AnalyticsDashboard({
       { day: "Fri", value: parseInt(viewStats.subscriptions.value) / 3 },
       { day: "Sat", value: parseInt(viewStats.subscriptions.value) / 2 },
       { day: "Sun", value: parseInt(viewStats.subscriptions.value) },
+    ],
+    visits: [
+      { day: "Mon", value: parseInt(viewStats.visits.value) / 7 },
+      { day: "Tue", value: parseInt(viewStats.visits.value) / 6 },
+      { day: "Wed", value: parseInt(viewStats.visits.value) / 5 },
+      { day: "Thu", value: parseInt(viewStats.visits.value) / 4 },
+      { day: "Fri", value: parseInt(viewStats.visits.value) / 3 },
+      { day: "Sat", value: parseInt(viewStats.visits.value) / 2 },
+      { day: "Sun", value: parseInt(viewStats.visits.value) },
     ]
   }
 
@@ -107,6 +118,11 @@ export default function AnalyticsDashboard({
       id: 'subscriptions' as MetricType,
       title: t('newSubs'),
       ...viewStats.subscriptions
+    },
+    {
+      id: 'visits' as MetricType,
+      title: t('visits'),
+      ...viewStats.visits
     }
   ]
 
@@ -119,6 +135,8 @@ export default function AnalyticsDashboard({
         return t('earnings')
       case 'subscriptions':
         return t('subscriptions')
+      case 'visits':
+        return t('visits')
       default:
         return t('views')
     }
@@ -132,6 +150,8 @@ export default function AnalyticsDashboard({
         return viewStats.earnings.value
       case 'subscriptions':
         return viewStats.subscriptions.value
+      case 'visits':
+        return viewStats.visits.value
       default:
         return '0'
     }
@@ -251,7 +271,7 @@ export default function AnalyticsDashboard({
       </div>
 
       {/* Versión desktop - Grid */}
-      <div className="hidden md:grid md:grid-cols-3 gap-0 px-8 lg:px-16">
+      <div className="hidden md:grid md:grid-cols-4 gap-0 px-8 lg:px-16">
         {stats.map((stat) => (
           <Card 
             key={stat.title}

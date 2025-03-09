@@ -116,6 +116,34 @@ export async function getRestaurantStats(restaurantId: string) {
     ? 100 
     : ((currentSubs - previousSubs) / previousSubs) * 100
 
+  // NUEVO: Contar validaciones de suscripciones del último mes
+  console.log('Consultando validaciones para restaurante:', restaurantId)
+  const currentVisits = await prisma.subscriptionValidation.count({
+    where: {
+      restaurantId,
+      validationDate: { gte: thirtyDaysAgo }
+    }
+  })
+  console.log('Validaciones actuales encontradas:', currentVisits)
+
+  // NUEVO: Contar validaciones del mes anterior
+  const previousVisits = await prisma.subscriptionValidation.count({
+    where: {
+      restaurantId,
+      validationDate: {
+        gte: previousThirtyDays,
+        lt: thirtyDaysAgo
+      }
+    }
+  })
+  console.log('Validaciones previas encontradas:', previousVisits)
+
+  // NUEVO: Calcular cambio porcentual en validaciones
+  const visitsChange = previousVisits === 0 
+    ? 100 
+    : ((currentVisits - previousVisits) / previousVisits) * 100
+  console.log('Cambio porcentual en validaciones:', visitsChange)
+
   // Obtener vistas de ofertas
   const offerViews = await Promise.all(
     featuredOffers.map(async (offer) => {
@@ -211,6 +239,12 @@ export async function getRestaurantStats(restaurantId: string) {
           remainingVisits: sub.remainingVisits
         }
       }))
+    },
+    // NUEVO: Añadir estadísticas de visitas
+    visits: {
+      value: currentVisits.toString(),
+      change: `${visitsChange > 0 ? '+' : ''}${visitsChange.toFixed(0)}%`,
+      changeType: visitsChange >= 0 ? "positive" : "negative" as const
     },
     offerViews: offerViews.map(view => ({
       ...view,

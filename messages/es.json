@@ -312,7 +312,8 @@
       "noValidationsFound": "No se encontraron validaciones",
       "loading": "Cargando...",
       "remainingVisits": "Visitas restantes",
-      "unlimited": "Ilimitadas"
+      "unlimited": "Ilimitadas",
+      "visits": "Visitas"
     },
     "CustomerDashboard": {
       "header": {

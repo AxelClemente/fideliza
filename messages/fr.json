@@ -313,7 +313,8 @@
     "noValidationsFound": "Aucune validation trouvée",
     "loading": "Chargement...",
     "remainingVisits": "Visites restantes",
-    "unlimited": "Visites illimitées"
+    "unlimited": "Visites illimitées",
+    "visits": "Visites"
   },
   "CustomerDashboard": {
     "header": {
