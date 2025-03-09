@@ -339,7 +339,9 @@
       "otherSubscriptions": "Other subscriptions",
       "purchasing": "Purchasing...",
       "purchase": "Purchase",
-      "purchaseSuccess": "Subscription purchased successfully!"
+      "purchaseSuccess": "Subscription purchased successfully!",
+      "cancel": "Cancel",
+      "stripe": "Pay with Stripe"
     },
     "offerModal": {
       "title": "Offer Details",

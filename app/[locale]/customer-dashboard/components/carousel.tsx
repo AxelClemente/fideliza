@@ -103,9 +103,6 @@ export function RestaurantCarousel({ restaurants }: { restaurants: Restaurant[] 
                       <h3 className="font-semibold !text-[20px]">
                         {restaurant.title}
                       </h3>
-                      <span className="text-third-gray !text-[20px] font-semibold">
-                        300+ subs
-                      </span>
                     </div>
                   </div>
                 </Link>

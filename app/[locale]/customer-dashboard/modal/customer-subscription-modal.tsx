@@ -7,6 +7,7 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { Subscription } from '@/app/[locale]/customer-dashboard/types/subscription'
 import { useTranslations } from 'next-intl'
+import { loadStripe } from '@stripe/stripe-js'
 
 interface CustomerSubscriptionModalProps {
   isOpen: boolean
@@ -14,12 +15,15 @@ interface CustomerSubscriptionModalProps {
   subscription?: Subscription
 }
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+
 export function CustomerSubscriptionModal({ 
   isOpen, 
   onClose,
   subscription 
 }: CustomerSubscriptionModalProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [isStripeLoading, setIsStripeLoading] = useState(false)
   const [error, setError] = useState('')
   const t = useTranslations('CustomerDashboard.subscriptionModal')
   
@@ -41,6 +45,7 @@ export function CustomerSubscriptionModal({
 
   console.log('✅ Rendering modal with visits:', subscription.visitsPerMonth)
 
+  // Función de prueba existente (sin Stripe)
   const handlePurchase = async () => {
     try {
       setIsLoading(true)
@@ -79,6 +84,57 @@ export function CustomerSubscriptionModal({
       toast.error(error instanceof Error ? error.message : 'Failed to purchase subscription')
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  // Nueva función con integración de Stripe
+  const handleStripePurchase = async () => {
+    try {
+      setIsStripeLoading(true)
+      setError('')  // Limpiar error previo
+      
+      const selectedPlace = subscription.places[0]
+      console.log('Initiating Stripe purchase:', {
+        subscriptionId: subscription.id,
+        placeId: selectedPlace.id,
+        price: subscription.price,
+        name: subscription.name
+      })
+
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subscriptionId: subscription.id,
+          placeId: selectedPlace.id,
+          price: subscription.price,
+          name: subscription.name
+        })
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create checkout session')
+      }
+
+      const { sessionId } = await response.json()
+      const stripe = await stripePromise
+
+      if (!stripe) {
+        throw new Error('Stripe failed to initialize')
+      }
+
+      const { error } = await stripe.redirectToCheckout({ sessionId })
+      
+      if (error) {
+        throw error
+      }
+    } catch (error) {
+      console.error('Stripe purchase error:', error)
+      setError(error instanceof Error ? error.message : 'Failed to process payment')
+      toast.error(error instanceof Error ? error.message : 'Failed to process payment')
+    } finally {
+      setIsStripeLoading(false)
     }
   }
 
@@ -300,51 +356,61 @@ export function CustomerSubscriptionModal({
             border-t 
             border-gray-100
           ">
+            {/* Botón de prueba existente */}
             <Button 
               onClick={handlePurchase}
               disabled={isLoading}
               className="
-                w-[390px]
-                h-[78px]
-                rounded-[100px]
-                mx-auto
-                md:w-full
-                md:mx-0
+                w-full 
+                h-[78px] 
+                rounded-[100px] 
                 bg-black 
-                !text-[18px]
-                !font-semibold 
-                !leading-[22px]
-                !font-['Open_Sans']
-                md:!text-[16px]
-                md:!leading-[20px]
+                text-white 
+                text-[16px] 
+                font-semibold 
+                leading-[20px] 
+                font-['Open_Sans']
               "
             >
-              {isLoading ? t('purchasing') : t('purchase')}
+              {isLoading ? t('processing') : t('purchase')}
+            </Button>
+            
+            {/* Nuevo botón de Stripe */}
+            <Button 
+              onClick={handleStripePurchase}
+              disabled={isStripeLoading}
+              className="
+                w-full 
+                h-[78px] 
+                rounded-[100px] 
+                bg-[#635BFF] 
+                text-white 
+                text-[16px] 
+                font-semibold 
+                leading-[20px] 
+                font-['Open_Sans']
+                hover:bg-[#4F46E5]
+              "
+            >
+              {isStripeLoading ? t('processing') : 'Stripe'}
             </Button>
             
             <Button 
-              variant="ghost"
               onClick={onClose}
+              variant="outline"
               className="
-                w-[390px]
-                h-[78px]
-                rounded-[100px]
-                mx-auto
-                md:w-full
-                md:mx-0
-                bg-white
-                border-2
-                border-black
-                !text-[18px]
-                !font-semibold 
-                !leading-[22px]
-                !font-['Open_Sans']
-                md:!text-[16px]
-                md:!leading-[20px]
-                hover:bg-gray-100
+                w-full 
+                h-[78px] 
+                rounded-[100px] 
+                border-[1px] 
+                border-third-gray/30 
+                text-[16px] 
+                font-semibold 
+                leading-[20px] 
+                font-['Open_Sans']
               "
             >
-              {t('otherSubscriptions')}
+              {t('cancel')}
             </Button>
           </div>
         </div>
