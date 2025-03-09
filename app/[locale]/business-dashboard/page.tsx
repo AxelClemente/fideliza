@@ -25,6 +25,11 @@ export default async function BusinessDashboardPage() {
           change: "0%",
           changeType: "positive" as const
         },
+        visits: {
+          value: "0",
+          change: "0%",
+          changeType: "positive" as const
+        },
         offerViews: []
       }
   
