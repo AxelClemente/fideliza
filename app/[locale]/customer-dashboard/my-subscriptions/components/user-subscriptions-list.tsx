@@ -295,7 +295,9 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
               ">
                 {t('validUntil')}: {formatDate(sub.nextPayment)}
               </p>
-              {sub.subscription.visitsPerMonth && sub.remainingVisits !== null && (
+              {sub.subscription.visitsPerMonth && 
+                sub.remainingVisits !== null && 
+                sub.subscription.visitsPerMonth !== 1000 && (
                 <div className="
                   text-[20px]
                   leading-[26px]
@@ -321,6 +323,32 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                 </div>
               )}
               
+              {sub.subscription.visitsPerMonth === 1000 && (
+                <div className="
+                  text-[20px]
+                  leading-[26px]
+                  font-['Open_Sans']
+                  font-semibold
+                  text-center
+                  text-[#7B7B7B]
+                  mb-4
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                ">
+                  <span>
+                    {t('unlimitedVisits')}
+                  </span>
+                  <button
+                    onClick={() => fetchValidationsHistory(sub.id)}
+                    className="hover:text-black transition-colors"
+                  >
+                    <FileText size={20} />
+                  </button>
+                </div>
+              )}
+
               <h4 className="
                 text-[14px]
                 leading-[26px]

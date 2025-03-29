@@ -429,7 +429,8 @@
       "visitsRemaining": "visites restantes",
       "visitsHistory": "Historique des Visites",
       "noValidationHistory": "Aucun historique de validation trouvé",
-      "close": "Fermer"
+      "close": "Fermer",
+      "unlimitedVisits": "Visites illimitées"
     },
     "about": {
       "title": "À propos du service",
