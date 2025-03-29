@@ -1,7 +1,8 @@
 'use client'
 
 import { Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { ArrowLeft } from 'lucide-react'
 import SignInForm from '@/app/[locale]/auth/components/signInForm'
 import SignUpForm from '@/app/[locale]/auth/components/signUpForm'
 import AuthLayout from '@/app/[locale]/auth/components/authLayout'
@@ -11,6 +12,7 @@ import { useTranslations } from 'next-intl'
 function AuthContent() {
   const t = useTranslations('Auth')
   const searchParams = useSearchParams()
+  const router = useRouter()
   const mode = searchParams.get('mode')
   
   const headerText = mode === 'signup' 
@@ -26,9 +28,20 @@ function AuthContent() {
       }
 
   return (
-    <AuthLayout headerText={headerText}>
-      {mode === 'signup' ? <SignUpForm /> : <SignInForm />}
-    </AuthLayout>
+    <div className="relative">
+      {/* Botón de retorno */}
+      <button 
+        onClick={() => router.push('/')}
+        className="absolute top-8 left-5 z-10 flex items-center text-main-dark hover:text-gray-600 transition-colors"
+      >
+        <ArrowLeft className="h-6 w-6 mr-1" />
+        <span className="text-sm font-medium"></span>
+      </button>
+      
+      <AuthLayout headerText={headerText}>
+        {mode === 'signup' ? <SignUpForm /> : <SignInForm />}
+      </AuthLayout>
+    </div>
   )
 }
 

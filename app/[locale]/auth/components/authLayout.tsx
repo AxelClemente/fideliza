@@ -24,8 +24,22 @@ export default function AuthLayout({ children, headerText }: AuthLayoutProps) {
       isAuthenticated: status === 'authenticated'
     })
 
-    if (status === 'unauthenticated') {
-      router.push('/auth?mode=signin')
+    // Obtener la ruta actual
+    const currentPath = window.location.pathname;
+    
+    // No redirigir si estamos en rutas relacionadas con la recuperación de contraseña
+    // o si estamos en la página de registro
+    if (currentPath.includes('/auth/forgot-password') || 
+        currentPath.includes('/auth/reset-password') || 
+        currentPath.includes('/auth/verify-code') ||
+        window.location.search.includes('mode=signup')) {
+      console.log('Skipping redirect for auth flow page:', currentPath);
+      return;
+    }
+
+    // Solo redirigir a signin si el usuario no está autenticado y no estamos ya en signin
+    if (status === 'unauthenticated' && !window.location.search.includes('mode=signin')) {
+      router.push('/auth?mode=signin');
     }
   }, [status, router])
 

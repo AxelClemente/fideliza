@@ -46,6 +46,15 @@ export function BusinessHeader() {
     setIsOpen(!isOpen)
   }
 
+  const handleSignOut = async () => {
+    // Primero hacer signOut sin redirección
+    await signOut({ redirect: false });
+    
+    // Luego redirigir manualmente
+    window.location.href = '/';
+    // Alternativa: router.push('/');
+  };
+
   useEffect(() => {
     console.log('BusinessHeader session updated:', session?.user?.image)
   }, [session])
@@ -142,7 +151,7 @@ export function BusinessHeader() {
 
             {/* Logout */}
             <button 
-              onClick={() => signOut({ callbackUrl: '/' })}
+              onClick={handleSignOut}
               className="mt-8 text-gray-400 hover:text-white text-lg font-semibold"
             >
               {t('logout')}
@@ -223,7 +232,7 @@ export function BusinessHeader() {
               </nav>
 
               <button 
-                onClick={() => signOut({ callbackUrl: '/' })}
+                onClick={handleSignOut}
                 className="text-sm text-third-gray hover:text-main-light"
               >
                 {t('logout')}
@@ -324,7 +333,7 @@ export function BusinessHeader() {
 
             {/* Logout */}
             <button 
-              onClick={() => signOut({ callbackUrl: '/' })}
+              onClick={handleSignOut}
               className="text-semi-bold-2 text-third-gray hover:text-main-light md:ml-8 whitespace-nowrap"
             >
               {t('logout')}

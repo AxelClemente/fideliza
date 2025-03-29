@@ -196,7 +196,7 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
         
         <div className="md:px-8">
           {filteredRestaurants.length > 0 && (
-            <RestaurantCarousel restaurants={filteredRestaurants.slice(0, 3)} />
+            <RestaurantCarousel restaurants={filteredRestaurants.slice(0, 30000)} />
           )}
         </div>
       </div>
