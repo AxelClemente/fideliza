@@ -3,20 +3,23 @@
 import { createContext, useContext } from 'react'
 import { SubscriptionStatus } from '@prisma/client'
 
+type Subscription = {
+  id: string
+  type: string
+  name: string
+  status: SubscriptionStatus
+  startDate: Date
+  endDate: Date
+  remainingVisits: number | null | undefined
+}
+
 type Subscriber = {
   id: string
   name: string
   email: string
   imageUrl?: string
-  subscription: {
-    id: string
-    type: string
-    name: string
-    status: SubscriptionStatus
-    startDate: Date
-    endDate: Date
-    remainingVisits: number | null | undefined
-  }
+  subscription: Subscription
+  subscriptions?: Subscription[]
 }
 
 type SubscribersContextType = {

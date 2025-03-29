@@ -314,7 +314,11 @@
     "loading": "Chargement...",
     "remainingVisits": "Visites restantes",
     "unlimited": "Visites illimitées",
-    "visits": "Visites"
+    "visits": "Visites",
+    "showMoreSubscriptions": "Afficher {count} abonnement(s) supplémentaire(s)",
+    "hideSubscriptions": "Masquer les abonnements",
+    "allSubscriptions": "Tous les Abonnements",
+    "status": "État"
   },
   "CustomerDashboard": {
     "header": {

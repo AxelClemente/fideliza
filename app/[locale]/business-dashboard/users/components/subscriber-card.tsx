@@ -1,6 +1,6 @@
 'use client'
 
-import { FileText, Trash2 } from "lucide-react"
+import { FileText, Trash2, ChevronDown, ChevronUp } from "lucide-react"
 import { useSubscribers } from "../../context/subscribers-context"
 import { useTranslations } from "use-intl"
 import { toast } from "sonner"
@@ -33,6 +33,7 @@ export function SubscriberCard() {
   const [selectedSubscriber, setSelectedSubscriber] = useState<string | null>(null)
   const [validations, setValidations] = useState<ValidationHistory[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [expandedSubscribers, setExpandedSubscribers] = useState<Record<string, boolean>>({})
   
   // Eliminar duplicados basados en el ID del suscriptor
   const uniqueSubscribers = Array.from(
@@ -117,58 +118,99 @@ export function SubscriberCard() {
     }, {} as GroupedValidations);
   };
 
+  const toggleSubscriberExpand = (subscriberId: string) => {
+    setExpandedSubscribers(prev => ({
+      ...prev,
+      [subscriberId]: !prev[subscriberId]
+    }));
+  };
+
   return (
     <div className="space-y-5">
       {uniqueSubscribers.length > 0 ? (
         uniqueSubscribers.map((subscriber) => (
           <div 
             key={subscriber.id} 
-            className="flex items-center justify-between rounded-[20px] border bg-white w-[390px] sm:w-[476px] h-[84px] overflow-hidden ml-4 sm:ml-0"
+            className="rounded-[20px] border bg-white w-[390px] sm:w-[476px] overflow-hidden ml-4 sm:ml-0"
           >
-            <div className="flex items-center h-full">
-              <div className="h-full w-[90px] sm:w-[106px] relative">
-                <img 
-                  src={subscriber.imageUrl || '/images/placeholder.png'}
-                  alt={subscriber.name}
-                  className="h-full w-full object-cover"
-                />
+            <div className="flex items-center justify-between h-[84px]">
+              <div className="flex items-center h-full">
+                <div className="h-full w-[90px] sm:w-[106px] relative">
+                  <img 
+                    src={subscriber.imageUrl || '/images/placeholder.png'}
+                    alt={subscriber.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="px-4">
+                  <p className="font-medium text-base">{subscriber.name}</p>
+                  <p className="text-sm text-muted-foreground truncate max-w-[180px] sm:max-w-[250px]">
+                    {subscriber.email}
+                  </p>
+                  
+                  {/* Reemplazar la visualización de la primera suscripción con un título */}
+                  {subscriber.subscriptions && subscriber.subscriptions.length > 0 && (
+                    <button 
+                      onClick={() => toggleSubscriberExpand(subscriber.id)}
+                      className="text-xs font-bold flex items-center mt-1 hover:text-blue-500 transition-colors"
+                    >
+                      {t('subscriptions')}
+                      {expandedSubscribers[subscriber.id] ? (
+                        <ChevronUp className="h-3 w-3 ml-1" />
+                      ) : (
+                        <ChevronDown className="h-3 w-3 ml-1" />
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className="px-4">
-                <p className="font-medium text-base">{subscriber.name}</p>
-                <p className="text-sm text-muted-foreground truncate max-w-[180px] sm:max-w-[250px]">
-                  {subscriber.email}
-                </p>
-                {subscriber.subscription && (
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-bold text-black">{subscriber.subscription.type}</span>
-                    <span className="mx-1">•</span>
-                    {new Date(subscriber.subscription.startDate).toLocaleDateString()}
-                    <span className="mx-1">→</span>
-                    {new Date(subscriber.subscription.endDate).toLocaleDateString()}
-                  </p>
-                )}
-                {subscriber.subscription && subscriber.subscription.remainingVisits !== null && subscriber.subscription.remainingVisits !== undefined && (
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-medium text-gray-500">{subscriber.subscription.remainingVisits} Remaining visits</span>
-                  </p>
-                )}
+              
+              <div className="flex items-center gap-2 pr-4">
+                <button 
+                  className="text-black hover:text-blue-600 transition-colors p-2"
+                  onClick={() => handleViewHistory(subscriber.id)}
+                >
+                  <FileText className="h-5 w-5" />
+                </button>
+                <button 
+                  className="text-black hover:text-destructive transition-colors p-2"
+                  onClick={() => handleDelete(subscriber.id, subscriber.subscription.id)}
+                >
+                   <Trash2 className="h-5 w-5" />
+                </button>
               </div>
             </div>
             
-            <div className="flex items-center gap-2 pr-4">
-              <button 
-                className="text-black hover:text-blue-600 transition-colors p-2"
-                onClick={() => handleViewHistory(subscriber.id)}
-              >
-                <FileText className="h-5 w-5" />
-              </button>
-              <button 
-                className="text-black hover:text-destructive transition-colors p-2"
-                onClick={() => handleDelete(subscriber.id, subscriber.subscription.id)}
-              >
-                <Trash2 className="h-5 w-5" />
-              </button>
-            </div>
+            {/* Sección expandible para mostrar todas las suscripciones */}
+            {subscriber.subscriptions && 
+             subscriber.subscriptions.length > 0 && 
+             expandedSubscribers[subscriber.id] && (
+              <div className="px-4 pb-4 border-t pt-3">
+                <div className="space-y-2">
+                  {subscriber.subscriptions.map((sub) => (
+                    <div key={sub.id} className="bg-gray-50 p-2 rounded text-xs">
+                      <div className="flex justify-between">
+                        <span className="font-semibold">{sub.name || sub.type}</span>
+                        <button 
+                          className="text-red-500 hover:text-red-700"
+                          onClick={() => handleDelete(subscriber.id, sub.id)}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      <div className="text-gray-600 mt-1">
+                        {new Date(sub.startDate).toLocaleDateString()} → {new Date(sub.endDate).toLocaleDateString()}
+                      </div>
+                      <div className="text-gray-600 mt-1">
+                        {t('status')}: <span className={`font-medium ${sub.status === 'ACTIVE' ? 'text-green-600' : 'text-amber-600'}`}>
+                          {sub.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ))
       ) : (

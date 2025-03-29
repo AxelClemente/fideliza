@@ -313,7 +313,11 @@
       "loading": "Cargando...",
       "remainingVisits": "Visitas restantes",
       "unlimited": "Ilimitadas",
-      "visits": "Visitas"
+      "visits": "Visitas",
+      "showMoreSubscriptions": "Mostrar {count} suscripción(es) más",
+      "hideSubscriptions": "Ocultar suscripciones",
+      "allSubscriptions": "Todas las Suscripciones",
+      "status": "Estado"
     },
     "CustomerDashboard": {
       "header": {
