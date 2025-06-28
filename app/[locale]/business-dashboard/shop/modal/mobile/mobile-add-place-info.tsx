@@ -2,9 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "@/components/ui/use-toast";
+import classNames from 'classnames';
 
 interface MobileAddPlaceInfoProps {
   isOpen: boolean;
@@ -30,31 +31,36 @@ export function MobileAddPlaceInfo({
   const [name, setName] = useState(initialData?.name || '')
   const [location, setLocation] = useState(initialData?.location || '')
   const [phoneNumber, setPhoneNumber] = useState(initialData?.phoneNumber || '')
+  const [fieldErrors, setFieldErrors] = useState<{name?: boolean, location?: boolean}>({})
 
   if (!isOpen) return null
 
   const handleSubmit = async () => {
+    const errors: {name?: boolean, location?: boolean} = {};
+    const errorMessages: string[] = [];
+
+    if (!name.trim()) {
+      errors.name = true;
+      errorMessages.push('Branch name is required');
+    }
+    if (!location.trim()) {
+      errors.location = true;
+      errorMessages.push('Branch address is required');
+    }
+    
+    setFieldErrors(errors);
+
+    if (errorMessages.length > 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing required fields',
+        description: errorMessages.map(msg => `• ${msg}`).join('\n'),
+      });
+      return;
+    }
+
     try {
       setIsLoading(true)
-
-      // Validaciones básicas
-      if (!name.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Branch name is required",
-        })
-        return
-      }
-
-      if (!location.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Branch address is required",
-        })
-        return
-      }
 
       const endpoint = mode === 'create' 
         ? '/api/places' 
@@ -94,6 +100,28 @@ export function MobileAddPlaceInfo({
     }
   }
 
+  useEffect(() => {
+    if (isOpen) {
+      // Reset all states when modal opens
+      setName(initialData?.name || '')
+      setLocation(initialData?.location || '')
+      setPhoneNumber(initialData?.phoneNumber || '')
+      setFieldErrors({})
+      setIsLoading(false)
+    }
+  }, [isOpen, initialData])
+
+  useEffect(() => {
+    if (!isOpen) {
+      // Reset all states when modal closes
+      setName('')
+      setLocation('')
+      setPhoneNumber('')
+      setFieldErrors({})
+      setIsLoading(false)
+    }
+  }, [isOpen])
+
   return (
     <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
       {/* Header */}
@@ -114,16 +142,19 @@ export function MobileAddPlaceInfo({
             <div className="relative">
               <Input
                 value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="
-                  bg-main-gray 
-                  pl-14
-                  h-[78px] 
-                  w-[359px] 
-                  rounded-[100px]
-                  border-0
-                  mx-auto
-                "
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (fieldErrors.name && e.target.value.trim()) {
+                    setFieldErrors(prev => ({ ...prev, name: false }));
+                  }
+                }}
+                className={classNames(
+                  "bg-main-gray pl-14 h-[78px] w-[359px] rounded-[100px] border-0 mx-auto",
+                  {
+                    '!border-2 !border-red-500': fieldErrors.name,
+                    'border-none': !fieldErrors.name
+                  }
+                )}
                 placeholder="Enter branch name"
               />
               <svg
@@ -147,16 +178,19 @@ export function MobileAddPlaceInfo({
             <div className="relative">
               <Input
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="
-                  bg-main-gray 
-                  pl-14
-                  h-[78px] 
-                  w-[359px] 
-                  rounded-[100px]
-                  border-0
-                  mx-auto
-                "
+                onChange={(e) => {
+                  setLocation(e.target.value);
+                  if (fieldErrors.location && e.target.value.trim()) {
+                    setFieldErrors(prev => ({ ...prev, location: false }));
+                  }
+                }}
+                className={classNames(
+                  "bg-main-gray pl-14 h-[78px] w-[359px] rounded-[100px] border-0 mx-auto",
+                  {
+                    '!border-2 !border-red-500': fieldErrors.location,
+                    'border-none': !fieldErrors.location
+                  }
+                )}
                 placeholder="Enter branch address"
               />
               <svg

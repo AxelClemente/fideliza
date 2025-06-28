@@ -3,9 +3,10 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { ClipLoader } from "react-spinners"
+import classNames from 'classnames'
 
 interface AddPlaceInfoModalProps {
   isOpen: boolean
@@ -31,8 +32,32 @@ export function AddPlaceInfoModal({
   const [name, setName] = useState(initialData?.name || '')
   const [location, setLocation] = useState(initialData?.location || '')
   const [phoneNumber, setPhoneNumber] = useState(initialData?.phoneNumber || '')
+  const [fieldErrors, setFieldErrors] = useState<{name?: boolean, location?: boolean}>({})
 
   const handleSubmit = async () => {
+    const errors: {name?: boolean, location?: boolean} = {};
+    const errorMessages: string[] = [];
+
+    if (!name.trim()) {
+      errors.name = true;
+      errorMessages.push('Branch name is required');
+    }
+    if (!location.trim()) {
+      errors.location = true;
+      errorMessages.push('Branch address is required');
+    }
+    
+    setFieldErrors(errors);
+
+    if (errorMessages.length > 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing required fields',
+        description: errorMessages.map(msg => `• ${msg}`).join('\n'),
+      });
+      return;
+    }
+
     try {
       setIsLoading(true)
 
@@ -73,6 +98,28 @@ export function AddPlaceInfoModal({
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      // Reset all states when modal opens
+      setName(initialData?.name || '')
+      setLocation(initialData?.location || '')
+      setPhoneNumber(initialData?.phoneNumber || '')
+      setFieldErrors({})
+      setIsLoading(false)
+    }
+  }, [isOpen, initialData])
+
+  useEffect(() => {
+    if (!isOpen) {
+      // Reset all states when modal closes
+      setName('')
+      setLocation('')
+      setPhoneNumber('')
+      setFieldErrors({})
+      setIsLoading(false)
+    }
+  }, [isOpen])
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -130,26 +177,18 @@ export function AddPlaceInfoModal({
               <div className="relative flex justify-center md:block">
                 <Input 
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    pl-14 
-                    h-[78px] 
-                    w-[390px]
-                    rounded-[100px]
-                    border-0
-                    mx-auto
-                    mr-[250px]
-                    md:mx-0
-                    md:h-[78px]
-                    md:w-[558px]
-                    md:rounded-[100px]
-                    text-third-gray
-                    max-md:text-[18px]
-                    max-md:font-['Open_Sans']
-                    max-md:font-semibold
-                    max-md:leading-[22px]
-                  " 
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (fieldErrors.name && e.target.value.trim()) {
+                      setFieldErrors(prev => ({ ...prev, name: false }));
+                    }
+                  }}
+                  className={classNames(
+                    "bg-main-gray pl-14 h-[78px] w-[390px] rounded-[100px] border-0 mx-auto mr-[250px] md:mx-0 md:h-[78px] md:w-[558px] md:rounded-[100px] text-third-gray max-md:text-[18px] max-md:font-['Open_Sans'] max-md:font-semibold max-md:leading-[22px]",
+                    {
+                      'border-2 border-red-500': fieldErrors.name
+                    }
+                  )}
                   placeholder="Branch name"
                 />
                 <svg
@@ -170,26 +209,18 @@ export function AddPlaceInfoModal({
               <div className="relative flex justify-center md:block">
                 <Input 
                   value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    pl-14 
-                    h-[78px] 
-                    w-[390px]
-                    rounded-[100px]
-                    border-0
-                    mx-auto
-                    mr-[250px]
-                    md:mx-0
-                    md:h-[78px]
-                    md:w-[558px]
-                    md:rounded-[100px]
-                    text-third-gray
-                    max-md:text-[18px]
-                    max-md:font-['Open_Sans']
-                    max-md:font-semibold
-                    max-md:leading-[22px]
-                  " 
+                  onChange={(e) => {
+                    setLocation(e.target.value);
+                    if (fieldErrors.location && e.target.value.trim()) {
+                      setFieldErrors(prev => ({ ...prev, location: false }));
+                    }
+                  }}
+                  className={classNames(
+                    "bg-main-gray pl-14 h-[78px] w-[390px] rounded-[100px] border-0 mx-auto mr-[250px] md:mx-0 md:h-[78px] md:w-[558px] md:rounded-[100px] text-third-gray max-md:text-[18px] max-md:font-['Open_Sans'] max-md:font-semibold max-md:leading-[22px]",
+                    {
+                      'border-2 border-red-500': fieldErrors.location
+                    }
+                  )}
                   placeholder="Branch address"
                 />
                 <svg
