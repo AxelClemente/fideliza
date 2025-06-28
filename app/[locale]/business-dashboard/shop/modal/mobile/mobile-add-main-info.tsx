@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash2, ChevronDown, Plus } from "lucide-react";
+import { Trash2, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";

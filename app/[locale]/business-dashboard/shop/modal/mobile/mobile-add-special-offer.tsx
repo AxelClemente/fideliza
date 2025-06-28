@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns"
 import { CalendarIcon, Trash2 } from 'lucide-react'
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ClipLoader } from 'react-spinners'
 import { toast } from '@/components/ui/use-toast'
 import type { Offer } from '../../types/types'
@@ -130,6 +130,38 @@ export function MobileAddSpecialOffer({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  // Reset states when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setTitle(initialData?.title || '')
+      setDescription(initialData?.description || '')
+      setStartDate(initialData?.startDate ? new Date(initialData.startDate) : undefined)
+      setFinishDate(initialData?.finishDate ? new Date(initialData.finishDate) : undefined)
+      setSelectedPlace(initialData?.placeId || '')
+      setWebsite(initialData?.website || '')
+      setPhotos(initialData?.images.map(img => img.url) || [])
+      setFieldErrors({})
+      setIsLoading(false)
+      setIsUploadingImages(false)
+    }
+  }, [isOpen, initialData])
+
+  // Reset states when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle('')
+      setDescription('')
+      setStartDate(undefined)
+      setFinishDate(undefined)
+      setSelectedPlace('')
+      setWebsite('')
+      setPhotos([])
+      setFieldErrors({})
+      setIsLoading(false)
+      setIsUploadingImages(false)
+    }
+  }, [isOpen])
 
   // Actualizar el tipo del manejador
   const handleDragEnd = (event: DragEndEvent) => {

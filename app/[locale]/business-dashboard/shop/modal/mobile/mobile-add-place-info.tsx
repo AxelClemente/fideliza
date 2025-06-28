@@ -33,7 +33,27 @@ export function MobileAddPlaceInfo({
   const [phoneNumber, setPhoneNumber] = useState(initialData?.phoneNumber || '')
   const [fieldErrors, setFieldErrors] = useState<{name?: boolean, location?: boolean}>({})
 
-  if (!isOpen) return null
+  useEffect(() => {
+    if (isOpen) {
+      // Reset all states when modal opens
+      setName(initialData?.name || '')
+      setLocation(initialData?.location || '')
+      setPhoneNumber(initialData?.phoneNumber || '')
+      setFieldErrors({})
+      setIsLoading(false)
+    }
+  }, [isOpen, initialData])
+
+  useEffect(() => {
+    if (!isOpen) {
+      // Reset all states when modal closes
+      setName('')
+      setLocation('')
+      setPhoneNumber('')
+      setFieldErrors({})
+      setIsLoading(false)
+    }
+  }, [isOpen])
 
   const handleSubmit = async () => {
     const errors: {name?: boolean, location?: boolean} = {};
@@ -100,27 +120,7 @@ export function MobileAddPlaceInfo({
     }
   }
 
-  useEffect(() => {
-    if (isOpen) {
-      // Reset all states when modal opens
-      setName(initialData?.name || '')
-      setLocation(initialData?.location || '')
-      setPhoneNumber(initialData?.phoneNumber || '')
-      setFieldErrors({})
-      setIsLoading(false)
-    }
-  }, [isOpen, initialData])
-
-  useEffect(() => {
-    if (!isOpen) {
-      // Reset all states when modal closes
-      setName('')
-      setLocation('')
-      setPhoneNumber('')
-      setFieldErrors({})
-      setIsLoading(false)
-    }
-  }, [isOpen])
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-white z-50 overflow-y-auto">

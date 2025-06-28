@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ClipLoader } from 'react-spinners'
 import { toast } from '@/components/ui/use-toast'
 import { Check } from "lucide-react"
@@ -51,6 +51,34 @@ export function MobileNewSubscription({
   )
   const [openVisitsPopover, setOpenVisitsPopover] = useState(false)
   const [openPeriodPopover, setOpenPeriodPopover] = useState(false)
+
+  // Reset states when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setName(initialData?.name || '')
+      setBenefits(initialData?.benefits || '')
+      setPrice(initialData?.price?.toString() || '')
+      setSelectedPlaces(initialData?.placeId ? [initialData.placeId] : [])
+      setWebsite(initialData?.website || '')
+      setPeriod(initialData?.period || 'MONTHLY')
+      setVisitsPerMonth(initialData?.unlimitedVisits ? 'unlimited' : (initialData?.visitsPerMonth?.toString() || ''))
+      setIsLoading(false)
+    }
+  }, [isOpen, initialData])
+
+  // Reset states when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setName('')
+      setBenefits('')
+      setPrice('')
+      setSelectedPlaces([])
+      setWebsite('')
+      setPeriod('MONTHLY')
+      setVisitsPerMonth('')
+      setIsLoading(false)
+    }
+  }, [isOpen])
 
   if (!isOpen) return null
 
