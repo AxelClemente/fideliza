@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Trash2, ChevronDown, Plus } from 'lucide-react'
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ClipLoader } from 'react-spinners'
 import { toast } from '@/components/ui/use-toast'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -27,6 +27,7 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import classNames from 'classnames';
 
 interface AddMainInfoModalProps {
   isOpen: boolean
@@ -114,6 +115,7 @@ export function AddMainInfoModal({
     initialData?.images?.map(img => img.url) || []
   );
   const [isUploadingImages, setIsUploadingImages] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<{title?: boolean, description?: boolean, photos?: boolean, category?: boolean, subcategory?: boolean}>({});
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -139,36 +141,43 @@ export function AddMainInfoModal({
   };
 
   const handleSubmit = async () => {
+    const errors: {title?: boolean, description?: boolean, photos?: boolean, category?: boolean, subcategory?: boolean} = {};
+    const errorMessages: string[] = [];
+
+    if (!title.trim()) {
+      errors.title = true;
+      errorMessages.push('Restaurant name is required');
+    }
+    if (!description.trim()) {
+      errors.description = true;
+      errorMessages.push('Description is required');
+    }
+    if (photos.length === 0) {
+      errors.photos = true;
+      errorMessages.push('At least one photo is required');
+    }
+    if (!category.trim()) {
+      errors.category = true;
+      errorMessages.push('Category is required');
+    }
+    if (!subcategory.trim()) {
+      errors.subcategory = true;
+      errorMessages.push('Subcategory is required');
+    }
+    
+    setFieldErrors(errors);
+
+    if (errorMessages.length > 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing required fields',
+        description: errorMessages.map(msg => `• ${msg}`).join('\n'),
+      });
+      return;
+    }
+
     try {
       setIsLoading(true)
-
-      // Validaciones básicas
-      if (!title.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Restaurant name is required",
-        })
-        return
-      }
-
-      if (!description.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Description is required",
-        })
-        return
-      }
-
-      if (photos.length === 0) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "At least one photo is required",
-        })
-        return
-      }
 
       const endpoint = mode === 'create' ? '/api/restaurant' : `/api/restaurant`
       const method = mode === 'create' ? 'POST' : 'PUT'
@@ -278,6 +287,46 @@ export function AddMainInfoModal({
     }
   }
 
+  useEffect(() => {
+    setTitle(initialData?.title || '')
+    setDescription(initialData?.description || '')
+    setWebsite(initialData?.website || '')
+    setCategory(initialData?.category || '')
+    setSubcategory(initialData?.subcategory || '')
+    setPhotos(initialData?.images?.map(img => img.url) || [])
+    setFieldErrors({})
+  }, [initialData])
+
+  useEffect(() => {
+    if (isOpen) {
+      // Reset all states when modal opens
+      setTitle(initialData?.title || '')
+      setDescription(initialData?.description || '')
+      setWebsite(initialData?.website || '')
+      setCategory(initialData?.category || '')
+      setSubcategory(initialData?.subcategory || '')
+      setPhotos(initialData?.images?.map(img => img.url) || [])
+      setFieldErrors({})
+      setIsLoading(false)
+      setIsUploadingImages(false)
+    }
+  }, [isOpen, initialData])
+
+  useEffect(() => {
+    if (!isOpen) {
+      // Reset all states when modal closes
+      setTitle('')
+      setDescription('')
+      setWebsite('')
+      setCategory('')
+      setSubcategory('')
+      setPhotos([])
+      setFieldErrors({})
+      setIsLoading(false)
+      setIsUploadingImages(false)
+    }
+  }, [isOpen])
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
@@ -318,7 +367,7 @@ export function AddMainInfoModal({
             md:mx-0            
             md:mr-0            // Reset del margen en desktop
           ">
-            {mode === 'create' ? 'Add main info' : 'Edit main info'}
+            Business info
           </DialogTitle>
         </DialogHeader>
 
@@ -329,19 +378,12 @@ export function AddMainInfoModal({
               <Input 
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="
-                  bg-main-gray 
-                  h-[78px] 
-                  w-[390px]          
-                  rounded-[100px]
-                  border-0
-                  mx-auto
-                  -ml-4 
-                  md:w-[558px]
-                  md:mx-0
-                  pl-8              // Añadir padding izquierdo
-                  text-third-gray   // Cambiar color del texto a gris
-                "
+                className={classNames(
+                  "bg-main-gray h-[78px] w-[390px] rounded-[100px] border-0 mx-auto -ml-4 md:w-[558px] md:mx-0 pl-8 text-third-gray",
+                  {
+                    'border-2 border-red-500': fieldErrors.title
+                  }
+                )}
                 placeholder="Restaurant name"
               />
 
@@ -362,21 +404,12 @@ export function AddMainInfoModal({
                 <Textarea 
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    min-h-[78px] 
-                    w-[390px]          
-                    rounded-[100px]
-                    border-0
-                    mx-auto
-                    md:w-[558px]
-                    md:mx-0
-                    md:min-h-[80px]
-                    md:rounded-2xl
-                    px-8
-                    py-6
-                    text-third-gray   // Cambiar color del texto a gris
-                  "
+                  className={classNames(
+                    "bg-main-gray min-h-[78px] w-[390px] rounded-[100px] border-0 mx-auto md:w-[558px] md:mx-0 md:min-h-[80px] md:rounded-2xl px-8 py-6 text-third-gray",
+                    {
+                      'border-2 border-red-500': fieldErrors.description
+                    }
+                  )}
                   placeholder="Describe your restaurant..."
                   style={{
                     display: 'flex',
@@ -430,20 +463,12 @@ export function AddMainInfoModal({
                 Category of business
               </label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="
-                  bg-main-gray 
-                  h-[78px] 
-                  w-[390px]           
-                  rounded-[100px]
-                  border-0
-                  mx-auto
-                  -ml-4            
-                  md:w-[558px]
-                  md:mx-0
-                  text-third-gray
-                  pl-8
-                  pr-8             // Añadir padding derecho para separar el ícono del borde
-                ">
+                <SelectTrigger className={classNames(
+                  "bg-main-gray h-[78px] w-[390px] rounded-[100px] border-0 mx-auto -ml-4 md:w-[558px] md:mx-0 text-third-gray pl-8 pr-8",
+                  {
+                    'border-2 border-red-500': fieldErrors.category
+                  }
+                )}>
                   <SelectValue placeholder="Select category" />
                   <ChevronDown className="h-4 w-4 opacity-50" />
                 </SelectTrigger>
@@ -468,20 +493,12 @@ export function AddMainInfoModal({
                 Subcategory of business
               </label>
               <Select value={subcategory} onValueChange={setSubcategory}>
-                <SelectTrigger className="
-                  bg-main-gray 
-                  h-[78px] 
-                  w-[390px]           
-                  rounded-[100px]
-                  border-0
-                  mx-auto
-                  -ml-4            
-                  md:w-[558px]
-                  md:mx-0
-                  text-third-gray
-                  pl-8
-                  pr-8             // Añadir padding derecho para separar el ícono del borde
-                ">
+                <SelectTrigger className={classNames(
+                  "bg-main-gray h-[78px] w-[390px] rounded-[100px] border-0 mx-auto -ml-4 md:w-[558px] md:mx-0 text-third-gray pl-8 pr-8",
+                  {
+                    'border-2 border-red-500': fieldErrors.subcategory
+                  }
+                )}>
                   <SelectValue placeholder="Select subcategory" />
                   <ChevronDown className="h-4 w-4 opacity-50" />
                 </SelectTrigger>
@@ -502,7 +519,9 @@ export function AddMainInfoModal({
 
             {/* Sección de fotos */}
             <div className="flex flex-col items-center space-y-4 px-4">
-              <div className="w-full">
+              <div className={classNames("w-full", {
+                'border-2 border-red-500 rounded-[20px]': fieldErrors.photos
+              })}>
                 <label className="block !text-[16px] !font-['Open_Sans'] !font-bold !leading-[20px] text-black mb-1 pl-8">
                   Photos +
                 </label>

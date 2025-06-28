@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash2 } from "lucide-react";
+import { Trash2, ChevronDown, Plus } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "@/components/ui/use-toast";
 import { 
@@ -25,6 +25,8 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import classNames from 'classnames';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface MobileAddMainInfoProps {
   isOpen: boolean;
@@ -93,8 +95,11 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [website, setWebsite] = useState('')
+  const [category, setCategory] = useState('')
+  const [subcategory, setSubcategory] = useState('')
   const [photos, setPhotos] = useState<string[]>([])
   const [isUploadingImages, setIsUploadingImages] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<{title?: boolean, description?: boolean, photos?: boolean, category?: boolean, subcategory?: boolean}>({});
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -102,6 +107,43 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  // Limpiar estados cuando se abre el modal
+  useEffect(() => {
+    if (isOpen) {
+      setTitle('')
+      setDescription('')
+      setWebsite('')
+      setCategory('')
+      setSubcategory('')
+      setPhotos([])
+      setFieldErrors({})
+      setIsLoading(false)
+      setIsUploadingImages(false)
+      console.log('Modal opened - states reset')
+    }
+  }, [isOpen])
+
+  // Limpiar estados cuando se cierra el modal
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle('')
+      setDescription('')
+      setWebsite('')
+      setCategory('')
+      setSubcategory('')
+      setPhotos([])
+      setFieldErrors({})
+      setIsLoading(false)
+      setIsUploadingImages(false)
+      console.log('Modal closed - states reset')
+    }
+  }, [isOpen])
+
+  // Monitorear cambios en fieldErrors
+  useEffect(() => {
+    console.log('fieldErrors changed:', fieldErrors)
+  }, [fieldErrors])
 
   if (!isOpen) return null
 
@@ -118,36 +160,74 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
   };
 
   const handleSubmit = async () => {
+    const errors: {title?: boolean, description?: boolean, photos?: boolean, category?: boolean, subcategory?: boolean} = {};
+    const errorMessages: string[] = [];
+
+    console.log('=== VALIDATION DEBUG ===');
+    console.log('Title:', `"${title}"`, 'Length:', title.length, 'Trimmed:', title.trim().length);
+    console.log('Description:', `"${description}"`, 'Length:', description.length, 'Trimmed:', description.trim().length);
+    console.log('Category:', `"${category}"`, 'Length:', category.length, 'Trimmed:', category.trim().length);
+    console.log('Subcategory:', `"${subcategory}"`, 'Length:', subcategory.length, 'Trimmed:', subcategory.trim().length);
+    console.log('Photos:', photos, 'Length:', photos.length);
+
+    if (!title.trim()) {
+      errors.title = true;
+      errorMessages.push('Restaurant name is required');
+      console.log('❌ Title validation failed');
+    } else {
+      console.log('✅ Title validation passed');
+    }
+    
+    if (!description.trim()) {
+      errors.description = true;
+      errorMessages.push('Description is required');
+      console.log('❌ Description validation failed');
+    } else {
+      console.log('✅ Description validation passed');
+    }
+    
+    if (photos.length === 0) {
+      errors.photos = true;
+      errorMessages.push('At least one photo is required');
+      console.log('❌ Photos validation failed');
+    } else {
+      console.log('✅ Photos validation passed');
+    }
+    
+    if (!category.trim()) {
+      errors.category = true;
+      errorMessages.push('Category is required');
+      console.log('❌ Category validation failed');
+    } else {
+      console.log('✅ Category validation passed');
+    }
+    
+    if (!subcategory.trim()) {
+      errors.subcategory = true;
+      errorMessages.push('Subcategory is required');
+      console.log('❌ Subcategory validation failed');
+    } else {
+      console.log('✅ Subcategory validation passed');
+    }
+    
+    console.log('Final errors object:', errors);
+    console.log('Final error messages:', errorMessages);
+    console.log('=== END VALIDATION DEBUG ===');
+    
+    setFieldErrors(errors);
+    console.log('setFieldErrors called with:', errors);
+
+    if (errorMessages.length > 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing required fields',
+        description: errorMessages.map(msg => `• ${msg}`).join('\n'),
+      });
+      return;
+    }
+
     try {
       setIsLoading(true)
-
-      // Validaciones básicas
-      if (!title.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Restaurant name is required",
-        })
-        return
-      }
-
-      if (!description.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Description is required",
-        })
-        return
-      }
-
-      if (photos.length === 0) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "At least one photo is required",
-        })
-        return
-      }
 
       const response = await fetch('/api/restaurant', {
         method: 'POST',
@@ -156,6 +236,8 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
           title,
           description,
           website,
+          category,
+          subcategory,
           images: photos
         })
       })
@@ -249,24 +331,27 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
     <div className="fixed inset-0 bg-white z-50 flex flex-col">
       <div className="flex-1 overflow-y-auto p-4">
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold text-center py-4 mb-4">Add main info</h2>
+          <h2 className="text-xl font-semibold text-center py-4 mb-4">Business info</h2>
 
           {/* Restaurant Name Input */}
           <div className="space-y-2">
             <div className="relative">
               <Input 
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  if (fieldErrors.title && e.target.value.trim()) {
+                    setFieldErrors(prev => ({ ...prev, title: false }));
+                  }
+                }}
                 placeholder="Restaurante name"
-                className="
-                  bg-gray-50 
-                  border-none 
-                  w-[359px] 
-                  h-[78px] 
-                  rounded-[100px]
-                  mx-auto
-                  pl-14
-                "
+                className={classNames(
+                  "bg-gray-50 w-[359px] h-[78px] rounded-[100px] mx-auto pl-14",
+                  {
+                    '!border-2 !border-red-500': fieldErrors.title,
+                    'border-none': !fieldErrors.title
+                  }
+                )}
               />
               <svg
                 className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7B7B7B] ml-4"
@@ -288,20 +373,20 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
             <h3 className="font-medium !text-[20px]">Description</h3>
             <Textarea 
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                if (fieldErrors.description && e.target.value.trim()) {
+                  setFieldErrors(prev => ({ ...prev, description: false }));
+                }
+              }}
               placeholder="Describe your restaurant"
-              className="
-                bg-gray-50 
-                border-none 
-                w-[359px] 
-                min-h-[78px] 
-                rounded-[100px]
-                mx-auto
-                pl-14
-                flex
-                items-center
-                py-6
-              "
+              className={classNames(
+                "bg-gray-50 w-[359px] min-h-[78px] rounded-[100px] mx-auto pl-14 flex items-center py-6",
+                {
+                  '!border-2 !border-red-500': fieldErrors.description,
+                  'border-none': !fieldErrors.description
+                }
+              )}
             />
           </div>
 
@@ -338,6 +423,74 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
             </div>
           </div>
 
+          {/* Category */}
+          <div className="space-y-2 px-4">
+            <h3 className="font-medium !text-[20px]">Category of business</h3>
+            <Select value={category} onValueChange={(value) => {
+              setCategory(value);
+              if (fieldErrors.category && value.trim()) {
+                setFieldErrors(prev => ({ ...prev, category: false }));
+              }
+            }}>
+              <SelectTrigger className={classNames(
+                "bg-gray-50 w-[359px] h-[78px] rounded-[100px] mx-auto pl-14",
+                {
+                  '!border-2 !border-red-500': fieldErrors.category,
+                  'border-none': !fieldErrors.category
+                }
+              )}>
+                <SelectValue placeholder="Select category" />
+                <ChevronDown className="h-4 w-4 opacity-50" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="restaurant">Restaurant</SelectItem>
+                <SelectItem value="fastfood">Fast Food</SelectItem>
+                <SelectItem value="cafe">Café & Bakery</SelectItem>
+                <SelectItem value="pizzeria">Pizzeria</SelectItem>
+                <SelectItem value="sushi">Sushi Bar</SelectItem>
+                <SelectItem value="buffet">Buffet</SelectItem>
+                <SelectItem value="foodtruck">Food Truck</SelectItem>
+                <SelectItem value="icecream">Ice Cream & Desserts</SelectItem>
+                <SelectItem value="deli">Deli & Sandwiches</SelectItem>
+                <SelectItem value="seafood">Seafood Restaurant</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Subcategory */}
+          <div className="space-y-2 px-4">
+            <h3 className="font-medium !text-[20px]">Subcategory of business</h3>
+            <Select value={subcategory} onValueChange={(value) => {
+              setSubcategory(value);
+              if (fieldErrors.subcategory && value.trim()) {
+                setFieldErrors(prev => ({ ...prev, subcategory: false }));
+              }
+            }}>
+              <SelectTrigger className={classNames(
+                "bg-gray-50 w-[359px] h-[78px] rounded-[100px] mx-auto pl-14",
+                {
+                  '!border-2 !border-red-500': fieldErrors.subcategory,
+                  'border-none': !fieldErrors.subcategory
+                }
+              )}>
+                <SelectValue placeholder="Select subcategory" />
+                <ChevronDown className="h-4 w-4 opacity-50" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="american">American</SelectItem>
+                <SelectItem value="italian">Italian</SelectItem>
+                <SelectItem value="mexican">Mexican</SelectItem>
+                <SelectItem value="chinese">Chinese</SelectItem>
+                <SelectItem value="japanese">Japanese</SelectItem>
+                <SelectItem value="thai">Thai</SelectItem>
+                <SelectItem value="indian">Indian</SelectItem>
+                <SelectItem value="mediterranean">Mediterranean</SelectItem>
+                <SelectItem value="bbq">BBQ & Grill</SelectItem>
+                <SelectItem value="vegetarian">Vegetarian & Vegan</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* Photos Section */}
           <div className="px-4">
             <div className="flex items-center justify-between mb-2">
@@ -358,7 +511,12 @@ export function MobileAddMainInfo({ isOpen, onClose }: MobileAddMainInfoProps) {
             </div>
             
             {/* Área de previsualización con placeholder */}
-            <div>
+            <div className={classNames(
+              "rounded-[20px]",
+              {
+                '!border-2 !border-red-500': fieldErrors.photos
+              }
+            )}>
               {photos.length === 0 ? (
                 <div 
                   onClick={() => document.getElementById('fileInput')?.click()}
