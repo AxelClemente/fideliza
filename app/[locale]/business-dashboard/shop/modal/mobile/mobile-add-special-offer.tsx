@@ -31,6 +31,7 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import classNames from 'classnames';
 
 interface MobileAddSpecialOfferProps {
   isOpen: boolean
@@ -120,6 +121,7 @@ export function MobileAddSpecialOffer({
   const [isUploadingImages, setIsUploadingImages] = useState(false)
   const [isStartDateOpen, setIsStartDateOpen] = useState(false)
   const [isFinishDateOpen, setIsFinishDateOpen] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<{title?: boolean, description?: boolean, startDate?: boolean, finishDate?: boolean, selectedPlace?: boolean, photos?: boolean}>({});
 
   // Agregar sensores para drag and drop
   const sensors = useSensors(
@@ -210,44 +212,43 @@ export function MobileAddSpecialOffer({
   }
 
   const handleSubmit = async () => {
+    const errors: {title?: boolean, description?: boolean, startDate?: boolean, finishDate?: boolean, selectedPlace?: boolean, photos?: boolean} = {};
+    const errorMessages: string[] = [];
+    if (!title.trim()) {
+      errors.title = true;
+      errorMessages.push('Title is required');
+    }
+    if (!description.trim()) {
+      errors.description = true;
+      errorMessages.push('Description is required');
+    }
+    if (!startDate) {
+      errors.startDate = true;
+      errorMessages.push('Start date is required');
+    }
+    if (!finishDate) {
+      errors.finishDate = true;
+      errorMessages.push('Finish date is required');
+    }
+    if (!selectedPlace) {
+      errors.selectedPlace = true;
+      errorMessages.push('Place is required');
+    }
+    if (photos.length === 0) {
+      errors.photos = true;
+      errorMessages.push('At least one photo is required');
+    }
+    setFieldErrors(errors);
+    if (errorMessages.length > 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing required fields',
+        description: errorMessages.map(msg => `• ${msg}`).join('\n'),
+      });
+      return;
+    }
     try {
       setIsLoading(true)
-
-      if (!title.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Title is required",
-        })
-        return
-      }
-
-      if (!description.trim()) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Description is required",
-        })
-        return
-      }
-
-      if (!startDate || !finishDate) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Start and finish dates are required",
-        })
-        return
-      }
-
-      if (!selectedPlace) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Please select a place",
-        })
-        return
-      }
 
       const endpoint = mode === 'create' 
         ? '/api/special-offers' 
@@ -328,15 +329,16 @@ export function MobileAddSpecialOffer({
                 <Input 
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="
-                    w-full
-                    h-[78px]
-                    bg-main-gray
-                    pl-8
-                    rounded-[100px]
-                    border-0
-                    text-third-gray
-                  "
+                  className={classNames(
+                    'w-full',
+                    'h-[78px]',
+                    'bg-main-gray',
+                    'pl-8',
+                    'rounded-[100px]',
+                    'border-0',
+                    'text-third-gray',
+                    {'border-2 border-red-500': fieldErrors.title}
+                  )}
                   placeholder="Title"
                 />
               </div>
@@ -346,16 +348,17 @@ export function MobileAddSpecialOffer({
                 <Textarea 
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="
-                    w-full
-                    h-[78px]
-                    bg-main-gray
-                    pl-8
-                    rounded-[100px]
-                    border-0
-                    text-third-gray
-                    resize-none
-                  "
+                  className={classNames(
+                    'w-full',
+                    'h-[78px]',
+                    'bg-main-gray',
+                    'pl-8',
+                    'rounded-[100px]',
+                    'border-0',
+                    'text-third-gray',
+                    'resize-none',
+                    {'border-2 border-red-500': fieldErrors.description}
+                  )}
                   placeholder="Describe your special offer..."
                 />
               </div>
@@ -371,18 +374,19 @@ export function MobileAddSpecialOffer({
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="
-                          w-full
-                          h-[78px]
-                          bg-main-gray
-                          border-0
-                          rounded-[100px]
-                          justify-start
-                          text-left
-                          font-normal
-                          pl-8
-                          text-third-gray
-                        "
+                        className={classNames(
+                          'w-full',
+                          'h-[78px]',
+                          'bg-main-gray',
+                          'border-0',
+                          'rounded-[100px]',
+                          'justify-start',
+                          'text-left',
+                          'font-normal',
+                          'pl-8',
+                          'text-third-gray',
+                          {'border-2 border-red-500': fieldErrors.startDate}
+                        )}
                         onClick={() => console.log('Start Date Trigger Clicked')}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -412,18 +416,19 @@ export function MobileAddSpecialOffer({
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="
-                          w-full
-                          h-[78px]
-                          bg-main-gray
-                          border-0
-                          rounded-[100px]
-                          justify-start
-                          text-left
-                          font-normal
-                          pl-8
-                          text-third-gray
-                        "
+                        className={classNames(
+                          'w-full',
+                          'h-[78px]',
+                          'bg-main-gray',
+                          'border-0',
+                          'rounded-[100px]',
+                          'justify-start',
+                          'text-left',
+                          'font-normal',
+                          'pl-8',
+                          'text-third-gray',
+                          {'border-2 border-red-500': fieldErrors.finishDate}
+                        )}
                         onClick={() => console.log('Finish Date Trigger Clicked')}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -454,15 +459,16 @@ export function MobileAddSpecialOffer({
                   value={selectedPlace} 
                   onValueChange={handlePlaceSelect}
                 >
-                  <SelectTrigger className="
-                    w-full
-                    h-[78px]
-                    bg-main-gray
-                    border-0
-                    rounded-[100px]
-                    pl-8
-                    text-third-gray
-                  ">
+                  <SelectTrigger className={classNames(
+                    'w-full',
+                    'h-[78px]',
+                    'bg-main-gray',
+                    'border-0',
+                    'rounded-[100px]',
+                    'pl-8',
+                    'text-third-gray',
+                    {'border-2 border-red-500': fieldErrors.selectedPlace}
+                  )}>
                     <SelectValue placeholder="Select a place" />
                   </SelectTrigger>
                   <SelectContent className="z-[9999]">
@@ -480,15 +486,15 @@ export function MobileAddSpecialOffer({
                 <Input 
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  className="
-                    w-full
-                    h-[78px]
-                    bg-main-gray
-                    pl-16
-                    rounded-[100px]
-                    border-0
-                    text-third-gray
-                  "
+                  className={classNames(
+                    'w-full',
+                    'h-[78px]',
+                    'bg-main-gray',
+                    'pl-16',
+                    'rounded-[100px]',
+                    'border-0',
+                    'text-third-gray'
+                  )}
                   placeholder="http//:example.com"
                 />
               </div>
@@ -516,20 +522,21 @@ export function MobileAddSpecialOffer({
                   {photos.length === 0 ? (
                     <div 
                       onClick={() => document.getElementById('fileInput')?.click()}
-                      className="
-                        w-[390px] 
-                        h-[78px] 
-                        bg-main-gray 
-                        rounded-[100px]
-                        mx-auto
-                        flex 
-                        items-center 
-                        justify-center
-                        cursor-pointer    
-                        hover:bg-gray-100 
-                        transition-colors
-                        text-third-gray
-                      "
+                      className={classNames(
+                        'w-[390px]',
+                        'h-[78px]',
+                        'bg-main-gray',
+                        'rounded-[100px]',
+                        'mx-auto',
+                        'flex',
+                        'items-center',
+                        'justify-center',
+                        'cursor-pointer',
+                        'hover:bg-gray-100',
+                        'transition-colors',
+                        'text-third-gray',
+                        {'border-2 border-red-500': fieldErrors.photos}
+                      )}
                     >
                       {isUploadingImages ? (
                         <ClipLoader size={20} color="#7B7B7B" />

@@ -30,6 +30,7 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import classNames from 'classnames';
 
 interface AddSpecialOfferModalProps {
   isOpen: boolean
@@ -110,6 +111,7 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
   const [isStartDateOpen, setIsStartDateOpen] = useState(false)
   const [isFinishDateOpen, setIsFinishDateOpen] = useState(false)
   const [openCommand, setOpenCommand] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<{title?: boolean, description?: boolean, startDate?: boolean, finishDate?: boolean, selectedPlace?: boolean, photos?: boolean}>({});
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -195,18 +197,44 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
   }
 
   const handleSubmit = async () => {
+    const errors: {title?: boolean, description?: boolean, startDate?: boolean, finishDate?: boolean, selectedPlace?: boolean, photos?: boolean} = {};
+    const errorMessages: string[] = [];
+    if (!title.trim()) {
+      errors.title = true;
+      errorMessages.push('Title is required');
+    }
+    if (!description.trim()) {
+      errors.description = true;
+      errorMessages.push('Description is required');
+    }
+    if (!startDate) {
+      errors.startDate = true;
+      errorMessages.push('Start date is required');
+    }
+    if (!finishDate) {
+      errors.finishDate = true;
+      errorMessages.push('Finish date is required');
+    }
+    if (!selectedPlace) {
+      errors.selectedPlace = true;
+      errorMessages.push('Place is required');
+    }
+    if (photos.length === 0) {
+      errors.photos = true;
+      errorMessages.push('At least one photo is required');
+    }
+    setFieldErrors(errors);
+    if (errorMessages.length > 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing required fields',
+        description: errorMessages.map(msg => `• ${msg}`).join('\n'),
+      });
+      return;
+    }
+
     try {
       setIsLoading(true)
-
-      // Validaciones básicas
-      if (!title.trim() || !description.trim() || !startDate || !finishDate || !selectedPlace) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Please fill in all required fields",
-        })
-        return
-      }
 
       const endpoint = mode === 'create' 
         ? '/api/special-offers' 
@@ -308,26 +336,27 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                 <Input 
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    pl-8 
-                    h-10 
-                    w-full
-                    rounded-2xl
-                    border-0
-                    md:w-[558px]      // <- Ancho fijo en desktop
-                    md:h-[78px]       // <- Altura en desktop
-                    md:rounded-[100px] // <- Radio en desktop
-                    text-third-gray
-                    max-md:h-[78px]          // <- Solo afecta móvil
-                    max-md:rounded-[100px]   // <- Solo afecta móvil
-                    max-md:text-[18px]          // <- Tamaño de fuente en móvil
-                    max-md:font-['Open_Sans']   // <- Fuente en móvil
-                    max-md:font-semibold       // <- Peso 600 en móvil
-                    max-md:leading-[22px]      // <- Line height en móvil
-                    max-md:w-[390px]          // <- Solo añadir esto para móvil
-                    max-md:-ml-6            
-                  "
+                  className={classNames(
+                    'bg-main-gray',
+                    'pl-8',
+                    'h-10',
+                    'w-full',
+                    'rounded-2xl',
+                    'border-0',
+                    'md:w-[558px]',
+                    'md:h-[78px]',
+                    'md:rounded-[100px]',
+                    'text-third-gray',
+                    'max-md:h-[78px]',
+                    'max-md:rounded-[100px]',
+                    'max-md:text-[18px]',
+                    'max-md:font-["Open_Sans"]',
+                    'max-md:font-semibold',
+                    'max-md:leading-[22px]',
+                    'max-md:w-[390px]',
+                    'max-md:-ml-6',
+                    {'border-2 border-red-500': fieldErrors.title}
+                  )}
                   placeholder="Title"
                 />
               </div>
@@ -340,27 +369,28 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                 <Textarea 
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="
-                    max-md:h-[78px]          // <- Solo afecta móvil
-                    max-md:rounded-[100px]   // <- Solo afecta móvil
-                    bg-main-gray 
-                    pl-8 
-                    h-10 
-                    w-full
-                    rounded-2xl 
-                    border-0
-                    md:w-[558px]      // <- Ancho fijo en desktop
-                    md:h-[78px]       // <- Altura en desktop
-                    md:rounded-[100px] // <- Radio en desktop
-                    text-third-gray   // <- Color del texto
-                    resize-none       // <- Prevenir resize
-                    max-md:text-[18px]          // <- Tamaño de fuente en móvil
-                    max-md:font-['Open_Sans']   // <- Fuente en móvil
-                    max-md:font-semibold       // <- Peso 600 en móvil
-                    max-md:leading-[22px]      // <- Line height en móvil
-                    max-md:w-[390px]          // <- Solo añadir esto para móvil
-                    max-md:-ml-6            
-                  "
+                  className={classNames(
+                    'max-md:h-[78px]',
+                    'max-md:rounded-[100px]',
+                    'bg-main-gray',
+                    'pl-8',
+                    'h-10',
+                    'w-full',
+                    'rounded-2xl',
+                    'border-0',
+                    'md:w-[558px]',
+                    'md:h-[78px]',
+                    'md:rounded-[100px]',
+                    'text-third-gray',
+                    'resize-none',
+                    'max-md:text-[18px]',
+                    'max-md:font-["Open_Sans"]',
+                    'max-md:font-semibold',
+                    'max-md:leading-[22px]',
+                    'max-md:w-[390px]',
+                    'max-md:-ml-6',
+                    {'border-2 border-red-500': fieldErrors.description}
+                  )}
                   placeholder="Describe your special offer..."
                 />
               </div>
@@ -376,29 +406,30 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="
-                          max-md:h-[78px]          // <- Solo afecta móvil
-                          max-md:rounded-[100px]   // <- Solo afecta móvil
-                          w-full
-                          bg-main-gray 
-                          border-0 
-                          rounded-2xl 
-                          justify-start 
-                          text-left 
-                          font-normal 
-                          pl-8
-                          h-10
-                          md:w-[558px]      // <- Ancho fijo en desktop
-                          md:h-[78px]       // <- Altura en desktop
-                          md:rounded-[100px] // <- Radio en desktop
-                          text-third-gray    // <- Color del texto
-                          max-md:text-[18px]          // <- Tamaño de fuente en móvil
-                          max-md:font-['Open_Sans']   // <- Fuente en móvil
-                          max-md:font-semibold       // <- Peso 600 en móvil
-                          max-md:leading-[22px]      // <- Line height en móvil
-                          max-md:w-[390px]          // <- Solo añadir esto para móvil
-                          max-md:-ml-6            
-                        "
+                        className={classNames(
+                          'max-md:h-[78px]',
+                          'max-md:rounded-[100px]',
+                          'w-full',
+                          'bg-main-gray',
+                          'border-0',
+                          'rounded-2xl',
+                          'justify-start',
+                          'text-left',
+                          'font-normal',
+                          'pl-8',
+                          'h-10',
+                          'md:w-[558px]',
+                          'md:h-[78px]',
+                          'md:rounded-[100px]',
+                          'text-third-gray',
+                          'max-md:text-[18px]',
+                          'max-md:font-["Open_Sans"]',
+                          'max-md:font-semibold',
+                          'max-md:leading-[22px]',
+                          'max-md:w-[390px]',
+                          'max-md:-ml-6',
+                          {'border-2 border-red-500': fieldErrors.startDate}
+                        )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
@@ -427,29 +458,30 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="
-                          w-full
-                          bg-main-gray 
-                          border-0 
-                          rounded-2xl 
-                          justify-start 
-                          text-left 
-                          font-normal 
-                          pl-8
-                          h-10
-                          md:w-[558px]      // <- Ancho fijo en desktop
-                          md:h-[78px]       // <- Altura en desktop
-                          md:rounded-[100px] // <- Radio en desktop
-                          text-third-gray    // <- Color del texto
-                          max-md:h-[78px]          // <- Solo afecta móvil
-                          max-md:rounded-[100px]   // <- Solo afecta móvil
-                          max-md:text-[18px]          // <- Tamaño de fuente en móvil
-                          max-md:font-['Open_Sans']   // <- Fuente en móvil
-                          max-md:font-semibold       // <- Peso 600 en móvil
-                          max-md:leading-[22px]      // <- Line height en móvil
-                          max-md:w-[390px]          // <- Solo añadir esto para móvil
-                          max-md:-ml-6            
-                        "
+                        className={classNames(
+                          'w-full',
+                          'bg-main-gray',
+                          'border-0',
+                          'rounded-2xl',
+                          'justify-start',
+                          'text-left',
+                          'font-normal',
+                          'pl-8',
+                          'h-10',
+                          'md:w-[558px]',
+                          'md:h-[78px]',
+                          'md:rounded-[100px]',
+                          'text-third-gray',
+                          'max-md:h-[78px]',
+                          'max-md:rounded-[100px]',
+                          'max-md:text-[18px]',
+                          'max-md:font-["Open_Sans"]',
+                          'max-md:font-semibold',
+                          'max-md:leading-[22px]',
+                          'max-md:w-[390px]',
+                          'max-md:-ml-6',
+                          {'border-2 border-red-500': fieldErrors.finishDate}
+                        )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {finishDate ? format(finishDate, "PPP") : <span>Pick a date</span>}
@@ -477,24 +509,25 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                 </label>
                 <Popover open={openCommand} onOpenChange={setOpenCommand}>
                   <PopoverTrigger asChild>
-                    <div className="
-                      bg-main-gray 
-                      border-0 
-                      text-center 
-                      text-third-gray
-                      md:w-[558px]
-                      md:h-[78px]
-                      md:rounded-[100px]
-                      max-md:w-[390px]
-                      max-md:h-[78px]
-                      max-md:rounded-[100px]
-                      max-md:mx-auto
-                      cursor-pointer
-                      flex
-                      items-center
-                      justify-between
-                      px-8
-                    ">
+                    <div className={classNames(
+                      'bg-main-gray',
+                      'border-0',
+                      'text-center',
+                      'text-third-gray',
+                      'md:w-[558px]',
+                      'md:h-[78px]',
+                      'md:rounded-[100px]',
+                      'max-md:w-[390px]',
+                      'max-md:h-[78px]',
+                      'max-md:rounded-[100px]',
+                      'max-md:mx-auto',
+                      'cursor-pointer',
+                      'flex',
+                      'items-center',
+                      'justify-between',
+                      'px-8',
+                      {'border-2 border-red-500': fieldErrors.selectedPlace}
+                    )}>
                       <span className="text-left">
                         {selectedPlace ? places.find(p => p.id === selectedPlace)?.name : 'Select place...'}
                       </span>
@@ -519,11 +552,11 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                             setOpenCommand(false)
                           }}
                         >
-                          <div className={`
-                            w-5 h-5 rounded-full border
-                            ${selectedPlace === place.id ? 'bg-black border-black' : 'border-gray-400'}
-                            flex items-center justify-center
-                          `}>
+                          <div className={classNames(
+                            'w-5 h-5 rounded-full border',
+                            {'bg-black border-black': selectedPlace === place.id},
+                            {'border-gray-400': selectedPlace !== place.id}
+                          )}>
                             {selectedPlace === place.id && (
                               <Check className="h-4 w-4 text-white" />
                             )}
@@ -541,26 +574,26 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                 <Input 
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    pl-16 
-                    h-10 
-                    w-full
-                    rounded-2xl
-                    border-0
-                    md:w-[558px]      // <- Ancho fijo en desktop
-                    md:h-[78px]       // <- Altura en desktop
-                    md:rounded-[100px] // <- Radio en desktop
-                    text-third-gray
-                    max-md:h-[78px]          // <- Solo afecta móvil
-                    max-md:rounded-[100px]   // <- Solo afecta móvil
-                    max-md:text-[18px]          // <- Tamaño de fuente en móvil
-                    max-md:font-['Open_Sans']   // <- Fuente en móvil
-                    max-md:font-semibold       // <- Peso 600 en móvil
-                    max-md:leading-[22px]      // <- Line height en móvil
-                    max-md:w-[390px]          // <- Solo añadir esto para móvil
-                    max-md:-ml-6            
-                  "
+                  className={classNames(
+                    'bg-main-gray',
+                    'pl-16',
+                    'h-10',
+                    'w-full',
+                    'rounded-2xl',
+                    'border-0',
+                    'md:w-[558px]',
+                    'md:h-[78px]',
+                    'md:rounded-[100px]',
+                    'text-third-gray',
+                    'max-md:h-[78px]',
+                    'max-md:rounded-[100px]',
+                    'max-md:text-[18px]',
+                    'max-md:font-["Open_Sans"]',
+                    'max-md:font-semibold',
+                    'max-md:leading-[22px]',
+                    'max-md:w-[390px]',
+                    'max-md:-ml-6'
+                  )}
                   placeholder="http//:example.com"
                 />
                 <svg
@@ -612,24 +645,25 @@ export function AddSpecialOfferModal({ isOpen, onClose, places, mode = 'create',
                 {photos.length === 0 ? (
                   <div 
                     onClick={() => document.getElementById('fileInput')?.click()}
-                    className="
-                      bg-main-gray 
-                      h-[78px] 
-                      w-[390px]          
-                      rounded-[100px]
-                      border-0
-                      mx-auto
-                      -ml-6 
-                      md:w-[558px]
-                      md:mx-0
-                      flex              
-                      items-center      
-                      justify-center    
-                      cursor-pointer    
-                      hover:bg-gray-100 
-                      transition-colors
-                      text-third-gray
-                    "
+                    className={classNames(
+                      'bg-main-gray',
+                      'h-[78px]',
+                      'w-[390px]',
+                      'rounded-[100px]',
+                      'border-0',
+                      'mx-auto',
+                      '-ml-6',
+                      'md:w-[558px]',
+                      'md:mx-0',
+                      'flex',
+                      'items-center',
+                      'justify-center',
+                      'cursor-pointer',
+                      'hover:bg-gray-100',
+                      'transition-colors',
+                      'text-third-gray',
+                      {'border-2 border-red-500': fieldErrors.photos}
+                    )}
                   >
                     {isUploadingImages ? (
                       <ClipLoader size={20} color="#7B7B7B" />

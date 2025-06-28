@@ -10,6 +10,7 @@ import { toast } from '@/components/ui/use-toast'
 import { Check } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useTranslations } from 'next-intl'
+import classNames from 'classnames'
 
 interface AddSubscriptionModalProps {
   isOpen: boolean
@@ -51,21 +52,35 @@ export function AddSubscriptionModal({
     initialData?.unlimitedVisits ? 'unlimited' : (initialData?.visitsPerMonth?.toString() || '')
   )
   const [showErrors, setShowErrors] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<{name?: boolean, benefits?: boolean, price?: boolean, selectedPlaces?: boolean}>({});
 
   const handleSubmit = async () => {
     setShowErrors(true)
-    
-    if (selectedPlaces.length === 0) {
-      setIsLoading(false)
-      return
+    const errors: {name?: boolean, benefits?: boolean, price?: boolean, selectedPlaces?: boolean} = {};
+    const errorMessages: string[] = [];
+    if (!name.trim()) {
+      errors.name = true;
+      errorMessages.push('Subscription name is required');
     }
-
-    if (!name.trim() || !benefits.trim() || !price) {
+    if (!benefits.trim()) {
+      errors.benefits = true;
+      errorMessages.push('Benefits are required');
+    }
+    if (!price) {
+      errors.price = true;
+      errorMessages.push('Price is required');
+    }
+    if (selectedPlaces.length === 0) {
+      errors.selectedPlaces = true;
+      errorMessages.push('At least one place is required');
+    }
+    setFieldErrors(errors);
+    if (errorMessages.length > 0) {
       setIsLoading(false)
       toast({
         variant: "destructive",
-        title: "Error",
-        description: t('fillRequiredFields')
+        title: "Missing required fields",
+        description: errorMessages.map(msg => `• ${msg}`).join('\n')
       })
       return
     }
@@ -167,18 +182,19 @@ export function AddSubscriptionModal({
                 <Input 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    pl-14 
-                    rounded-[100px]
-                    border-0
-                    text-third-gray
-                    md:w-[558px]
-                    md:h-[78px]
-                    max-md:w-[390px]
-                    max-md:h-[78px]
-                    max-md:mx-auto
-                  " 
+                  className={classNames(
+                    'bg-main-gray',
+                    'pl-14',
+                    'rounded-[100px]',
+                    'border-0',
+                    'text-third-gray',
+                    'md:w-[558px]',
+                    'md:h-[78px]',
+                    'max-md:w-[390px]',
+                    'max-md:h-[78px]',
+                    'max-md:mx-auto',
+                    {'border-2 border-red-500': fieldErrors.name}
+                  )} 
                   placeholder="Subscription name"
                 />
                 <svg 
@@ -203,19 +219,20 @@ export function AddSubscriptionModal({
                 <Textarea 
                   value={benefits}
                   onChange={(e) => setBenefits(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    rounded-2xl 
-                    border-0 
-                    resize-none 
-                    text-third-gray
-                    pl-6
-                    md:w-[558px]
-                    md:h-[126px]
-                    max-md:w-[390px]
-                    max-md:h-[78px]
-                    max-md:mx-auto
-                  "
+                  className={classNames(
+                    'bg-main-gray',
+                    'rounded-2xl',
+                    'border-0',
+                    'resize-none',
+                    'text-third-gray',
+                    'pl-6',
+                    'md:w-[558px]',
+                    'md:h-[126px]',
+                    'max-md:w-[390px]',
+                    'max-md:h-[78px]',
+                    'max-md:mx-auto',
+                    {'border-2 border-red-500': fieldErrors.benefits}
+                  )}
                   placeholder="Benefits"
                 />
               </div>
@@ -229,20 +246,21 @@ export function AddSubscriptionModal({
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="
-                      bg-main-gray 
-                      border-0 
-                      text-center 
-                      text-third-gray
-                      md:w-[180px]
-                      md:h-[78px]
-                      md:rounded-[100px]
-                      md:bg-[#F6F6F6]
-                      max-md:w-[390px]
-                      max-md:h-[78px]
-                      max-md:rounded-[100px]
-                      max-md:mx-auto
-                    " 
+                    className={classNames(
+                      'bg-main-gray',
+                      'border-0',
+                      'text-center',
+                      'text-third-gray',
+                      'md:w-[180px]',
+                      'md:h-[78px]',
+                      'md:rounded-[100px]',
+                      'md:bg-[#F6F6F6]',
+                      'max-md:w-[390px]',
+                      'max-md:h-[78px]',
+                      'max-md:rounded-[100px]',
+                      'max-md:mx-auto',
+                      {'border-2 border-red-500': fieldErrors.price}
+                    )} 
                     placeholder="2"
                   />
                   
@@ -250,46 +268,47 @@ export function AddSubscriptionModal({
                     type="text"
                     value="€"
                     readOnly
-                    className="
-                      bg-main-gray 
-                      border-0 
-                      text-center 
-                      text-[#7B7B7B]
-                      md:flex-1
-                      md:basis-1/3
-                      md:w-[180px]
-                      md:h-[78px]
-                      md:rounded-[100px]
-                      md:bg-[#F6F6F6]
-                      max-md:w-[390px]
-                      max-md:h-[78px]
-                      max-md:rounded-[100px]
-                      max-md:mx-auto
-                    "
+                    className={classNames(
+                      'bg-main-gray',
+                      'border-0',
+                      'text-center',
+                      'text-[#7B7B7B]',
+                      'md:flex-1',
+                      'md:basis-1/3',
+                      'md:w-[180px]',
+                      'md:h-[78px]',
+                      'md:rounded-[100px]',
+                      'md:bg-[#F6F6F6]',
+                      'max-md:w-[390px]',
+                      'max-md:h-[78px]',
+                      'max-md:rounded-[100px]',
+                      'max-md:mx-auto',
+                      {'border-2 border-red-500': fieldErrors.price}
+                    )}
                   />
                   
                   <select
                     value={period}
                     onChange={(e) => setPeriod(e.target.value as 'MONTHLY' | 'ANNUAL')}
-                    className="
-                      bg-main-gray 
-                      border-0 
-                      text-center 
-                      text-[#7B7B7B]
-                      md:flex-1
-                      md:basis-1/3
-                      md:w-[180px]
-                      md:h-[78px]
-                      md:rounded-[100px]
-                      md:bg-[#F6F6F6]
-                      max-md:w-[390px]
-                      max-md:h-[78px]
-                      max-md:rounded-[100px]
-                      max-md:mx-auto
-                      appearance-none
-                      cursor-pointer
-                      px-4
-                    "
+                    className={classNames(
+                      'bg-main-gray',
+                      'border-0',
+                      'text-center',
+                      'text-[#7B7B7B]',
+                      'md:flex-1',
+                      'md:basis-1/3',
+                      'md:w-[180px]',
+                      'md:h-[78px]',
+                      'md:rounded-[100px]',
+                      'md:bg-[#F6F6F6]',
+                      'max-md:w-[390px]',
+                      'max-md:h-[78px]',
+                      'max-md:rounded-[100px]',
+                      'max-md:mx-auto',
+                      'appearance-none',
+                      'cursor-pointer',
+                      'px-4'
+                    )}
                   >
                     <option value="MONTHLY">Month</option>
                     <option value="ANNUAL">Annual</option>
@@ -304,22 +323,23 @@ export function AddSubscriptionModal({
                 <select
                   value={visitsPerMonth}
                   onChange={(e) => setVisitsPerMonth(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    border-0 
-                    text-center 
-                    text-third-gray
-                    md:w-[558px]
-                    md:h-[78px]
-                    md:rounded-[100px]
-                    max-md:w-[390px]
-                    max-md:h-[78px]
-                    max-md:rounded-[100px]
-                    max-md:mx-auto
-                    appearance-none
-                    cursor-pointer
-                    px-4
-                  "
+                  className={classNames(
+                    'bg-main-gray',
+                    'border-0',
+                    'text-center',
+                    'text-third-gray',
+                    'md:w-[558px]',
+                    'md:h-[78px]',
+                    'md:rounded-[100px]',
+                    'max-md:w-[390px]',
+                    'max-md:h-[78px]',
+                    'max-md:rounded-[100px]',
+                    'max-md:mx-auto',
+                    'appearance-none',
+                    'cursor-pointer',
+                    'px-4',
+                    {'border-2 border-red-500': fieldErrors.selectedPlaces}
+                  )}
                 >
                   <option value="">Select visits...</option>
                   <option value="unlimited">Unlimited</option>
@@ -339,27 +359,28 @@ export function AddSubscriptionModal({
                       variant="outline"
                       role="combobox"
                       aria-expanded={openCommand}
-                      className="
-                        pl-8 
-                        w-full 
-                        bg-main-gray 
-                        border-0 
-                        rounded-2xl 
-                        justify-between
-                        text-third-gray
-                        md:w-[558px]
-                        md:h-[78px]
-                        md:rounded-[100px]
-                        md:bg-[#F6F6F6]
-                        md:mx-0
-                        max-md:w-[390px]
-                        max-md:h-[78px]
-                        max-md:rounded-[100px]
-                        max-md:text-[18px]
-                        max-md:font-['Open_Sans']
-                        max-md:font-semibold
-                        max-md:leading-[22px]
-                      "
+                      className={classNames(
+                        'pl-8',
+                        'w-full',
+                        'bg-main-gray',
+                        'border-0',
+                        'rounded-2xl',
+                        'justify-between',
+                        'text-third-gray',
+                        'md:w-[558px]',
+                        'md:h-[78px]',
+                        'md:rounded-[100px]',
+                        'md:bg-[#F6F6F6]',
+                        'md:mx-0',
+                        'max-md:w-[390px]',
+                        'max-md:h-[78px]',
+                        'max-md:rounded-[100px]',
+                        'max-md:text-[18px]',
+                        'max-md:font-[Open_Sans]',
+                        'max-md:font-semibold',
+                        'max-md:leading-[22px]',
+                        {'border-2 border-red-500': fieldErrors.selectedPlaces}
+                      )}
                     >
                       {selectedPlaces.length === 0 
                         ? "Select places..." 
@@ -406,11 +427,11 @@ export function AddSubscriptionModal({
                             )
                           }}
                         >
-                          <div className={`
-                            w-5 h-5 rounded-full border
-                            ${selectedPlaces.includes(place.id) ? 'bg-black border-black' : 'border-gray-400'}
-                            flex items-center justify-center
-                          `}>
+                          <div className={classNames(
+                            'w-5 h-5 rounded-full border',
+                            {'bg-black border-black': selectedPlaces.includes(place.id)},
+                            {'border-gray-400': !selectedPlaces.includes(place.id)}
+                          )}>
                             {selectedPlaces.includes(place.id) && (
                               <Check className="h-4 w-4 text-white" />
                             )}
@@ -452,19 +473,19 @@ export function AddSubscriptionModal({
                 <Input 
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  className="
-                    bg-main-gray 
-                    border-0 
-                    text-third-gray
-                    pl-14
-                    md:w-[558px]
-                    md:h-[78px]
-                    md:rounded-[100px]
-                    md:bg-[#F6F6F6]
-                    max-md:w-[390px]
-                    max-md:h-[78px]
-                    max-md:rounded-[100px]
-                  " 
+                  className={classNames(
+                    'bg-main-gray',
+                    'border-0',
+                    'text-third-gray',
+                    'pl-14',
+                    'md:w-[558px]',
+                    'md:h-[78px]',
+                    'md:rounded-[100px]',
+                    'md:bg-[#F6F6F6]',
+                    'max-md:w-[390px]',
+                    'max-md:h-[78px]',
+                    'max-md:rounded-[100px]'
+                  )} 
                   placeholder="http://example.com"
                 />
                 <svg
