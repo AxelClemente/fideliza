@@ -678,56 +678,62 @@ export function ClientWrapper({
 
   // Si es main-info en modo add
   if (type === 'main-info' && mode === 'add') {
-    return (
-      <>
-        {access.canEdit && (
-          <>
-            {/* Versión Móvil - Sin cambios */}
-            <div className={`md:hidden w-full px-3 mb-8`}>
+    // Solo mostrar el botón si NO hay restaurantes (usuario puede tener máximo 1 restaurante)
+    if (restaurants.length === 0) {
+      return (
+        <>
+          {access.canEdit && (
+            <>
+              {/* Versión Móvil - Sin cambios */}
+              <div className={`md:hidden w-full px-3 mb-8`}>
+                <button 
+                  onClick={() => setIsMainInfoModalOpen(true)}
+                  className="w-full h-[78px] rounded-[100px] bg-[#000000] text-white shadow-lg text-[18px] font-semibold leading-[22px]"
+                >
+                  {t('addNewMainInfo')}
+                </button>
+              </div>
+
+              {/* Versión Desktop - Modificada */}
               <button 
                 onClick={() => setIsMainInfoModalOpen(true)}
-                className="w-full h-[78px] rounded-[100px] bg-[#000000] text-white shadow-lg text-[18px] font-semibold leading-[22px]"
+                className={`
+                  hidden 
+                  md:block 
+                  w-[329px] 
+                  h-[78px] 
+                  rounded-[100px] 
+                  bg-[#000000] 
+                  text-white 
+                  text-[18px] 
+                  font-semibold 
+                  leading-[22px]
+                `}
               >
                 {t('addNewMainInfo')}
               </button>
-            </div>
 
-            {/* Versión Desktop - Modificada */}
-            <button 
-              onClick={() => setIsMainInfoModalOpen(true)}
-              className={`
-                hidden 
-                md:block 
-                w-[329px] 
-                h-[78px] 
-                rounded-[100px] 
-                bg-[#000000] 
-                text-white 
-                text-[18px] 
-                font-semibold 
-                leading-[22px]
-              `}
-            >
-              {t('addNewMainInfo')}
-            </button>
-
-            {/* Modales */}
-            {isMobile ? (
-              <MobileAddMainInfo
-                isOpen={isMainInfoModalOpen}
-                onClose={() => setIsMainInfoModalOpen(false)}
-              />
-            ) : (
-              <AddMainInfoModal
-                isOpen={isMainInfoModalOpen}
-                onClose={() => setIsMainInfoModalOpen(false)}
-                mode="create"
-              />
-            )}
-          </>
-        )}
-      </>
-    )
+              {/* Modales */}
+              {isMobile ? (
+                <MobileAddMainInfo
+                  isOpen={isMainInfoModalOpen}
+                  onClose={() => setIsMainInfoModalOpen(false)}
+                />
+              ) : (
+                <AddMainInfoModal
+                  isOpen={isMainInfoModalOpen}
+                  onClose={() => setIsMainInfoModalOpen(false)}
+                  mode="create"
+                />
+              )}
+            </>
+          )}
+        </>
+      )
+    } else {
+      // Si ya existe un restaurante, no mostrar nada
+      return null
+    }
   }
 
   // Si es place en modo add
@@ -832,24 +838,29 @@ export function ClientWrapper({
             <>
               {type === 'main-info' ? (
                 <>
-                  <button 
-                    onClick={() => setIsMainInfoModalOpen(true)}
-                    className="w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white text-[18px] font-semibold leading-[22px] font-['Open_Sans']"
-                  >
-                    Add main info
-                  </button>
+                  {/* Solo mostrar el botón si NO hay restaurantes */}
+                  {restaurants.length === 0 && (
+                    <>
+                      <button 
+                        onClick={() => setIsMainInfoModalOpen(true)}
+                        className="w-[329px] h-[78px] rounded-[100px] bg-[#000000] text-white text-[18px] font-semibold leading-[22px] font-['Open_Sans']"
+                      >
+                        Add main info
+                      </button>
 
-                  {isMobile ? (
-                    <MobileAddMainInfo
-                      isOpen={isMainInfoModalOpen}
-                      onClose={() => setIsMainInfoModalOpen(false)}
-                    />
-                  ) : (
-                    <AddMainInfoModal
-                      isOpen={isMainInfoModalOpen}
-                      onClose={() => setIsMainInfoModalOpen(false)}
-                      mode="create"
-                    />
+                      {isMobile ? (
+                        <MobileAddMainInfo
+                          isOpen={isMainInfoModalOpen}
+                          onClose={() => setIsMainInfoModalOpen(false)}
+                        />
+                      ) : (
+                        <AddMainInfoModal
+                          isOpen={isMainInfoModalOpen}
+                          onClose={() => setIsMainInfoModalOpen(false)}
+                          mode="create"
+                        />
+                      )}
+                    </>
                   )}
                 </>
               ) : (
