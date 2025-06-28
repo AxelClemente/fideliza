@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     )
   } catch (error: unknown) {
-    return new NextResponse(`Webhook Error: ${(error as Error).message}`, { status: 400 })
+    return NextResponse.json({ error: `Webhook Error: ${(error as Error).message}` }, { status: 400 })
   }
 
   if (event.type === 'checkout.session.completed') {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const { userId, subscriptionId, placeId } = session.metadata || {}
 
     if (!userId || !subscriptionId || !placeId) {
-      return new NextResponse('Missing required metadata', { status: 400 })
+      return NextResponse.json({ error: 'Missing required metadata' }, { status: 400 })
     }
 
     try {
@@ -71,9 +71,9 @@ export async function POST(req: Request) {
       console.log('UserSubscription created:', userSubscription)
     } catch (error) {
       console.error('Error processing subscription:', error)
-      return new NextResponse('Error processing subscription', { status: 500 })
+      return NextResponse.json({ error: 'Error processing subscription' }, { status: 500 })
     }
   }
 
-  return new NextResponse(null, { status: 200 })
+  return NextResponse.json({ success: true }, { status: 200 })
 }

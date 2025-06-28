@@ -7,11 +7,15 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return new NextResponse('Unauthorized', { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await req.json()
     const { subscriptionId, placeId, price, name } = body
+
+    // Asegurar que la URL base tenga el protocolo correcto
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const appUrl = baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`
 
     const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -28,8 +32,8 @@ export async function POST(req: Request) {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/customer-dashboard/my-subscriptions?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/customer-dashboard/my-subscriptions?canceled=true`,
+      success_url: `${appUrl}/customer-dashboard/my-subscriptions?success=true`,
+      cancel_url: `${appUrl}/customer-dashboard/my-subscriptions?canceled=true`,
       metadata: {
         userId: session.user.id,
         subscriptionId,
@@ -40,6 +44,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ sessionId: stripeSession.id })
   } catch (error) {
     console.error('Stripe session error:', error)
-    return new NextResponse('Error creating checkout session', { status: 500 })
+    return NextResponse.json({ error: 'Error creating checkout session' }, { status: 500 })
   }
 } 
