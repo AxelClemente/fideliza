@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Camera } from "lucide-react"
+import { Camera, ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import { ClipLoader } from 'react-spinners'
@@ -38,6 +38,16 @@ export function CustomerProfileModal({
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
   const [hasPassword, setHasPassword] = useState<boolean>(false)
   const [locations, setLocations] = useState<string[]>([])
+
+  // Actualizar estados cuando cambie initialData
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name || '')
+      setEmail(initialData.email || '')
+      setCity(initialData.location || '')
+      setAvatar(initialData.avatar || '')
+    }
+  }, [initialData])
 
   const checkPasswordStatus = async () => {
     try {
@@ -289,7 +299,9 @@ export function CustomerProfileModal({
                   </p>
                   <Select
                     value={city || ''}
-                    onValueChange={setCity}
+                    onValueChange={(value) => {
+                      setCity(value)
+                    }}
                   >
                     <SelectTrigger className="
                       bg-main-gray 
@@ -303,8 +315,14 @@ export function CustomerProfileModal({
                       px-6
                       md:px-12
                       text-[#7B7B7B]
+                      flex
+                      items-center
+                      justify-between
                     ">
-                      <SelectValue placeholder="Select your city" />
+                      <SelectValue placeholder="Select your city">
+                        {city ? city : "Select your city"}
+                      </SelectValue>
+                      <ChevronDown className="w-4 h-4 text-[#7B7B7B]" />
                     </SelectTrigger>
                     <SelectContent>
                       {locations.map((location) => (

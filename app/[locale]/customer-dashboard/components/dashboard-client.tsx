@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CustomerOfferModal } from '../modal/customer-offer-modal'
 import { FilterModal } from './../../customer-dashboard/modal/filter-modal'
+import { CityChangeModal } from '../modal/city-change-modal'
 import { useTranslations } from 'next-intl'
 
 // Importamos la interfaz Restaurant del customer-search-wrapper
@@ -81,6 +82,7 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+  const [isCityModalOpen, setIsCityModalOpen] = useState(false)
 
   // Función para resetear filtros
   const handleResetFilters = useCallback(() => {
@@ -164,7 +166,12 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
         <div className="flex items-center gap-2 mx-auto md:mx-0 md:-translate-x-16">
           <Image src="/location.svg" alt="Location icon" width={24} height={24} />
           <span className="text-[16px] font-[700] md:font-semibold">My city:</span>
-          <span className="text-[16px] font-[700] md:font-semibold text-third-gray underline">{userLocation}</span>
+          <span 
+            onClick={() => setIsCityModalOpen(true)}
+            className="text-[16px] font-[700] md:font-semibold text-third-gray underline cursor-pointer hover:text-gray-700 transition-colors"
+          >
+            {userLocation}
+          </span>
         </div>
       </div>
 
@@ -268,6 +275,12 @@ export function DashboardClient({ restaurants, userLocation }: DashboardClientPr
         isOpen={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}
         onFilter={handleFilter}
+      />
+
+      <CityChangeModal
+        isOpen={isCityModalOpen}
+        onClose={() => setIsCityModalOpen(false)}
+        currentCity={userLocation}
       />
     </div>
   )
