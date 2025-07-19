@@ -2,7 +2,7 @@
 'use client'
 
 import useEmblaCarousel from 'embla-carousel-react'
-import { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -83,14 +83,10 @@ export function RestaurantCarousel({ restaurants }: { restaurants: Restaurant[] 
                   href={`/customer-dashboard/restaurants/${restaurant.id}`}
                   className="group relative overflow-hidden rounded-lg block"
                 >
-                  {restaurant.images?.[0] && (
+                  {/* Carousel automático de imágenes del restaurante */}
+                  {restaurant.images && restaurant.images.length > 0 && (
                     <div className="relative w-full h-[221px] md:h-[310px]">
-                      <Image
-                        src={restaurant.images[0].url}
-                        alt={restaurant.title}
-                        fill
-                        className="object-cover rounded-[20px]"
-                      />
+                      <RestaurantImageCarousel images={restaurant.images} />
                     </div>
                   )}
                   <div className="p-4 bg-white">
@@ -120,6 +116,57 @@ export function RestaurantCarousel({ restaurants }: { restaurants: Restaurant[] 
           </svg>
         </button>
       </div>
+    </div>
+  )
+}
+
+// Componente interno para el carousel automático de imágenes del restaurante
+function RestaurantImageCarousel({ images }: { images: Array<{ url: string }> }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  // Auto-play cada 3 segundos
+  useEffect(() => {
+    if (images.length <= 1) return
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => 
+        prev === images.length - 1 ? 0 : prev + 1
+      )
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [images.length])
+
+  // Mostrar máximo 3 imágenes
+  const displayImages = images.slice(0, 3)
+
+  return (
+    <div className="relative w-full h-full">
+      {/* Imagen actual */}
+      <Image
+        src={displayImages[currentImageIndex].url}
+        alt={`Restaurant image ${currentImageIndex + 1}`}
+        fill
+        className="object-cover rounded-[20px] transition-opacity duration-500"
+        quality={95}
+        sizes="(max-width: 768px) 85vw, (max-width: 1200px) 33vw, 400px"
+        placeholder="blur"
+        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+      />
+
+      {/* Indicadores de imagen */}
+      {displayImages.length > 1 && (
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+          {displayImages.map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
