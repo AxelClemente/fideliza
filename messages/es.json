@@ -334,17 +334,18 @@
       "restaurant": {
         "places": "Sucursales ({count})"
       },
-      "subscriptionModal": {
-        "title": "Detalle de suscripción",
-        "whereToUse": "Dónde usar",
-        "purchaseBenefit": "Beneficio de compra",
-        "otherSubscriptions": "Otras suscripciones",
-        "purchasing": "Comprando...",
-        "purchase": "Comprar",
-        "purchaseSuccess": "¡Suscripción comprada con éxito!",
-        "cancel": "Cancelar",
-        "stripe": "Pagar con Stripe"
-      },
+          "subscriptionModal": {
+      "title": "Detalle de suscripción",
+      "whereToUse": "Dónde usar",
+      "purchaseBenefit": "Beneficio de compra",
+      "otherSubscriptions": "Otras suscripciones",
+      "purchasing": "Comprando...",
+      "processing": "Procesando...",
+      "purchase": "Comprar",
+      "purchaseSuccess": "¡Suscripción comprada con éxito!",
+      "cancel": "Cancelar",
+      "stripe": "Pagar con Stripe"
+    },
       "offerModal": {
         "title": "Detalles de la oferta",
         "viewRestaurant": "Ver Restaurante"
