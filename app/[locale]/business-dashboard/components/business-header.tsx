@@ -71,7 +71,7 @@ export function BusinessHeader() {
             <ArrowLeft className="h-6 w-6 stroke-[3]" />
           </button>
 
-          <Link href="/" className="absolute left-1/2 -translate-x-1/2">
+          <Link href="/business-dashboard" className="absolute left-1/2 -translate-x-1/2">
             <Image
               src="/logofideliza.svg"
               alt="Logo"
@@ -165,7 +165,7 @@ export function BusinessHeader() {
         <header className="px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/" className="flex items-center">
+              <Link href="/business-dashboard" className="flex items-center">
                 <Image
                   src="/logofideliza.svg"
                   alt="Logo"
@@ -248,7 +248,7 @@ export function BusinessHeader() {
           {/* Left side: Logo and User Info */}
           <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-start pl-8">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/business-dashboard" className="flex items-center gap-2">
               <Image
                 src="/logofideliza.svg"
                 alt="Logo"

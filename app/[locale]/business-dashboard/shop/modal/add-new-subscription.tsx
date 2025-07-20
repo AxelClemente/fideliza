@@ -38,6 +38,16 @@ export function AddSubscriptionModal({
   initialData 
 }: AddSubscriptionModalProps) {
   const t = useTranslations('BusinessDashboard')
+  
+  // Debug: Log initial data
+  console.log('🔍 AddSubscriptionModal - Initial data:', {
+    mode,
+    initialData,
+    visitsPerMonth: initialData?.visitsPerMonth,
+    unlimitedVisits: initialData?.unlimitedVisits,
+    period: initialData?.period
+  })
+  
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState(initialData?.name || '')
   const [benefits, setBenefits] = useState(initialData?.benefits || '')
@@ -51,6 +61,13 @@ export function AddSubscriptionModal({
   const [visitsPerMonth, setVisitsPerMonth] = useState(
     initialData?.unlimitedVisits ? 'unlimited' : (initialData?.visitsPerMonth?.toString() || '')
   )
+  
+  // Debug: Log state initialization
+  console.log('🔍 AddSubscriptionModal - State initialized:', {
+    visitsPerMonth,
+    period,
+    unlimitedVisits: initialData?.unlimitedVisits
+  })
   const [showErrors, setShowErrors] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<{name?: boolean, benefits?: boolean, price?: boolean, selectedPlaces?: boolean}>({});
 

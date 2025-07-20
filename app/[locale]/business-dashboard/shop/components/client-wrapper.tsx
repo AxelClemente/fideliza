@@ -577,6 +577,15 @@ export function ClientWrapper({
             </button>
           </div>
 
+          {/* Debug: Log subscription data */}
+          {console.log('🔍 Subscription data for modal:', {
+            id: subscription.id,
+            name: subscription.name,
+            visitsPerMonth: subscription.visitsPerMonth,
+            period: subscription.period,
+            unlimitedVisits: subscription.visitsPerMonth === 1000
+          })}
+
           {/* Modal condicional según el dispositivo */}
           {isMobile ? (
             <MobileNewSubscription
@@ -590,7 +599,10 @@ export function ClientWrapper({
                 benefits: subscription.benefits,
                 price: subscription.price,
                 website: subscription.website,
-                placeId: subscription.places?.[0]?.id || places[0]?.id
+                placeId: subscription.places?.[0]?.id || places[0]?.id,
+                visitsPerMonth: subscription.visitsPerMonth || undefined,
+                period: subscription.period,
+                unlimitedVisits: subscription.visitsPerMonth === 1000
               }}
             />
           ) : (
@@ -605,7 +617,10 @@ export function ClientWrapper({
                 benefits: subscription.benefits,
                 price: subscription.price,
                 website: subscription.website,
-                placeId: subscription.places?.[0]?.id || places[0]?.id
+                placeId: subscription.places?.[0]?.id || places[0]?.id,
+                visitsPerMonth: subscription.visitsPerMonth || undefined,
+                period: subscription.period,
+                unlimitedVisits: subscription.visitsPerMonth === 1000
               }}
             />
           )}
