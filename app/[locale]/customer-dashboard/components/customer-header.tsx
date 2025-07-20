@@ -47,7 +47,7 @@ export function CustomerHeader() {
             <ArrowLeft className="h-6 w-6 stroke-[3]" />
           </button>
 
-          <Link href="/" className="absolute left-1/2 -translate-x-1/2">
+          <Link href="/customer-dashboard" className="absolute left-1/2 -translate-x-1/2">
             <Image
               src="/logofideliza.svg"
               alt="Logo"
@@ -133,7 +133,7 @@ export function CustomerHeader() {
       <div className="hidden lg:block w-full bg-black">
         <header className="container mx-auto px-4 lg:px-8 py-4 flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 lg:gap-6 w-full lg:w-auto justify-between lg:justify-start pl-2 lg:pl-8">
-            <Link href="/" className="flex items-center gap-2 mr-4 lg:mr-8">
+            <Link href="/customer-dashboard" className="flex items-center gap-2 mr-4 lg:mr-8">
               <Image
                 src="/logofideliza.svg"
                 alt="Logo"
