@@ -382,4 +382,3 @@ enum Period {
   MONTHLY
   ANNUAL
 }
-

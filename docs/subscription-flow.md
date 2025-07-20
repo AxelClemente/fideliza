@@ -136,6 +136,52 @@ Business User → Crea Restaurant → Crea Places (sucursales)
 - Verificación de rol `CUSTOMER`
 - Validación de datos requeridos
 
+**📊 Tablas Afectadas en el Proceso de Compra:**
+
+| Tabla | Operación | Propósito |
+|-------|-----------|-----------|
+| `subscriptions` | **SELECT** | Consulta el plan de suscripción para obtener detalles (precio, visitas, etc.) |
+| `user_subscriptions` | **INSERT** | Crea el registro de la suscripción activa del cliente |
+| `_PlaceToSubscription` | **SELECT** | Verifica que la suscripción esté disponible en la sucursal seleccionada |
+| `payments` | **INSERT** | Crea el registro del pago asociado a la suscripción |
+
+**🔍 Detalles Técnicos del Proceso:**
+
+1. **Consulta de Plan** (`subscriptions`):
+   ```sql
+   SELECT * FROM subscriptions WHERE id = 'subscriptionId'
+   ```
+   - Obtiene: `name`, `price`, `visitsPerMonth`, `period`, etc.
+
+2. **Verificación de Disponibilidad** (`_PlaceToSubscription`):
+   ```sql
+   SELECT * FROM _PlaceToSubscription 
+   WHERE A = 'placeId' AND B = 'subscriptionId'
+   ```
+   - Confirma que la suscripción está disponible en esa sucursal
+
+3. **Creación de Suscripción** (`user_subscriptions`):
+   ```sql
+   INSERT INTO user_subscriptions (
+     userId, subscriptionId, placeId, status, 
+     startDate, endDate, amount, remainingVisits, 
+     paymentMethod, isActive
+   ) VALUES (...)
+   ```
+
+4. **Registro de Pago** (`payments`):
+   ```sql
+   INSERT INTO payments (
+     userSubscriptionId, amount, status, 
+     paymentMethod, transactionId
+   ) VALUES (...)
+   ```
+
+**✅ Confirmación de Datos Creados:**
+- `UserSubscription`: ID único, estado ACTIVE, visitas iniciales
+- `Payment`: ID único, estado COMPLETED, método de pago
+- Relación establecida entre ambos registros
+
 ### Fase 3: Gestión de Suscripciones (Customer)
 
 #### 3.1 Visualización de Suscripciones Activas
@@ -188,6 +234,61 @@ Business User → Crea Restaurant → Crea Places (sucursales)
    - Suscripción está activa
 4. Retorna información del cliente y suscripción
 
+**📊 Flujo Detallado de Verificación:**
+
+**Fase 1: Generación del Código (Customer)**
+```
+Customer genera QR → API Response: {success: true, code: '79653158'}
+```
+
+**Fase 2: Creación del SubscriptionCode**
+```sql
+INSERT INTO SubscriptionCode (
+  id, code, subscriptionId, isUsed, usedAt, 
+  generatedAt, expiresAt
+) VALUES (
+  '564ee108-b33a-4b1a-bbca-5e837b2b4d87',
+  '79653158',
+  'ee950d44-c05d-41d0-9ec4-3f25bde2799a',
+  false,
+  NULL,
+  '2025-07-20 10:11:17.882',
+  '2025-07-20 10:26:17.881'
+)
+```
+
+**Fase 3: Verificación por Business/Staff**
+```
+Business ingresa código → POST /api/validate-subscription/check → 200 OK
+```
+
+**📋 Datos del SubscriptionCode Creado:**
+
+| Campo | Valor | Descripción |
+|-------|-------|-------------|
+| `id` | `564ee108-b33a-4b1a-bbca-5e837b2b4d87` | UUID único del código |
+| `code` | `79653158` | Código de 8 dígitos para validación |
+| `subscriptionId` | `ee950d44-c05d-41d0-9ec4-3f25bde2799a` | ID de la UserSubscription |
+| `isUsed` | `false` | Estado inicial (no usado) |
+| `usedAt` | `NULL` | Fecha de uso (vacía inicialmente) |
+| `generatedAt` | `2025-07-20 10:11:17.882` | Fecha de generación |
+| `expiresAt` | `2025-07-20 10:26:17.881` | Expiración (15 minutos después) |
+
+**🔍 Información Mostrada al Business:**
+- **Date & Time**: Jul 20, 2025, 12:11:30 PM
+- **Customer**: customer
+- **Subscription**: MAC VIP
+- **Place**: Palma de Mallorca
+- **Start Date**: 7/20/2025
+- **End Date**: 8/19/2025
+
+**✅ Validaciones Realizadas:**
+1. Código existe en `SubscriptionCode`
+2. `isUsed = false` (no ha sido usado)
+3. `expiresAt > fecha_actual` (no ha expirado)
+4. `UserSubscription.status = 'ACTIVE'` (suscripción activa)
+5. `remainingVisits > 0` (tiene visitas disponibles)
+
 #### 4.2 Validación de Suscripción
 **API**: `POST /api/validate-subscription`
 
@@ -206,6 +307,99 @@ Business User → Crea Restaurant → Crea Places (sucursales)
 - Verificación de propiedad del restaurante
 - Control de visitas restantes
 - Prevención de uso múltiple del código
+
+**📊 Flujo Detallado de Validación Final:**
+
+**Fase 1: Confirmación por Business**
+```
+Business hace click en "Confirm Validation" → POST /api/validate-subscription/save-validation
+```
+
+**Fase 2: Datos de Validación Preparados**
+```javascript
+Saving validation data: {
+  subscriberId: 'cmdbg8ekf0000elhp5widonzj',
+  subscriptionId: 'ee950d44-c05d-41d0-9ec4-3f25bde2799a',
+  subscriptionName: 'MAC VIP',
+  remainingVisits: 1,  // ← Visitas restantes después de la validación
+  placeId: '5a7ea4ea-4b5a-47c8-8220-d449425eb975',
+  placeName: 'Palma de Mallorca',
+  staffId: 'cmdbg8zhk0005elhpxdsqfh4j',
+  status: 'ACTIVE',
+  startDate: '2025-07-20T10:02:37.450Z',
+  endDate: '2025-08-19T10:02:37.451Z'
+}
+```
+
+**Fase 3: Creación del SubscriptionValidation**
+```sql
+INSERT INTO subscription_validations (
+  id, validationDate, subscriberId, subscriberName,
+  subscriptionId, subscriptionName, remainingVisits,
+  placeId, placeName, restaurantId, staffId, ownerId,
+  status, startDate, endDate
+) VALUES (
+  'c3d42fd7-d2a0-40b0-aab7-73c2bde5ae2f',
+  '2025-07-20 10:15:40.962',
+  'cmdbg8ekf0000elhp5widonzj',
+  'customer',
+  'ee950d44-c05d-41d0-9ec4-3f25bde2799a',
+  'MAC VIP',
+  1,  // ← Visitas restantes después de la validación
+  '5a7ea4ea-4b5a-47c8-8220-d449425eb975',
+  'Palma de Mallorca',
+  '535b93c4-b571-4c3f-a78b-6aaae82f6e8e',
+  'cmdbg8zhk0005elhpxdsqfh4j',
+  'cmdbg8zhk0005elhpxdsqfh4j',
+  'ACTIVE',
+  '2025-07-20 10:02:37.450',
+  '2025-08-19 10:02:37.451'
+)
+```
+
+**Fase 4: Actualización de UserSubscription**
+```sql
+UPDATE user_subscriptions 
+SET remainingVisits = remainingVisits - 1,
+    updatedAt = NOW()
+WHERE id = 'ee950d44-c05d-41d0-9ec4-3f25bde2799a'
+```
+
+**📋 Datos del SubscriptionValidation Creado:**
+
+| Campo | Valor | Descripción |
+|-------|-------|-------------|
+| `id` | `c3d42fd7-d2a0-40b0-aab7-73c2bde5ae2f` | UUID único de la validación |
+| `validationDate` | `2025-07-20 10:15:40.962` | Fecha y hora de la validación |
+| `subscriberId` | `cmdbg8ekf0000elhp5widonzj` | ID del cliente |
+| `subscriberName` | `customer` | Nombre del cliente |
+| `subscriptionId` | `ee950d44-c05d-41d0-9ec4-3f25bde2799a` | ID de la UserSubscription |
+| `subscriptionName` | `MAC VIP` | Nombre del plan de suscripción |
+| `remainingVisits` | `1` | **Visitas restantes después de la validación** |
+| `placeId` | `5a7ea4ea-4b5a-47c8-8220-d449425eb975` | ID de la sucursal |
+| `placeName` | `Palma de Mallorca` | Nombre de la sucursal |
+| `staffId` | `cmdbg8zhk0005elhpxdsqfh4j` | ID del staff que validó |
+| `ownerId` | `cmdbg8zhk0005elhpxdsqfh4j` | ID del business owner |
+| `status` | `ACTIVE` | Estado de la suscripción al momento |
+| `startDate` | `2025-07-20 10:02:37.450` | Fecha de inicio de la suscripción |
+| `endDate` | `2025-08-19 10:02:37.451` | Fecha de expiración de la suscripción |
+
+**✅ Información del Staff que Validó:**
+- **Name**: Axel Clemente
+- **Email**: axelclementesosa@gmail.com
+- **Role**: BUSINESS
+- **Location**: Palma de Mallorca
+
+**🔄 Cambios Realizados:**
+1. **UserSubscription**: `remainingVisits` decrementado en 1
+2. **SubscriptionValidation**: Registro completo de la validación
+3. **SubscriptionCode**: Marcado como usado (`isUsed = true`)
+4. **Auditoría**: Historial completo para business y customer
+
+**⚠️ Lógica de Visitas:**
+- **Antes**: `remainingVisits = 2`
+- **Después**: `remainingVisits = 1`
+- **Próxima validación**: Si llega a 0, status cambia a CANCELLED
 
 #### 4.3 Historial de Validaciones
 **API**: `GET /api/validate-subscription/save-validation`
@@ -282,11 +476,25 @@ enum PermissionType {
 ## 📊 Estados de Suscripción
 
 ### UserSubscription Status
-- **ACTIVE**: Suscripción vigente y usable
-- **CANCELLED**: Cancelada por el usuario
-- **EXPIRED**: Fecha de expiración pasada
-- **PENDING**: Pago pendiente
-- **FAILED**: Error en el pago
+
+| Estado | Descripción | Condiciones | Usabilidad |
+|--------|-------------|-------------|------------|
+| **ACTIVE** ✅ | Suscripción vigente y usable | - `isActive = true`<br>- `status = 'ACTIVE'`<br>- `remainingVisits > 0`<br>- `endDate > fecha_actual` | ✅ **Usable** |
+| **CANCELLED** ❌ | Cancelada por el usuario | - Cancelación manual del cliente<br>- `isActive = false`<br>- `status = 'CANCELLED'` | ❌ **No usable** |
+| **EXPIRED** ⏰ | Fecha de expiración pasada | - `endDate < fecha_actual`<br>- `status = 'EXPIRED'` | ❌ **No usable** |
+| **PENDING** ⏳ | Pago pendiente | - Suscripción creada pero pago no confirmado<br>- `status = 'PENDING'` | ❌ **No usable** |
+| **FAILED** ❌ | Error en el pago | - Pago falló o fue rechazado<br>- `status = 'FAILED'` | ❌ **No usable** |
+
+**🔍 Lógica de Transición de Estados:**
+
+1. **ACTIVE → CANCELLED**: Cancelación manual del usuario
+2. **ACTIVE → EXPIRED**: Fecha de expiración alcanzada
+3. **PENDING → ACTIVE**: Pago confirmado exitosamente
+4. **PENDING → FAILED**: Pago falló
+5. **ACTIVE → CANCELLED**: **Visitas agotadas** (automático)
+
+**⚠️ Comportamiento Especial:**
+Cuando `remainingVisits` llega a **0**, el sistema automáticamente cambia el status a **CANCELLED** para prevenir uso adicional.
 
 ### Payment Status
 - **PENDING**: Pago en proceso
