@@ -5,6 +5,7 @@ import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import { SubscriptionQRModal } from './subscription-qr-modal'
 import { UpgradeSubscriptionModal } from '@/app/[locale]/customer-dashboard/my-subscriptions/components/upgrade-subscription-modal'
+import { CustomerSubscriptionModal } from '@/app/[locale]/customer-dashboard/modal/customer-subscription-modal'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { Period } from '@prisma/client'
@@ -66,13 +67,51 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
   const [selectedSubscription, setSelectedSubscription] = useState<typeof subscriptions[0] | null>(null)
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false)
   const [subscriptionToUpgrade, setSubscriptionToUpgrade] = useState<typeof subscriptions[0] | null>(null)
+  const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false)
+  const [subscriptionToRenew, setSubscriptionToRenew] = useState<any>(null)
   const [isVisitsHistoryOpen, setIsVisitsHistoryOpen] = useState(false)
   const [validationsHistory, setValidationsHistory] = useState<ValidationHistory[]>([])
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<string | null>(null)
 
+  // Debug: Log de suscripciones al cargar
+  console.log('🔍 UserSubscriptionsList - Subscriptions loaded:', subscriptions.map(sub => ({
+    id: sub.id,
+    name: sub.subscription.name,
+    remainingVisits: sub.remainingVisits,
+    status: sub.status
+  })))
+
   const handleUpgradeClick = (subscription: typeof subscriptions[0]) => {
     setSubscriptionToUpgrade(subscription)
     setIsUpgradeModalOpen(true)
+  }
+
+  const handleRenewalClick = (subscription: typeof subscriptions[0]) => {
+    console.log('🔄 handleRenewalClick - Subscription data:', {
+      id: subscription.id,
+      name: subscription.subscription.name,
+      remainingVisits: subscription.remainingVisits,
+      amount: subscription.amount,
+      visitsPerMonth: subscription.subscription.visitsPerMonth
+    })
+
+    // Convertir la suscripción actual al formato que espera el modal de pago
+    const renewalSubscription = {
+      id: subscription.subscription.name, // Usar el nombre como ID para nueva suscripción
+      name: subscription.subscription.name,
+      benefits: subscription.subscription.benefits,
+      price: subscription.amount,
+      website: undefined,
+      visitsPerMonth: subscription.subscription.visitsPerMonth,
+      places: subscription.place.restaurant.places || []
+    }
+    
+    console.log('🔄 handleRenewalClick - Renewal subscription created:', renewalSubscription)
+    
+    setSubscriptionToRenew(renewalSubscription)
+    setIsRenewalModalOpen(true)
+    
+    console.log('🔄 handleRenewalClick - Modal state updated: isRenewalModalOpen = true')
   }
 
   const handleUnsubscribe = async (subscriptionId: string) => {
@@ -401,13 +440,20 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
 
               <div className="mt-6 space-y-3">
                 <button 
-                  onClick={() => setSelectedSubscription(sub)}
-                  className="
+                  onClick={() => {
+                    console.log('🔄 Generate QR button clicked - Subscription:', {
+                      id: sub.id,
+                      name: sub.subscription.name,
+                      remainingVisits: sub.remainingVisits,
+                      isDisabled: sub.remainingVisits === 0
+                    })
+                    setSelectedSubscription(sub)
+                  }}
+                  disabled={sub.remainingVisits === 0}
+                  className={`
                     w-[329px]
                     h-[78px]
                     rounded-[100px]
-                    bg-black 
-                    text-white 
                     text-[18px] 
                     font-semibold 
                     leading-[22px] 
@@ -416,11 +462,14 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                     items-center 
                     justify-center 
                     mx-auto
-                    hover:bg-black/90 
                     transition-colors
-                  "
+                    ${sub.remainingVisits === 0 
+                      ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                      : 'bg-black text-white hover:bg-black/90'
+                    }
+                  `}
                 >
-                  {t('generateQR')}
+                  {sub.remainingVisits === 0 ? 'Sin visitas disponibles' : t('generateQR')}
                 </button>
                 <button 
                   onClick={() => handleShare(sub)}
@@ -467,7 +516,20 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                   {t('upgrade')}
                 </button>
                 <button 
-                  onClick={() => handleUnsubscribe(sub.id)}
+                  onClick={() => {
+                    console.log('🔄 Renewal/Unsubscribe button clicked - Subscription:', {
+                      id: sub.id,
+                      name: sub.subscription.name,
+                      remainingVisits: sub.remainingVisits,
+                      action: sub.remainingVisits === 0 ? 'RENEWAL' : 'UNSUBSCRIBE'
+                    })
+                    
+                    if (sub.remainingVisits === 0) {
+                      handleRenewalClick(sub)
+                    } else {
+                      handleUnsubscribe(sub.id)
+                    }
+                  }}
                   className="
                     w-[329px]
                     h-[78px]
@@ -488,7 +550,7 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
                     transition-colors
                   "
                 >
-                  {t('unsubscribe')}
+                  {sub.remainingVisits === 0 ? 'Renovar suscripción' : t('unsubscribe')}
                 </button>
               </div>
             </div>
@@ -511,6 +573,16 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
           setSubscriptionToUpgrade(null)
         }}
         currentSubscription={subscriptionToUpgrade}
+      />
+
+      <CustomerSubscriptionModal
+        isOpen={isRenewalModalOpen}
+        onClose={() => {
+          console.log('🔄 CustomerSubscriptionModal - Modal closed')
+          setIsRenewalModalOpen(false)
+          setSubscriptionToRenew(null)
+        }}
+        subscription={subscriptionToRenew || undefined}
       />
 
       {isVisitsHistoryOpen && (

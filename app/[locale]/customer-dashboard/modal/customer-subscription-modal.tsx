@@ -27,6 +27,18 @@ export function CustomerSubscriptionModal({
   const [error, setError] = useState('')
   const t = useTranslations('CustomerDashboard.subscriptionModal')
   
+  // Debug: Log cuando el modal se abre
+  console.log('🔍 CustomerSubscriptionModal - Modal opened:', {
+    isOpen,
+    subscription: subscription ? {
+      id: subscription.id,
+      name: subscription.name,
+      price: subscription.price,
+      visitsPerMonth: subscription.visitsPerMonth,
+      placesCount: subscription.places?.length || 0
+    } : null
+  })
+  
   console.log('🔍 Modal Subscription Data:', {
     subscription,
     visitsPerMonth: subscription?.visitsPerMonth,
@@ -48,11 +60,12 @@ export function CustomerSubscriptionModal({
   // Función de prueba existente (sin Stripe)
   const handlePurchase = async () => {
     try {
+      console.log('🔄 handlePurchase - Starting purchase process')
       setIsLoading(true)
       setError('')  // Limpiar error previo
       
       const selectedPlace = subscription.places[0]
-      console.log('Initiating purchase:', {
+      console.log('🔄 handlePurchase - Purchase data:', {
         subscriptionId: subscription.id,
         placeId: selectedPlace.id,
         amount: subscription.price,
@@ -71,18 +84,22 @@ export function CustomerSubscriptionModal({
       })
 
       const data = await response.json()
+      console.log('🔄 handlePurchase - API response:', data)
 
       if (!response.ok) {
+        console.error('🔄 handlePurchase - API error:', data.error)
         throw new Error(data.error || 'Failed to purchase subscription')
       }
 
+      console.log('🔄 handlePurchase - Purchase successful')
       toast.success(t('purchaseSuccess'))
       onClose()
     } catch (error) {
-      console.error('Purchase error:', error)
+      console.error('🔄 handlePurchase - Purchase error:', error)
       setError(error instanceof Error ? error.message : 'Failed to purchase subscription')
       toast.error(error instanceof Error ? error.message : 'Failed to purchase subscription')
     } finally {
+      console.log('🔄 handlePurchase - Process completed')
       setIsLoading(false)
     }
   }

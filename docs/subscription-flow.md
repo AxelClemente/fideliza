@@ -559,16 +559,66 @@ Cuando `remainingVisits` llega a **0**, el sistema automáticamente cambia el st
 | `/api/subscription-codes/generate` | POST | Generar QR | CUSTOMER |
 | `/api/user-transactions` | GET | Historial transacciones | CUSTOMER/BUSINESS |
 
-## 🚀 Mejoras de Tiempo Real (Nueva Funcionalidad)
+## 🚀 Mejoras de UX Implementadas
 
 ### Problema Identificado
-El flujo actual funciona correctamente pero **falta sincronización en tiempo real** entre customer y business:
+Cuando el usuario agota sus visitas restantes (`remainingVisits = 0`), la experiencia de usuario no era óptima:
 
-1. **Customer** genera QR → Código se crea
-2. **Business** valida suscripción → Resta visita
-3. **❌ Problema**: Customer no ve cambios en tiempo real
+1. **Botón "Generar QR"** → Seguía activo aunque no se podía usar
+2. **Botón "Cancelar"** → No indicaba claramente la opción de renovar
+3. **❌ Problema**: UX confusa para suscripciones sin visitas
 
-### Solución Propuesta: Notificaciones en Tiempo Real
+### Solución Implementada: Estados Visuales Mejorados
+
+#### 1. **Botón "Generar QR" Inteligente**
+```typescript
+// Cuando remainingVisits === 0
+disabled={sub.remainingVisits === 0}
+className={sub.remainingVisits === 0 
+  ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+  : 'bg-black text-white hover:bg-black/90'
+}
+text={sub.remainingVisits === 0 ? 'Sin visitas disponibles' : t('generateQR')}
+```
+
+#### 2. **Botón "Renovar/Cancelar" Dinámico**
+```typescript
+// Lógica condicional
+onClick={sub.remainingVisits === 0 ? () => handleRenewalClick(sub) : () => handleUnsubscribe(sub.id)}
+text={sub.remainingVisits === 0 ? 'Renovar suscripción' : t('unsubscribe')}
+```
+
+#### 3. **Modal de Renovación Integrado**
+- Conectado con `CustomerSubscriptionModal` existente
+- Permite renovar suscripción directamente desde "Mis Suscripciones"
+- Mantiene el flujo de pago existente
+
+#### 4. **Logs de Debug Estratégicos**
+```typescript
+// Logs implementados en puntos críticos:
+console.log('🔍 UserSubscriptionsList - Subscriptions loaded')
+console.log('🔄 Generate QR button clicked')
+console.log('🔄 Renewal/Unsubscribe button clicked')
+console.log('🔄 handleRenewalClick - Subscription data')
+console.log('🔍 CustomerSubscriptionModal - Modal opened')
+console.log('🔄 handlePurchase - Starting purchase process')
+```
+
+### Beneficios de la Implementación
+
+1. **UX Clara**: Estados visuales inmediatos
+2. **Flujo Intuitivo**: Renovación directa desde la lista
+3. **Debug Completo**: Logs detallados para troubleshooting
+4. **Consistencia**: Mantiene el diseño existente
+5. **Accesibilidad**: Estados deshabilitados claros
+
+### Flujo Mejorado
+
+```
+Customer ve suscripción sin visitas → Botón QR gris → Click "Renovar" → Modal de pago → Renovación exitosa
+     ↓                    ↓                    ↓                    ↓
+  Estado visual claro → Acción intuitiva → Proceso familiar → UX mejorada
+```
 
 #### Objetivos
 - ✅ **Cierre automático del QR modal** cuando se valida
