@@ -26,11 +26,23 @@ export async function POST(req: Request) {
     })
 
     if (existingSubscription) {
-      console.log('User already has an active subscription of this type')
-      return NextResponse.json(
-        { error: 'You already have an active subscription of this type' }, 
-        { status: 400 }
-      )
+      console.log('Existing subscription found:', {
+        id: existingSubscription.id,
+        remainingVisits: existingSubscription.remainingVisits,
+        status: existingSubscription.status
+      })
+      
+      // Permitir renovación si no tiene visitas restantes
+      if (existingSubscription.remainingVisits === 0) {
+        console.log('Allowing renewal - no remaining visits')
+        // Continuar con la creación de la nueva suscripción
+      } else {
+        console.log('User already has an active subscription of this type with remaining visits')
+        return NextResponse.json(
+          { error: 'You already have an active subscription of this type' }, 
+          { status: 400 }
+        )
+      }
     }
 
     // Obtener datos del body

@@ -95,14 +95,27 @@ export function UserSubscriptionsList({ subscriptions }: UserSubscriptionsListPr
       visitsPerMonth: subscription.subscription.visitsPerMonth
     })
 
+    // Buscar la suscripción original en los lugares del restaurante
+    const originalSubscription = subscription.place.restaurant.places?.flatMap(place => 
+      place.subscriptions || []
+    ).find(sub => sub.name === subscription.subscription.name)
+
+    console.log('🔄 handleRenewalClick - Original subscription found:', originalSubscription)
+
+    if (!originalSubscription) {
+      console.error('❌ handleRenewalClick - Original subscription not found')
+      toast.error('No se pudo encontrar la suscripción original')
+      return
+    }
+
     // Convertir la suscripción actual al formato que espera el modal de pago
     const renewalSubscription = {
-      id: subscription.subscription.name, // Usar el nombre como ID para nueva suscripción
-      name: subscription.subscription.name,
-      benefits: subscription.subscription.benefits,
-      price: subscription.amount,
-      website: undefined,
-      visitsPerMonth: subscription.subscription.visitsPerMonth,
+      id: originalSubscription.id, // ✅ Usar el ID real de la suscripción
+      name: originalSubscription.name,
+      benefits: originalSubscription.benefits,
+      price: originalSubscription.price,
+      website: undefined, // No disponible en el tipo actual
+      visitsPerMonth: originalSubscription.visitsPerMonth,
       places: subscription.place.restaurant.places || []
     }
     
